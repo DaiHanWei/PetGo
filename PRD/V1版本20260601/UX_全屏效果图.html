@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PomoGo · 全屏效果图 V1.0</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif;
+    background: linear-gradient(135deg, #2C2320 0%, #3D3028 40%, #2C2320 100%);
+    min-height: 100vh;
+    padding: 40px 30px;
+  }
+  .page-header {
+    text-align: center;
+    margin-bottom: 36px;
+  }
+  .page-header h1 {
+    color: #fff;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  .page-header p {
+    color: rgba(255,255,255,0.6);
+    font-size: 14px;
+  }
+  .screen-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 260px);
+    gap: 24px;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+  .screen-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .screen-label {
+    color: rgba(255,255,255,0.75);
+    font-size: 11px;
+    text-align: center;
+    letter-spacing: 0.3px;
+  }
+  .phone {
+    width: 260px;
+    height: 563px;
+    border-radius: 40px;
+    overflow: hidden;
+    box-shadow: 0 16px 50px rgba(0,0,0,0.18);
+    border: 1.5px solid #E8E0D8;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: #FAF8F5;
+  }
+  .status-bar {
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    font-size: 10px;
+    font-weight: 600;
+    color: #1C1917;
+    flex-shrink: 0;
+    background: transparent;
+  }
+  .scroll-area {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .pill-nav {
+    height: 68px;
+    flex-shrink: 0;
+    padding: 6px 12px 8px;
+    display: flex;
+    align-items: center;
+  }
+  .pill-nav-inner {
+    background: #fff;
+    border-radius: 24px;
+    box-shadow: 0 -2px 12px rgba(0,0,0,0.06);
+    padding: 6px 16px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 52px;
+  }
+  .tab-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    font-size: 9px;
+    color: #C4B8B0;
+    cursor: pointer;
+  }
+  .tab-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+  }
+  .tab-icon.active-caramel { background: #C8874A; }
+  .tab-icon.active-orange { background: #F08040; }
+  .tab-icon.active-blue { background: #7BA7BC; }
+  .tab-label-active-caramel { color: #C8874A; font-weight: 600; }
+  .tab-label-active-orange { color: #F08040; font-weight: 600; }
+  .tab-label-active-blue { color: #7BA7BC; font-weight: 600; }
+
+  /* Common elements */
+  .header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 14px 6px;
+    flex-shrink: 0;
+  }
+  .header-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1C1917;
+  }
+  .card {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  }
+  .page-footer {
+    text-align: center;
+    color: rgba(255,255,255,0.3);
+    font-size: 10px;
+    margin-top: 8px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>PomoGo</h1>
+  <p>每一天，都值得被记录</p>
+</div>
+
+<div class="screen-grid">
+
+  <!-- ========== SCREEN 1: 首页 ========== -->
+  <div class="screen-wrap">
+    <div class="phone">
+      <!-- Status bar -->
+      <div class="status-bar">
+        <span>9:41</span>
+        <span style="letter-spacing:2px;">● ● ▲</span>
+      </div>
+      <!-- Header -->
+      <div class="header-bar">
+        <span class="header-title">PomoGo</span>
+        <span style="font-size:16px;color:#C8874A;">🔔</span>
+      </div>
+      <!-- Pet selector -->
+      <div style="display:flex;gap:10px;padding:0 14px 6px;align-items:center;flex-shrink:0;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+          <div style="width:28px;height:28px;border-radius:50%;border:2px solid #C8874A;display:flex;align-items:center;justify-content:center;font-size:13px;">🐱</div>
+          <span style="font-size:9px;color:#C8874A;font-weight:600;">Mochi</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+          <div style="width:28px;height:28px;border-radius:50%;border:2px solid #C4B8B0;display:flex;align-items:center;justify-content:center;font-size:13px;">🐶</div>
+          <span style="font-size:9px;color:#C4B8B0;">Biscuit</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+          <div style="width:28px;height:28px;border-radius:50%;border:2px dashed #C4B8B0;display:flex;align-items:center;justify-content:center;font-size:14px;color:#C4B8B0;">+</div>
+        </div>
+      </div>
+      <!-- Tab row -->
+      <div style="display:flex;gap:14px;padding:0 14px 6px;flex-shrink:0;overflow:hidden;">
+        <span style="font-size:11px;color:#C8874A;font-weight:700;border-bottom:2px solid #C8874A;padding-bottom:2px;">全部</span>
+        <span style="font-size:11px;color:#9C8C84;">日常分享</span>
+        <span style="font-size:11px;color:#9C8C84;">成长日历</span>
+        <span style="font-size:11px;color:#9C8C84;">科普</span>
+      </div>
+      <!-- Masonry grid -->
+      <div style="flex:1;overflow:hidden;padding:0 10px;position:relative;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <!-- Left col -->
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div class="card" style="border-radius:10px;overflow:hidden;">
+              <div style="height:82px;background:#EAE0D4;"></div>
+              <div style="padding:5px 7px 5px;">
+                <div style="font-size:10px;font-weight:600;color:#1C1917;line-height:1.3;">今天的阳台时光 ☀️</div>
+                <div style="font-size:9px;color:#C8874A;margin-top:2px;">2小时前 ❤️24</div>
+              </div>
+            </div>
+            <div class="card" style="border-radius:10px;overflow:hidden;">
+              <div style="height:60px;background:#D4E8E4;"></div>
+              <div style="padding:5px 7px 5px;">
+                <div style="font-size:10px;font-weight:600;color:#1C1917;">周末探店！</div>
+                <div style="font-size:9px;color:#C8874A;margin-top:2px;">昨天 ❤️8</div>
+              </div>
+            </div>
+            <div class="card" style="border-radius:10px;overflow:hidden;">
+              <div style="height:72px;background:#E8E0D4;"></div>
+              <div style="padding:5px 7px 5px;">
+                <div style="font-size:10px;font-weight:600;color:#1C1917;line-height:1.3;">Biscuit 学会了新技能 🎾</div>
+                <div style="font-size:9px;color:#C8874A;margin-top:2px;">3天前 ❤️31</div>
+              </div>
+            </div>
+          </div>
+          <!-- Right col staggered -->
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:16px;">
+            <div class="card" style="border-radius:10px;overflow:hidden;">
+              <div style="height:64px;background:#EEE4D4;"></div>
+              <div style="padding:5px 7px 5px;">
+                <div style="font-size:10px;font-weight:600;color:#1C1917;line-height:1.3;">猫薄荷初体验 😂</div>
+                <div style="font-size:9px;color:#C8874A;margin-top:2px;">昨天 ❤️47</div>
+              </div>
+            </div>
+            <div class="card" style="border-radius:10px;overflow:hidden;">
+              <div style="height:96px;background:#D4DCE8;"></div>
+              <div style="padding:5px 7px 5px;">
+                <div style="font-size:10px;font-weight:600;color:#1C1917;">雨天窝在被子里 🌧️</div>
+                <div style="font-size:9px;color:#C8874A;margin-top:2px;">2天前 ❤️19</div>
+              </div>
+            </div>
+            <div class="card" style="border-radius:10px;overflow:hidden;">
+              <div style="height:74px;background:#E8D4D4;"></div>
+              <div style="padding:5px 7px 5px;">
+                <div style="font-size:10px;font-weight:600;color:#1C1917;line-height:1.3;">偷吃早餐被抓包了！🍳</div>
+                <div style="font-size:9px;color:#C8874A;margin-top:2px;">上周 ❤️56</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- FAB -->
+        <div style="position:absolute;bottom:6px;right:6px;width:40px;height:40px;border-radius:50%;background:#C8874A;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(200,135,74,0.4);">
+          <span style="color:#fff;font-size:18px;line-height:1;margin-top:-2px;">+</span>
+        </div>
+      </div>
+      <!-- Pill nav -->
+      <div class="pill-nav">
+        <div class="pill-nav-inner">
+          <div class="tab-item">
+            <div class="tab-icon active-caramel"><span style="font-size:15px;">🏠</span></div>
+            <span class="tab-label-active-caramel">首页</span>
+          </div>
+          <div class="tab-item">
+            <div class="tab-icon"><span style="font-size:15px;">🐾</span></div>
+            <span>活动</span>
+          </div>
+          <div class="tab-item">
+            <div class="tab-icon"><span style="font-size:15px;">🩺</span></div>
+            <span>问诊</span>
+          </div>
+          <div class="tab-item">
+            <div class="tab-icon"><span style="font-size:15px;">👤</span></div>
+            <span>我的</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="screen-label">01 · 首页 社区瀑布流</div>
+  </div>
+
+  <!-- ========== SCREEN 2: 成长日历 ========== -->
+  <div class="screen-wrap">
+    <div class="phone">
+      <div class="status-bar">
+        <span>9:41</span>
+        <span style="letter-spacing:2px;">● ● ▲</span>
+      </div>
+      <div class="header-bar">
+        <span class="header-title">PomoGo</span>
+        <span style="font-size:16px;color:#C8874A;">🔔</span>
+      </div>
+      <!-- Pet selector -->
+      <div style="display:flex;gap:10px;padding:0 14px 6px;align-items:center;flex-shrink:0;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+          <div style="width:28px;height:28px;border-radius:50%;border:2px solid #C8874A;display:flex;align-items:center;justify-content:center;font-size:13px;">🐱</div>
+          <span style="font-size:9px;color:#C8874A;font-weight:600;">Mochi</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+          <div style="width:28px;height:28px;border-radius:50%;border:2px solid #C4B8B0;display:flex;align-items:center;justify-content:center;font-size:13px;">🐶</div>
+          <span style="font-size:9px;color:#C4B8B0;">Biscuit</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+          <div style="width:28px;height:28px;border-radius:50%;border:2px dashed #C4B8B0;display:flex;align-items:center;justify-content:center;font-size:14px;color:#C4B8B0;">+</div>
+        </div>
+      </div>
+      <!-- Tab row -->
+      <div style="display:flex;gap:14px;padding:0 14px 6px;flex-shrink:0;overflow:hidden;">
+        <span style="font-size:11px;color:#9C8C84;">全部</span>
+        <span style="font-size:11px;color:#9C8C84;">日常分享</span>
+        <span style="font-size:11px;color:#C8874A;font-weight:700;border-bottom:2px solid #C8874A;padding-bottom:2px;">成长日历</span>
+        <span style="font-size:11px;color:#9C8C84;">科普</span>
+      </div>
+      <!-- Calendar banner -->
+      <div style="margin:0 10px 8px;padding:8px 12px;background:#FFF8F0;border-radius:10px;border:1px solid #F0DCC8;flex-shrink:0;">
+        <div style="font-size:10px;color:#C8874A;font-weight:600;">📅 Mochi 的成长故事</div>
+        <div style="font-size:9px;color:#9C8C84;margin-top:2px;">已记录 47 个珍贵时刻</div>
+      </div>
+      <!-- Masonry grid -->
+      <div style="flex:1;overflow:hidden;padding:0 10px;position:relative;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div class="card" style="border-radius:10px;overflow:hidden;">
+              <div style="height:76px;background:#EAE0D4;display:flex;align-items:flex-end;padding:6px;">
+                <span style="font-size:9px;color:rgba(255,255,255,0.9);background:rgba(0,0,0,0.3);border-radius:4px;padding:2px 5px;">2年前</span>
+              </div>
+              <div style="padding:5px 7px;">
+                <div style="font-size:10px;font-weight:600;color:#1C1917;">第一次用猫砂 😹</div>
+                <div style="font-size:9px;color:#C8874A;margin-top:2px;">❤️ 62</div>
+              </div>
+            </div>
+            <div class="card" style="border-radius:10px;overflow:hidden;">
+              <div style="height:96px;background:#FFE8D4;display:flex;align-items:flex-end;padding:6px;">
+                <span style="font-size:9px;color:rgba(255,255,255,0.9);background:rgba(0,0,0,0.3);border-radius:4px;padding:2px 5px;">1年前</span>
+              </div>
+              <div style="padding:5px 7px;">
+                <div style="font-size:10px;font-weight:600;color:#1C1917;">1岁生日快乐！🎂</div>
+                <div style="font-size:9px;color:#C8874A;margin-top:2px;">❤️ 89</div>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:20px;">
+            <div class="card" style="border-radius:10px;overflow:hidden;">
+              <div style="height:108px;background:#E8EAD4;display:flex;align-items:flex-end;padding:6px;">
+                <span style="font-size:9px;color:rgba(255,255,255,0.9);background:rgba(0,0,0,0.3);border-radius:4px;padding:2px 5px;">3年前</span>
+              </div>
+              <div style="padding:5px 7px;">
+                <div style="font-size:10px;font-weight:600;color:#1C1917;line-height:1.3;">来接Mochi回家的第一天🥰</div>
+                <div style="font-size:9px;color:#C8874A;margin-top:2px;">❤️ 124</div>
+              </div>
+            </div>
+            <div class="card" style="border-radius:10px;overflow:hidden;">
+              <div style="height:68px;background:#D4E4E8;display:flex;align-items:flex-end;padding:6px;">
+                <span style="font-size:9px;color:rgba(255,255,255,0.9);background:rgba(0,0,0,0.3);border-radius:4px;padding:2px 5px;">6个月前</span>
+              </div>
+              <div style="padding:5px 7px;">
+                <div style="font-size:10px;font-weight:600;color:#1C1917;">学会了高五🐾</div>
+                <div style="font-size:9px;color:#C8874A;margin-top:2px;">❤️ 38</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- FAB -->
+        <div style="position:absolute;bottom:6px;right:6px;width:40px;height:40px;border-radius:50%;background:#C8874A;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(200,135,74,0.4);">
+          <span style="color:#fff;font-size:18px;line-height:1;margin-top:-2px;">+</span>
+        </div>
+      </div>
+      <div class="pill-nav">
+        <div class="pill-nav-inner">
+          <div class="tab-item">
+            <div class="tab-icon active-caramel"><span style="font-size:15px;">🏠</span></div>
+            <span class="tab-label-active-caramel">首页</span>
+          </div>
+          <div class="tab-item">
+            <div class="tab-icon"><span style="font-size:15px;">🐾</span></div>
+            <span>活动</span>
+          </div>
+          <div class="tab-item">
+            <div class="tab-icon"><span style="font-size:15px;">🩺</span></div>
+            <span>问诊</span>
+          </div>
+          <div class="tab-item">
+            <div class="tab-icon"><span style="font-size:15px;">👤</span></div>
+            <span>我的</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="screen-label">02 · 成长日历 Tab</div>
+  </div>
+
+  <!-- ========== SCREEN 3: 活动列表 ========== -->
+  <div class="screen-wrap">
+    <div class="phone">
+      <div class="status-bar">
+        <span>9:41</span>
+        <span style="letter-spacing:2px;">● ● ▲</span>
+      </div>
+      <div class="header-bar">
+        <span class="header-title">附近的聚会</span>
+        <span style="font-size:16px;color:#F08040;">⚙</span>
+      </div>
+      <!-- Filter chips -->
+      <div style="display:flex;gap:6px;padding:0 12px 8px;flex-shrink:0;">
+        <div style="background:#F08040;border-radius:20px;padding:3px 10px;">
+          <span style="font-size:10px;color:#fff;font-weight:600;">全部</span>
+        </div>
+        <div style="border:1px solid #EDE8E3;border-radius:20px;padding:3px 10px;">
+          <span style="font-size:10px;color:#9C8C84;">🐕 狗狗</span>
+        </div>
+        <div style="border:1px solid #EDE8E3;border-radius:20px;padding:3px 10px;">
+          <span style="font-size:10px;color:#9C8C84;">🐱 猫咪</span>
+        </div>
+        <div style="border:1px solid #EDE8E3;border-radius:20px;padding:3px 10px;">
+          <span style="font-size:10px;color:#9C8C84;">免费</span>
+        </div>
+      </div>
+      <!-- Content area -->
+      <div style="flex:1;overflow:hidden;padding:0 12px;display:flex;flex-direction:column;gap:8px;">
+        <!-- Featured card -->
+        <div style="background:#fff;border-radius:16px;box-shadow:0 2px 10px rgba(0,0,0,0.07);overflow:hidden;flex-shrink:0;">
+          <div style="height:4px;background:#F08040;"></div>
+          <div style="padding:10px 12px 12px;">
+            <div style="font-size:14px;font-weight:700;color:#1C1917;margin-bottom:4px;">🐕 Corgi Gathering</div>
+            <div style="font-size:10px;color:#9C8C84;margin-bottom:2px;">📍 Tribeca Park, Central Park</div>
+            <div style="font-size:10px;color:#9C8C84;margin-bottom:8px;">🗓 周日 · 下午4:00</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+              <div style="display:flex;align-items:center;gap:-4px;">
+                <div style="width:18px;height:18px;border-radius:50%;background:#FFE4CC;display:inline-flex;align-items:center;justify-content:center;font-size:10px;border:1.5px solid #fff;">🐕</div>
+                <div style="width:18px;height:18px;border-radius:50%;background:#FFE4CC;display:inline-flex;align-items:center;justify-content:center;font-size:10px;border:1.5px solid #fff;margin-left:-4px;">🐕</div>
+                <div style="width:18px;height:18px;border-radius:50%;background:#FFE4CC;display:inline-flex;align-items:center;justify-content:center;font-size:10px;border:1.5px solid #fff;margin-left:-4px;">🐕</div>
+                <span style="font-size:9px;color:#9C8C84;margin-left:4px;">+9人</span>
+              </div>
+              <span style="font-size:9px;color:#F08040;font-weight:600;">12人报名</span>
+            </div>
+            <div style="background:#F08040;border-radius:8px;padding:7px;text-align:center;">
+              <span style="font-size:11px;color:#fff;font-weight:700;">加入聚会</span>
+            </div>
+          </div>
+        </div>
+        <!-- Card 2 -->
+        <div style="background:#fff;border-radius:14px;border:1px solid #EDE8E3;padding:10px 12px;flex-shrink:0;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+            <span style="font-size:13px;font-weight:700;color:#1C1917;">🐱 猫咪下午茶 · Kemang Café</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <span style="font-size:10px;color:#9C8C84;">明天 · 下午2:00 · 8人报名</span>
+            <span style="font-size:10px;color:#F08040;font-weight:600;">查看详情 →</span>
+          </div>
+        </div>
+        <!-- Card 3 -->
+        <div style="background:#fff;border-radius:14px;border:1px solid #EDE8E3;padding:10px 12px;flex-shrink:0;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+            <span style="font-size:13px;font-weight:700;color:#1C1917;">🐶 Golden生日趴 · PIK</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <span style="font-size:10px;color:#9C8C84;">本周六 · 20人报名</span>
+            <span style="font-size:10px;color:#F08040;font-weight:600;">查看详情 →</span>
+          </div>
+        </div>
+        <!-- Card 4 -->
+        <div style="background:#fff;border-radius:14px;border:1px solid #EDE8E3;padding:10px 12px;flex-shrink:0;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+            <span style="font-size:13px;font-weight:700;color:#1C1917;">🐾 宠物露营节 · Sentul</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <span style="font-size:10px;color:#9C8C84;">下月 · 43人感兴趣</span>
+            <span style="font-size:10px;color:#F08040;font-weight:600;">查看详情 →</span>
+          </div>
+        </div>
+      </div>
+      <!-- FAB -->
+      <div style="position:absolute;bottom:78px;right:16px;width:40px;height:40px;border-radius:50%;background:#F08040;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(240,128,64,0.4);z-index:10;">
+        <span style="color:#fff;font-size:20px;line-height:1;margin-top:-2px;">+</span>
+      </div>
+      <div class="pill-nav">
+        <div class="pill-nav-inner">
+          <div class="tab-item">
+            <div class="tab-icon"><span style="font-size:15px;">🏠</span></div>
+            <span>首页</span>
+          </div>
+          <div class="tab-item">
+            <div class="tab-icon active-orange"><span style="font-size:15px;">🐾</span></div>
+            <span class="tab-label-active-orange">活动</span>
+          </div>
+          <div class="tab-item">
+            <div class="tab-icon"><span style="font-size:15px;">🩺</span></div>
+            <span>问诊</span>
+          </div>
+          <div class="tab-item">
+            <div class="tab-icon"><span style="font-size:15px;">👤</span></div>
+            <span>我的</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="screen-label">03 · 活动列表</div>
+  </div>
+
+  <!-- ========== SCREEN 4: 活动详情+群聊 ========== -->
+  <div class="screen-wrap">
+    <div class="phone">
+      <div class="status-bar">
+        <span>9:41</span>
+        <span style="letter-spacing:2px;">● ● ▲</span>
+      </div>
+      <div class="header-bar">
+        <span style="font-size:13px;color:#F08040;font-weight:600;">＜ 返回</span>
+        <span style="font-size:14px;font-weight:700;color:#1C1917;">Corgi Gathering</span>
+        <span style="width:36px;"></span>
+      </div>
+      <!-- Content -->
+      <div style="flex:1;overflow:hidden;padding:0 12px;display:flex;flex-direction:column;gap:8px;">
+        <!-- Top info card -->
+        <div style="background:#fff;border-radius:16px;box-shadow:0 2px 10px rgba(0,0,0,0.07);overflow:hidden;flex-shrink:0;">
+          <div style="height:4px;background:#F08040;"></div>
+          <div style="padding:10px 12px 12px;">
+            <div style="font-size:15px;font-weight:700;color:#1C1917;margin-bottom:8px;">🐕 Corgi Gathering</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:10px;">
+              <div style="font-size:10px;color:#9C8C84;">📍 Tribeca Park</div>
+              <div style="font-size:10px;color:#9C8C84;">🗓 周日 4PM</div>
+              <div style="font-size:10px;color:#9C8C84;">👤 12人报名</div>
+              <div style="font-size:10px;color:#9C8C84;">🐾 柯基专场</div>
+            </div>
+            <div style="background:#F08040;border-radius:8px;padding:8px;text-align:center;">
+              <span style="font-size:11px;color:#fff;font-weight:700;">加入聚会</span>
+            </div>
+          </div>
+        </div>
+        <!-- Chat section label -->
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+          <span style="font-size:11px;font-weight:600;color:#9C8C84;">活动群聊 · 临时频道</span>
+          <span style="font-size:9px;color:#C4B8B0;">📅 活动结束后7天关闭</span>
+        </div>
+        <!-- Chat card -->
+        <div style="background:#fff;border-radius:14px;border:1px solid #EDE8E3;padding:10px;flex:1;overflow:hidden;display:flex;flex-direction:column;gap:8px;">
+          <div style="text-align:center;font-size:9px;color:#9C8C84;">📍 Kevin 和柯基 Potato 已到场</div>
+          <!-- Left bubble -->
+          <div style="display:flex;align-items:flex-end;gap:6px;">
+            <div style="width:22px;height:22px;border-radius:50%;background:#FFE4CC;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;">🐕</div>
+            <div style="background:#fff;border:1px solid #EDE8E3;border-radius:12px 12px 12px 4px;padding:6px 9px;max-width:80%;">
+              <span style="font-size:10px;color:#1C1917;line-height:1.4;">明天带什么零食来好？😊</span>
+            </div>
+          </div>
+          <!-- Right bubble -->
+          <div style="display:flex;justify-content:flex-end;">
+            <div style="background:#C8874A;border-radius:12px 12px 4px 12px;padding:6px 9px;max-width:80%;">
+              <span style="font-size:10px;color:#fff;line-height:1.4;">Mochi 最爱鸡肉干 🍗</span>
+            </div>
+          </div>
+          <div style="text-align:center;font-size:9px;color:#9C8C84;">📍 Sari 和柯基 Kopi 已到场 ✓</div>
+        </div>
+        <!-- GPS button -->
+        <div style="border:1.5px solid #C8874A;border-radius:10px;padding:8px;text-align:center;flex-shrink:0;">
+          <span style="font-size:11px;color:#C8874A;font-weight:600;">📍 我到了！签到</span>
+        </div>
+      </div>
+      <div class="pill-nav">
+        <div class="pill-nav-inner">
+          <div class="tab-item">
+            <div class="tab-icon"><span style="font-size:15px;">🏠</span></div>
+            <span>首页</span>
+          </div>
+          <div class="tab-item">
+            <div class="tab-icon active-orange"><span style="font-size:15px;">🐾</span></div>
+            <span class="tab-label-active-orange">活动</span>
+          </div>
+          <div class="tab-item">
+            <div class="tab-icon"><span style="font-size:15px;">🩺</span></div>
+            <span>问诊</span>
+          </div>
+          <div class="tab-item">
+            <div class="tab-icon"><span style="font-size:15px;">👤</span></div>
+            <span>我的</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="screen-label">04 · 活动详情 + 群聊</div>
+  </div>
+
+  <!-- ========== SCREEN 5: 问诊首页 ========== -->
+  <div class="screen-wrap">
+    <div class="phone">
+      <div class="status-bar">
+        <span>9:41</span>
+        <span style="letter-spacing:2px;">● ● ▲</span>
+      </div>
+      <!-- Header with Morandi blue underline -->
+      <div style="padding:8px 14px 0;flex-shrink:0;">
+        <div style="text-align:center;position:relative;padding-bottom:6px;">
+          <span style="font-size:16px;font-weight:700;color:#1C1917;">专业问诊</span>
+          <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:40px;height:2px;background:#7BA7BC;border-radius:2px;"></div>
+        </div>
+      </div>
+      <!-- Greeting -->
+      <div style="padding:10px 14px 6px;flex-shrink:0;">
+        <div style="font-size:14px;font-weight:600;color:#1C1917;">Putri，你好 👋</div>
+        <div style="font-size:12px;color:#9C8C84;margin-top:2px;">Oyen 今天感觉怎么样？</div>
+      </div>
+      <!-- Two entry cards -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 12px 10px;flex-shrink:0;">
+        <!-- AI card -->
+        <div style="background:#fff;border-radius:16px;box-shadow:0 2px 10px rgba(0,0,0,0.07);padding:12px 10px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:#EEF4F7;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:8px;">🤖</div>
+          <div style="font-size:12px;font-weight:600;color:#1C1917;margin-bottom:3px;">AI 智能分诊</div>
+          <div style="font-size:10px;color:#9C8C84;margin-bottom:8px;">即时分析症状</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <div style="background:#EEF4F7;border-radius:20px;padding:2px 8px;">
+              <span style="font-size:8px;color:#7BA7BC;font-weight:600;">免费</span>
+            </div>
+            <span style="font-size:10px;color:#7BA7BC;">→</span>
+          </div>
+        </div>
+        <!-- Vet card -->
+        <div style="background:#fff;border-radius:16px;box-shadow:0 2px 10px rgba(0,0,0,0.07);padding:12px 10px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:#EEF4F7;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:8px;">👨‍⚕️</div>
+          <div style="font-size:12px;font-weight:600;color:#1C1917;margin-bottom:3px;">在线兽医</div>
+          <div style="font-size:10px;color:#9C8C84;margin-bottom:8px;">图文实时咨询</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <div style="background:#EEF4F7;border-radius:20px;padding:2px 8px;">
+              <span style="font-size:8px;color:#7BA7BC;font-weight:600;">免费</span>
+            </div>
+            <span style="font-size:10px;color:#7BA7BC;">→</span>
+          </div>
+        </div>
+      </div>
+      <!-- Divider + history label -->
+      <div style="border-top:1px solid #EDE8E3;margin:0 12px;padding-top:8px;flex-shrink:0;">
+        <span style="font-size:10px;font-weight:600;color:#9C8C84;padding:0 0 6px;display:block;">最近的问诊记录</span>
+      </div>
+      <!-- History items -->
+      <div style="flex:1;overflow:hidden;padding:0 12px;display:flex;flex-direction:column;gap:7px;">
+        <div style="background:#fff;border-radius:12px;border-left:3px solid #E8C97A;padding:8px 10px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+          <div>
+            <div style="font-size:12px;font-weight:700;color:#1C1917;">Oyen · 呕吐白色泡沫</div>
+            <div style="margin-top:3px;">
+              <span style="background:#F5E8C0;color:#8B6914;font-size:9px;font-weight:600;border-radius:20px;padding:2px 7px;">需要观察</span>
+            </div>
+          </div>
+          <span style="font-size:9px;color:#C4B8B0;">2天前</span>
+        </div>
+        <div style="background:#fff;border-radius:12px;border-left:3px solid #A8D8A8;padding:8px 10px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+          <div>
+            <div style="font-size:12px;font-weight:700;color:#1C1917;">Mochi · 皮毛脱落</div>
+            <div style="margin-top:3px;">
+              <span style="background:#D4EDD4;color:#3A7A3A;font-size:9px;font-weight:600;border-radius:20px;padding:2px 7px;">无需就医</span>
+            </div>
+          </div>
+          <span style="font-size:9px;color:#C4B8B0;">上周</span>
+        </div>
+        <div style="background:#fff;border-radius:12px;border-left:3px solid #A8D8A8;padding:8px 10px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+          <div>
+            <div style="font-size:12px;font-weight:700;color:#1C1917;">Oyen · 食欲不振</div>
+            <div style="margin-top:3px;">
+              <span style="background:#D4EDD4;color:#3A7A3A;font-size:9px;font-weight:600;border-radius:20px;padding:2px 7px;">无需就医</span>
+            </div>
+          </div>
+          <span style="font-size:9px;color:#C4B8B0;">2周前</span>
+        </div>
+      </div>
+      <div class="pill-nav">
+        <div class="pill-nav-inner">
+          <div class="tab-item">
+            <div class="tab-icon"><span style="font-size:15px;">🏠</span></div>
+            <span>首页</span>
+          </div>
+          <div class="tab-item">
+            <div class="tab-icon"><span style="font-size:15px;">🐾</span></div>
+            <span>活动</span>
+          </div>
+          <div class="tab-item">
+            <div class="tab-icon active-blue"><span style="font-size:15px;">🩺</span></div>
+            <span class="tab-label-active-blue">问诊</span>
+          </div>
+          <div class="tab-item">
+            <div class="tab-icon"><span style="font-size:15px;">👤</span></div>
+            <span>我的</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="screen-label">05 · 问诊首页</div>
+  </div>
+
+  <!-- ========== SCREEN 6: AI 分诊结果 ========== -->
+  <div class="screen-wrap">
+    <div class="phone">
+      <div class="status-bar">
+        <span>9:41</span>
+        <span style="letter-spacing:2px;">● ● ▲</span>
+      </div>
+      <div class="header-bar">
+        <span style="font-size:13px;color:#7BA7BC;font-weight:600;">＜ 返回</span>
+        <span style="font-size:14px;font-weight:700;color:#1C1917;">AI 分诊结果</span>
+        <span style="width:36px;"></span>
+      </div>
+      <!-- Pet chip -->
+      <div style="padding:0 14px 10px;text-align:center;flex-shrink:0;">
+        <div style="display:inline-block;background:#EEF4F7;border-radius:20px;padding:4px 14px;">
+          <span style="font-size:10px;color:#7BA7BC;">🐱 Oyen · 2岁猫咪</span>
+        </div>
+      </div>
+      <!-- Content -->
+      <div style="flex:1;overflow:hidden;padding:0 12px;display:flex;flex-direction:column;gap:8px;">
+        <!-- Main result card -->
+        <div style="background:#fff;border-radius:16px;box-shadow:0 2px 10px rgba(0,0,0,0.07);border-left:4px solid #E8C97A;padding:12px 14px;flex-shrink:0;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+            <div style="display:flex;align-items:center;gap:6px;">
+              <div style="width:10px;height:10px;border-radius:50%;background:#E8C97A;"></div>
+              <span style="font-size:11px;color:#8B6914;font-weight:600;">观察状态</span>
+            </div>
+            <div style="background:#F5E8C0;border-radius:20px;padding:3px 9px;">
+              <span style="font-size:9px;color:#8B6914;font-weight:700;">需要观察</span>
+            </div>
+          </div>
+          <div style="font-size:22px;font-weight:700;color:#1C1917;margin-bottom:4px;">非紧急</div>
+          <div style="font-size:12px;color:#9C8C84;">接下来 2 小时重点观察</div>
+        </div>
+        <!-- Observation card -->
+        <div style="background:#EEF4F7;border-radius:12px;padding:10px 12px;flex-shrink:0;">
+          <div style="font-size:11px;font-weight:600;color:#7BA7BC;margin-bottom:6px;">⏱ 观察倒计时协议</div>
+          <div style="font-size:10px;color:#1C1917;margin-bottom:4px;line-height:1.4;display:flex;gap:5px;">
+            <span style="color:#C97A7A;font-weight:700;">●</span>
+            <span>若2小时内再次呕吐 → 立即就医</span>
+          </div>
+          <div style="font-size:10px;color:#1C1917;line-height:1.4;display:flex;gap:5px;">
+            <span style="color:#3A7A3A;font-weight:700;">●</span>
+            <span>若未再出现 → 明早预约即可</span>
+          </div>
+        </div>
+        <!-- Medication card -->
+        <div style="background:#fff;border-radius:12px;border:1px solid #EDE8E3;padding:10px 12px;flex-shrink:0;">
+          <div style="font-size:11px;font-weight:600;color:#1C1917;margin-bottom:6px;">💊 居家处理建议</div>
+          <div style="font-size:10px;color:#9C8C84;margin-bottom:4px;">暂停正餐2小时，提供少量温水</div>
+          <div style="font-size:10px;color:#9C8C84;">可使用益生菌辅助调理</div>
+        </div>
+        <!-- CTA -->
+        <div style="border:1.5px solid #7BA7BC;border-radius:10px;padding:9px;text-align:center;flex-shrink:0;">
+          <span style="font-size:11px;color:#7BA7BC;font-weight:600;">想要更个性化的建议？咨询兽医</span>
+        </div>
+        <!-- Disclaimer -->
+        <div style="text-align:center;flex-shrink:0;">
+          <span style="font-size:9px;color:#C4B8B0;">本建议仅供参考，最终决策权归您</span>
+        </div>
+      </div>
+      <div class="pill-nav">
+        <div class="pill-nav-inner">
+          <div class="tab-item">
+            <div class="tab-icon"><span style="font-size:15px;">🏠</span></div>
+            <span>首页</span>
+          </div>
+          <div class="tab-item">
+            <div class="tab-icon"><span style="font-size:15px;">🐾</span></div>
+            <span>活动</span>
+          </div>
+          <div class="tab-item">
+            <div class="tab-icon active-blue"><span style="font-size:15px;">🩺</span></div>
+            <span class="tab-label-active-blue">问诊</span>
+          </div>
+          <div class="tab-item">
+            <div class="tab-icon"><span style="font-size:15px;">👤</span></div>
+            <span>我的</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="screen-label">06 · AI 分诊结果 黄色状态</div>
+  </div>
+
+  <!-- ========== SCREEN 7: 在线兽医聊天 ========== -->
+  <div class="screen-wrap">
+    <div class="phone">
+      <div class="status-bar">
+        <span>9:41</span>
+        <span style="letter-spacing:2px;">● ● ▲</span>
+      </div>
+      <div class="header-bar" style="position:relative;">
+        <span style="font-size:13px;color:#7BA7BC;font-weight:600;">＜ 返回</span>
+        <span style="font-size:14px;font-weight:700;color:#1C1917;">在线兽医</span>
+        <div style="background:#EEF4F7;border-radius:20px;padding:2px 8px;">
+          <span style="font-size:9px;color:#7BA7BC;font-weight:600;">免费</span>
+        </div>
+      </div>
+      <!-- Vet info strip -->
+      <div style="margin:0 12px 8px;background:#fff;border-radius:12px;border:1px solid #EDE8E3;padding:8px 12px;display:flex;align-items:center;gap:10px;flex-shrink:0;">
+        <div style="width:36px;height:36px;border-radius:50%;background:#EEF4F7;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">👨‍⚕️</div>
+        <div style="flex:1;">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px;">
+            <span style="font-size:12px;font-weight:700;color:#1C1917;">Dr. Reza</span>
+            <div style="width:6px;height:6px;border-radius:50%;background:#4CAF50;"></div>
+            <span style="font-size:9px;color:#4CAF50;font-weight:600;">在线</span>
+          </div>
+          <div style="font-size:10px;color:#9C8C84;">IPB兽医学院 · 平均响应 2分钟</div>
+        </div>
+      </div>
+      <!-- Chat area -->
+      <div style="flex:1;overflow:hidden;background:#FAF8F5;display:flex;flex-direction:column;gap:8px;padding:8px 12px;">
+        <div style="text-align:center;">
+          <span style="font-size:9px;color:#9C8C84;background:rgba(156,140,132,0.1);border-radius:10px;padding:3px 10px;">问诊开始 · 所有建议仅供参考</span>
+        </div>
+        <!-- Right bubble -->
+        <div style="display:flex;justify-content:flex-end;">
+          <div style="background:#F5E8DC;border-radius:14px 14px 4px 14px;padding:8px 10px;max-width:78%;">
+            <span style="font-size:10px;color:#1C1917;line-height:1.5;">我的猫咪Oyen今晚一直在呕吐，已经3次了，AI说黄色需要观察</span>
+          </div>
+        </div>
+        <!-- Left bubble -->
+        <div style="display:flex;gap:6px;align-items:flex-end;">
+          <div style="width:22px;height:22px;border-radius:50%;background:#EEF4F7;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;">👨‍⚕️</div>
+          <div style="background:#fff;border:1px solid #EDE8E3;border-radius:4px 14px 14px 14px;padding:8px 10px;max-width:78%;">
+            <span style="font-size:10px;color:#1C1917;line-height:1.5;">你好！我看到了Oyen的情况。根据你描述的症状，呕吐白色泡沫最常见的原因是...</span>
+          </div>
+        </div>
+        <!-- Left bubble 2 -->
+        <div style="display:flex;gap:6px;align-items:flex-end;">
+          <div style="width:22px;height:22px;border-radius:50%;background:#EEF4F7;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;">👨‍⚕️</div>
+          <div style="background:#fff;border:1px solid #EDE8E3;border-radius:4px 14px 14px 14px;padding:8px 10px;max-width:78%;">
+            <span style="font-size:10px;color:#1C1917;line-height:1.5;">建议先暂停喂食2小时，观察下一次排便。你家里有益生菌类的宠物保健品吗？</span>
+          </div>
+        </div>
+      </div>
+      <!-- Input area -->
+      <div style="background:#fff;border-top:1px solid #EDE8E3;padding:8px 12px;display:flex;align-items:center;gap:8px;flex-shrink:0;height:50px;">
+        <div style="flex:1;font-size:11px;color:#C4B8B0;">输入你的问题...</div>
+        <div style="width:32px;height:32px;border-radius:50%;background:#C8874A;display:flex;align-items:center;justify-content:center;">
+          <span style="color:#fff;font-size:14px;">→</span>
+        </div>
+      </div>
+      <div class="pill-nav">
+        <div class="pill-nav-inner">
+          <div class="tab-item">
+            <div class="tab-icon"><span style="font-size:15px;">🏠</span></div>
+            <span>首页</span>
+          </div>
+          <div class="tab-item">
+            <div class="tab-icon"><span style="font-size:15px;">🐾</span></div>
+            <span>活动</span>
+          </div>
+          <div class="tab-item">
+            <div class="tab-icon active-blue"><span style="font-size:15px;">🩺</span></div>
+            <span class="tab-label-active-blue">问诊</span>
+          </div>
+          <div class="tab-item">
+            <div class="tab-icon"><span style="font-size:15px;">👤</span></div>
+            <span>我的</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="screen-label">07 · 在线兽医聊天</div>
+  </div>
+
+  <!-- ========== SCREEN 8: 我的 ========== -->
+  <div class="screen-wrap">
+    <div class="phone">
+      <div class="status-bar">
+        <span>9:41</span>
+        <span style="letter-spacing:2px;">● ● ▲</span>
+      </div>
+      <div class="header-bar">
+        <span class="header-title">我的</span>
+        <span style="font-size:16px;color:#9C8C84;">⚙️</span>
+      </div>
+      <!-- User info -->
+      <div style="display:flex;align-items:center;gap:10px;padding:6px 14px 10px;flex-shrink:0;">
+        <div style="width:44px;height:44px;border-radius:50%;background:#C8874A;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">👩</div>
+        <div style="flex:1;">
+          <div style="font-size:14px;font-weight:700;color:#1C1917;">Putri Rahayu</div>
+          <div style="font-size:11px;color:#9C8C84;margin-top:1px;">@putri_pets</div>
+          <div style="font-size:10px;color:#9C8C84;margin-top:2px;">关注 12 · <span style="font-weight:600;color:#1C1917;">粉丝 284</span></div>
+        </div>
+      </div>
+      <!-- My pets section -->
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:0 14px 6px;flex-shrink:0;">
+        <span style="font-size:12px;font-weight:700;color:#1C1917;">我的宠物</span>
+        <span style="font-size:11px;color:#C8874A;font-weight:600;">编辑</span>
+      </div>
+      <!-- Pet card -->
+      <div style="margin:0 12px 10px;background:#fff;border-radius:16px;box-shadow:0 2px 10px rgba(0,0,0,0.07);padding:12px;display:flex;align-items:center;gap:10px;flex-shrink:0;">
+        <div style="width:48px;height:48px;border-radius:50%;background:#FFD4A8;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;">🐱</div>
+        <div style="flex:1;">
+          <div style="font-size:14px;font-weight:700;color:#1C1917;margin-bottom:2px;">Mochi</div>
+          <div style="font-size:11px;color:#9C8C84;margin-bottom:8px;">3岁 · 英短 · 橘色</div>
+          <div style="display:flex;gap:6px;">
+            <div style="border:1.5px solid #C8874A;border-radius:8px;padding:3px 8px;">
+              <span style="font-size:9px;color:#C8874A;font-weight:600;">成长档案</span>
+            </div>
+            <div style="background:#C8874A;border-radius:8px;padding:3px 8px;">
+              <span style="font-size:9px;color:#fff;font-weight:600;">分享名片</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Growth calendar section -->
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:0 14px 6px;flex-shrink:0;">
+        <span style="font-size:12px;font-weight:700;color:#1C1917;">成长日历</span>
+        <span style="font-size:11px;color:#C8874A;font-weight:600;">全部</span>
+      </div>
+      <!-- Mini masonry -->
+      <div style="flex:1;overflow:hidden;padding:0 12px;position:relative;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+          <div style="border-radius:8px;overflow:hidden;background:#EAE0D4;height:60px;"></div>
+          <div style="border-radius:8px;overflow:hidden;background:#D4E8D4;height:60px;"></div>
+          <div style="border-radius:8px;overflow:hidden;background:#EEE4D4;height:60px;"></div>
+          <div style="border-radius:8px;overflow:hidden;background:#D4DCE8;height:60px;"></div>
+        </div>
+        <!-- FAB pulse -->
+        <div style="position:absolute;bottom:4px;right:4px;">
+          <div style="width:40px;height:40px;border-radius:50%;background:rgba(200,135,74,0.2);position:absolute;top:-4px;left:-4px;"></div>
+          <div style="width:40px;height:40px;border-radius:50%;background:#C8874A;display:flex;align-items:center;justify-content:center;font-size:16px;position:relative;">
+            <span>📤</span>
+          </div>
+        </div>
+      </div>
+      <div class="pill-nav">
+        <div class="pill-nav-inner">
+          <div class="tab-item">
+            <div class="tab-icon"><span style="font-size:15px;">🏠</span></div>
+            <span>首页</span>
+          </div>
+          <div class="tab-item">
+            <div class="tab-icon"><span style="font-size:15px;">🐾</span></div>
+            <span>活动</span>
+          </div>
+          <div class="tab-item">
+            <div class="tab-icon"><span style="font-size:15px;">🩺</span></div>
+            <span>问诊</span>
+          </div>
+          <div class="tab-item">
+            <div class="tab-icon active-caramel"><span style="font-size:15px;">👤</span></div>
+            <span class="tab-label-active-caramel">我的</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="screen-label">08 · 我的 宠物档案</div>
+  </div>
+
+  <!-- ========== SCREEN 9: 宠物名片 ========== -->
+  <div class="screen-wrap">
+    <div class="phone" style="background:#fff;">
+      <div class="status-bar">
+        <span>9:41</span>
+        <span style="letter-spacing:2px;">● ● ▲</span>
+      </div>
+      <!-- Top caramel band -->
+      <div style="height:6px;background:linear-gradient(90deg,#C8874A,#E8A870);flex-shrink:0;"></div>
+      <!-- Center content -->
+      <div style="flex:1;overflow:hidden;display:flex;flex-direction:column;align-items:center;padding:16px 14px 10px;">
+        <!-- Avatar -->
+        <div style="margin-bottom:10px;">
+          <div style="width:80px;height:80px;border-radius:50%;background:#F5E8D4;display:flex;align-items:center;justify-content:center;font-size:40px;border:3px solid #C8874A;box-shadow:0 4px 16px rgba(200,135,74,0.3);">🐱</div>
+        </div>
+        <div style="font-size:22px;font-weight:700;color:#1C1917;margin-bottom:4px;">Mochi</div>
+        <div style="font-size:13px;color:#9C8C84;margin-bottom:4px;">3岁 · 英短橘猫</div>
+        <div style="font-size:12px;color:#9C8C84;font-style:italic;margin-bottom:10px;">Jakarta最懒的男孩 🎀</div>
+        <!-- Stats row -->
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:14px;">
+          <span style="font-size:10px;color:#1C1917;font-weight:600;">记录 47</span>
+          <span style="color:#C8874A;font-size:12px;">·</span>
+          <span style="font-size:10px;color:#1C1917;font-weight:600;">问诊 3</span>
+          <span style="color:#C8874A;font-size:12px;">·</span>
+          <span style="font-size:10px;color:#1C1917;font-weight:600;">聚会 8</span>
+        </div>
+        <!-- Divider + label -->
+        <div style="width:100%;display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+          <div style="flex:1;height:1px;background:#EDE8E3;"></div>
+          <span style="font-size:12px;font-weight:600;color:#1C1917;">Ta的故事</span>
+          <div style="flex:1;height:1px;background:#EDE8E3;"></div>
+        </div>
+        <!-- Photo grid -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%;margin-bottom:10px;">
+          <div>
+            <div style="height:60px;background:#EAE0D4;border-radius:10px;"></div>
+            <div style="font-size:9px;color:#9C8C84;margin-top:3px;text-align:center;">今天阳台时光</div>
+          </div>
+          <div>
+            <div style="height:60px;background:#FFE8D4;border-radius:10px;"></div>
+            <div style="font-size:9px;color:#9C8C84;margin-top:3px;text-align:center;">生日快乐🎂</div>
+          </div>
+          <div>
+            <div style="height:60px;background:#E8EAD4;border-radius:10px;"></div>
+            <div style="font-size:9px;color:#9C8C84;margin-top:3px;text-align:center;">来家第一天🥰</div>
+          </div>
+          <div>
+            <div style="height:60px;background:#D4E4E8;border-radius:10px;"></div>
+            <div style="font-size:9px;color:#9C8C84;margin-top:3px;text-align:center;">猫薄荷初体验😂</div>
+          </div>
+        </div>
+        <!-- CTA card -->
+        <div style="background:#fff;border-radius:16px;box-shadow:0 2px 14px rgba(0,0,0,0.1);padding:12px 14px;width:100%;text-align:center;">
+          <div style="font-size:12px;color:#1C1917;margin-bottom:8px;line-height:1.4;">下载 PomoGo 查看 Mochi 的完整成长故事</div>
+          <div style="background:#C8874A;border-radius:20px;padding:8px;display:inline-block;min-width:100px;">
+            <span style="font-size:12px;color:#fff;font-weight:700;">立即下载</span>
+          </div>
+        </div>
+        <div style="margin-top:8px;">
+          <span style="font-size:9px;color:#C4B8B0;">由 PomoGo 生成</span>
+        </div>
+      </div>
+    </div>
+    <div class="screen-label">09 · 宠物名片 H5分享页</div>
+  </div>
+
+  <!-- ========== SCREEN 10: 发布页 ========== -->
+  <div class="screen-wrap">
+    <div class="phone" style="position:relative;">
+      <!-- Background (dimmed screen 1 view) -->
+      <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:#FAF8F5;z-index:0;">
+        <!-- Faint background content -->
+        <div style="padding:22px 14px 0;opacity:0.4;">
+          <div style="font-size:14px;font-weight:700;color:#1C1917;margin-bottom:8px;">PomoGo</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+            <div style="height:80px;background:#EAE0D4;border-radius:8px;"></div>
+            <div style="height:64px;background:#EEE4D4;border-radius:8px;margin-top:12px;"></div>
+            <div style="height:60px;background:#D4E8E4;border-radius:8px;"></div>
+            <div style="height:96px;background:#D4DCE8;border-radius:8px;margin-top:-12px;"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Overlay -->
+      <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(28,25,23,0.5);z-index:1;"></div>
+      <!-- Bottom sheet -->
+      <div style="position:absolute;bottom:0;left:0;right:0;height:80%;background:#fff;border-radius:24px 24px 0 0;box-shadow:0 -8px 32px rgba(0,0,0,0.12);z-index:2;display:flex;flex-direction:column;">
+        <!-- Drag handle -->
+        <div style="display:flex;justify-content:center;padding-top:10px;flex-shrink:0;">
+          <div style="width:40px;height:4px;background:#EDE8E3;border-radius:2px;"></div>
+        </div>
+        <!-- Sheet header -->
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 16px 6px;flex-shrink:0;">
+          <div style="width:36px;"></div>
+          <span style="font-size:14px;font-weight:600;color:#1C1917;">新建内容</span>
+          <span style="font-size:11px;color:#C8874A;font-weight:600;">× 取消</span>
+        </div>
+        <!-- Type selector -->
+        <div style="display:flex;gap:6px;padding:0 14px 8px;flex-shrink:0;">
+          <div style="border:1.5px solid #EDE8E3;border-radius:20px;padding:4px 10px;">
+            <span style="font-size:10px;color:#9C8C84;">日常分享</span>
+          </div>
+          <div style="background:#C8874A;border-radius:20px;padding:4px 10px;">
+            <span style="font-size:10px;color:#fff;font-weight:600;">成长日历</span>
+          </div>
+          <div style="border:1.5px solid #EDE8E3;border-radius:20px;padding:4px 10px;">
+            <span style="font-size:10px;color:#9C8C84;">科普</span>
+          </div>
+        </div>
+        <!-- Sub-type row -->
+        <div style="display:flex;gap:6px;padding:0 14px 10px;flex-shrink:0;">
+          <div style="background:#FFF0E4;border-radius:16px;padding:3px 8px;border:1px solid #E8C8A0;">
+            <span style="font-size:9px;color:#C8874A;font-weight:600;">快乐时刻 ✓</span>
+          </div>
+          <div style="border:1px solid #EDE8E3;border-radius:16px;padding:3px 8px;">
+            <span style="font-size:9px;color:#9C8C84;">健康记录</span>
+          </div>
+        </div>
+        <!-- Upload area -->
+        <div style="margin:0 14px 10px;border:1.5px dashed #EDE8E3;border-radius:16px;height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;flex-shrink:0;">
+          <span style="font-size:11px;color:#9C8C84;">📷 点击上传照片或视频</span>
+          <span style="font-size:9px;color:#C4B8B0;">最多3个文件</span>
+        </div>
+        <!-- Text input -->
+        <div style="margin:0 14px 8px;border-bottom:1px solid #EDE8E3;padding-bottom:8px;flex-shrink:0;">
+          <div style="font-size:12px;color:#C4B8B0;line-height:1.5;">写点什么吧～ #猫咪 #日常</div>
+        </div>
+        <!-- Emoji row -->
+        <div style="display:flex;gap:10px;padding:0 14px 10px;flex-shrink:0;">
+          <span style="font-size:18px;">🐱</span>
+          <span style="font-size:18px;">🐶</span>
+          <span style="font-size:18px;">🐾</span>
+          <span style="font-size:18px;">❤️</span>
+          <span style="font-size:18px;">☀️</span>
+        </div>
+        <!-- Bottom bar -->
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 14px 16px;flex-shrink:0;">
+          <span style="font-size:10px;color:#C4B8B0;">0/200</span>
+          <div style="background:#C8874A;border-radius:20px;padding:8px 24px;">
+            <span style="font-size:13px;color:#fff;font-weight:700;">发布</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="screen-label">10 · 发布页 底部弹层</div>
+  </div>
+
+</div>
+
+<div class="page-footer">
+  V1.0 · 印尼宠物社区 App · 设计规格见 DESIGN.md · EXPERIENCE.md
+</div>
+
+</body>
+</html>
