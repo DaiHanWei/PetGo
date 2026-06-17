@@ -1,0 +1,358 @@
+/* ============================================================================
+   TailTopia · VET-CARE theme — Design Tokens
+   Phase 1 / BMAD · Vibe Coding UI/UX.  PARALLEL token set.
+   NOT imported by the current app (which uses ../tokens.css, blue Paw Buddy).
+   To adopt: point src/index.css @import at this file instead — semantic var
+   names match the blue set, so it is a drop-in re-theme (violet + Poppins).
+
+   Mirror of vet-care/tokens.json. Two tiers:
+     1) PRIMITIVES  — raw palette/scale  (--violet-500, --grey-800, --text-3xl …)
+     2) SEMANTIC    — role tokens that reference primitives (--color-*, etc.)
+   Components & AI prompts should consume the SEMANTIC tokens, not primitives.
+
+   Source: Figma "Vet Care - veterinary care app UI (Community)"
+           fileKey YU083N0uVpVVTS6k4rVxB2 (light mode, mobile 430px).
+   Legend in comments:  [F] read from Figma · [d] derived · [p] proposed.
+   Color update 2026-06-15: violet softened (#7D16FF→#845EC9) + mint consultation layer.
+   ============================================================================ */
+
+:root {
+  /* ---------------------------------------------------------------- *
+   *  PRIMITIVES — color palette                                      *
+   * ---------------------------------------------------------------- */
+
+  /* Violet (brand hue) — softened from electric to muted periwinkle */
+  --violet-50:  #F8F2FF;  /* [p] subtle accent (chip bg, stats bg, tinted zones) */
+  --violet-100: #F8F6FF;  /* [p] was #ECDDFF                                     */
+  --violet-200: #DCD2F7;  /* [p] was #CBA6FB · subtitle on dark                  */
+  --violet-300: #C2B0EC;  /* [p] was #B77EFF · borders / circles                 */
+  --violet-400: #9E83DA;  /* [p] was #A259FF · card surface                      */
+  --violet-500: #845EC9;  /* [p] PRIMARY — softer grape                          */
+  --violet-600: #6C48AE;  /* [p] was #6810D2 · hover                             */
+  --violet-700: #563A8E;  /* [p] was #530BA6 · active                            */
+  --violet-800: #3D0879;  /* [d]                                                  */
+  --violet-900: #28054D;  /* [d]                                                  */
+
+  /* Ink (plum text) — headings & primary body */
+  --ink-700: #544864;     /* [F] text primary               */
+  --ink-900: #2E2742;     /* [d] strong emphasis (app-wide) */
+
+  /* Grey (neutrals) — Figma "Neuturals" anchors */
+  --grey-50:  #F7F7F7;
+  --grey-100: #F3F3F3;
+  --grey-200: #E6E6E6;
+  --grey-300: #CCCCCC;
+  --grey-400: #B6B6B6;
+  --grey-500: #A7A7A7;
+  --grey-600: #808080;
+  --grey-700: #545454;
+  --grey-800: #343434;
+  --grey-900: #1F1F1F;
+  --white:    #FFFFFF;
+
+  /* Status hues */
+  --green-50:  #E7F8F0;
+  --green-500: #1FB877;
+  --green-700: #0E7A4D;   /* AA text on green-50 */
+  --amber-50:  #FEF3DE;
+  --amber-500: #F6A609;
+  --amber-700: #8A5A00;   /* AA text on amber-50 */
+  --red-50:    #FDE7EB;
+  --red-500:   #F0425A;
+  --red-700:   #C4263C;   /* AA text on red-50  */
+
+  /* Mint — consultation & vet workbench accent (teal-mint family) */
+  --mint-50:  #EFF7F4;    /* [p] dialog bg / consultation card bg */
+  --mint-100: #F8FBFA;    /* [p] light consultation surface        */
+  --mint-300: #5BCBBB;    /* [p] mint button / primary vet accent  */
+  --mint-500: #31B3A2;    /* [p] strong mint / emphasis            */
+  --mint-700: #203D39;    /* [p] dark mint / hover / deep bg       */
+
+  /* Mint — dark theme overrides (consult / vet workbench night surfaces) */
+  --mint-dark-bg:      #10201D;
+  --mint-dark-surface: #172A26;
+  --mint-dark-border:  #2F514A;
+  --mint-dark-icon:    #7DBCAD;
+  --mint-dark-text:    #BFE3DB;
+  --mint-dark-body:    #D6CEDF;
+
+  /* Night — dark-theme neutral ramp (updated 2026-06-15) */
+  --night-950: #0B0810;   /* page main bg — deepened           */
+  --night-900: #181220;   /* sidebar / page section             */
+  --night-850: #2A2336;   /* card / surface — lifted            */
+  --night-825: #342D43;   /* card inner / input field / hover   */
+  --night-815: #3C334D;   /* modal / popover / dropdown         */
+  --night-800: #362552;   /* brand-tinted bg / AI summary       */
+  --night-700: #4B405C;   /* default border                     */
+  --night-600: #6B5D7C;   /* strong border                      */
+  --night-300: #7A7285;   /* disabled text                      */
+  --night-200: #A89FB5;   /* tertiary text                      */
+  --night-100: #D8D0E2;   /* secondary body text                */
+  --night-50:  #FAF7FF;   /* primary heading text               */
+
+  /* ---------------------------------------------------------------- *
+   *  SEMANTIC — color roles (light theme)                            *
+   * ---------------------------------------------------------------- */
+
+  /* Brand (violet identity) */
+  --color-brand-primary:        var(--violet-500);
+  --color-brand-primary-hover:  var(--violet-600);
+  --color-brand-primary-active: var(--violet-700);
+  --color-brand-subtle:         var(--violet-100);
+  --color-brand-secondary:        var(--violet-400);
+  --color-brand-secondary-hover:  var(--violet-500);
+  --color-brand-secondary-subtle: var(--violet-100);
+
+  /* Backgrounds / surfaces */
+  --color-bg-default:      #FEFEFE;
+  --color-bg-surface:      var(--white);
+  --color-bg-subtle:       var(--violet-50);
+  --color-bg-muted:        var(--grey-100);   /* icon-btn / chip / divider bg */
+  --color-bg-brand:        var(--violet-500);
+  --color-bg-brand-soft:   var(--violet-400);
+  --color-bg-brand-subtle: var(--violet-100);
+
+  /* Consultation / Vet workbench surface overrides */
+  --color-bg-vet:           #FBFAFD;   /* vet page canvas                */
+  --color-bg-vet-surface:   var(--white);
+  --color-bg-vet-subtle:    var(--mint-100);   /* #F8FBFA                 */
+  --color-bg-vet-dialog:    var(--mint-50);    /* #EFF7F4 · chat bubbles  */
+  --color-border-vet:       #E9E4ED;   /* subtle page border             */
+  --color-border-vet-accent:#DDEDE7;   /* consultation-area border       */
+
+  /* Input / Modal surface (overridden in dark theme) */
+  --color-bg-input: var(--white);
+  --color-bg-modal: var(--white);
+
+  /* Text */
+  --color-text-heading:   var(--ink-900);   /* strongest emphasis — headings, usernames */
+  --color-text-primary:   var(--ink-700);
+  --color-text-secondary: var(--grey-600);
+  --color-text-tertiary:  var(--grey-500);
+  --color-text-disabled:  var(--grey-400);
+  --color-text-inverse:   var(--white);
+  --color-text-on-brand:  var(--white);
+  --color-text-link:      var(--violet-500);
+
+  /* Vet/Consultation text */
+  --color-text-vet-heading: #2B2540;   /* slightly cooler than --ink-900 */
+  --color-text-vet-body:    #6F687A;   /* muted plum-grey                */
+
+  /* Borders */
+  --color-border-default: var(--grey-200);
+  --color-border-strong:  var(--grey-300);
+  --color-border-brand:   var(--violet-300);
+  --color-border-focus:   var(--violet-500);
+
+  /* Status */
+  --color-success:        var(--green-500);
+  --color-success-subtle: var(--green-50);
+  --color-warning:        var(--amber-500);
+  --color-warning-subtle: var(--amber-50);
+  --color-error:          var(--red-500);
+  --color-error-subtle:   var(--red-50);
+  --color-info:           var(--violet-500);
+  --color-info-subtle:    var(--violet-100);
+
+  /* Mint (consultation accent) */
+  --color-mint:           var(--mint-300);
+  --color-mint-emphasis:  var(--mint-500);
+  --color-mint-hover:     var(--mint-700);
+  --color-mint-subtle:    var(--mint-50);
+
+  /* status text/icon — AA on matching *-subtle background */
+  --color-success-text:   var(--green-700);
+  --color-warning-text:   var(--amber-700);
+  --color-error-text:     var(--red-700);
+  --color-info-text:      var(--violet-700);
+
+  /* ---------------------------------------------------------------- *
+   *  TYPOGRAPHY                                                      *
+   * ---------------------------------------------------------------- */
+
+  --font-display: "Poppins", system-ui, "Segoe UI", Roboto, sans-serif;
+  --font-body:    "Poppins", system-ui, -apple-system, Roboto, "Segoe UI", sans-serif;
+
+  --font-weight-regular:  400;
+  --font-weight-medium:   500;
+  --font-weight-semibold: 600;
+  --font-weight-bold:     700;
+
+  --text-xs:  12px;
+  --text-sm:  14px;
+  --text-md:  16px;
+  --text-lg:  18px;
+  --text-xl:  20px;
+  --text-2xl: 24px;
+  --text-3xl: 28px;
+  --text-4xl: 34px;
+
+  --leading-tight:   1.25;
+  --leading-snug:    1.4;
+  --leading-normal:  1.5;
+  --leading-relaxed: 1.6;
+
+  --tracking-tight:  -0.2px;
+  --tracking-normal: 0;
+  --tracking-wide:   0.36px;
+
+  /* ---------------------------------------------------------------- *
+   *  SPACING & SIZING (4px base)                                     *
+   * ---------------------------------------------------------------- */
+
+  --space-0:  0;
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-xl:   16px;
+  --radius-2xl:  28px;
+  --radius-3xl:  32px;
+  --radius-full: 9999px;
+
+  --border-width-thin:  1px;
+  --border-width-thick: 3px;
+
+  /* ---------------------------------------------------------------- *
+   *  EFFECTS — shadows                                               *
+   * ---------------------------------------------------------------- */
+
+  --shadow-sm:    0 4px 8px -4px rgba(22, 34, 51, 0.08);
+  --shadow-md:    0 11px 25px 0 rgba(22, 34, 51, 0.08), 0 4px 8px -4px rgba(22, 34, 51, 0.08);
+  --shadow-lg:    0 20px 40px -8px rgba(22, 34, 51, 0.16);
+  --shadow-brand: 0 8px 20px 0 rgba(132, 94, 201, 0.20);  /* #845EC9 */
+  --shadow-mint:  0 8px 20px 0 rgba(91, 203, 187, 0.22);  /* #5BCBBB */
+
+  /* ---------------------------------------------------------------- *
+   *  MOTION                                                          *
+   * ---------------------------------------------------------------- */
+
+  --duration-fast:   100ms;
+  --duration-normal: 200ms;
+  --duration-slow:   400ms;
+
+  --easing-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --easing-enter:   cubic-bezier(0, 0, 0.2, 1);
+  --easing-exit:    cubic-bezier(0.4, 0, 1, 1);
+}
+
+/* ================================================================== *
+ *  DARK THEME                                                         *
+ *  Semantic remap only — primitives unchanged. Activate by either    *
+ *  setting <html data-theme="dark"> OR the OS preference fallback.   *
+ * ================================================================== */
+
+:root[data-theme="dark"] {
+  --color-bg-default:      var(--night-950);
+  --color-bg-surface:      var(--night-850);
+  --color-bg-subtle:       var(--night-900);
+  --color-bg-brand:        var(--violet-500);
+  --color-bg-brand-soft:   var(--violet-400);
+  --color-bg-brand-subtle: var(--night-800);
+
+  /* Input / Modal / Hover surfaces */
+  --color-bg-input:        var(--night-825);
+  --color-bg-modal:        var(--night-815);
+  --color-bg-muted:        var(--night-825);
+  --color-text-heading:    var(--night-50);
+
+  /* Vet / Consult workbench — mint dark palette */
+  --color-bg-vet:           var(--mint-dark-bg);
+  --color-bg-vet-surface:   var(--mint-dark-surface);
+  --color-bg-vet-subtle:    var(--mint-dark-bg);
+  --color-bg-vet-dialog:    var(--mint-dark-surface);
+  --color-border-vet:       var(--mint-dark-border);
+  --color-border-vet-accent:var(--mint-dark-border);
+  --color-text-vet-heading: var(--mint-dark-text);
+  --color-text-vet-body:    var(--mint-dark-body);
+  --color-mint:             var(--mint-dark-icon);
+  --color-mint-subtle:      var(--mint-dark-bg);
+
+  --color-brand-primary:        var(--violet-500);
+  --color-brand-primary-hover:  var(--violet-400);
+  --color-brand-primary-active: var(--violet-600);
+  --color-brand-subtle:         var(--night-800);
+
+  --color-text-primary:   var(--night-50);
+  --color-text-secondary: var(--night-100);
+  --color-text-tertiary:  var(--night-200);
+  --color-text-disabled:  var(--night-300);
+  --color-text-inverse:   var(--ink-900);
+  --color-text-on-brand:  var(--white);
+  --color-text-link:      var(--violet-300);
+
+  --color-border-default: var(--night-700);
+  --color-border-strong:  var(--night-600);
+  --color-border-brand:   var(--violet-400);
+  --color-border-focus:   var(--violet-300);
+
+  --shadow-sm:    0 4px 8px -4px rgba(0, 0, 0, 0.40);
+  --shadow-md:    0 11px 25px 0 rgba(0, 0, 0, 0.45), 0 4px 8px -4px rgba(0, 0, 0, 0.40);
+  --shadow-lg:    0 20px 40px -8px rgba(0, 0, 0, 0.55);
+  --shadow-brand: 0 8px 24px 0 rgba(132, 94, 201, 0.45);
+  --shadow-mint:  0 8px 24px 0 rgba(125, 188, 173, 0.30);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-bg-default:      var(--night-950);
+    --color-bg-surface:      var(--night-850);
+    --color-bg-subtle:       var(--night-900);
+    --color-bg-brand:        var(--violet-500);
+    --color-bg-brand-soft:   var(--violet-400);
+    --color-bg-brand-subtle: var(--night-800);
+
+    /* Input / Modal / Hover surfaces */
+    --color-bg-input:        var(--night-825);
+    --color-bg-modal:        var(--night-815);
+    --color-bg-muted:        var(--night-825);
+    --color-text-heading:    var(--night-50);
+
+    /* Vet / Consult workbench — mint dark palette */
+    --color-bg-vet:           var(--mint-dark-bg);
+    --color-bg-vet-surface:   var(--mint-dark-surface);
+    --color-bg-vet-subtle:    var(--mint-dark-bg);
+    --color-bg-vet-dialog:    var(--mint-dark-surface);
+    --color-border-vet:       var(--mint-dark-border);
+    --color-border-vet-accent:var(--mint-dark-border);
+    --color-text-vet-heading: var(--mint-dark-text);
+    --color-text-vet-body:    var(--mint-dark-body);
+    --color-mint:             var(--mint-dark-icon);
+    --color-mint-subtle:      var(--mint-dark-bg);
+
+    --color-brand-primary:        var(--violet-500);
+    --color-brand-primary-hover:  var(--violet-400);
+    --color-brand-primary-active: var(--violet-600);
+    --color-brand-subtle:         var(--night-800);
+
+    --color-text-primary:   var(--night-50);
+    --color-text-secondary: var(--night-100);
+    --color-text-tertiary:  var(--night-200);
+    --color-text-disabled:  var(--night-300);
+    --color-text-inverse:   var(--ink-900);
+    --color-text-on-brand:  var(--white);
+    --color-text-link:      var(--violet-300);
+
+    --color-border-default: var(--night-700);
+    --color-border-strong:  var(--night-600);
+    --color-border-brand:   var(--violet-400);
+    --color-border-focus:   var(--violet-300);
+
+    --shadow-sm:    0 4px 8px -4px rgba(0, 0, 0, 0.40);
+    --shadow-md:    0 11px 25px 0 rgba(0, 0, 0, 0.45), 0 4px 8px -4px rgba(0, 0, 0, 0.40);
+    --shadow-lg:    0 20px 40px -8px rgba(0, 0, 0, 0.55);
+    --shadow-brand: 0 8px 24px 0 rgba(132, 94, 201, 0.45);
+    --shadow-mint:  0 8px 24px 0 rgba(125, 188, 173, 0.30);
+  }
+}
