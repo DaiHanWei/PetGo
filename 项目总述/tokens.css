@@ -1,11 +1,12 @@
 /* ============================================================================
-   TailTopia · VET-CARE theme — Design Tokens
-   Phase 1 / BMAD · Vibe Coding UI/UX.  PARALLEL token set.
-   NOT imported by the current app (which uses ../tokens.css, blue Paw Buddy).
-   To adopt: point src/index.css @import at this file instead — semantic var
-   names match the blue set, so it is a drop-in re-theme (violet + Poppins).
+   TailTopia · Design Tokens (V1.0.0)
+   BMAD Phase 1 · Vibe Coding UI/UX.
+   This is the adopted token set driving the TailTopia app (violet + Poppins).
+   Originated as a Figma-derived "Vet-Care" proposal that superseded the
+   earlier blue "Paw Buddy" working name/theme during the TailTopia rebrand;
+   that older blue token set no longer exists in this project.
 
-   Mirror of vet-care/tokens.json. Two tiers:
+   Mirror of tokens.json. Two tiers:
      1) PRIMITIVES  — raw palette/scale  (--violet-500, --grey-800, --text-3xl …)
      2) SEMANTIC    — role tokens that reference primitives (--color-*, etc.)
    Components & AI prompts should consume the SEMANTIC tokens, not primitives.
