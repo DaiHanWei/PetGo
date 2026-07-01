@@ -1,0 +1,2393 @@
+<!doctype html>
+<html lang="id" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TailTopia · V1.1.0 新增/改动页面</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../项目总述/tokens.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--color-bg-default);font-family:'Poppins',sans-serif;display:flex;gap:36px;padding:36px;min-height:100vh;align-items:flex-start;justify-content:center;flex-wrap:wrap;}
+
+/* ── phone frame (与 preview-core-pages.html 完全一致) ── */
+.phone{width:390px;height:844px;background:var(--color-bg-default);border-radius:44px;border:9px solid #18152A;box-shadow:0 0 0 2px #2E2A4A,inset 0 0 0 1px rgba(255,255,255,.08),0 40px 80px rgba(0,0,0,.35);display:flex;flex-direction:column;overflow:hidden;position:relative;flex-shrink:0;}
+.pill{position:absolute;top:13px;left:50%;transform:translateX(-50%);width:118px;height:33px;background:#18152A;border-radius:18px;z-index:100;}
+.statusbar{height:54px;padding:17px 22px 0;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+.statusbar .t{font-size:15px;font-weight:600;color:var(--color-text-primary);font-variant-numeric:tabular-nums;}
+.statusbar .icons{display:flex;align-items:center;gap:5px;}
+.pages{flex:1;overflow:hidden;position:relative;}
+.page{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;display:none;padding-bottom:4px;background:var(--color-bg-default);}
+.page::-webkit-scrollbar{display:none;}
+.page.on{display:block;}
+.page.flex.on{display:flex;flex-direction:column;}
+
+/* ── tab bar（直接复用 preview-core-pages.html 的 Pop Art 图标系统） ── */
+.tabbar{height:83px;background:var(--color-bg-surface);border-radius:32px 32px 0 0;box-shadow:0 -4px 20px rgba(22,34,51,.08);display:flex;align-items:flex-start;padding:10px 0 0;flex-shrink:0;position:relative;z-index:10;}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:default;padding:4px 2px;}
+.istack{position:relative;width:30px;height:30px;}
+.istack svg{position:absolute;top:0;left:0;width:26px;height:26px;}
+.ishadow{color:#F0425A;transform:translate(3px,3px);opacity:0;}
+.iout{color:var(--color-text-primary);opacity:.55;}
+.ifill{color:#845EC9;opacity:0;}
+.tab.on .ishadow{opacity:1;} .tab.on .iout{opacity:0;} .tab.on .ifill{opacity:1;}
+.tlabel{font-size:10px;font-weight:500;color:var(--color-text-tertiary);}
+.tab.on .tlabel{color:#845EC9;font-weight:600;}
+.tabplus{flex:1;display:flex;align-items:flex-start;justify-content:center;background:none;border:none;}
+.plusinner{width:56px;height:56px;border-radius:9999px;background:#845EC9;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(132,94,201,.30);margin-top:-14px;}
+.homebar{height:10px;background:var(--color-bg-surface);display:flex;justify-content:center;align-items:center;flex-shrink:0;}
+.homebar div{width:130px;height:4px;background:#343434;border-radius:9999px;opacity:.25;}
+
+/* ── 左侧调试导航（仅工具用，非产品 UI）— 与 preview-core-pages.html 风格一致 ── */
+.legend{width:300px;flex-shrink:0;position:sticky;top:36px;max-height:calc(100vh - 72px);overflow-y:auto;}
+.legend::-webkit-scrollbar{display:none;}
+.lsec{background:var(--color-bg-surface);border-radius:14px;padding:14px 16px;margin-bottom:12px;box-shadow:0 2px 10px rgba(0,0,0,.07);}
+.ltitle{font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--color-text-primary);margin-bottom:12px;}
+.navgrp{margin-bottom:10px;}
+.navgrp-title{font-size:9px;font-weight:700;color:#B6B6B6;letter-spacing:.6px;text-transform:uppercase;margin-bottom:5px;}
+.navwrap{display:flex;flex-wrap:wrap;gap:4px;}
+.navbtn{padding:3px 9px;background:#F8F6FF;border:none;border-radius:6px;font-size:10px;font-weight:600;color:#845EC9;cursor:pointer;font-family:'Poppins',sans-serif;white-space:nowrap;}
+.navbtn:hover,.navbtn.cur{background:#845EC9;color:#fff;}
+.entry-tag{font-size:10px;color:#fff;background:#2E2742;display:inline-block;padding:3px 9px;border-radius:6px;margin:10px 20px 0;}
+
+/* ── app bar / icon button（与原型 .ibtn 一致） ── */
+.appbar{display:flex;align-items:center;gap:10px;padding:8px 20px 12px;}
+.ibtn{width:38px;height:38px;border-radius:11px;border:none;background:var(--color-bg-surface);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 8px rgba(22,34,51,.07);flex-shrink:0;}
+.ibtn svg{width:18px;height:18px;color:var(--color-text-primary);}
+.appbar-title{font-size:19px;font-weight:700;color:var(--color-text-primary);flex:1;}
+.section-label{padding:18px 20px 8px;font-size:11px;font-weight:700;letter-spacing:.4px;color:var(--color-text-tertiary);text-transform:uppercase;}
+
+/* ── buttons ── */
+.btn{border:none;cursor:pointer;font-family:'Poppins',sans-serif;font-weight:700;font-size:14px;border-radius:14px;padding:13px 24px;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;}
+.btn-primary{background:#845EC9;color:#fff;box-shadow:0 6px 18px rgba(132,94,201,.28);}
+.btn-primary:disabled{background:#B6B6B6;box-shadow:none;cursor:not-allowed;}
+.btn-secondary{background:transparent;color:#845EC9;border:1.5px solid #C2B0EC;}
+.btn-ghost{background:var(--color-bg-subtle);color:var(--color-text-secondary);border:none;}
+.btn-danger{background:#F0425A;color:#fff;box-shadow:0 6px 18px rgba(240,66,90,.3);}
+
+/* ── cards ── */
+.card{margin:0 20px 12px;background:var(--color-bg-surface);border-radius:16px;box-shadow:0 4px 12px rgba(22,34,51,.06);overflow:hidden;}
+.card-lg{margin:0 20px 14px;background:var(--color-bg-surface);border-radius:20px;box-shadow:0 6px 20px rgba(22,34,51,.08);overflow:hidden;}
+.card-pad{padding:16px 18px;}
+
+/* ── chips / badges ── */
+.chips{display:flex;gap:7px;padding:0 20px;overflow-x:auto;margin-bottom:14px;}
+.chip{padding:7px 14px;border-radius:9999px;font-size:12px;font-weight:600;white-space:nowrap;border:1.5px solid #E6E6E6;background:#fff;color:var(--color-text-secondary);cursor:pointer;}
+.chip.on{background:#845EC9;border-color:#845EC9;color:#fff;}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:4px 9px;border-radius:6px;font-size:10px;font-weight:700;}
+.b-warn{background:#FEF3DE;color:#8A5A00;}
+.b-success{background:#E7F8F0;color:#0E7A4D;}
+.b-error{background:#FDE7EB;color:#C4263C;}
+.b-info{background:#F8F6FF;color:#845EC9;}
+
+/* ── form inputs ── */
+.field{margin:0 20px 14px;}
+.field label{display:block;font-size:12px;font-weight:600;color:var(--color-text-secondary);margin-bottom:6px;}
+.field input,.field select,.field textarea{width:100%;border:1.5px solid #E6E6E6;border-radius:12px;padding:12px 14px;font-size:14px;font-family:'Poppins',sans-serif;color:var(--color-text-heading);background:#fff;}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:#5BCBBB;}
+.field .hint{font-size:11px;color:var(--color-text-tertiary);margin-top:5px;line-height:1.5;}
+
+/* ── list rows ── */
+.lrow{display:flex;align-items:center;gap:12px;padding:13px 20px;border-bottom:1px solid #F0F0F0;}
+.lrow .ic{width:38px;height:38px;border-radius:12px;background:var(--color-bg-subtle);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#845EC9;}
+.lrow .ic svg{width:19px;height:19px;}
+.lrow .body{flex:1;min-width:0;}
+.lrow .title{font-size:14px;font-weight:600;color:var(--color-text-heading);}
+.lrow .sub{font-size:11.5px;color:var(--color-text-tertiary);margin-top:2px;}
+.lrow .amt{font-size:14px;font-weight:700;white-space:nowrap;}
+.amt-plus{color:#0E7A4D;}
+.amt-minus{color:var(--color-text-primary);}
+
+/* ── tier cards ── */
+.tiers{display:grid;grid-template-columns:1fr 1fr;gap:11px;padding:0 20px;}
+.tier{background:#fff;border:1.5px solid #E6E6E6;border-radius:16px;padding:16px 12px;text-align:center;}
+.tier.sel{border-color:#845EC9;background:var(--color-bg-subtle);}
+.tier .amt{font-size:16px;font-weight:700;color:var(--color-text-heading);}
+.tier .coins{font-size:11px;color:var(--color-text-tertiary);margin-top:3px;}
+
+/* ── 已暂停 banner ── */
+.banner-warn{margin:14px 20px;border-radius:12px;background:#FEF3DE;border-left:3px solid #F6A609;padding:13px 15px;display:flex;gap:10px;}
+.banner-warn .ic{color:#8A5A00;flex-shrink:0;}
+.banner-warn .ic svg{width:18px;height:18px;}
+.banner-warn .txt{font-size:12.5px;line-height:1.6;color:#6b4d00;}
+
+/* ── sheets（双向滑动标准，决策日志③） ── */
+.sheet-scrim{position:absolute;inset:0;background:rgba(14,10,20,.6);z-index:998;display:flex;align-items:flex-end;overflow:hidden;}
+.sheet-card{background:#fff;border-radius:24px 24px 0 0;width:100%;padding:20px 22px 32px;}
+.sheet-handle{width:36px;height:4px;background:#E6E6E6;border-radius:9999px;margin:0 auto 18px;}
+.sheet-title{font-size:16px;font-weight:700;color:var(--color-text-heading);margin-bottom:6px;}
+.sheet-desc{font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:18px;}
+.sheet-icon{width:56px;height:56px;border-radius:9999px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;}
+.sheet-icon svg{width:26px;height:26px;}
+.sheet-icon.neutral{background:var(--color-bg-subtle);color:#845EC9;}
+.sheet-icon.danger{background:#FDE7EB;color:#F0425A;}
+
+/* ── 付费方式选项行 ── */
+.pay-opt{display:flex;align-items:center;gap:12px;border:1.5px solid #E6E6E6;border-radius:14px;padding:13px 14px;margin-bottom:10px;}
+.pay-opt.sel{border-color:#845EC9;background:var(--color-bg-subtle);}
+.pay-opt .ic{width:36px;height:36px;border-radius:10px;background:#F3F3F3;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#845EC9;}
+.pay-opt .ic svg{width:18px;height:18px;}
+.pay-opt .body{flex:1;}
+.pay-opt .t{font-size:13.5px;font-weight:600;color:var(--color-text-heading);}
+.pay-opt .s{font-size:11px;color:var(--color-text-tertiary);margin-top:2px;}
+.pay-opt.disabled{opacity:.55;}
+.pay-opt .topup{font-size:11px;color:#845EC9;font-weight:600;margin-top:4px;}
+
+/* ── checklist ── */
+.task{display:flex;align-items:center;gap:12px;padding:13px 20px;border-bottom:1px solid #F0F0F0;}
+.task .cb{width:24px;height:24px;border-radius:9999px;border:2px solid #E6E6E6;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;}
+.task .cb svg{width:13px;height:13px;}
+.task.done .cb{background:#845EC9;border-color:#845EC9;}
+.task .t{flex:1;font-size:13.5px;font-weight:500;color:var(--color-text-heading);}
+.task.done .t{color:var(--color-text-tertiary);text-decoration:line-through;}
+
+/* ── id card / watermark ── */
+.idcard-wrap{margin:14px 20px;border-radius:20px;overflow:hidden;position:relative;background:linear-gradient(135deg,#9E83DA,#845EC9);height:220px;display:flex;align-items:center;justify-content:center;}
+.idcard-wm{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transform:rotate(-22deg);font-size:26px;font-weight:700;color:rgba(255,255,255,.20);letter-spacing:4px;pointer-events:none;}
+
+/* ── auth ── */
+.auth-hero{background:#845EC9;padding:50px 24px 32px;position:relative;overflow:hidden;text-align:center;}
+.auth-hero .glow{position:absolute;top:50%;left:50%;width:220px;height:220px;transform:translate(-50%,-50%);border-radius:9999px;background:radial-gradient(circle,rgba(255,255,255,.18) 0%,rgba(255,255,255,0) 68%);pointer-events:none;}
+.auth-hero h1{position:relative;font-size:21px;font-weight:700;color:#fff;margin-bottom:6px;}
+.auth-hero p{position:relative;font-size:12px;color:rgba(255,255,255,.75);line-height:1.6;}
+.auth-mark{position:relative;width:48px;height:48px;border-radius:9999px;background:rgba(255,255,255,.18);margin:0 auto 12px;display:flex;align-items:center;justify-content:center;color:#fff;}
+.auth-mark svg{width:24px;height:24px;}
+.apple-btn,.google-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:14px;border-radius:14px;border:none;cursor:pointer;font-family:'Poppins',sans-serif;font-weight:700;font-size:14px;margin-bottom:11px;}
+.apple-btn{background:#000;color:#fff;}
+.google-btn{background:#fff;color:var(--color-text-heading);border:1.5px solid #E6E6E6;}
+
+footer.dev-note{margin-top:18px;font-size:10.5px;color:#aaa;line-height:1.6;padding:0 4px;max-width:390px;}
+
+/* ── 以下原样取自 preview-core-pages.html，用于精确复刻真实入口宿主页 ── */
+.sectitle{font-size:15px;font-weight:600;color:var(--color-text-primary);padding:0 20px;margin-bottom:10px;}
+.petcard{margin:0 20px 14px;background:var(--color-bg-surface);border-radius:20px;padding:18px;box-shadow:0 6px 20px rgba(22,34,51,.08);}
+.pet-top{display:flex;gap:14px;align-items:center;margin-bottom:14px;}
+.pname{font-size:19px;font-weight:700;color:var(--color-text-primary);}
+.psub{font-size:12px;color:var(--color-text-secondary);margin-top:2px;}
+.pbio{font-size:11px;color:var(--color-text-tertiary);font-style:italic;margin-top:3px;}
+.statsrow{display:flex;gap:0;background:var(--color-bg-subtle);border-radius:12px;overflow:hidden;}
+.statcol{flex:1;padding:10px 8px;text-align:center;}
+.statcol+.statcol{border-left:1px solid #E6E6E6;}
+.statn{font-size:17px;font-weight:700;color:#845EC9;}
+.statl{font-size:10px;color:var(--color-text-secondary);margin-top:1px;}
+.msbar{margin:0 20px 11px;background:var(--color-bg-surface);border-radius:12px;padding:11px 15px;box-shadow:0 2px 8px rgba(22,34,51,.05);}
+.msrow{display:flex;justify-content:space-between;margin-bottom:7px;}
+.mst{font-size:12px;font-weight:600;color:var(--color-text-primary);}
+.msn{font-size:12px;font-weight:600;color:#845EC9;}
+.track{height:5px;background:var(--color-bg-subtle);border-radius:9999px;overflow:hidden;}
+.fill{height:100%;background:#845EC9;border-radius:9999px;}
+.tentry{margin:0 20px 9px;background:var(--color-bg-surface);border-radius:13px;padding:11px;display:flex;gap:10px;box-shadow:0 2px 8px rgba(22,34,51,.05);}
+.tdate{font-size:10px;color:var(--color-text-tertiary);font-weight:500;min-width:32px;text-align:center;padding-top:1px;line-height:1.4;}
+.tthumb{width:52px;height:52px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px;}
+.tcol{flex:1;}
+.ttitle{font-size:13px;color:var(--color-text-primary);font-weight:500;}
+.tsub{font-size:11px;color:var(--color-text-tertiary);margin-top:2px;}
+.khero{padding:2px 20px 18px;}
+.khtitle{font-size:21px;font-weight:700;color:var(--color-text-primary);margin-bottom:4px;line-height:1.3;}
+.khsub{font-size:12px;color:var(--color-text-secondary);}
+.kcard{margin:0 20px 14px;border-radius:20px;padding:18px;}
+.kcard-ai{background:linear-gradient(135deg,#845EC9 0%,#9E83DA 100%);}
+.kcard-vet{background:var(--color-bg-surface);border:1.5px solid #E6E6E6;box-shadow:0 6px 20px rgba(22,34,51,.08);}
+.kicon{width:46px;height:46px;border-radius:13px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:11px;}
+.kicon-vet{background:#F8F6FF;}
+.ktitle{font-size:17px;font-weight:700;color:#fff;margin-bottom:3px;}
+.ktitle-vet{color:var(--color-text-primary);}
+.ksub{font-size:12px;color:rgba(255,255,255,.8);margin-bottom:14px;line-height:1.5;}
+.ksub-vet{color:var(--color-text-secondary);}
+.kdot{display:flex;align-items:center;gap:6px;margin-bottom:13px;}
+.dot{width:7px;height:7px;border-radius:9999px;background:#1FB877;}
+.dottxt{font-size:11px;color:rgba(255,255,255,.9);}
+.dottxt-vet{color:var(--color-text-secondary);}
+.kbtn{border:none;border-radius:11px;padding:10px 16px;font-size:13px;font-weight:700;font-family:'Poppins',sans-serif;cursor:pointer;width:100%;}
+.kbtn-white{background:var(--color-bg-surface);color:#845EC9;}
+.kbtn-outline{background:transparent;color:#845EC9;border:1.5px solid #C2B0EC;margin-top:11px;}
+.profhead{background:var(--color-bg-surface);padding:14px 20px 18px;box-shadow:0 2px 12px rgba(22,34,51,.06);}
+.profrow{display:flex;align-items:center;gap:14px;margin-bottom:14px;}
+.avlg{width:62px;height:62px;border-radius:9999px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;}
+.unm{font-size:17px;font-weight:700;color:var(--color-text-primary);}
+.uemail{font-size:11px;color:var(--color-text-secondary);margin-top:2px;}
+.editbtn{padding:6px 12px;border-radius:8px;border:1.5px solid #C2B0EC;background:transparent;color:#845EC9;font-size:12px;font-weight:600;font-family:'Poppins',sans-serif;cursor:pointer;}
+.petmini{display:flex;align-items:center;gap:11px;background:#F8F6FF;border-radius:13px;padding:11px;}
+.pmname{font-size:13px;font-weight:600;color:var(--color-text-primary);}
+.pmsub{font-size:11px;color:var(--color-text-secondary);}
+.arrow{font-size:12px;color:#845EC9;font-weight:600;}
+.psec{padding:14px 20px;}
+.psectitle{font-size:11px;font-weight:600;color:var(--color-text-tertiary);margin-bottom:10px;text-transform:uppercase;letter-spacing:.6px;}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.pthumb{border-radius:11px;overflow:hidden;aspect-ratio:1;position:relative;}
+.pthumb-img{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:30px;}
+.pthumb-badge{position:absolute;top:5px;left:5px;padding:2px 6px;border-radius:5px;font-size:9px;font-weight:700;}
+.new-row{position:relative;}
+.new-tag{position:absolute;top:-7px;right:14px;background:#F0425A;color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:6px;z-index:2;letter-spacing:.3px;}
+.new-outline{outline:2px dashed #845EC9;outline-offset:-2px;border-radius:13px;}
+</style>
+</head>
+<body>
+
+<div class="legend">
+
+  <div class="lsec" style="padding:12px 16px;">
+    <div style="font-size:13px;font-weight:700;color:var(--color-text-primary);">TailTopia V1.1.0</div>
+    <div style="font-size:10px;color:var(--color-text-tertiary);margin-top:2px;">新增 / 改动页面</div>
+  </div>
+
+  <div class="lsec">
+    <div class="ltitle">页面导航</div>
+
+    <div class="navgrp">
+      <div class="navgrp-title">① 订单 &amp; 退款 · FR-54/43D</div>
+      <div class="navwrap">
+        <button class="navbtn cur" onclick="nav(this,'orders')">订单列表</button>
+        <button class="navbtn" onclick="nav(this,'order-detail')">详情·已暂停(PawCoin)</button>
+        <button class="navbtn" onclick="nav(this,'order-cancelled-pawcoin')">取消·PawCoin即时退</button>
+        <button class="navbtn" onclick="nav(this,'order-detail-cash')">详情·已暂停(QRIS)</button>
+        <button class="navbtn" onclick="nav(this,'refund-choice')">退款方式选择</button>
+        <button class="navbtn" onclick="nav(this,'refund-account')">退回真钱·填账户</button>
+        <button class="navbtn" onclick="nav(this,'refund-review')">退款·审核中</button>
+        <button class="navbtn" onclick="nav(this,'refund-rejected')">退款·两次被拒</button>
+      </div>
+    </div>
+
+    <div class="navgrp">
+      <div class="navgrp-title">② PawCoin · FR-50/50A</div>
+      <div class="navwrap">
+        <button class="navbtn" onclick="nav(this,'pawcoin-balance')">余额页</button>
+        <button class="navbtn" onclick="nav(this,'pawcoin-recharge')">充值档位</button>
+        <button class="navbtn" onclick="nav(this,'recharge-fail')">充值失败回退</button>
+        <button class="navbtn" onclick="nav(this,'pawcoin-pause')">充值暂停</button>
+      </div>
+    </div>
+
+    <div class="navgrp">
+      <div class="navgrp-title">③ 健康记录 · FR-45</div>
+      <div class="navwrap">
+        <button class="navbtn" onclick="nav(this,'health-list')">记录列表</button>
+        <button class="navbtn" onclick="nav(this,'health-add')">录入</button>
+      </div>
+    </div>
+
+    <div class="navgrp">
+      <div class="navgrp-title">④ 月度回顾 / 新手任务 · FR-46/47</div>
+      <div class="navwrap">
+        <button class="navbtn" onclick="nav(this,'recap')">月度回顾</button>
+        <button class="navbtn" onclick="nav(this,'milestone-with-starter')">里程碑+新手任务</button>
+        <button class="navbtn" onclick="nav(this,'starter-welcome-back')">老用户欢迎弹窗</button>
+      </div>
+    </div>
+
+    <div class="navgrp">
+      <div class="navgrp-title">⑤ 客服 · FR-52</div>
+      <div class="navwrap">
+        <button class="navbtn" onclick="nav(this,'cs-form')">投诉表单</button>
+        <button class="navbtn" onclick="nav(this,'cs-entry')">客服入口底抽屉</button>
+        <button class="navbtn" onclick="nav(this,'cs-list')">工单列表</button>
+        <button class="navbtn" onclick="nav(this,'cs-detail')">工单详情</button>
+      </div>
+    </div>
+
+    <div class="navgrp">
+      <div class="navgrp-title">⑥ 付费解锁 · FR-43A/D/49D</div>
+      <div class="navwrap">
+        <button class="navbtn" onclick="nav(this,'ai-paywall')">AI解锁弹层</button>
+        <button class="navbtn" onclick="nav(this,'vet-prepay')">兽医预付费</button>
+        <button class="navbtn" onclick="nav(this,'idcard-detail')">身份证三风格</button>
+        <button class="navbtn" onclick="nav(this,'id-paywall')">身份证付费下载</button>
+      </div>
+    </div>
+
+    <div class="navgrp">
+      <div class="navgrp-title">⑦ 真实入口页（标记新增处）</div>
+      <div class="navwrap">
+        <button class="navbtn" onclick="nav(this,'profil-entries')">Profil 主页</button>
+        <button class="navbtn" onclick="nav(this,'paspor-entries')">Paspor 主页</button>
+        <button class="navbtn" onclick="nav(this,'konsultasi-entries')">Konsultasi 主页</button>
+        <button class="navbtn" onclick="nav(this,'ai-result-host')">AI结果页</button>
+        <button class="navbtn" onclick="nav(this,'feed-widget')">Feed 首页·情绪气泡</button>
+        <button class="navbtn" onclick="nav(this,'post-host')">内容发布·健康记录</button>
+      </div>
+    </div>
+
+    <div class="navgrp">
+      <div class="navgrp-title">⑧ 兽医工作台 · FR-53A-D</div>
+      <div class="navwrap">
+        <button class="navbtn" onclick="nav(this,'vet-home')">工作台首页</button>
+        <button class="navbtn" onclick="nav(this,'vet-queue-pay')">接单队列</button>
+        <button class="navbtn" onclick="nav(this,'vet-cancel-toast')">取消Toast</button>
+        <button class="navbtn" onclick="nav(this,'vet-history-pay')">历史·到手金额</button>
+        <button class="navbtn" onclick="nav(this,'vet-income')">我的收入</button>
+      </div>
+    </div>
+
+  </div><!-- /lsec 页面导航 -->
+</div><!-- /legend -->
+
+<div>
+<div class="phone">
+  <div class="pill"></div>
+  <div class="statusbar">
+    <span class="t">9:41</span>
+    <div class="icons">
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="#544864"><rect x="0" y="6" width="3" height="6" rx="1"/><rect x="4.5" y="4" width="3" height="8" rx="1"/><rect x="9" y="1.5" width="3" height="10.5" rx="1"/><rect x="13.5" y="0" width="2.5" height="12" rx="1" opacity=".3"/></svg>
+      <svg width="22" height="12" viewBox="0 0 22 12" fill="none"><rect x=".75" y=".75" width="17.5" height="10.5" rx="2.25" stroke="#544864" stroke-width="1.5"/><rect x="19" y="4" width="2" height="4" rx="1" fill="#544864"/><rect x="2.25" y="2.25" width="13" height="7.5" rx="1.25" fill="#544864"/></svg>
+    </div>
+  </div>
+  <div class="pages">
+
+    <!-- ═══════ ① 订单列表 ═══════ -->
+    <div class="page on" id="p-orders">
+      <div class="entry-tag">入口：Profil → Pesanan Saya</div>
+      <!-- 顶部渐变汇总卡 -->
+      <div style="background:linear-gradient(135deg,#845EC9 0%,#9E83DA 100%);padding:18px 20px 20px;position:relative;overflow:hidden;">
+        <div style="position:absolute;right:-28px;top:-28px;width:110px;height:110px;border-radius:9999px;background:rgba(255,255,255,.1);pointer-events:none;"></div>
+        <div style="font-size:12px;color:rgba(255,255,255,.8);margin-bottom:2px;">Total pengeluaran Juli 2026</div>
+        <div style="font-size:26px;font-weight:700;color:#fff;margin-bottom:10px;">Rp65.000</div>
+        <div style="display:flex;gap:12px;">
+          <div style="background:rgba(255,255,255,.18);border-radius:10px;padding:8px 12px;flex:1;text-align:center;">
+            <div style="font-size:15px;font-weight:700;color:#fff;">2</div>
+            <div style="font-size:9.5px;color:rgba(255,255,255,.75);margin-top:1px;">Ditahan</div>
+          </div>
+          <div style="background:rgba(255,255,255,.18);border-radius:10px;padding:8px 12px;flex:1;text-align:center;">
+            <div style="font-size:15px;font-weight:700;color:#fff;">2</div>
+            <div style="font-size:9.5px;color:rgba(255,255,255,.75);margin-top:1px;">Selesai</div>
+          </div>
+          <div onclick="nav(null,'pawcoin-balance')" style="background:rgba(255,255,255,.18);border-radius:10px;padding:8px 12px;flex:1;text-align:center;cursor:pointer;position:relative;">
+            <div style="font-size:15px;font-weight:700;color:#fff;">120K</div>
+            <div style="font-size:9.5px;color:rgba(255,255,255,.75);margin-top:1px;">PawCoin</div>
+            <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="2" stroke-linecap="round" style="position:absolute;bottom:5px;right:6px;"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="chips" style="padding-top:14px;">
+        <div class="chip on">Semua</div>
+        <div class="chip">Menunggu</div>
+        <div class="chip">Ditahan</div>
+        <div class="chip">Selesai</div>
+      </div>
+
+      <!-- 订单卡片：兽医咨询（PawCoin，已暂停） -->
+      <div class="card" onclick="nav(null,'order-detail')" style="cursor:pointer;">
+        <div style="height:3px;background:linear-gradient(90deg,#F6A609,#FFD166);"></div>
+        <div class="card-pad">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:9px;">
+            <div style="width:36px;height:36px;border-radius:10px;background:#F8F6FF;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#845EC9;">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2v3M14 2v3"/><path d="M6 5v5a4 4 0 008 0V5"/><path d="M14 10v2a5 5 0 01-5 5"/><circle cx="9" cy="19" r="2"/></svg>
+            </div>
+            <div style="flex:1;">
+              <div style="font-size:13px;font-weight:700;color:var(--color-text-heading);">Konsultasi Dokter Hewan</div>
+              <div style="font-size:11px;color:var(--color-text-tertiary);margin-top:1px;">PawCoin · 50.000 koin · 30 Jun 19:42</div>
+            </div>
+            <span class="badge b-warn">Ditahan</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 订单卡片：兽医咨询（QRIS，已暂停） -->
+      <div class="card" onclick="nav(null,'order-detail-cash')" style="cursor:pointer;">
+        <div style="height:3px;background:linear-gradient(90deg,#F6A609,#FFD166);"></div>
+        <div class="card-pad">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:9px;">
+            <div style="width:36px;height:36px;border-radius:10px;background:#F8F6FF;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#845EC9;">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2v3M14 2v3"/><path d="M6 5v5a4 4 0 008 0V5"/><path d="M14 10v2a5 5 0 01-5 5"/><circle cx="9" cy="19" r="2"/></svg>
+            </div>
+            <div style="flex:1;">
+              <div style="font-size:13px;font-weight:700;color:var(--color-text-heading);">Konsultasi Dokter Hewan</div>
+              <div style="font-size:11px;color:var(--color-text-tertiary);margin-top:1px;">QRIS · Rp50.000 · 28 Jun 22:07</div>
+            </div>
+            <span class="badge b-warn">Ditahan</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 订单卡片：AI解锁（已完成） -->
+      <div class="card">
+        <div style="height:3px;background:linear-gradient(90deg,#1FB877,#5BCBBB);"></div>
+        <div class="card-pad">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:36px;height:36px;border-radius:10px;background:#E7F8F0;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#0E7A4D;">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg>
+            </div>
+            <div style="flex:1;">
+              <div style="font-size:13px;font-weight:700;color:var(--color-text-heading);">Buka Detail Cek Gejala</div>
+              <div style="font-size:11px;color:var(--color-text-tertiary);margin-top:1px;">QRIS · Rp10.000 · 29 Jun 08:15</div>
+            </div>
+            <span class="badge b-success">Selesai</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 订单卡片：高清图（已完成） -->
+      <div class="card" style="margin-bottom:20px;">
+        <div style="height:3px;background:linear-gradient(90deg,#1FB877,#5BCBBB);"></div>
+        <div class="card-pad">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:36px;height:36px;border-radius:10px;background:#E7F8F0;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#0E7A4D;">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="3"/><circle cx="8" cy="12" r="2"/><path d="M14 10h4M14 14h2"/></svg>
+            </div>
+            <div style="flex:1;">
+              <div style="font-size:13px;font-weight:700;color:var(--color-text-heading);">Unduh Kartu Identitas HD</div>
+              <div style="font-size:11px;color:var(--color-text-tertiary);margin-top:1px;">PawCoin · Rp5.000 · 25 Jun 14:02</div>
+            </div>
+            <span class="badge b-success">Selesai</span>
+          </div>
+        </div>
+      </div>
+      <!-- 订单卡片：兽医咨询（退款两次被拒）-->
+      <div class="card" onclick="nav(null,'refund-rejected')" style="cursor:pointer;margin-bottom:10px;">
+        <div style="height:3px;background:linear-gradient(90deg,#B91C1C,#F0425A);"></div>
+        <div class="card-pad">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:36px;height:36px;border-radius:10px;background:#FFF0F2;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#F0425A;">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg>
+            </div>
+            <div style="flex:1;">
+              <div style="font-size:13px;font-weight:700;color:var(--color-text-heading);">Konsultasi Dokter Hewan</div>
+              <div style="font-size:11px;color:var(--color-text-tertiary);margin-top:1px;">QRIS · Rp50.000 · 22 Jun 16:30</div>
+            </div>
+            <span class="badge b-error">Ditolak</span>
+          </div>
+          <div style="margin-top:8px;font-size:11px;color:#B91C1C;background:#FFF0F2;border-radius:7px;padding:5px 9px;display:inline-block;">Pengajuan ditolak 2× → Hubungi CS</div>
+        </div>
+      </div>
+      <!-- 订单卡片：兽医咨询（退款审核中）— 用户主动查看退款进度的入口 -->
+      <div class="card" onclick="nav(null,'refund-review')" style="cursor:pointer;margin-bottom:20px;">
+        <div style="height:3px;background:linear-gradient(90deg,#0369A1,#2196C9);"></div>
+        <div class="card-pad">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:36px;height:36px;border-radius:10px;background:#EFF7FF;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#0369A1;">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2 2"/></svg>
+            </div>
+            <div style="flex:1;">
+              <div style="font-size:13px;font-weight:700;color:var(--color-text-heading);">Konsultasi Dokter Hewan</div>
+              <div style="font-size:11px;color:var(--color-text-tertiary);margin-top:1px;">QRIS · Rp50.000 · 30 Jun 20:10</div>
+            </div>
+            <span class="badge b-info">Ditinjau</span>
+          </div>
+          <div style="margin-top:8px;font-size:11px;color:#0369A1;background:#EFF7FF;border-radius:7px;padding:5px 9px;display:inline-block;">Pengembalian dana sedang diproses → Lihat status</div>
+        </div>
+      </div>
+      <footer class="dev-note">EXPERIENCE.md State Patterns「Empty order list」：零订单时改为友好空状态文案。顶部渐变汇总卡展示当月消费总额 + 各状态计数 + PawCoin 余额，对应 DESIGN.md「Monthly recap card」品牌渐变处理——信息密度高但不显窘迫。</footer>
+    </div>
+
+    <!-- ═══════ 订单详情（已暂停 · PawCoin 支付） ═══════ -->
+    <div class="page" id="p-order-detail">
+      <div class="entry-tag">入口：订单列表卡片点击（PawCoin 支付订单）</div>
+      <div class="appbar"><button class="ibtn" onclick="nav(null,'orders')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><span class="appbar-title">Detail Pesanan</span></div>
+      <div class="card">
+        <div class="card-pad">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+            <span style="font-size:15px;font-weight:700;color:var(--color-text-heading);">Konsultasi Dokter Hewan</span>
+            <span class="badge b-warn">Ditahan</span>
+          </div>
+          <div style="font-size:12.5px;color:var(--color-text-secondary);line-height:2;">
+            Metode bayar: PawCoin<br>
+            Jumlah: Rp50.000 (50.000 koin)<br>
+            Waktu dibuat: 30 Jun 2026, 19:42<br>
+            Alasan: Tidak ada dokter yang menerima dalam 1 menit
+          </div>
+        </div>
+      </div>
+      <div class="banner-warn">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg></span>
+        <span class="txt"><b>Pesanan masih berlaku, PawCoin kamu tidak hilang.</b> Kamu bisa mencoba mencari dokter lagi (tanpa bayar ulang), atau batalkan untuk pengembalian saldo segera.</span>
+      </div>
+      <div style="padding:4px 20px;">
+        <button class="btn btn-primary" style="margin-bottom:10px;">Coba Cari Dokter Lagi</button>
+        <button class="btn btn-secondary" onclick="nav(null,'order-cancelled-pawcoin')">Batalkan (Saldo Kembali Instan)</button>
+      </div>
+      <footer class="dev-note">DESIGN.md「已暂停 banner」：status-warning 色系，绝不用 status-error。FR-43D：PawCoin 支付订单不经过退款方式选择页——「取消」即时退回 PawCoin 余额，系统自动处理，无需人工审核，与下方 QRIS/DANA 变体的退款路径不同。</footer>
+    </div>
+
+    <!-- ═══════ 订单详情（已暂停 · QRIS/DANA 支付，Cancel/Void 失败兜底） ═══════ -->
+    <div class="page" id="p-order-detail-cash">
+      <div class="entry-tag">入口：订单列表卡片点击（QRIS/DANA 支付订单，Cancel/Void 失败兜底场景）</div>
+      <div class="appbar"><button class="ibtn" onclick="nav(null,'orders')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><span class="appbar-title">Detail Pesanan</span></div>
+      <div class="card">
+        <div class="card-pad">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+            <span style="font-size:15px;font-weight:700;color:var(--color-text-heading);">Konsultasi Dokter Hewan</span>
+            <span class="badge b-warn">Ditahan</span>
+          </div>
+          <div style="font-size:12.5px;color:var(--color-text-secondary);line-height:2;">
+            Metode bayar: QRIS<br>
+            Jumlah: Rp50.000<br>
+            Waktu dibuat: 28 Jun 2026, 22:07<br>
+            Alasan: Transaksi sudah settlement, pembatalan otomatis gagal
+          </div>
+        </div>
+      </div>
+      <div class="banner-warn">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg></span>
+        <span class="txt"><b>Pesanan masih berlaku, uang kamu tidak hilang.</b> Kamu bisa mencoba mencari dokter lagi (tanpa bayar ulang), atau ajukan pengembalian dana.</span>
+      </div>
+      <div style="padding:4px 20px;">
+        <button class="btn btn-primary" style="margin-bottom:10px;">Coba Cari Dokter Lagi</button>
+        <button class="btn btn-secondary" onclick="nav(null,'refund-choice')">Ajukan Pengembalian Dana</button>
+      </div>
+      <footer class="dev-note">FR-43D：仅 Cancel/Void 接口失败的低概率兜底场景才会走到这里；多数 QRIS/DANA 超时/取消应在未结算窗口内被 Cancel/Void 即时释放，不会展示「已暂停」。此变体才需要走人工退款方式选择（下一页）。</footer>
+    </div>
+
+    <!-- ═══════ 取消成功 · PawCoin 即时退回 ═══════ -->
+    <div class="page" id="p-order-cancelled-pawcoin">
+  <div class="entry-tag">入口：「已暂停」PawCoin 订单点击「Batalkan」后，系统自动处理，无审核</div>
+  <div class="appbar"><button class="ibtn" onclick="nav(null,'orders')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><span class="appbar-title">Detail Pesanan</span></div>
+
+  <!-- 顶部成功 hero -->
+  <div style="background:linear-gradient(160deg,#0E7A4D 0%,#1FB877 100%);padding:40px 24px 28px;text-align:center;position:relative;overflow:hidden;">
+    <div style="position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:9999px;background:rgba(255,255,255,.08);pointer-events:none;"></div>
+    <div style="position:absolute;bottom:-20px;left:-20px;width:100px;height:100px;border-radius:9999px;background:rgba(255,255,255,.06);pointer-events:none;"></div>
+    <div style="width:64px;height:64px;border-radius:9999px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;">
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+    </div>
+    <div style="font-size:18px;font-weight:700;color:#fff;margin-bottom:6px;">Pesanan Dibatalkan</div>
+    <div style="font-size:12px;color:rgba(255,255,255,.85);line-height:1.6;">PawCoin kamu sudah kembali instan — tanpa peninjauan, tanpa tunggu.</div>
+  </div>
+
+  <!-- PawCoin 退款明细卡 -->
+  <div style="margin:16px 20px 0;background:var(--color-bg-surface);border-radius:16px;box-shadow:0 2px 12px rgba(22,34,51,.08);overflow:hidden;">
+    <div style="padding:16px 18px;border-bottom:1px solid #F3F3F3;">
+      <div style="font-size:10.5px;font-weight:700;color:var(--color-text-tertiary);letter-spacing:.5px;text-transform:uppercase;margin-bottom:12px;">DETAIL PENGEMBALIAN</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <span style="font-size:13px;color:var(--color-text-secondary);">Jumlah dikembalikan</span>
+        <span style="font-size:15px;font-weight:700;color:#0E7A4D;">+50.000 koin</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <span style="font-size:13px;color:var(--color-text-secondary);">Metode asal pembayaran</span>
+        <span style="font-size:13px;font-weight:600;color:var(--color-text-heading);">PawCoin</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:13px;color:var(--color-text-secondary);">Waktu pengembalian</span>
+        <span style="font-size:13px;font-weight:600;color:var(--color-text-heading);">Instan · 01 Jul 20:14</span>
+      </div>
+    </div>
+    <div style="padding:14px 18px;background:#F9FBF9;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:38px;height:38px;border-radius:10px;background:#E7F8F0;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#0E7A4D" stroke-width="1.5" stroke-linecap="round" width="18" height="18"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9 9.5a2.5 2.5 0 012.5-2.5h.5a2.5 2.5 0 010 5h-1a2.5 2.5 0 000 5h.6a2.5 2.5 0 002.4-2.5"/></svg>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:600;color:var(--color-text-heading);">Saldo PawCoin sekarang</div>
+          <div style="font-size:11px;color:var(--color-text-tertiary);">Sudah termasuk pengembalian ini</div>
+        </div>
+        <div style="font-size:17px;font-weight:700;color:#845EC9;">120.000</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 订单信息 -->
+  <div style="margin:12px 20px 0;background:var(--color-bg-surface);border-radius:16px;box-shadow:0 2px 8px rgba(22,34,51,.06);padding:14px 18px;">
+    <div style="font-size:10.5px;font-weight:700;color:var(--color-text-tertiary);letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px;">PESANAN DIBATALKAN</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <div style="font-size:13px;font-weight:700;color:var(--color-text-heading);">Konsultasi Dokter Hewan</div>
+        <div style="font-size:11px;color:var(--color-text-tertiary);margin-top:2px;">30 Jun 2026 · 19:42</div>
+      </div>
+      <span style="font-size:10px;font-weight:700;background:#F0F9F4;color:#0E7A4D;padding:3px 9px;border-radius:7px;border:1px solid #BBE9D5;">Dibatalkan</span>
+    </div>
+  </div>
+
+  <!-- 操作按钮 -->
+  <div style="padding:16px 20px 8px;">
+    <button class="btn btn-primary" onclick="nav(null,'pawcoin-balance')">Lihat Saldo PawCoin</button>
+  </div>
+  <div style="padding:0 20px 20px;">
+    <button class="btn btn-ghost" onclick="nav(null,'orders')">Kembali ke Daftar Pesanan</button>
+  </div>
+
+  <footer class="dev-note">EXPERIENCE.md：PawCoin 退款无需 3 个工作日审核 SLA，区别于 QRIS/DANA 的人工审核路径。退款明细卡显示：退回金额、原支付方式、到账时间（即时）、退款后当前余额。</footer>
+</div>
+
+    <!-- ═══════ 退款方式选择 ═══════ -->
+    <div class="page flex" id="p-refund-choice" style="justify-content:flex-end;">
+      <div class="entry-tag" style="position:absolute;top:14px;left:0;z-index:999;">入口：QRIS/DANA 订单详情「Ajukan Pengembalian Dana」（仅 QRIS/DANA 支付订单可见，PawCoin 订单不经过此页）</div>
+      <div class="sheet-scrim" style="position:relative;">
+        <div class="sheet-card">
+          <div class="sheet-handle"></div>
+          <div class="sheet-title">Pilih Metode Pengembalian</div>
+          <div class="sheet-desc">Hanya bisa pilih salah satu, tidak bisa diubah setelah dikonfirmasi.</div>
+          <div class="pay-opt sel" onclick="nav(null,'refund-account')" style="cursor:pointer;">
+            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
+            <div class="body">
+              <div class="t">Kembalikan ke Uang Asli</div>
+              <div class="s">Ditinjau manual, masuk dalam 3 hari kerja, perlu isi rekening tujuan</div>
+            </div>
+          </div>
+          <div class="pay-opt">
+            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9 9.5a2.5 2.5 0 012.5-2.5h.5a2.5 2.5 0 010 5h-1a2.5 2.5 0 000 5h.6a2.5 2.5 0 002.4-2.5"/></svg></div>
+            <div class="body">
+              <div class="t">Tukar ke Saldo PawCoin</div>
+              <div class="s">Masuk instan, dapat bonus tambahan</div>
+            </div>
+          </div>
+          <button class="btn btn-primary">Konfirmasi Pilihan</button>
+        </div>
+      </div>
+      <footer class="dev-note" style="padding:0 20px 16px;">EXPERIENCE.md「Refund choice sheet」：两选项必须同时展示，选定后移除未选项而非置灰。</footer>
+    </div>
+
+    <!-- ═══════ 退回真钱·账户输入 ═══════ -->
+    <div class="page" id="p-refund-account">
+  <div class="entry-tag">入口：退款方式选择「Kembalikan ke Uang Asli」</div>
+  <div class="appbar"><button class="ibtn" onclick="nav(null,'refund-choice')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><span class="appbar-title">Isi Rekening Tujuan</span></div>
+
+  <!-- 退款金额横幅 -->
+  <div style="background:#F8F6FF;border-left:4px solid #845EC9;margin:14px 20px 0;border-radius:10px;padding:12px 14px;display:flex;align-items:center;gap:10px;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#845EC9" stroke-width="1.5" stroke-linecap="round" width="18" height="18"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+    <div>
+      <div style="font-size:11px;color:#845EC9;font-weight:600;">Jumlah yang akan dikembalikan</div>
+      <div style="font-size:17px;font-weight:700;color:#845EC9;">Rp50.000</div>
+    </div>
+    <div style="margin-left:auto;font-size:10px;color:var(--color-text-tertiary);text-align:right;line-height:1.5;">Estimasi<br>1–3 hari kerja</div>
+  </div>
+
+  <!-- 渠道选择 chips -->
+  <div style="padding:16px 20px 4px;">
+    <div style="font-size:11px;font-weight:700;color:var(--color-text-tertiary);letter-spacing:.4px;text-transform:uppercase;margin-bottom:10px;">PILIH CHANNEL PENGEMBALIAN</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+      <div id="chan-dana" onclick="selectChan('dana')" style="border:2px solid #845EC9;background:#F8F6FF;border-radius:12px;padding:11px 6px;text-align:center;cursor:pointer;">
+        <div style="font-size:13px;font-weight:700;color:#845EC9;">DANA</div>
+      </div>
+      <div id="chan-ovo" onclick="selectChan('ovo')" style="border:1.5px solid #E0E0E0;background:#fff;border-radius:12px;padding:11px 6px;text-align:center;cursor:pointer;">
+        <div style="font-size:13px;font-weight:700;color:#888;">OVO</div>
+      </div>
+      <div id="chan-bank" onclick="selectChan('bank')" style="border:1.5px solid #E0E0E0;background:#fff;border-radius:12px;padding:11px 6px;text-align:center;cursor:pointer;">
+        <div style="font-size:13px;font-weight:700;color:#888;">Transfer Bank</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 表单字段 -->
+  <div style="padding:12px 20px 0;">
+    <div style="margin-bottom:14px;">
+      <label style="font-size:12px;font-weight:600;color:var(--color-text-secondary);display:block;margin-bottom:6px;">Nomor Akun / No. HP <span style="color:#F0425A;">*</span></label>
+      <input type="tel" id="acct-input" oninput="checkAcct()" placeholder="Contoh: 0812-9090-6953"
+        style="width:100%;padding:12px 14px;border:1.5px solid #DDD;border-radius:12px;font-size:14px;font-family:'Poppins',sans-serif;outline:none;box-sizing:border-box;background:#FAFAFA;">
+      <div id="acct-hint" style="font-size:11px;color:#999;margin-top:5px;">Masukkan 10–13 digit angka</div>
+    </div>
+    <div style="margin-bottom:14px;">
+      <label style="font-size:12px;font-weight:600;color:var(--color-text-secondary);display:block;margin-bottom:6px;">Nama Pemilik Rekening <span style="color:#F0425A;">*</span></label>
+      <input type="text" placeholder="Sesuai nama di rekening"
+        style="width:100%;padding:12px 14px;border:1.5px solid #DDD;border-radius:12px;font-size:14px;font-family:'Poppins',sans-serif;outline:none;box-sizing:border-box;background:#FAFAFA;">
+    </div>
+  </div>
+
+  <!-- 提交按钮 -->
+  <div style="padding:4px 20px 10px;">
+    <button class="btn btn-primary" id="acct-submit" disabled
+      onclick="this.disabled=true;document.getElementById('confirm-row').style.display='block';">
+      Ajukan Permintaan
+    </button>
+  </div>
+
+  <!-- 二次确认 -->
+  <div id="confirm-row" style="display:none;margin:0 20px 20px;background:#FFF8E6;border:1.5px solid #FFD166;border-radius:12px;padding:13px 15px;">
+    <div style="font-size:11px;font-weight:700;color:#8A5A00;margin-bottom:5px;">⚠ Periksa sekali lagi sebelum konfirmasi</div>
+    <div style="font-size:12.5px;color:#5A3A00;line-height:1.7;"><strong>DANA · 0812-9090-6953 · Budi Santoso</strong><br>Setelah dikirim, tidak dapat dibatalkan. Proses 1–3 hari kerja.</div>
+    <button style="margin-top:10px;width:100%;padding:11px;background:#845EC9;border:none;border-radius:10px;font-size:13px;font-weight:700;color:#fff;font-family:'Poppins',sans-serif;cursor:pointer;" onclick="nav(null,'refund-review')">Konfirmasi &amp; Kirim</button>
+  </div>
+
+  <footer class="dev-note">EXPERIENCE.md：提交前格式校验（按钮先置灰）+ 渠道 chip 选择替代 select + 金额横幅让用户清楚退款金额 + 二次确认 warning 卡，不可逆资金流出场景的安全网。</footer>
+</div>
+
+    <!-- ═══════ 退款·审核中 ═══════ -->
+    <div class="page" id="p-refund-review">
+  <div class="entry-tag">入口：① 提交退款申请后自动跳转；② 订单列表「Sedang Ditinjau」状态卡片点击</div>
+  <div class="appbar"><button class="ibtn" onclick="nav(null,'orders')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><span class="appbar-title">Status Pengembalian Dana</span></div>
+
+  <!-- 状态 hero -->
+  <div style="background:linear-gradient(160deg,#0369A1 0%,#2196C9 100%);padding:36px 24px 26px;text-align:center;position:relative;overflow:hidden;">
+    <div style="position:absolute;top:-30px;right:-30px;width:130px;height:130px;border-radius:9999px;background:rgba(255,255,255,.08);pointer-events:none;"></div>
+    <div style="width:58px;height:58px;border-radius:9999px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2 2"/></svg>
+    </div>
+    <div style="font-size:17px;font-weight:700;color:#fff;margin-bottom:5px;">Sedang Ditinjau</div>
+    <div style="font-size:12px;color:rgba(255,255,255,.85);line-height:1.5;">Tim kami sedang memproses permintaanmu</div>
+  </div>
+
+  <!-- 进度条 -->
+  <div style="margin:18px 20px 0;background:var(--color-bg-surface);border-radius:16px;box-shadow:0 2px 10px rgba(22,34,51,.07);padding:18px 20px;">
+    <div style="font-size:10.5px;font-weight:700;color:var(--color-text-tertiary);letter-spacing:.5px;text-transform:uppercase;margin-bottom:16px;">PROGRES PENGEMBALIAN</div>
+    <!-- step 1 done -->
+    <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:0;">
+        <div style="width:22px;height:22px;border-radius:9999px;background:#0E7A4D;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg></div>
+        <div style="width:2px;flex:1;min-height:20px;background:#E5E5E5;margin-top:2px;"></div>
+      </div>
+      <div style="padding-top:2px;"><div style="font-size:12.5px;font-weight:600;color:var(--color-text-heading);">Permintaan diterima</div><div style="font-size:11px;color:var(--color-text-tertiary);">30 Jun 2026 · 20:10</div></div>
+    </div>
+    <!-- step 2 active -->
+    <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:0;">
+        <div style="width:22px;height:22px;border-radius:9999px;background:#0369A1;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><div style="width:8px;height:8px;border-radius:9999px;background:#fff;"></div></div>
+        <div style="width:2px;flex:1;min-height:20px;background:#E5E5E5;margin-top:2px;"></div>
+      </div>
+      <div style="padding-top:2px;"><div style="font-size:12.5px;font-weight:600;color:#0369A1;">Peninjauan manual</div><div style="font-size:11px;color:var(--color-text-tertiary);">Estimasi selesai 1–3 hari kerja</div></div>
+    </div>
+    <!-- step 3 pending -->
+    <div style="display:flex;gap:12px;align-items:flex-start;">
+      <div style="width:22px;height:22px;border-radius:9999px;border:2px solid #E0E0E0;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><div style="width:6px;height:6px;border-radius:9999px;background:#CCC;"></div></div>
+      <div style="padding-top:2px;"><div style="font-size:12.5px;font-weight:600;color:var(--color-text-tertiary);">Dana dikirim ke rekening</div><div style="font-size:11px;color:var(--color-text-tertiary);">DANA · 0812-9090-6953 · Budi Santoso</div></div>
+    </div>
+  </div>
+
+  <!-- 提示信息 -->
+  <div style="margin:12px 20px 0;background:#EFF7FF;border-radius:12px;padding:12px 14px;font-size:12px;color:#0369A1;line-height:1.6;">
+    Selama proses peninjauan berlangsung, pesanan tidak dapat diubah. Jika butuh bantuan, hubungi CS.
+  </div>
+
+  <div style="padding:14px 20px 8px;"><button class="btn btn-ghost" disabled style="opacity:.5;cursor:not-allowed;">Tidak bisa dibatalkan selama peninjauan</button></div>
+  <div style="padding:0 20px 20px;"><button class="btn btn-secondary" onclick="nav(null,'cs-entry')">Hubungi CS</button></div>
+
+  <footer class="dev-note">EXPERIENCE.md「Refund under manual review」：审核期间禁止并发状态变更。用户主动查看路径：订单列表中「Sedang Ditinjau」状态卡片点击即可到达此页。进度分 3 步：已收到 → 审核中（当前）→ 已发送。</footer>
+</div>
+
+    <!-- ═══════ 退款·两次被拒 ═══════ -->
+    <div class="page" id="p-refund-rejected">
+      <div class="entry-tag">入口：订单列表「Ditolak」卡片 / 第2次退款审核被拒后自动跳转</div>
+      <div class="appbar"><button class="ibtn" onclick="nav(null,'orders')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><span class="appbar-title">Detail Pesanan</span></div>
+      <!-- Hero: red gradient + warning icon -->
+      <div style="background:linear-gradient(160deg,#B91C1C 0%,#E85D7A 100%);padding:36px 20px 28px;text-align:center;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:-40px;right:-40px;width:150px;height:150px;border-radius:9999px;background:rgba(255,255,255,.08);"></div>
+        <div style="position:relative;z-index:1;">
+          <div style="width:68px;height:68px;border-radius:9999px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;">
+            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div style="font-size:18px;font-weight:700;color:#fff;margin-bottom:6px;">Pengajuan Dana Kembali Ditutup</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.82);line-height:1.6;">"Kembalikan ke Uang Asli" sudah ditolak<br>2 kali berturut-turut.</div>
+        </div>
+      </div>
+      <!-- Order summary card -->
+      <div class="card">
+        <div class="card-pad">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+            <span style="font-size:15px;font-weight:700;color:var(--color-text-heading);">Konsultasi Dokter Hewan</span>
+            <span class="badge b-error">Ditolak 2×</span>
+          </div>
+          <div style="font-size:12px;color:var(--color-text-secondary);line-height:2;">Metode bayar: QRIS<br>Jumlah: Rp50.000<br>Tanggal: 22 Jun 2026, 16:30</div>
+        </div>
+      </div>
+      <!-- Info callout -->
+      <div style="margin:0 20px 12px;background:#FFF5F5;border:1px solid #FECDD3;border-radius:12px;padding:13px 14px;">
+        <div style="font-size:12px;font-weight:700;color:#B91C1C;margin-bottom:5px;">Mengapa pengajuan ditutup?</div>
+        <div style="font-size:12px;color:var(--color-text-secondary);line-height:1.7;">Setelah 2 kali pengajuan "Kembalikan ke Uang Asli" ditolak oleh tim verifikasi, pengajuan mandiri tidak dapat dilakukan lagi untuk pesanan ini. Tim CS akan membantu penyelesaian secara manual.</div>
+      </div>
+      <!-- PawCoin option still available -->
+      <div style="margin:0 20px 12px;background:#F8F6FF;border:1px solid #D8CCF5;border-radius:12px;padding:13px 14px;">
+        <div style="font-size:12px;font-weight:700;color:#845EC9;margin-bottom:5px;">Opsi masih tersedia</div>
+        <div style="font-size:12px;color:var(--color-text-secondary);line-height:1.7;margin-bottom:10px;">Konversi ke PawCoin masih bisa dilakukan — saldo masuk instan + bonus kompensasi tanpa perlu menunggu.</div>
+        <button class="btn btn-secondary" style="background:#F0EAFA;border:1.5px solid #845EC9;color:#845EC9;font-size:13px;">Konversi ke PawCoin Sekarang</button>
+      </div>
+      <!-- CS button -->
+      <div style="padding:4px 20px 20px;">
+        <button class="btn btn-primary" style="background:linear-gradient(135deg,#B91C1C,#E85D7A);">Hubungi CS</button>
+      </div>
+      <footer class="dev-note">EXPERIENCE.md「Refund rejected twice」：第2次被拒后锁定自助退款入口；转PawCoin选项始终可用（即时到账，无需审核）；CS按钮跳转投诉表单（p-cs-form）。</footer>
+    </div>
+
+    <!-- ═══════ ② PawCoin 余额页 ═══════ -->
+    <div class="page" id="p-pawcoin-balance">
+      <div class="entry-tag">入口：订单列表 header PawCoin 余额格（点击）→ PawCoin 管理页；Profil 独立入口已移除</div>
+      <div class="appbar" style="padding-top:14px;"><span class="appbar-title">PawCoin</span></div>
+      <div class="card-lg" style="background:linear-gradient(135deg,#9E83DA,#845EC9);">
+        <div class="card-pad" style="text-align:center;color:#fff;padding:24px 18px;">
+          <div style="font-size:12px;opacity:.8;margin-bottom:6px;">Saldo Saat Ini</div>
+          <div style="font-size:32px;font-weight:700;">120.000</div>
+          <div style="font-size:11px;opacity:.7;margin-top:2px;">= Rp120.000 (1 koin = Rp1)</div>
+        </div>
+      </div>
+      <div style="padding:0 20px 14px;">
+        <button class="btn btn-primary" onclick="nav(null,'pawcoin-recharge')">Isi Saldo</button>
+      </div>
+      <div style="padding:8px 20px 4px;font-size:10.5px;font-weight:700;color:var(--color-text-tertiary);letter-spacing:.4px;text-transform:uppercase;">RIWAYAT TRANSAKSI</div>
+      <div class="lrow">
+        <div class="ic" style="color:#F0425A;background:#FFF0F2;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 2v3M14 2v3"/><path d="M6 5v5a4 4 0 008 0V5"/><path d="M14 10v2a5 5 0 01-5 5"/><circle cx="9" cy="19" r="2"/></svg></div>
+        <div class="body"><div class="title">Konsultasi Dokter Hewan</div><div class="sub">30 Jun 2026 · 19:42</div></div>
+        <div class="amt" style="color:#F0425A;">−50.000</div>
+      </div>
+      <div class="lrow">
+        <div class="ic" style="color:#0E7A4D;background:#E7F8F0;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
+        <div class="body"><div class="title">Isi Saldo</div><div class="sub">28 Jun 2026 · 10:21</div></div>
+        <div class="amt" style="color:#0E7A4D;">+50.000</div>
+      </div>
+      <div class="lrow">
+        <div class="ic" style="color:#F0425A;background:#FFF0F2;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="3"/><circle cx="8" cy="12" r="2"/><path d="M14 10h4M14 14h2"/></svg></div>
+        <div class="body"><div class="title">Unduh Kartu Identitas HD</div><div class="sub">25 Jun 2026 · 14:02</div></div>
+        <div class="amt" style="color:#F0425A;">−5.000</div>
+      </div>
+      <div class="lrow">
+        <div class="ic" style="color:#0E7A4D;background:#E7F8F0;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
+        <div class="body"><div class="title">Pengembalian · Pesanan Ditahan</div><div class="sub">25 Jun 2026 · 09:03</div></div>
+        <div class="amt" style="color:#0E7A4D;">+10.000</div>
+      </div>
+      <div class="lrow">
+        <div class="ic" style="color:#F0425A;background:#FFF0F2;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div class="body"><div class="title">Buka Detail Cek Gejala</div><div class="sub">22 Jun 2026 · 08:15</div></div>
+        <div class="amt" style="color:#F0425A;">−10.000</div>
+      </div>
+      <footer class="dev-note">DESIGN.md「PawCoin ledger row」：金额按正负着色，绝不可点。EXPERIENCE.md：禁止任何用户间转账 UI（PRD FR-50D / PBI 20/6/PBI/2018）。</footer>
+    </div>
+
+    <!-- ═══════ 充值档位选择 ═══════ -->
+    <div class="page" id="p-pawcoin-recharge">
+      <div class="entry-tag">入口：PawCoin 余额页「Isi Saldo」 / 任意付费弹层「Isi saldo dulu」</div>
+      <div class="appbar"><button class="ibtn" onclick="nav(null,'pawcoin-balance')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><span class="appbar-title">Isi Saldo PawCoin</span></div>
+      <div class="tiers">
+        <div class="tier"><div class="amt">Rp10.000</div><div class="coins">= 10.000 koin</div></div>
+        <div class="tier"><div class="amt">Rp25.000</div><div class="coins">= 25.000 koin</div></div>
+        <div class="tier sel"><div class="amt">Rp50.000</div><div class="coins">= 50.000 koin</div></div>
+        <div class="tier"><div class="amt">Rp100.000</div><div class="coins">= 100.000 koin</div></div>
+      </div>
+      <div style="padding:18px 20px 8px;">
+        <button class="btn btn-primary">Lanjutkan Pembayaran</button>
+      </div>
+      <footer class="dev-note">固定 4 档，无自定义金额输入框（FR-50A / A-14）。选择后进入共用的 FR-43 支付组件（QRIS/DANA，不可用 PawCoin 充值 PawCoin）。</footer>
+    </div>
+
+    <!-- ═══════ 充值支付失败回退 ═══════ -->
+    <div class="page" id="p-recharge-fail">
+      <div class="entry-tag">入口：充值支付失败/取消（FR-43F）</div>
+      <div class="appbar"><button class="ibtn" onclick="nav(null,'pawcoin-recharge')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><span class="appbar-title">Isi Saldo PawCoin</span></div>
+      <div style="margin:14px 20px;background:#FDE7EB;border-radius:12px;padding:13px 15px;font-size:12.5px;color:#C4263C;line-height:1.6;">Pembayaran tidak berhasil. Saldo tidak berubah, tidak ada catatan yang dibuat. Silakan coba lagi.</div>
+      <div class="tiers">
+        <div class="tier"><div class="amt">Rp10.000</div><div class="coins">= 10.000 koin</div></div>
+        <div class="tier"><div class="amt">Rp25.000</div><div class="coins">= 25.000 koin</div></div>
+        <div class="tier sel"><div class="amt">Rp50.000</div><div class="coins">= 50.000 koin</div></div>
+        <div class="tier"><div class="amt">Rp100.000</div><div class="coins">= 100.000 koin</div></div>
+      </div>
+      <div style="padding:18px 20px 8px;"><button class="btn btn-primary">Bayar Lagi</button></div>
+      <footer class="dev-note">EXPERIENCE.md「Recharge payment failure」：遵循 FR-43F 通用回退规则，原样返回档位选择，不产生流水记录。</footer>
+    </div>
+
+    <!-- ═══════ 充值暂停（浮存门槛） ═══════ -->
+    <div class="page" id="p-pawcoin-pause">
+      <div class="entry-tag">入口：浮存余额触及70%/90%预警后，运营暂停充值（AB-6C）</div>
+      <div class="appbar"><button class="ibtn" onclick="nav(null,'pawcoin-balance')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><span class="appbar-title">Isi Saldo PawCoin</span></div>
+      <div style="padding:60px 28px;text-align:center;">
+        <div style="width:64px;height:64px;border-radius:9999px;background:var(--color-bg-subtle);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:#845EC9;">
+          <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        </div>
+        <div style="font-size:15px;font-weight:700;color:var(--color-text-heading);margin-bottom:8px;">Isi Saldo Sementara Tidak Tersedia</div>
+        <div style="font-size:12.5px;color:var(--color-text-secondary);line-height:1.7;">Sistem sedang melakukan penyesuaian rutin, fitur isi saldo ditutup sementara. Saldo PawCoin kamu yang sudah ada tetap aman dan bisa digunakan seperti biasa.</div>
+      </div>
+      <footer class="dev-note">EXPERIENCE.md「Recharge unavailable (float-threshold pause)」：文案绝不用通用支付失败措辞，避免被误读成 bug。</footer>
+    </div>
+
+    <!-- ═══════ ③ 健康记录列表 ═══════ -->
+    <div class="page" id="p-health-list">
+      <div class="entry-tag">入口：Paspor → Catatan Kesehatan</div>
+      <div class="appbar" style="padding-top:14px;"><span class="appbar-title">Catatan Kesehatan</span></div>
+      <div class="lrow">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7" style="display:none;"/><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></div>
+        <div class="body"><div class="title">Vaksin Rabies</div><div class="sub">30 Jun 2026</div></div>
+      </div>
+      <div class="lrow">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></div>
+        <div class="body"><div class="title">Obat Cacing</div><div class="sub">12 Mei 2026</div></div>
+      </div>
+      <div style="padding:18px 20px;">
+        <button class="btn btn-primary" onclick="nav(null,'health-add')"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg> Tambah Catatan</button>
+      </div>
+      <footer class="dev-note">纯文字字段，V1.1.0 无图片附件（OQ-10 已决议）。空状态走温暖语气，非错误态，此处略。</footer>
+    </div>
+
+    <!-- ═══════ 健康记录录入 ═══════ -->
+    <div class="page" id="p-health-add">
+      <div class="entry-tag">入口：健康记录列表「Tambah Catatan」</div>
+      <div class="appbar"><button class="ibtn" onclick="nav(null,'health-list')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><span class="appbar-title">Tambah Catatan Kesehatan</span></div>
+      <!-- 健康类型视觉选择器 -->
+      <div style="padding:0 20px 16px;">
+        <div style="font-size:12px;font-weight:600;color:var(--color-text-secondary);margin-bottom:10px;">Pilih Jenis Catatan</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:9px;">
+
+          <div class="hrtype-card" onclick="hrType(this,'rabies')"
+               style="text-align:center;background:#FFF0F0;border:1.5px solid #EDCECE;border-radius:14px;padding:14px 6px 11px;cursor:pointer;transition:outline .12s;">
+            <div style="width:38px;height:38px;border-radius:50%;background:#FDE7EB;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C4263C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2.5l-9 9M10 7L7 10M17 14l-3 3M9.5 14.5l-5 5M8 10l-1.5-1.5"/><path d="M14.5 2.5l7 7-4 4-7-7z"/></svg>
+            </div>
+            <div style="font-size:10px;font-weight:700;color:#C4263C;line-height:1.3;">Vaksin<br>Rabies</div>
+          </div>
+
+          <div class="hrtype-card" onclick="hrType(this,'vax-other')"
+               style="text-align:center;background:#F8F6FF;border:1.5px solid #DCD2F7;border-radius:14px;padding:14px 6px 11px;cursor:pointer;transition:outline .12s;">
+            <div style="width:38px;height:38px;border-radius:50%;background:#EDE9FA;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#845EC9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2.5l-9 9M10 7L7 10M17 14l-3 3M9.5 14.5l-5 5M8 10l-1.5-1.5"/><path d="M14.5 2.5l7 7-4 4-7-7z"/></svg>
+            </div>
+            <div style="font-size:10px;font-weight:700;color:#845EC9;line-height:1.3;">Vaksin<br>Lainnya</div>
+          </div>
+
+          <div class="hrtype-card" onclick="hrType(this,'deworm')"
+               style="text-align:center;background:#F0FDF4;border:1.5px solid #B8EDD4;border-radius:14px;padding:14px 6px 11px;cursor:pointer;transition:outline .12s;">
+            <div style="width:38px;height:38px;border-radius:50%;background:#E7F8F0;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0E7A4D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="4" ry="2"/><path d="M8 5c0 5.5 8 5.5 8 0M8 5c0 8 8 8 8 0M6 9c-3 2-3 7 3 7s5-5 3-7M18 9c3 2 3 7-3 7s-5-5-3-7"/></svg>
+            </div>
+            <div style="font-size:10px;font-weight:700;color:#0E7A4D;line-height:1.3;">Obat<br>Cacing</div>
+          </div>
+
+          <div class="hrtype-card" onclick="hrType(this,'steril')"
+               style="text-align:center;background:#FDF4FF;border:1.5px solid #E8C8F0;border-radius:14px;padding:14px 6px 11px;cursor:pointer;transition:outline .12s;">
+            <div style="width:38px;height:38px;border-radius:50%;background:#F2E4F8;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8B3AB5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v6M3 6h6M18 3v6M15 6h6M6 15v6M3 18h6M18 15v6M15 18h6"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+            <div style="font-size:10px;font-weight:700;color:#8B3AB5;line-height:1.3;">Sterilisasi /<br>Kastrasi</div>
+          </div>
+
+          <div class="hrtype-card" onclick="hrType(this,'checkup')"
+               style="text-align:center;background:#F0F9FF;border:1.5px solid #BAE0F8;border-radius:14px;padding:14px 6px 11px;cursor:pointer;transition:outline .12s;">
+            <div style="width:38px;height:38px;border-radius:50%;background:#E0F2FE;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0369A1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/><path d="M9 12h6M9 16h3"/></svg>
+            </div>
+            <div style="font-size:10px;font-weight:700;color:#0369A1;line-height:1.3;">Pemeriksaan<br>Umum</div>
+          </div>
+
+          <div class="hrtype-card" onclick="hrType(this,'other')"
+               style="text-align:center;background:#FAFAF9;border:1.5px solid #E0E0E0;border-radius:14px;padding:14px 6px 11px;cursor:pointer;transition:outline .12s;">
+            <div style="width:38px;height:38px;border-radius:50%;background:#F0F0F0;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></svg>
+            </div>
+            <div style="font-size:10px;font-weight:700;color:#666;line-height:1.3;">Catatan<br>Lainnya</div>
+          </div>
+
+        </div>
+        <!-- 疫苗名称子字段（选择两种疫苗类型后出现） -->
+        <div id="hr-vax-name" style="display:none;margin-top:10px;">
+          <input type="text" placeholder="Nama vaksin (cth: FVRCP, DHPPi, Leptospirosis…)"
+                 style="width:100%;border:1.5px solid #C2B0EC;border-radius:12px;padding:11px 14px;font-size:13px;font-family:'Poppins',sans-serif;color:var(--color-text-heading);background:#fff;outline:none;">
+        </div>
+      </div>
+      <div class="field" id="hr-tip" style="display:none;background:var(--color-bg-subtle);border-radius:12px;padding:12px 14px;margin-top:-4px;">
+        <div class="hint" style="color:#845EC9;">💡 Peraturan Indonesia mewajibkan vaksin penguat tiap tahun, simpan bukti vaksinasi untuk perjalanan antar provinsi.</div>
+      </div>
+      <div class="field"><label>Tanggal</label><input type="date"></div>
+      <div class="field"><label>Catatan (opsional)</label><textarea rows="3" placeholder="Tambahkan keterangan tambahan…"></textarea></div>
+      <div style="padding:8px 20px;"><button class="btn btn-primary">Simpan</button></div>
+      <footer class="dev-note">EXPERIENCE.md Flow 4：保存失败时表单内容保留，不清空重填。狂犬病疫苗选中时的法规提示是一次性内联展示，非弹窗。视觉选卡替代 select，降低录入摩擦。</footer>
+    </div>
+
+    <!-- ═══════ ⑦真实入口 Paspor 主页（完整复刻 p-paspor + 标记新增） ═══════ -->
+    <div class="page" id="p-paspor-entries">
+      <div class="entry-tag">真实宿主页：p-paspor（V1.0.0 既有页面），红色「BARU」标签 = V1.1.0 新增入口</div>
+      <div class="appbar" style="padding-top:14px;">
+        <span class="appbar-title">Paspor Mochi</span>
+        <button class="ibtn" onclick="nav(null,'idcard-detail')" style="position:relative;">
+          <span class="new-tag" style="top:-9px;right:-9px;">BARU</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="3"/><circle cx="8" cy="12" r="2"/><path d="M14 10h4M14 14h2"/></svg>
+        </button>
+      </div>
+      <div class="petcard">
+        <div class="pet-top">
+          <div class="avlg" style="background:linear-gradient(135deg,#9E83DA,#845EC9);">🐱</div>
+          <div style="flex:1">
+            <div class="pname">Mochi</div>
+            <div class="psub">Kucing Oranye · 3 tahun</div>
+            <div class="pbio">"Jakarta's laziest boy 🧡"</div>
+          </div>
+        </div>
+        <div class="statsrow">
+          <div class="statcol"><div class="statn">12</div><div class="statl">Tumbuh</div></div>
+          <div class="statcol"><div class="statn">2</div><div class="statl">Konsultasi</div></div>
+          <div class="statcol"><div class="statn">5</div><div class="statl">Milestone</div></div>
+        </div>
+      </div>
+
+      <!-- BARU：健康记录入口 -->
+      <div class="new-row" style="margin:0 20px 11px;">
+        <span class="new-tag">BARU</span>
+        <div class="lrow new-outline" style="background:var(--color-bg-surface);box-shadow:0 2px 8px rgba(22,34,51,.05);border-bottom:none;border-radius:13px;padding:11px 13px;cursor:pointer;" onclick="nav(null,'health-list')">
+          <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></div>
+          <div class="body"><div class="title">Catatan Kesehatan</div><div class="sub">Vaksin · obat cacing · riwayat medis</div></div>
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#A7A7A7" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+        </div>
+      </div>
+
+      <div class="msbar">
+        <div class="msrow"><span class="mst">🏆 Pencapaian Mochi</span><span class="msn">5 / 30</span></div>
+        <div class="track"><div class="fill" style="width:16.6%"></div></div>
+      </div>
+
+      <!-- Timeline / Kalender 切换（V1.1.0：Kalender 视图中展示月度回顾入口） -->
+      <div style="display:flex;gap:7px;padding:0 20px;margin-bottom:12px;">
+        <button id="paspor-tab-tl" onclick="paspor_tab('tl')" style="flex:1;padding:8px;border-radius:10px;border:none;background:#845EC9;color:#fff;font-size:12px;font-weight:600;font-family:'Poppins',sans-serif;">⏱ Timeline</button>
+        <button id="paspor-tab-cal" onclick="paspor_tab('cal')" style="flex:1;padding:8px;border-radius:10px;border:1.5px solid #E6E6E6;background:var(--color-bg-surface);color:var(--color-text-secondary);font-size:12px;font-weight:600;font-family:'Poppins',sans-serif;">📅 Kalender</button>
+      </div>
+
+      <!-- Timeline 视图 -->
+      <div id="paspor-view-tl">
+        <div class="sectitle">Juni 2026</div>
+        <div class="tentry">
+          <div class="tdate">15<br>Jun</div>
+          <div class="tthumb" style="background:#F8F6FF;">☀️</div>
+          <div class="tcol"><div class="ttitle">Tiduran cantik di jendela</div><div class="tsub">Tumbuh · 1 foto</div></div>
+        </div>
+        <div class="hentry">
+          <span style="font-size:18px;">🏥</span>
+          <div style="flex:1"><div class="htitle">Cek Gejala — 12 Jun</div><div class="hsub">Muntah busa putih · Observasi 2 jam</div></div>
+          <div class="hbadge">🟡 Kuning</div>
+        </div>
+      </div>
+
+      <!-- Kalender 视图（含 BARU 月度回顾卡，入口在这里） -->
+      <div id="paspor-view-cal" style="display:none;padding:0 20px 16px;">
+        <!-- BARU：月度回顾卡片（Kalender 视图顶部，≥5条记录才出现） -->
+        <div class="new-row" style="margin:0 0 12px;">
+          <span class="new-tag">BARU</span>
+          <div class="new-outline" style="border-radius:16px;background:linear-gradient(135deg,#845EC9,#9E83DA);cursor:pointer;overflow:hidden;" onclick="nav(null,'recap')">
+            <div style="padding:14px 16px;color:#fff;">
+              <div style="font-size:11.5px;opacity:.85;margin-bottom:3px;">✨ Rangkuman Baru Siap</div>
+              <div style="font-size:14px;font-weight:700;">Rangkuman Juni Mochi sudah siap dilihat</div>
+            </div>
+          </div>
+        </div>
+        <!-- 日历网格示意 -->
+        <div style="background:var(--color-bg-surface);border-radius:14px;padding:12px;box-shadow:0 2px 8px rgba(22,34,51,.06);">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+            <span style="font-size:13px;font-weight:700;color:var(--color-text-heading);">Juni 2026</span>
+            <div style="display:flex;gap:8px;">
+              <span style="font-size:18px;cursor:pointer;color:#845EC9;">‹</span>
+              <span style="font-size:18px;cursor:pointer;color:#845EC9;">›</span>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center;">
+            <div style="font-size:9px;color:#999;font-weight:600;">M</div><div style="font-size:9px;color:#999;font-weight:600;">S</div><div style="font-size:9px;color:#999;font-weight:600;">S</div><div style="font-size:9px;color:#999;font-weight:600;">R</div><div style="font-size:9px;color:#999;font-weight:600;">K</div><div style="font-size:9px;color:#999;font-weight:600;">J</div><div style="font-size:9px;color:#999;font-weight:600;">S</div>
+            <div></div><div></div><div></div><div></div><div></div><div></div><div style="font-size:10px;padding:3px;border-radius:6px;color:var(--color-text-secondary);">1</div>
+            <div style="font-size:10px;padding:3px;border-radius:6px;">2</div><div style="font-size:10px;padding:3px;border-radius:6px;">3</div><div style="font-size:10px;padding:3px;border-radius:6px;">4</div><div style="font-size:10px;padding:3px;border-radius:6px;">5</div><div style="font-size:10px;padding:3px;border-radius:6px;">6</div><div style="font-size:10px;padding:3px;border-radius:6px;">7</div><div style="font-size:10px;padding:3px;border-radius:6px;">8</div>
+            <div style="font-size:10px;padding:3px;border-radius:6px;">9</div><div style="font-size:10px;padding:3px;border-radius:6px;">10</div><div style="font-size:10px;padding:3px;border-radius:6px;">11</div><div style="font-size:10px;padding:3px;border-radius:6px;background:#F8F6FF;color:#845EC9;font-weight:700;">12</div><div style="font-size:10px;padding:3px;border-radius:6px;">13</div><div style="font-size:10px;padding:3px;border-radius:6px;">14</div><div style="font-size:10px;padding:3px;border-radius:6px;background:#845EC9;color:#fff;font-weight:700;">15</div>
+            <div style="font-size:10px;padding:3px;border-radius:6px;">16</div><div style="font-size:10px;padding:3px;border-radius:6px;">17</div><div style="font-size:10px;padding:3px;border-radius:6px;">18</div><div style="font-size:10px;padding:3px;border-radius:6px;">19</div><div style="font-size:10px;padding:3px;border-radius:6px;">20</div><div style="font-size:10px;padding:3px;border-radius:6px;">21</div><div style="font-size:10px;padding:3px;border-radius:6px;">22</div>
+            <div style="font-size:10px;padding:3px;border-radius:6px;">23</div><div style="font-size:10px;padding:3px;border-radius:6px;">24</div><div style="font-size:10px;padding:3px;border-radius:6px;">25</div><div style="font-size:10px;padding:3px;border-radius:6px;">26</div><div style="font-size:10px;padding:3px;border-radius:6px;">27</div><div style="font-size:10px;padding:3px;border-radius:6px;">28</div><div style="font-size:10px;padding:3px;border-radius:6px;">29</div>
+            <div style="font-size:10px;padding:3px;border-radius:6px;">30</div>
+          </div>
+        </div>
+        <div style="margin-top:10px;font-size:11px;color:var(--color-text-tertiary);text-align:center;">紫色 = 有记录的日期 · 点击查看当日内容</div>
+      </div>
+
+      <footer class="dev-note">复刻自 V1.0.0 preview-core-pages.html 的 p-paspor 原页面。V1.1.0 改动：①「健康记录」入口（BARU）；②「身份证」appbar 按钮（BARU）；③ Kalender 视图新增「月度回顾」卡片（BARU，✨ Rangkuman Baru Siap）——入口从原来浮在 Paspor 顶部改为藏在 Kalender 视图内，更符合"月度回顾是日历层面的汇总"的逻辑；④ 移除了 Tugas Pemula 横幅（新手任务直接在里程碑页展示，不在 Paspor 主页重复）。</footer>
+    </div>
+
+    <!-- ═══════ 真实入口 Profil 主页（完整复刻 p-profil + 标记新增） ═══════ -->
+    <div class="page" id="p-profil-entries">
+      <div class="entry-tag">真实宿主页：p-profil（V1.0.0 既有页面），红色「BARU」标签 = V1.1.0 新增入口</div>
+      <div class="profhead">
+        <div style="display:flex;justify-content:flex-end;gap:7px;margin-bottom:11px;">
+          <div class="new-row">
+            <span class="new-tag" style="top:-7px;right:0;">已接线</span>
+            <button class="ibtn" title="Bantuan" onclick="nav(null,'cs-entry')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3v5zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3v5z"/></svg></button>
+          </div>
+          <button class="ibtn" title="Pengaturan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></button>
+        </div>
+        <div class="profrow">
+          <div class="avlg" style="background:linear-gradient(135deg,#845EC9,#563A8E);">H</div>
+          <div style="flex:1"><div class="unm">Hexsfile</div><div class="uemail">hexhexin1226@gmail.com</div></div>
+          <button class="editbtn">Edit</button>
+        </div>
+        <div class="petmini">
+          <div class="av" style="background:linear-gradient(135deg,#9E83DA,#845EC9);width:42px;height:42px;font-size:20px;display:flex;align-items:center;justify-content:center;border-radius:9999px;">🐱</div>
+          <div style="flex:1"><div class="pmname">Mochi</div><div class="pmsub">Kucing · 3 tahun · 12 momen</div></div>
+          <span class="arrow">Lihat →</span>
+        </div>
+      </div>
+
+      <!-- BARU：账号活动入口组（订单；PawCoin 入口已迁移至订单列表 header 余额格） -->
+      <div class="psec" style="padding-bottom:6px;">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
+          <div class="psectitle" style="margin-bottom:0;">AKTIVITAS</div>
+          <span class="new-tag" style="position:static;">BARU</span>
+        </div>
+        <div class="new-outline" style="background:var(--color-bg-surface);border-radius:14px;box-shadow:0 2px 8px rgba(22,34,51,.06);overflow:hidden;">
+          <div class="lrow" style="padding:13px 16px;border-bottom:none;" onclick="nav(null,'orders')" style="cursor:pointer;">
+            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
+            <div class="body"><div class="title">Pesanan Saya</div><div class="sub">Termasuk saldo PawCoin</div></div>
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#A7A7A7" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="psec" style="padding-top:6px;">
+        <div class="psectitle">Postinganku</div>
+        <div class="pgrid">
+          <div class="pthumb"><div class="pthumb-img" style="background:#F8F6FF;">🐱</div><span class="pthumb-badge b-happy" style="background:#F8F6FF;color:#845EC9;">Momen</span></div>
+          <div class="pthumb"><div class="pthumb-img" style="background:#FEF3DE;">🧶</div><span class="pthumb-badge" style="background:#FEF3DE;color:#8A5A00;">Momen</span></div>
+          <div class="pthumb"><div class="pthumb-img" style="background:#E7F8F0;">💊</div><span class="pthumb-badge" style="background:#E7F8F0;color:#0E7A4D;">Edukasi &amp; Tips</span></div>
+          <div class="pthumb"><div class="pthumb-img" style="background:#F8F6FF;">☀️</div><span class="pthumb-badge" style="background:#F8F6FF;color:#845EC9;">Cerita</span></div>
+        </div>
+      </div>
+      <footer class="dev-note">复刻自 V1.0.0 p-profil 原页面（头像卡/宠物迷你卡/Postinganku 九宫格均为原样结构）。新增「AKTIVITAS」分组（订单/PawCoin，样式取自 p-settings 的列表行 pattern），原本就存在但未接线的「Bantuan」图标按钮现在正式接到客服工单列表。</footer>
+    </div>
+
+    <!-- ═══════ 真实入口 Konsultasi 主页（完整复刻 p-konsultasi + 标记新增） ═══════ -->
+    <div class="page" id="p-konsultasi-entries">
+      <div class="entry-tag">真实宿主页：p-konsultasi（V1.0.0 既有页面），「Chat dengan Dokter」按钮行为改动</div>
+      <div class="appbar" style="padding-top:14px;"><span class="appbar-title">Konsultasi</span></div>
+      <div class="khero">
+        <div class="khtitle">Konsultasi Kilat</div>
+        <div class="khsub">Tenang, kami bantu cek anabul-mu 💚</div>
+      </div>
+      <div class="kcard kcard-ai">
+        <div class="kicon">⚡</div>
+        <div class="ktitle">Cek Gejala</div>
+        <div class="ksub">Unggah foto gejala → hasil hijau / kuning / merah</div>
+        <div class="kdot"><div class="dot"></div><span class="dottxt">Selalu aktif · Jawaban otomatis</span></div>
+        <button class="kbtn kbtn-white">Mulai Cek</button>
+      </div>
+      <div class="new-row">
+        <span class="new-tag" style="top:8px;right:28px;">BARU：预付费</span>
+        <div class="kcard kcard-vet new-outline" onclick="nav(null,'vet-prepay')" style="cursor:pointer;">
+          <div class="kicon kicon-vet">🩺</div>
+          <div class="ktitle ktitle-vet">Chat Dokter Hewan</div>
+          <div class="ksub ksub-vet">Ngobrol langsung (teks &amp; foto) dengan dokter spesialis</div>
+          <div class="kdot"><div class="dot"></div><span class="dottxt-vet" style="font-size:11px;color:var(--color-text-secondary);">Biasanya tersedia 08:00–23:00 WIB</span></div>
+          <button class="kbtn kbtn-outline">Mulai konsultasi</button>
+        </div>
+      </div>
+      <footer class="dev-note">复刻自 V1.0.0 p-konsultasi 原页面（AI诊断卡保持免费入口不变）。「Dokter Hewan Online」卡片原本直接进 p-konsultasi-home confirm 页，V1.1.0 改动点是该 confirm 页新增预付费步骤（见⑥兽医咨询·预付费确认）。</footer>
+    </div>
+
+    <!-- ═══════ 真实入口 AI 问诊结果页（完整复刻 p-ai-result + 标记新增） ═══════ -->
+    <div class="page" id="p-ai-result-host">
+      <div class="entry-tag">真实宿主页：p-ai-result 黄色结果页（V1.0.0 既有页面），底部新增付费解锁区块</div>
+      <div style="background:linear-gradient(160deg,#F6A609 0%,#FFD166 100%);padding:44px 20px 24px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:-30px;right:-30px;width:160px;height:160px;border-radius:9999px;background:rgba(255,255,255,.12);"></div>
+        <div style="position:relative;z-index:1;text-align:center;">
+          <div style="font-size:52px;margin-bottom:10px;">🟡</div>
+          <div style="font-size:20px;font-weight:700;color:#fff;margin-bottom:5px;">Disarankan Konsultasi</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.85);line-height:1.5;">Gejala perlu perhatian lebih. Segera konsultasikan dengan dokter</div>
+        </div>
+      </div>
+      <div style="padding:18px 20px 8px;">
+        <div style="background:#FEF3DE;border-radius:14px;padding:14px 16px;margin-bottom:14px;">
+          <div style="font-size:12px;font-weight:700;color:#8A5A00;margin-bottom:8px;">RINGKASAN GEJALA</div>
+          <div style="font-size:13px;color:var(--color-text-primary);line-height:1.6;">Mochi (kucing, betina, 2 thn) — <strong>muntah busa putih 2x</strong>, lemas, tidak nafsu makan.</div>
+        </div>
+        <!-- 免费额度用尽后，详细建议区块被截断 -->
+        <div style="position:relative;background:var(--color-bg-surface);border-radius:14px;padding:14px 16px;box-shadow:0 2px 10px rgba(22,34,51,.07);margin-bottom:6px;max-height:90px;overflow:hidden;">
+          <div style="font-size:12px;font-weight:700;color:var(--color-text-primary);margin-bottom:10px;">SARAN PERAWATAN</div>
+          <div style="font-size:13px;color:var(--color-text-primary);line-height:1.5;">Hentikan makanan kering, ganti makanan basah rendah lemak. Pastikan hidrasi cukup...</div>
+          <div style="position:absolute;left:0;right:0;bottom:0;height:50px;background:linear-gradient(transparent,var(--color-bg-surface));"></div>
+        </div>
+      </div>
+      <div class="new-row" style="margin:0 20px 18px;">
+        <span class="new-tag">BARU</span>
+        <div class="new-outline" style="background:var(--color-bg-subtle);border-radius:14px;padding:14px;text-align:center;">
+          <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:10px;">Gunakan PawCoin atau bayar Rp10.000 untuk buka detail lengkap</div>
+          <button class="btn btn-primary" onclick="nav(null,'ai-paywall')">Buka Detail Lengkap</button>
+        </div>
+      </div>
+      <footer class="dev-note">复刻自 V1.0.0 p-ai-result 黄色结果页（评级Header/症状摘要保持原样，红色危险等级提醒不受此改动影响、永远完整免费展示）。V1.1.0 新增：免费额度用尽后，「SARAN PERAWATAN」区块渐变遮罩截断 + 底部解锁区块，点击后弹出⑥的付费弹层。</footer>
+    </div>
+
+    <!-- ═══════ 月度回顾详情 ═══════ -->
+    <div class="page" id="p-recap">
+      <div class="entry-tag">入口：Paspor 顶部回顾卡片</div>
+      <div class="appbar"><button class="ibtn" onclick="nav(null,'paspor-entries')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><span class="appbar-title">Rangkuman Juni</span></div>
+      <div class="card-lg" style="background:linear-gradient(135deg,#845EC9,#9E83DA);">
+        <div class="card-pad" style="color:#fff;padding:22px 18px;">
+          <div style="font-size:13px;opacity:.85;margin-bottom:10px;">Bulan Mochi di Juni</div>
+          <div style="font-size:22px;font-weight:700;margin-bottom:8px;">7 Tumbuh</div>
+          <div style="font-size:12px;opacity:.8;line-height:1.7;">Dari renang pertama sampai belajar duduk, bulan ini kalian merekam banyak momen bersama 🐾</div>
+        </div>
+      </div>
+      <div style="padding:6px 20px;"><button class="btn btn-primary">Bagikan Rangkuman</button></div>
+      <footer class="dev-note">生成门槛：当月记录数 ≥5 条才出现，<5 条完全不展示卡片（FR-46A 已决议）。</footer>
+    </div>
+
+    <!-- ═══════ 新手任务清单 ═══════ -->
+    <div class="page" id="p-starter-tasks">
+      <div class="entry-tag">入口：Paspor 顶部任务进度卡片</div>
+      <div class="appbar" style="padding-top:14px;"><span class="appbar-title">Tugas Pemula</span></div>
+      <div style="padding:0 20px 14px;font-size:12.5px;color:var(--color-text-secondary);">2 / 6 selesai</div>
+      <div class="task done"><div class="cb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></div><div class="t">Login pertama kali</div></div>
+      <div class="task done"><div class="cb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></div><div class="t">Buat profil hewan peliharaan</div></div>
+      <div class="task"><div class="cb"></div><div class="t">Cek Gejala pertama</div></div>
+      <div class="task"><div class="cb"></div><div class="t">Posting momen pertama</div></div>
+      <div class="task"><div class="cb"></div><div class="t">Follow satu dokter hewan</div></div>
+      <div class="task"><div class="cb"></div><div class="t">Lengkapi kartu identitas hewan</div></div>
+      <footer class="dev-note">完成单项任务触发 V1.0.0 既有 S 级庆祝动效，不新建动效。第三周起无论完成与否，横幅自动消失。</footer>
+    </div>
+
+    <!-- ═══════ ⑤ 客服投诉表单（FR-52） ═══════ -->
+    <div class="page" id="p-cs-form">
+      <div class="entry-tag">入口：客服入口底抽屉 → 「Lapor Masalah」→ 本表单页（FR-52）</div>
+      <div class="appbar"><button class="ibtn" onclick="nav(null,'cs-entry')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><span class="appbar-title">Laporkan Masalah</span></div>
+
+      <!-- 进度指示 -->
+      <div style="padding:10px 20px 6px;display:flex;align-items:center;gap:6px;">
+        <div style="height:3px;flex:1;background:#845EC9;border-radius:9999px;"></div>
+        <div style="height:3px;flex:1;background:#E0E0E0;border-radius:9999px;"></div>
+        <div style="font-size:10px;color:var(--color-text-tertiary);margin-left:4px;">1 / 2</div>
+      </div>
+
+      <div style="padding:4px 20px 0;">
+        <!-- 问题描述 -->
+        <div style="margin-bottom:16px;">
+          <label style="font-size:12px;font-weight:700;color:var(--color-text-secondary);display:block;margin-bottom:7px;">Deskripsi Masalah <span style="color:#F0425A;">*</span></label>
+          <div style="position:relative;">
+            <textarea rows="5" placeholder="Ceritakan masalah yang kamu alami secara detail. Semakin jelas, semakin cepat kami bisa membantu."
+              style="width:100%;padding:12px 14px;border:1.5px solid #DDD;border-radius:12px;font-size:13px;font-family:'Poppins',sans-serif;resize:none;outline:none;box-sizing:border-box;background:#FAFAFA;line-height:1.6;"></textarea>
+            <div style="position:absolute;bottom:8px;right:12px;font-size:10px;color:#CCC;">0 / 500</div>
+          </div>
+        </div>
+
+        <!-- 联系方式（必填，二选一） -->
+        <div style="margin-bottom:16px;">
+          <label style="font-size:12px;font-weight:700;color:var(--color-text-secondary);display:block;margin-bottom:7px;">Cara CS Menghubungimu <span style="color:#F0425A;">*</span></label>
+          <div style="display:flex;gap:8px;margin-bottom:10px;">
+            <div id="contact-email-tab" onclick="switchContact('email')" style="flex:1;padding:9px;border:2px solid #845EC9;border-radius:10px;text-align:center;font-size:12px;font-weight:600;color:#845EC9;cursor:pointer;background:#F8F6FF;">Email</div>
+            <div id="contact-wa-tab" onclick="switchContact('wa')" style="flex:1;padding:9px;border:1.5px solid #E0E0E0;border-radius:10px;text-align:center;font-size:12px;font-weight:600;color:#888;cursor:pointer;background:#fff;">WhatsApp</div>
+          </div>
+          <input id="contact-input" type="email" placeholder="alamat@email.com"
+            style="width:100%;padding:12px 14px;border:1.5px solid #DDD;border-radius:12px;font-size:13px;font-family:'Poppins',sans-serif;outline:none;box-sizing:border-box;background:#FAFAFA;">
+          <div style="font-size:10.5px;color:var(--color-text-tertiary);margin-top:5px;">Digunakan CS untuk menghubungimu di luar App, tidak ditampilkan publik</div>
+        </div>
+
+        <!-- 图片附件（选填） -->
+        <div style="margin-bottom:18px;">
+          <label style="font-size:12px;font-weight:700;color:var(--color-text-secondary);display:block;margin-bottom:7px;">Foto Pendukung <span style="font-weight:400;color:var(--color-text-tertiary);">(opsional, maks. 5)</span></label>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <div style="width:68px;height:68px;border-radius:12px;border:1.5px dashed #C2B0EC;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#C2B0EC" stroke-width="1.5" stroke-linecap="round" width="20" height="20"><path d="M12 5v14M5 12h14"/></svg>
+              <span style="font-size:9px;color:#C2B0EC;">Tambah</span>
+            </div>
+            <div style="width:68px;height:68px;border-radius:12px;background:#F0EDF8;display:flex;align-items:center;justify-content:center;font-size:24px;position:relative;">
+              🖼
+              <div style="position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:9999px;background:#F0425A;display:flex;align-items:center;justify-content:center;">
+                <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+              </div>
+            </div>
+          </div>
+          <div style="font-size:10.5px;color:var(--color-text-tertiary);margin-top:6px;">Format JPG / PNG · Maks. 10 MB per foto</div>
+        </div>
+      </div>
+
+      <!-- 提交按钮 -->
+      <div style="padding:0 20px 8px;"><button class="btn btn-primary" onclick="nav(null,'cs-form-sent')">Kirim Laporan</button></div>
+      <div style="padding:0 20px 24px;font-size:10.5px;color:var(--color-text-tertiary);text-align:center;line-height:1.6;">Kami akan merespons dalam 1×24 jam kerja</div>
+
+      <footer class="dev-note">FR-52：投诉表单字段 = 问题描述（必填）+ 联系方式 email/WhatsApp 二选一（必填）+ 图片最多5张（选填）。提交后跳转「已收到」确认页（p-cs-form-sent）。工单进入管理后台 AB-5A 队列。</footer>
+    </div>
+
+    <!-- ═══════ CS 投诉已提交确认页 ═══════ -->
+    <div class="page" id="p-cs-form-sent">
+      <div class="entry-tag">入口：投诉表单提交成功后自动跳转</div>
+      <div class="appbar"><button class="ibtn" onclick="nav(null,'orders')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><span class="appbar-title">Laporan Terkirim</span></div>
+      <div style="padding:60px 28px 0;text-align:center;">
+        <div style="width:72px;height:72px;border-radius:9999px;background:linear-gradient(135deg,#E7F8F0,#C6EFD9);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;">
+          <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#0E7A4D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <div style="font-size:18px;font-weight:700;color:var(--color-text-heading);margin-bottom:8px;">Laporan Diterima</div>
+        <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.7;max-width:280px;margin:0 auto;">Kami akan meninjau dan menghubungimu melalui email atau WhatsApp dalam <strong>1×24 jam kerja</strong>.</div>
+      </div>
+      <div style="margin:28px 20px 0;background:var(--color-bg-subtle);border-radius:14px;padding:14px 16px;">
+        <div style="font-size:11px;font-weight:700;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.4px;margin-bottom:10px;">DETAIL LAPORAN</div>
+        <div style="display:flex;justify-content:space-between;font-size:12.5px;color:var(--color-text-secondary);margin-bottom:6px;"><span>Nomor tiket</span><span style="font-weight:600;color:var(--color-text-heading);">#TLP-20260701-0042</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:12.5px;color:var(--color-text-secondary);margin-bottom:6px;"><span>Dikirim</span><span style="font-weight:600;">01 Jul 2026 · 20:15</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:12.5px;color:var(--color-text-secondary);"><span>Kontak CS</span><span style="font-weight:600;">hexhexin1226@gmail.com</span></div>
+      </div>
+      <div style="padding:18px 20px 8px;"><button class="btn btn-ghost" onclick="nav(null,'cs-list')">Lihat Semua Laporanku</button></div>
+      <div style="padding:0 20px 24px;"><button class="btn btn-secondary" onclick="nav(null,'orders')">Kembali ke Beranda</button></div>
+      <footer class="dev-note">FR-52：提交成功确认页，展示工单号（#TLP-YYYYMMDD-XXXX 格式）、提交时间、CS 联系渠道。入口「我的反馈」列表（p-cs-list）可查看历史工单状态（待处理/处理中/已解决/已关闭）。</footer>
+    </div>
+
+    <!-- ═══════ ⑤ 客服工单列表 ═══════ -->
+    <div class="page" id="p-cs-list">
+      <div class="entry-tag">入口：Profil → Bantuan &amp; Masukan</div>
+      <div class="appbar" style="padding-top:14px;"><span class="appbar-title">Masukan Saya</span></div>
+      <div class="card" onclick="nav(null,'cs-detail')" style="cursor:pointer;">
+        <div class="card-pad">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+            <span style="font-size:13px;font-weight:600;">Laporan App Force Close</span>
+            <span class="badge b-info">Diproses</span>
+          </div>
+          <div style="font-size:12px;color:var(--color-text-tertiary);">Diajukan 28 Jun 2026</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-pad">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+            <span style="font-size:13px;font-weight:600;">Saran Fitur</span>
+            <span class="badge b-success">Selesai</span>
+          </div>
+          <div style="font-size:12px;color:var(--color-text-tertiary);">Diajukan 20 Jun 2026</div>
+        </div>
+      </div>
+      <footer class="dev-note">FR-52：工单为单次提交，不支持原工单内追加回复，需再次反馈则提交新工单。</footer>
+    </div>
+
+    <!-- ═══════ 客服工单详情 ═══════ -->
+    <div class="page" id="p-cs-detail">
+      <div class="entry-tag">入口：工单列表卡片点击</div>
+      <div class="appbar"><button class="ibtn" onclick="nav(null,'cs-list')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><span class="appbar-title">Detail Masukan</span></div>
+      <div class="card"><div class="card-pad">
+        <div style="font-size:13px;font-weight:600;margin-bottom:8px;">Laporan App Force Close</div>
+        <div style="font-size:12.5px;color:var(--color-text-secondary);line-height:1.7;">Aplikasi tiba-tiba tertutup saat membuka halaman konsultasi AI, terjadi sekitar 3 kali, di iPhone 13.</div>
+      </div></div>
+      <div class="section-label">Status Penanganan</div>
+      <div style="padding:0 20px;font-size:12.5px;color:var(--color-text-secondary);">Menunggu → <b style="color:#845EC9;">Diproses</b> → Selesai</div>
+      <footer class="dev-note">「标记已解决」触发结案通知；若客服已勾选「已联系客户」，同时触发 CSAT 满意度调查（FR-52A/52B）。</footer>
+    </div>
+
+    <!-- ═══════ ⑥ AI问诊·付费解锁弹层 ═══════ -->
+    <div class="page flex" id="p-ai-paywall" style="justify-content:flex-end;">
+      <div class="entry-tag" style="position:absolute;top:14px;left:0;z-index:999;">入口：AI 问诊结果页（p-ai-result），免费额度用尽后点「解锁详情」</div>
+      <div class="sheet-scrim" style="position:relative;">
+        <div class="sheet-card">
+          <div class="sheet-handle"></div>
+          <div class="sheet-title">Buka Saran Lengkap</div>
+          <div class="sheet-desc">Kuota gratis bulan ini sudah habis. Pilih metode pembayaran untuk membuka saran perawatan lengkap.</div>
+          <div class="pay-opt sel">
+            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7"/><rect x="13" y="4" width="7" height="7"/><rect x="4" y="13" width="7" height="7"/><path d="M14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z"/></svg></div>
+            <div class="body"><div class="t">QRIS / DANA</div><div class="s">Rp10.000</div></div>
+          </div>
+          <div class="pay-opt disabled">
+            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9 9.5a2.5 2.5 0 012.5-2.5h.5a2.5 2.5 0 010 5h-1a2.5 2.5 0 000 5h.6a2.5 2.5 0 002.4-2.5"/></svg></div>
+            <div class="body">
+              <div class="t">PawCoin (saldo 4.000, kurang)</div>
+              <div class="topup">Isi saldo dulu →</div>
+            </div>
+          </div>
+          <button class="btn btn-primary">Bayar dengan QRIS/DANA</button>
+        </div>
+      </div>
+      <footer class="dev-note" style="padding:0 20px 16px;">红色危险等级提醒永不走这个弹层——任何情况下都免费完整展示，不受额度影响。</footer>
+    </div>
+
+    <!-- ═══════ 兽医咨询·预付费确认 ═══════ -->
+    <div class="page" id="p-vet-prepay">
+      <div class="entry-tag">入口：Konsultasi 页「Konsultasi Dokter Hewan」（p-konsultasi-home 改动版）</div>
+      <div class="appbar" style="padding-top:14px;"><span class="appbar-title">Konsultasi Dokter Hewan</span></div>
+      <div class="card-lg">
+        <div class="card-pad">
+          <div style="font-size:14px;font-weight:700;margin-bottom:10px;color:var(--color-text-heading);">Bayar Dulu Sebelum Masuk Antrian</div>
+          <div style="font-size:12.5px;color:var(--color-text-secondary);line-height:1.8;">Setelah pembayaran berhasil, kamu langsung masuk antrian. Jika tidak ada dokter dalam 1 menit, pesanan masuk status "Ditahan" — dana tidak akan hilang.</div>
+        </div>
+      </div>
+      <div class="pay-opt sel">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9 9.5a2.5 2.5 0 012.5-2.5h.5a2.5 2.5 0 010 5h-1a2.5 2.5 0 000 5h.6a2.5 2.5 0 002.4-2.5"/></svg></div>
+        <div class="body"><div class="t">PawCoin</div><div class="s">Saldo 120.000 · Potong 50.000</div></div>
+      </div>
+      <div class="pay-opt">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7"/><rect x="13" y="4" width="7" height="7"/><rect x="4" y="13" width="7" height="7"/></svg></div>
+        <div class="body"><div class="t">QRIS / DANA</div><div class="s">Rp50.000</div></div>
+      </div>
+      <div style="padding:8px 20px;"><button class="btn btn-primary">Bayar &amp; Cari Dokter</button></div>
+      <footer class="dev-note">价格自动应用 FR-43E 升级抵扣资格（如有）。</footer>
+    </div>
+
+    <!-- ═══════ 宠物身份证详情页（三种证件卡风格切换，FR-49B/49C） ═══════ -->
+    <div class="page" id="p-idcard-detail">
+      <div class="entry-tag">入口：Paspor 主页 → 右上角「身份证」按钮（appbar 图标，见⑦ Paspor 主页）</div>
+      <div class="appbar"><button class="ibtn" onclick="nav(null,'paspor-entries')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><span class="appbar-title">Kartu Identitas</span></div>
+
+      <div class="chips" style="margin-bottom:16px;">
+        <div class="chip" onclick="idStyle(this,'ktp')">KTP</div>
+        <div class="chip on" onclick="idStyle(this,'paspor')">Paspor</div>
+        <div class="chip" onclick="idStyle(this,'pelajar')">Kartu Pelajar</div>
+      </div>
+
+      <!-- 编辑提示：仅 Kartu Pelajar 风格显示 -->
+      <div id="pelajar-edit-hint" style="display:none;margin:-8px 20px 10px;background:#F8F6FF;border-radius:10px;padding:9px 13px;align-items:center;gap:8px;border:1px solid #DDD2F5;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#845EC9" stroke-width="1.5" stroke-linecap="round" width="16" height="16"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        <span style="font-size:11.5px;color:#845EC9;">Tap nama universitas atau program studi pada kartu untuk mengedit</span>
+      </div>
+
+      <!-- 全屏放大查看 overlay -->
+      <div id="idcard-zoom-overlay" onclick="this.style.display='none'"
+           style="display:none;position:absolute;inset:0;background:rgba(0,0,0,.88);z-index:9998;align-items:center;justify-content:center;padding:20px;cursor:zoom-out;">
+        <div id="idcard-zoom-inner" style="width:100%;border-radius:14px;overflow:hidden;box-shadow:0 0 0 1.5px rgba(255,255,255,.1);"></div>
+        <div style="position:absolute;top:14px;right:18px;color:#fff;font-size:18px;opacity:.7;">✕</div>
+      </div>
+
+      <!-- 证件卡片容器（点击全屏） -->
+      <div id="idcard-main-wrap" onclick="idZoom()" style="margin:0 20px 16px;position:relative;border-radius:18px;overflow:hidden;box-shadow:0 10px 30px rgba(22,34,51,.16);cursor:zoom-in;">
+        <!-- 全屏水印叠加层（FR-49C） -->
+        <div style="position:absolute;inset:0;z-index:5;pointer-events:none;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+          <div style="transform:rotate(-24deg);display:flex;flex-direction:column;gap:30px;opacity:.13;user-select:none;">
+            <div style="font-size:13px;font-weight:700;color:#fff;white-space:nowrap;letter-spacing:3px;">TAILTOPIA · TAILTOPIA · TAILTOPIA · TAILTOPIA</div>
+            <div style="font-size:13px;font-weight:700;color:#fff;white-space:nowrap;letter-spacing:3px;">TAILTOPIA · TAILTOPIA · TAILTOPIA · TAILTOPIA</div>
+            <div style="font-size:13px;font-weight:700;color:#fff;white-space:nowrap;letter-spacing:3px;">TAILTOPIA · TAILTOPIA · TAILTOPIA · TAILTOPIA</div>
+          </div>
+        </div>
+
+        <!-- ── 风格 A：KTP（仿印尼居民身份证） ── -->
+        <div class="idstyle" id="idstyle-ktp" style="display:none;background:#fff;">
+          <!-- 顶部色带：藏蓝 + Garuda 占位 + 省份文字 -->
+          <div style="background:#16235E;padding:8px 13px;display:flex;align-items:center;gap:8px;">
+            <div style="width:24px;height:24px;border-radius:9999px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;">🦅</div>
+            <div>
+              <div style="font-size:7.5px;color:rgba(255,255,255,.6);letter-spacing:1.2px;text-transform:uppercase;">REPUBLIK TAILTOPIA</div>
+              <div style="font-size:9.5px;font-weight:700;color:#fff;letter-spacing:.5px;margin-top:1px;">KARTU TANDA HEWAN</div>
+            </div>
+            <div style="margin-left:auto;font-size:9px;color:#D4AF37;font-weight:700;letter-spacing:.3px;">DKI JAKARTA</div>
+          </div>
+          <!-- 主体区域 -->
+          <div style="display:flex;gap:12px;padding:12px 13px;background:#fff;">
+            <!-- 照片区 -->
+            <div style="flex-shrink:0;text-align:center;">
+              <div style="width:66px;height:82px;border-radius:4px;border:1.5px solid #16235E;background:linear-gradient(160deg,#C4B5EC,#845EC9);display:flex;align-items:center;justify-content:center;font-size:28px;">🐱</div>
+              <div style="font-size:7px;color:#16235E;font-weight:700;margin-top:3px;letter-spacing:.5px;">FOTO</div>
+            </div>
+            <!-- 字段区 -->
+            <div style="flex:1;color:#111;">
+              <!-- NIK 对应 No. Paw -->
+              <div style="font-size:7px;color:#555;text-transform:uppercase;letter-spacing:.4px;">No. Paw</div>
+              <div style="font-size:11.5px;font-weight:700;font-family:monospace;color:#16235E;margin-bottom:7px;letter-spacing:1px;">0042</div>
+              <!-- 名字 -->
+              <div style="font-size:7px;color:#555;text-transform:uppercase;letter-spacing:.4px;">Nama</div>
+              <div style="font-size:13px;font-weight:700;color:#111;margin-bottom:6px;">MOCHI</div>
+              <!-- 两列字段 -->
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px 8px;">
+                <div><div style="font-size:6.5px;color:#888;letter-spacing:.3px;text-transform:uppercase;">Jenis / Ras</div><div style="font-size:9.5px;font-weight:600;color:#222;">Kucing / Domestik</div></div>
+                <div><div style="font-size:6.5px;color:#888;letter-spacing:.3px;text-transform:uppercase;">Tgl. Lahir</div><div style="font-size:9.5px;font-weight:600;color:#222;">12-04-2023</div></div>
+                <div><div style="font-size:6.5px;color:#888;letter-spacing:.3px;text-transform:uppercase;">Status Vaksin</div><div style="font-size:9.5px;font-weight:600;color:#0E7A4D;">✓ Lengkap</div></div>
+                <div><div style="font-size:6.5px;color:#888;letter-spacing:.3px;text-transform:uppercase;">Berlaku Hingga</div><div style="font-size:9.5px;font-weight:600;color:#222;">Seumur Hidup</div></div>
+              </div>
+            </div>
+          </div>
+          <!-- 底部条带 -->
+          <div style="background:#16235E;padding:7px 13px;display:flex;align-items:center;justify-content:space-between;">
+            <div style="font-size:8.5px;font-weight:700;color:rgba(255,255,255,.6);">TailTopia · tailtopia.id</div>
+            <div style="font-size:7.5px;font-weight:700;color:#D4AF37;border:1px solid #D4AF37;padding:2px 7px;border-radius:3px;letter-spacing:.8px;">SAH · VALID</div>
+          </div>
+        </div>
+
+        <!-- ── 风格 B：Paspor（仿印尼护照内页） ── -->
+        <div class="idstyle" id="idstyle-paspor" style="background:#fff;">
+          <!-- 护照顶部绿色条带 -->
+          <div style="background:#0E4D3C;padding:9px 14px;display:flex;align-items:center;justify-content:space-between;">
+            <div>
+              <div style="font-size:7.5px;color:rgba(255,255,255,.55);letter-spacing:1.5px;text-transform:uppercase;">Republik Tailtopia</div>
+              <div style="font-size:11px;font-weight:700;color:#fff;letter-spacing:.5px;margin-top:1px;">PASPOR · PASSPORT</div>
+            </div>
+            <div style="width:28px;height:28px;border-radius:9999px;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:14px;">🦅</div>
+          </div>
+          <!-- 主体：安全底纹 + 照片 + 字段 -->
+          <div style="display:flex;gap:12px;padding:12px 14px;background:repeating-linear-gradient(135deg,#fff 0 10px,#F0F9F4 10px 20px);">
+            <div style="flex-shrink:0;">
+              <div style="width:66px;height:82px;border-radius:8px;border:2px solid #0E4D3C;background:linear-gradient(160deg,#C4B5EC,#845EC9);display:flex;align-items:center;justify-content:center;font-size:28px;">🐱</div>
+            </div>
+            <div style="flex:1;color:#0D2B20;">
+              <!-- Type / Country code row -->
+              <div style="display:flex;gap:10px;margin-bottom:7px;">
+                <div><div style="font-size:6.5px;color:#3A7A60;letter-spacing:.4px;text-transform:uppercase;">Jenis / Type</div><div style="font-size:11px;font-weight:700;">P</div></div>
+                <div><div style="font-size:6.5px;color:#3A7A60;letter-spacing:.4px;text-transform:uppercase;">Kode / Code</div><div style="font-size:11px;font-weight:700;">TLP</div></div>
+                <div style="flex:1;"><div style="font-size:6.5px;color:#3A7A60;letter-spacing:.4px;text-transform:uppercase;">No. Paspor</div><div style="font-size:11px;font-weight:700;font-family:monospace;">TT-0042</div></div>
+              </div>
+              <!-- Nama -->
+              <div style="margin-bottom:5px;"><div style="font-size:6.5px;color:#3A7A60;letter-spacing:.4px;text-transform:uppercase;">Nama / Name</div><div style="font-size:13px;font-weight:700;">MOCHI</div></div>
+              <!-- Fields grid -->
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 8px;">
+                <div><div style="font-size:6px;color:#3A7A60;letter-spacing:.3px;text-transform:uppercase;">Kewarganegaraan</div><div style="font-size:8.5px;font-weight:600;">TAILTOPIAN</div></div>
+                <div><div style="font-size:6px;color:#3A7A60;letter-spacing:.3px;text-transform:uppercase;">Jenis / Ras</div><div style="font-size:8.5px;font-weight:600;">Kucing / Domestik</div></div>
+                <div><div style="font-size:6px;color:#3A7A60;letter-spacing:.3px;text-transform:uppercase;">Tgl. Lahir / DOB</div><div style="font-size:8.5px;font-weight:600;">12 APR 2023</div></div>
+                <div><div style="font-size:6px;color:#3A7A60;letter-spacing:.3px;text-transform:uppercase;">Berlaku / Expiry</div><div style="font-size:8.5px;font-weight:600;">01 JUL 2031</div></div>
+              </div>
+            </div>
+          </div>
+          <!-- MRZ strip -->
+          <div style="background:#0E4D3C;padding:8px 14px 9px;font-family:monospace;font-size:8px;color:#9FD8C4;letter-spacing:.9px;line-height:1.7;">
+            P&lt;TLP&lt;MOCHI&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;<br>TT00421D7TLP2304123F310701&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;00
+          </div>
+        </div>
+
+        <!-- ── 风格 C：Kartu Pelajar（仿学生/会员证，含可编辑学校/专业） ── -->
+        <div class="idstyle" id="idstyle-pelajar" style="display:none;background:#fff;">
+          <!-- 顶部：学校名（可编辑） + 学年 -->
+          <div style="background:#845EC9;padding:10px 14px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;">
+              <div id="school-display" onclick="editSchool()" style="font-size:9px;font-weight:700;color:rgba(255,255,255,.85);letter-spacing:.3px;cursor:text;border-bottom:1px dashed rgba(255,255,255,.4);padding-bottom:1px;" title="Tap untuk ubah">UNIVERSITAS TAILTOPIA</div>
+              <span id="id-year-range" style="font-size:8.5px;font-weight:600;color:rgba(255,255,255,.7);"></span>
+            </div>
+            <div style="font-size:11px;font-weight:700;color:#fff;letter-spacing:.3px;">KARTU TANDA MAHASISWA</div>
+          </div>
+          <!-- 主体：圆形照片 + 字段 -->
+          <div style="display:flex;gap:13px;align-items:center;padding:14px 14px 12px;background:#FAF8FF;">
+            <div style="width:68px;height:68px;border-radius:9999px;border:3px solid #fff;box-shadow:0 3px 12px rgba(132,94,201,.28);background:linear-gradient(160deg,#C4B5EC,#845EC9);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;">🐱</div>
+            <div style="flex:1;">
+              <div style="font-size:14px;font-weight:700;color:var(--color-text-heading);">Mochi</div>
+              <div style="font-size:7px;color:#888;letter-spacing:.4px;margin-top:5px;text-transform:uppercase;">NIM</div>
+              <div style="font-size:9.5px;font-weight:700;font-family:monospace;color:#845EC9;">TLP-0042</div>
+              <div style="font-size:7px;color:#888;letter-spacing:.4px;margin-top:4px;text-transform:uppercase;">Program Studi</div>
+              <div id="major-display" onclick="editMajor()" style="font-size:9.5px;font-weight:600;color:var(--color-text-secondary);cursor:text;border-bottom:1px dashed #C2B0EC;padding-bottom:1px;display:inline-block;" title="Tap untuk ubah">Kebahagiaan Hewan 🐾</div>
+              <div style="font-size:7px;color:#888;letter-spacing:.4px;margin-top:4px;text-transform:uppercase;">Angkatan</div>
+              <div style="font-size:9.5px;font-weight:600;color:var(--color-text-secondary);">2024</div>
+            </div>
+          </div>
+          <!-- 底部：barcode 装饰 -->
+          <div style="background:#fff;padding:7px 14px;display:flex;align-items:center;justify-content:space-between;border-top:1px dashed #E6E6E6;">
+            <span style="font-size:9px;font-weight:700;color:#845EC9;letter-spacing:.3px;">TailTopia</span>
+            <!-- 装饰性条形码 -->
+            <div style="display:flex;gap:1px;align-items:flex-end;height:18px;">
+              <div style="width:1.5px;height:100%;background:#555;"></div><div style="width:1px;height:80%;background:#555;"></div><div style="width:2px;height:100%;background:#555;"></div><div style="width:1px;height:70%;background:#555;"></div><div style="width:1.5px;height:100%;background:#555;"></div><div style="width:1px;height:90%;background:#555;"></div><div style="width:2px;height:100%;background:#555;"></div><div style="width:1px;height:75%;background:#555;"></div><div style="width:1.5px;height:100%;background:#555;"></div><div style="width:1px;height:85%;background:#555;"></div><div style="width:2.5px;height:100%;background:#555;"></div><div style="width:1px;height:65%;background:#555;"></div><div style="width:1.5px;height:100%;background:#555;"></div><div style="width:1px;height:90%;background:#555;"></div><div style="width:2px;height:100%;background:#555;"></div>
+            </div>
+            <span style="font-size:8px;color:#999;">Berlaku S/D: 2027</span>
+          </div>
+        </div>
+      </div><!-- /idcard-main-wrap -->
+
+      <!-- 学校名编辑 inline input（隐藏，点击学校名出现） -->
+      <div id="school-edit-wrap" style="display:none;margin:-10px 20px 10px;padding:8px 12px;background:#F8F6FF;border-radius:10px;border:1.5px solid #C2B0EC;">
+        <input id="school-input" type="text" value="UNIVERSITAS TAILTOPIA" maxlength="32"
+               style="width:100%;border:none;background:transparent;font-size:12px;font-weight:700;color:#845EC9;font-family:'Poppins',sans-serif;outline:none;"
+               onblur="saveSchool()" onkeydown="if(event.key==='Enter')this.blur()">
+      </div>
+      <!-- 专业编辑 inline input -->
+      <div id="major-edit-wrap" style="display:none;margin:-10px 20px 10px;padding:8px 12px;background:#F8F6FF;border-radius:10px;border:1.5px solid #C2B0EC;">
+        <input id="major-input" type="text" value="Kebahagiaan Hewan 🐾" maxlength="36"
+               style="width:100%;border:none;background:transparent;font-size:12px;font-weight:600;color:#845EC9;font-family:'Poppins',sans-serif;outline:none;"
+               onblur="saveMajor()" onkeydown="if(event.key==='Enter')this.blur()">
+      </div>
+
+      <div style="padding:0 20px;">
+        <button class="btn btn-primary" onclick="nav(null,'id-paywall')" style="gap:6px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Unduh HD Tanpa Watermark · Rp5.000
+        </button>
+        <div style="font-size:10px;color:var(--color-text-tertiary);text-align:center;margin-top:8px;">Tap kartu di atas untuk lihat tampilan penuh</div>
+      </div>
+      <footer class="dev-note">FR-49B：三种风格字段参考 research 文件（KTP/Paspor/KTM 真实字段表），宠物适配：NIK→No.Paw、地址→省份、职业→品种/物种、Jenis Kelamin→Jenis Kelamin Hewan。学生卡新增 Perguruan Tinggi + Program Studi 两个用户可编辑字段（FR-49B 扩展，PRD 已同步）。点击卡片触发 idZoom() 弹出全屏查看层；MRZ 仅装饰，非真实机读码。</footer>
+    </div>
+
+    <!-- ═══════ 身份证·付费下载底部抽屉 ═══════ -->
+    <div class="page flex" id="p-id-paywall" style="justify-content:flex-end;background:rgba(46,39,66,.45);">
+      <div class="entry-tag" style="position:absolute;top:14px;left:0;z-index:999;">入口：身份证详情页「Unduh HD Tanpa Watermark · Rp5.000」</div>
+      <div style="background:#fff;border-radius:24px 24px 0 0;width:100%;padding:10px 0 0;box-shadow:0 -8px 32px rgba(0,0,0,.12);">
+        <div style="width:36px;height:4px;background:#DEDEDE;border-radius:9999px;margin:0 auto 18px;"></div>
+        <div style="padding:0 20px 28px;">
+          <!-- 卡片预览（低清+水印） -->
+          <div style="border-radius:14px;overflow:hidden;margin-bottom:16px;position:relative;box-shadow:0 4px 16px rgba(22,34,51,.12);">
+            <div style="background:linear-gradient(135deg,#9E83DA,#845EC9);padding:20px;text-align:center;position:relative;">
+              <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;overflow:hidden;">
+                <div style="transform:rotate(-24deg);font-size:18px;font-weight:700;color:rgba(255,255,255,.2);white-space:nowrap;letter-spacing:4px;">TAILTOPIA · TAILTOPIA · TAILTOPIA</div>
+              </div>
+              <div style="position:relative;z-index:1;">
+                <div style="font-size:28px;margin-bottom:6px;">🐱</div>
+                <div style="font-size:14px;font-weight:700;color:#fff;">Mochi · No. 0042</div>
+                <div style="font-size:10px;color:rgba(255,255,255,.65);margin-top:3px;">Pratinjau · Resolusi rendah + watermark</div>
+              </div>
+            </div>
+          </div>
+          <!-- 标题 -->
+          <div style="font-size:16px;font-weight:700;color:var(--color-text-heading);margin-bottom:4px;">Unduh Versi HD Tanpa Watermark</div>
+          <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:16px;line-height:1.5;">Bayar sekali, unduh kapan saja selamanya. Kualitas 1600×900px, tanpa watermark.</div>
+          <!-- 支付方式 -->
+          <div class="pay-opt sel" style="margin-bottom:10px;">
+            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9 9.5a2.5 2.5 0 012.5-2.5h.5a2.5 2.5 0 010 5h-1a2.5 2.5 0 000 5h.6a2.5 2.5 0 002.4-2.5"/></svg></div>
+            <div class="body"><div class="t">PawCoin</div><div class="s">Saldo 120.000 · Potong 5.000 koin</div></div>
+            <div style="width:18px;height:18px;border-radius:9999px;border:2px solid #845EC9;background:#845EC9;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg>
+            </div>
+          </div>
+          <div class="pay-opt" style="margin-bottom:16px;">
+            <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7"/><rect x="13" y="4" width="7" height="7"/><rect x="4" y="13" width="7" height="7"/><path d="M14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z"/></svg></div>
+            <div class="body"><div class="t">QRIS / DANA</div><div class="s">Rp5.000</div></div>
+          </div>
+          <button class="btn btn-primary">Bayar &amp; Unduh HD</button>
+        </div>
+      </div>
+      <footer class="dev-note" style="padding:0 20px 16px;">FR-49D：底部抽屉替代全页面，保持上下文（用户仍能看到已选的卡片风格）；免费预览卡片含水印缩略图（低清）。一次性购买，永久可复下载。</footer>
+    </div>
+
+    <!-- ═══════ 真实入口：内容发布（p-create 宿主页，FR-45 新增健康记录附加选项） ═══════ -->
+    <div class="page" id="p-post-host">
+      <div class="entry-tag">真实宿主页：p-create（V1.0.0 既有发布流），V1.1.0 新增「Tambah ke Rekam Kesehatan」可展开区域（FR-45），BARU 标出</div>
+
+      <!-- appbar -->
+      <div class="chead" style="display:flex;align-items:center;padding:14px 16px 10px;border-bottom:1px solid #F3F3F3;gap:0;">
+        <button class="ibtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="15" height="15"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+        <div style="flex:1;text-align:center;font-size:15px;font-weight:700;color:var(--color-text-heading);">Postingan Baru</div>
+        <button style="font-size:13px;font-weight:700;color:#845EC9;background:none;border:none;font-family:'Poppins',sans-serif;cursor:pointer;padding:4px 0;">Bagikan</button>
+      </div>
+
+      <!-- 内容类型 chips（V1.0.0 既有） -->
+      <div class="chips" style="padding-top:12px;">
+        <div class="chip on" onclick="postCategory(this,'momen')">Momen</div>
+        <div class="chip" onclick="postCategory(this,'tumbuh')">Tumbuh</div>
+        <div class="chip" onclick="postCategory(this,'edukasi')">Edukasi &amp; Tips</div>
+      </div>
+
+      <!-- ✦ BARU V1.1.0：健康记录附加选项（FR-45），仅跟随「Tumbuh」类型显示 -->
+      <div id="health-attach-section" style="display:none;margin:8px 20px 0;" class="new-row">
+        <span class="new-tag" style="top:-8px;right:8px;">BARU · FR-45</span>
+        <div class="new-outline" style="background:var(--color-bg-surface);border-radius:14px;overflow:hidden;box-shadow:0 2px 8px rgba(22,34,51,.06);">
+          <div onclick="toggleHealthAttach(this)" style="display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;">
+            <div style="width:32px;height:32px;border-radius:10px;background:#E7F8F0;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#0E7A4D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2z"/><path d="M12 8v4l3 3"/></svg>
+            </div>
+            <div style="flex:1;">
+              <div style="font-size:12.5px;font-weight:600;color:var(--color-text-heading);">Tambah ke Rekam Kesehatan</div>
+              <div style="font-size:10.5px;color:var(--color-text-tertiary);" id="health-attach-hint">Opsional · postingan ini juga tercatat di Paspor</div>
+            </div>
+            <div id="health-attach-toggle" style="width:38px;height:22px;border-radius:9999px;background:#E0E0E0;position:relative;transition:background .2s;flex-shrink:0;">
+              <div id="health-attach-knob" style="width:18px;height:18px;border-radius:9999px;background:#fff;position:absolute;top:2px;left:2px;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.2);"></div>
+            </div>
+          </div>
+          <div id="health-attach-expand" style="display:none;padding:0 14px 14px;border-top:1px solid #F3F3F3;">
+            <div style="font-size:10.5px;font-weight:600;color:var(--color-text-tertiary);margin:9px 0 7px;">Pilih Jenis Catatan</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px;">
+              <div onclick="postHrType(this,'rabies')" style="text-align:center;background:#FFF0F0;border:1.5px solid #EDCECE;border-radius:11px;padding:10px 4px 8px;cursor:pointer;"><div style="width:30px;height:30px;border-radius:9999px;background:#FDE7EB;display:flex;align-items:center;justify-content:center;margin:0 auto 5px;"><svg viewBox="0 0 24 24" fill="none" stroke="#C4263C" stroke-width="1.5" stroke-linecap="round" width="15" height="15"><path d="M3 3l18 18M14.5 9.5a4 4 0 00-5.96 5.31M6.5 6.5A9 9 0 0020 17"/></svg></div><div style="font-size:9px;font-weight:700;color:#C4263C;">Vaksin<br>Rabies</div></div>
+              <div onclick="postHrType(this,'vax-other')" style="text-align:center;background:#F5F0FE;border:1.5px solid #D8CCF5;border-radius:11px;padding:10px 4px 8px;cursor:pointer;"><div style="width:30px;height:30px;border-radius:9999px;background:#EDE6FD;display:flex;align-items:center;justify-content:center;margin:0 auto 5px;"><svg viewBox="0 0 24 24" fill="none" stroke="#845EC9" stroke-width="1.5" stroke-linecap="round" width="15" height="15"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M12 13v6M9 16h6"/></svg></div><div style="font-size:9px;font-weight:700;color:#845EC9;">Vaksin<br>Lainnya</div></div>
+              <div onclick="postHrType(this,'deworm')" style="text-align:center;background:#ECFDF5;border:1.5px solid #BBE9D5;border-radius:11px;padding:10px 4px 8px;cursor:pointer;"><div style="width:30px;height:30px;border-radius:9999px;background:#D6F5E7;display:flex;align-items:center;justify-content:center;margin:0 auto 5px;"><svg viewBox="0 0 24 24" fill="none" stroke="#0E7A4D" stroke-width="1.5" stroke-linecap="round" width="15" height="15"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2 2"/></svg></div><div style="font-size:9px;font-weight:700;color:#0E7A4D;">Obat<br>Cacing</div></div>
+              <div onclick="postHrType(this,'steril')" style="text-align:center;background:#F9F0FE;border:1.5px solid #DBC8F5;border-radius:11px;padding:10px 4px 8px;cursor:pointer;"><div style="width:30px;height:30px;border-radius:9999px;background:#F0E0FC;display:flex;align-items:center;justify-content:center;margin:0 auto 5px;"><svg viewBox="0 0 24 24" fill="none" stroke="#8B3AB5" stroke-width="1.5" stroke-linecap="round" width="15" height="15"><path d="M12 2l3 6.5L22 9l-5 5 1.2 7L12 18l-6.2 3L7 14 2 9l7-.5z"/></svg></div><div style="font-size:9px;font-weight:700;color:#8B3AB5;">Steril&shy;isasi</div></div>
+              <div onclick="postHrType(this,'checkup')" style="text-align:center;background:#EFF7FF;border:1.5px solid #C4DEFB;border-radius:11px;padding:10px 4px 8px;cursor:pointer;"><div style="width:30px;height:30px;border-radius:9999px;background:#DBEEF8;display:flex;align-items:center;justify-content:center;margin:0 auto 5px;"><svg viewBox="0 0 24 24" fill="none" stroke="#0369A1" stroke-width="1.5" stroke-linecap="round" width="15" height="15"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><div style="font-size:9px;font-weight:700;color:#0369A1;">Pemeriksaan<br>Umum</div></div>
+              <div onclick="postHrType(this,'other')" style="text-align:center;background:#F7F7F7;border:1.5px solid #E0E0E0;border-radius:11px;padding:10px 4px 8px;cursor:pointer;"><div style="width:30px;height:30px;border-radius:9999px;background:#EBEBEB;display:flex;align-items:center;justify-content:center;margin:0 auto 5px;"><svg viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.5" stroke-linecap="round" width="15" height="15"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></div><div style="font-size:9px;font-weight:700;color:#666;">Catatan<br>Lainnya</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 宠物选择 -->
+      <div style="display:flex;align-items:center;gap:6px;padding:10px 20px;font-size:13px;color:var(--color-text-secondary);">
+        <span>Untuk:</span>
+        <strong style="color:var(--color-text-heading);">🐱 Mochi</strong>
+        <span style="font-size:11px;color:#F0425A;">(wajib diisi)</span>
+      </div>
+
+      <!-- 图片区 -->
+      <div style="padding:0 20px 10px;">
+        <div style="font-size:11px;font-weight:600;color:var(--color-text-tertiary);margin-bottom:8px;">Foto / Gambar (maks. 9)</div>
+        <div style="display:flex;gap:8px;">
+          <div style="width:72px;height:72px;border-radius:12px;border:1.5px dashed #C2B0EC;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;flex-shrink:0;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#C2B0EC" stroke-width="1.5" stroke-linecap="round" width="20" height="20"><path d="M12 5v14M5 12h14"/></svg>
+            <span style="font-size:9px;color:#C2B0EC;">Tambah</span>
+          </div>
+          <div style="width:72px;height:72px;border-radius:12px;background:#F8F6FF;display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0;">🐱</div>
+          <div style="width:72px;height:72px;border-radius:12px;background:#FEF3DE;display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0;">☀️</div>
+        </div>
+      </div>
+
+      <!-- 文本框 -->
+      <div style="margin:0 20px 10px;background:var(--color-bg-subtle);border-radius:12px;padding:12px 14px;min-height:80px;">
+        <div style="font-size:13px;color:#BCBCBC;">Ceritakan momen spesial Mochi...</div>
+        <div style="text-align:right;font-size:10px;color:#BCBCBC;margin-top:6px;">0 / 1000</div>
+      </div>
+
+      <!-- 日期行 -->
+      <div style="margin:0 20px 14px;cursor:pointer;background:#F8F6FF;border:1.5px solid #DCD2F7;border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:8px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#845EC9" stroke-width="1.5" stroke-linecap="round" width="18" height="18"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        <span style="flex:1;font-size:13px;color:var(--color-text-primary);">Tanggal kejadian: <strong style="color:#845EC9;">1 Jul 2026</strong></span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="#845EC9" stroke-width="2" stroke-linecap="round" width="14" height="14"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
+
+      <div style="padding:10px 20px 20px;font-size:11px;color:var(--color-text-tertiary);text-align:center;line-height:1.6;">
+        Setelah dibagikan, konten akan terlihat oleh semua pengguna
+      </div>
+      <footer class="dev-note">复刻 V1.0.0 p-create（发布流）。V1.1.0 新增：「Tambah ke Rekam Kesehatan」开关行（FR-45），默认折叠关闭；用户开启后展开健康类型选择卡片（同 p-health-add），选完类型后与帖子内容同步写入成长档案 Tab（Paspor）。入口设计解决了「发帖行为」与「档案管理」在同一场景下的复合需求——用户分享健康相关内容时，不需要离开发帖流程单独去 Paspor 录入。</footer>
+    </div>
+
+    <!-- ═══════ ⑧ FR-48 情绪彩蛋便签 (The Talking Widget) ═══════ -->
+    <div class="page" id="p-feed-widget">
+      <div class="entry-tag">真实宿主页：p-feed（V1.0.0 既有首页），appbar 下方新增宠物对话气泡，「BARU」标出</div>
+      <!-- Appbar：仅保留品牌名（去掉 🐾，避免和下方欢迎区重复） -->
+      <div class="appbar">
+        <span class="appbar-title" style="font-size:18px;font-weight:700;">TailTopia</span>
+        <button class="ibtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></button>
+      </div>
+
+      <!-- BARU：情绪彩蛋（宠物说话卡片，与 Feed 帖子视觉融合） -->
+      <div class="new-row" style="margin:6px 0 2px;padding:0;">
+        <span class="new-tag" style="top:-6px;right:12px;">BARU · FR-48</span>
+        <div class="card" style="margin:0 16px;border-radius:16px;background:#F8F6FF;box-shadow:0 2px 10px rgba(132,94,201,.1);border:none;">
+          <div class="card-pad">
+            <div style="display:flex;gap:10px;align-items:flex-start;">
+              <div style="width:40px;height:40px;border-radius:9999px;background:linear-gradient(135deg,#9E83DA,#845EC9);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;box-shadow:0 2px 8px rgba(132,94,201,.3);">🐱</div>
+              <div style="flex:1;">
+                <div style="font-size:12px;font-weight:700;color:#845EC9;margin-bottom:4px;">Mochi · hewan peliharaanmu</div>
+                <!-- 状态 A：白天/常规文案 -->
+                <div id="bubble-day">
+                  <div style="font-size:13.5px;color:var(--color-text-primary);line-height:1.6;">"Hai bestie~ tau ga sih, hari ini gue cantik banget. Kayak biasanya."</div>
+                </div>
+                <!-- 状态 A-08：深夜专属文案（23:00–04:00） -->
+                <div id="bubble-night" style="display:none;">
+                  <div style="font-size:13.5px;color:var(--color-text-primary);line-height:1.6;">"Masih melek? Gue juga. Duduk deket sini aja ya, tapi jangan cerewet."</div>
+                  <div style="font-size:10px;color:var(--color-text-tertiary);margin-top:5px;">🌙 23:00–04:00</div>
+                </div>
+                <button onclick="toggleBubble()" style="margin-top:8px;background:none;border:none;font-size:10.5px;color:#845EC9;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;padding:0;">↻ 切换深夜文案</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chips">
+        <div class="chip on">Semua</div>
+        <div class="chip">🐱 Kucing</div>
+        <div class="chip">🐶 Anjing</div>
+        <div class="chip">🐰 Lainnya</div>
+      </div>
+      <div class="card">
+        <div class="card-pad">
+          <div style="display:flex;gap:9px;align-items:center;margin-bottom:9px;">
+            <div style="width:32px;height:32px;border-radius:9999px;background:#9E83DA;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:700;">P</div>
+            <div><div style="font-size:12.5px;font-weight:600;color:var(--color-text-heading);">Putri Rahayu</div><div style="font-size:10.5px;color:var(--color-text-tertiary);">2 jam lalu</div></div>
+          </div>
+          <div style="font-size:13px;color:var(--color-text-primary);line-height:1.5;">Oyen akhirnya mau makan lagi setelah semalam muntah 😮‍💨</div>
+        </div>
+      </div>
+      <footer class="dev-note">DESIGN.md/EXPERIENCE.md FR-48：气泡 100% 本地预置文案，离线正常渲染不留白不转圈。状态 A（已建档案）用宠物头像+傲娇 Jaksel 口吻 8 条；状态 B/C 用系统占位头像+温暖欢迎风 4 条（图中未演示，逻辑同构）。冷启动/下拉刷新各抽一次，连续两次索引不重复。</footer>
+    </div>
+
+    <!-- ═══════ ⑨ 新手任务·老用户批量解锁汇总弹窗 ═══════ -->
+    <div class="page flex" id="p-starter-welcome-back" style="justify-content:center;">
+      <div class="entry-tag" style="position:absolute;top:14px;left:0;z-index:999;">入口：V1.1.0 上线后，老用户（1.0.0 期间注册）首次打开 App，回溯判定满足≥1项任务时触发</div>
+      <div class="sheet-scrim" style="align-items:center;position:relative;">
+        <div class="sheet-card" style="border-radius:24px;text-align:center;">
+          <div style="font-size:34px;margin-bottom:10px;">🎉</div>
+          <div class="sheet-title" style="text-align:center;">Selamat Datang Kembali!</div>
+          <div class="sheet-desc" style="text-align:center;">Beberapa Tugas Pemula kamu sudah otomatis selesai dari riwayat aktivitas:</div>
+          <div style="display:flex;gap:10px;justify-content:center;margin-bottom:18px;">
+            <div style="text-align:center;">
+              <div style="width:52px;height:52px;border-radius:9999px;background:linear-gradient(135deg,#9E83DA,#845EC9);display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 6px;box-shadow:0 4px 14px rgba(132,94,201,.3);">✅</div>
+              <div style="font-size:10px;color:var(--color-text-secondary);width:62px;">Login pertama</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="width:52px;height:52px;border-radius:9999px;background:linear-gradient(135deg,#9E83DA,#845EC9);display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 6px;box-shadow:0 4px 14px rgba(132,94,201,.3);">🐾</div>
+              <div style="font-size:10px;color:var(--color-text-secondary);width:62px;">Buat profil</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="width:52px;height:52px;border-radius:9999px;background:linear-gradient(135deg,#9E83DA,#845EC9);display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 6px;box-shadow:0 4px 14px rgba(132,94,201,.3);">⚡</div>
+              <div style="font-size:10px;color:var(--color-text-secondary);width:62px;">Cek Gejala</div>
+            </div>
+          </div>
+          <button class="btn btn-primary" onclick="nav(null,'milestone-with-starter')">Lihat Tugas Pemula</button>
+        </div>
+      </div>
+      <footer class="dev-note" style="padding:0 20px 16px;">FR-47：老用户批量回溯解锁不逐个弹 S 级庆祝动效（避免连续弹窗轰炸），合并为一次「欢迎回来」汇总弹窗；新注册用户仍按单项触发逻辑逐个弹庆祝动效。</footer>
+    </div>
+
+    <!-- ═══════ 里程碑列表 + 新手任务专区（FR-47 正确 IA：新手任务在里程碑入口处独立展示为专区） ═══════ -->
+    <div class="page" id="p-milestone-with-starter">
+      <div class="entry-tag">真实宿主页：P-33 里程碑列表页（V1.0.0 既有页面），V1.1.0 新增「Tugas Pemula 新手任务」专区（红色 BARU 标出），独立于 L/M/S 里程碑计数之外</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 18px 14px;">
+        <button style="width:36px;height:36px;border-radius:11px;background:var(--color-bg-muted);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#544864" stroke-width="2.2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        </button>
+        <span style="font-size:16px;font-weight:700;color:var(--color-text-heading);">Milestone Mochi</span>
+        <div style="width:36px;"></div>
+      </div>
+
+      <!-- 总进度卡 -->
+      <div style="margin:0 20px 14px;background:var(--color-bg-surface);border-radius:16px;padding:14px 16px;box-shadow:0 4px 14px rgba(22,34,51,.08);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:40px;height:40px;border-radius:9999px;background:#F8F6FF;display:flex;align-items:center;justify-content:center;font-size:20px;">🐱</div>
+            <div><div style="font-size:13px;font-weight:700;color:var(--color-text-heading);">Mochi</div><div style="font-size:11px;color:var(--color-text-tertiary);">Kucing · 3 tahun</div></div>
+          </div>
+          <div style="text-align:right;"><div style="font-size:18px;font-weight:700;color:#845EC9;">5 / 30</div><div style="font-size:10px;color:var(--color-text-tertiary);">milestone</div></div>
+        </div>
+        <div style="height:6px;background:var(--color-bg-muted);border-radius:9999px;overflow:hidden;">
+          <div style="height:100%;width:16.6%;background:linear-gradient(90deg,#845EC9,#9E83DA);border-radius:9999px;"></div>
+        </div>
+      </div>
+
+      <!-- BARU：新手任务专区（独立于 L/M/S 计数之外） -->
+      <div class="new-row" style="margin:0 20px 14px;">
+        <span class="new-tag">BARU</span>
+        <div class="new-outline" style="border-radius:16px;background:var(--color-bg-surface);box-shadow:0 4px 14px rgba(22,34,51,.07);overflow:hidden;">
+          <div style="padding:13px 16px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #F3F3F3;">
+            <div>
+              <div style="font-size:13px;font-weight:700;color:var(--color-text-heading);">Tugas Pemula</div>
+              <div style="font-size:11px;color:var(--color-text-tertiary);margin-top:1px;">2 / 6 selesai · Tidak dihitung di progres milestone atas</div>
+            </div>
+            <div style="width:38px;height:38px;border-radius:9999px;background:var(--color-bg-subtle);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#845EC9;">2/6</div>
+          </div>
+          <div class="task done" style="border-bottom:none;padding:10px 16px;">
+            <div class="cb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></div>
+            <div class="t" style="font-size:12.5px;">Login pertama kali</div>
+          </div>
+          <div class="task done" style="border-bottom:none;padding:10px 16px;">
+            <div class="cb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></div>
+            <div class="t" style="font-size:12.5px;">Buat profil hewan peliharaan</div>
+          </div>
+          <div class="task" style="border-bottom:none;padding:10px 16px;">
+            <div class="cb"></div>
+            <div class="t" style="font-size:12.5px;">Cek Gejala pertama</div>
+          </div>
+          <div class="task" style="border-bottom:none;padding:10px 16px;">
+            <div class="cb"></div>
+            <div class="t" style="font-size:12.5px;">Posting momen pertama</div>
+          </div>
+          <div style="padding:10px 16px 13px;font-size:10.5px;color:var(--color-text-tertiary);border-top:1px solid #F8F8F8;">+2 tugas lainnya · <span style="color:#845EC9;font-weight:600;cursor:pointer;">Lihat semua ↓</span></div>
+        </div>
+      </div>
+
+      <!-- L 级里程碑 -->
+      <div style="padding:0 20px 10px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <div style="font-size:12px;font-weight:700;color:#F6A609;letter-spacing:.4px;text-transform:uppercase;">L 级 — Legenda</div>
+          <div style="font-size:11px;color:var(--color-text-tertiary);">1 / 5</div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
+          <div style="text-align:center;width:54px;"><div style="width:54px;height:54px;border-radius:9999px;background:linear-gradient(135deg,#F6A609,#FFD166);display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 12px rgba(246,166,9,.35);">🎂</div><div style="font-size:9px;color:var(--color-text-secondary);margin-top:4px;line-height:1.3;">Ulang<br>tahun</div></div>
+          <div style="text-align:center;width:54px;"><div style="width:54px;height:54px;border-radius:9999px;background:var(--color-bg-muted);display:flex;align-items:center;justify-content:center;font-size:24px;opacity:.5;">🗓️</div><div style="font-size:9px;color:#CCCCCC;margin-top:4px;line-height:1.3;">100<br>Hari</div></div>
+          <div style="text-align:center;width:54px;"><div style="width:54px;height:54px;border-radius:9999px;background:var(--color-bg-muted);display:flex;align-items:center;justify-content:center;font-size:24px;opacity:.5;">⭐</div><div style="font-size:9px;color:#CCCCCC;margin-top:4px;line-height:1.3;">365<br>Hari</div></div>
+        </div>
+        <!-- M 级 -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <div style="font-size:12px;font-weight:700;color:var(--color-text-secondary);letter-spacing:.4px;text-transform:uppercase;">M 级 — Major</div>
+          <div style="font-size:11px;color:var(--color-text-tertiary);">2 / 10</div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
+          <div style="text-align:center;width:54px;"><div style="width:54px;height:54px;border-radius:9999px;background:linear-gradient(135deg,#845EC9,#9E83DA);display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 12px rgba(132,94,201,.3);">🚗</div><div style="font-size:9px;color:var(--color-text-secondary);margin-top:4px;line-height:1.3;">Pertama<br>Naik Mobil</div></div>
+          <div style="text-align:center;width:54px;"><div style="width:54px;height:54px;border-radius:9999px;background:linear-gradient(135deg,#845EC9,#9E83DA);display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 12px rgba(132,94,201,.3);">💉</div><div style="font-size:9px;color:var(--color-text-secondary);margin-top:4px;line-height:1.3;">Vaksin<br>Pertama</div></div>
+          <div style="text-align:center;width:54px;position:relative;"><div style="width:54px;height:54px;border-radius:9999px;background:var(--color-bg-muted);border:2px dashed #C2B0EC;display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;">🐛</div><div style="position:absolute;top:-6px;right:-4px;background:#845EC9;color:#fff;font-size:8px;font-weight:700;padding:2px 5px;border-radius:5px;">Tap!</div><div style="font-size:9px;color:#845EC9;margin-top:4px;line-height:1.3;font-weight:600;">Obat<br>Cacing</div></div>
+          <div style="text-align:center;width:54px;"><div style="width:54px;height:54px;border-radius:9999px;background:var(--color-bg-muted);display:flex;align-items:center;justify-content:center;font-size:24px;opacity:.5;">🩺</div><div style="font-size:9px;color:#CCCCCC;margin-top:4px;line-height:1.3;">Pertama<br>ke Dokter</div></div>
+        </div>
+        <!-- S 级 -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <div style="font-size:12px;font-weight:700;color:var(--color-text-tertiary);letter-spacing:.4px;text-transform:uppercase;">S 级 — Small</div>
+          <div style="font-size:11px;color:var(--color-text-tertiary);">2 / 15</div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;">
+          <div style="text-align:center;width:54px;"><div style="width:54px;height:54px;border-radius:9999px;background:linear-gradient(135deg,#1FB877,#0E7A4D);display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 12px rgba(31,184,119,.3);">📋</div><div style="font-size:9px;color:var(--color-text-secondary);margin-top:4px;line-height:1.3;">Profil<br>Lengkap</div></div>
+          <div style="text-align:center;width:54px;"><div style="width:54px;height:54px;border-radius:9999px;background:linear-gradient(135deg,#1FB877,#0E7A4D);display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 12px rgba(31,184,119,.3);">📷</div><div style="font-size:9px;color:var(--color-text-secondary);margin-top:4px;line-height:1.3;">Foto<br>Pertama</div></div>
+          <div style="text-align:center;width:54px;"><div style="width:54px;height:54px;border-radius:9999px;background:var(--color-bg-muted);display:flex;align-items:center;justify-content:center;font-size:24px;opacity:.5;cursor:pointer;">🛁</div><div style="font-size:9px;color:#CCCCCC;margin-top:4px;line-height:1.3;">Mandi<br>Pertama</div></div>
+          <div style="text-align:center;width:54px;"><div style="width:54px;height:54px;border-radius:9999px;background:var(--color-bg-muted);display:flex;align-items:center;justify-content:center;font-size:24px;opacity:.4;">···</div><div style="font-size:9px;color:#CCCCCC;margin-top:4px;line-height:1.3;">+12<br>lainnya</div></div>
+        </div>
+      </div>
+      <footer class="dev-note">FR-47：「Tugas Pemula 新手任务」在里程碑入口处独立展示为专区（BARU 标记区域），不并入 L/M/S 的「已完成 X/N」进度条计数，两套独立。Paspor 主页上的进度横幅点进来就是这里。</footer>
+    </div>
+
+    <!-- ═══════ 客服入口底抽屉（保留 cs-contact-sheet 设计 + 新增站内工单入口） ═══════ -->
+    <div class="page flex" id="p-cs-entry" style="justify-content:flex-end;background:rgba(46,39,66,.45);">
+      <div class="entry-tag" style="position:absolute;top:14px;left:0;z-index:999;">入口：Profil 主页「Bantuan」图标按钮（原 V1.0.0 设计：cs-contact-sheet.html，V1.1.0 新增站内工单行）</div>
+      <div style="background:#fff;border-radius:24px 24px 0 0;width:100%;padding:10px 0 0;box-shadow:0 -8px 32px rgba(0,0,0,.12);">
+        <!-- handle bar -->
+        <div style="width:36px;height:4px;background:#DEDEDE;border-radius:9999px;margin:0 auto 18px;"></div>
+        <div style="padding:0 20px;">
+          <div style="font-size:17px;font-weight:700;color:var(--color-text-heading);margin-bottom:16px;">Bantuan &amp; Masukan</div>
+
+          <!-- WhatsApp 行 -->
+          <div style="display:flex;align-items:center;gap:13px;padding:10px 0;border-bottom:1px solid #F2F2F2;">
+            <div style="width:44px;height:44px;border-radius:12px;background:#E7F8EF;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="#1FB877"><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.98-1.418A9.956 9.956 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/><path fill="#fff" d="M8.5 9.5c.5 1 1 2 2 3s2 1.5 3 2l1-1c.5-.5 1-.5 1.5 0l1.5 1.5c.5.5.5 1 0 1.5l-1 1c-.5.5-1 .5-1.5.5-4 0-8-4-8-8 0-.5 0-1 .5-1.5L8 8c.5-.5 1-.5 1.5 0L11 9.5c.5.5.5 1 0 1.5L10.5 11"/></svg>
+            </div>
+            <div style="flex:1;">
+              <div style="font-size:14px;font-weight:600;color:var(--color-text-heading);">081290906953</div>
+              <div style="font-size:11.5px;color:var(--color-text-tertiary);margin-top:2px;">WhatsApp · Dibalas dalam 24 jam hari kerja</div>
+            </div>
+            <button style="width:32px;height:32px;border-radius:8px;background:#F3F3F3;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            </button>
+          </div>
+
+          <!-- Email 行 -->
+          <div style="display:flex;align-items:center;gap:13px;padding:10px 0;border-bottom:1px solid #F2F2F2;">
+            <div style="width:44px;height:44px;border-radius:12px;background:#F0EDFB;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#845EC9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 8.5 6a2.5 2.5 0 003 0L22 7"/></svg>
+            </div>
+            <div style="flex:1;">
+              <div style="font-size:14px;font-weight:600;color:var(--color-text-heading);">cs@tailtopia.id</div>
+              <div style="font-size:11.5px;color:var(--color-text-tertiary);margin-top:2px;">Email · Dibalas dalam 1–3 hari kerja</div>
+            </div>
+            <button style="width:32px;height:32px;border-radius:8px;background:#F3F3F3;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            </button>
+          </div>
+
+          <!-- BARU：站内工单 -->
+          <div style="position:relative;display:flex;align-items:center;gap:13px;padding:10px 0;" onclick="nav(null,'cs-list')" style="cursor:pointer;">
+            <span style="position:absolute;top:-6px;right:0;background:#F0425A;color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:6px;letter-spacing:.3px;">BARU</span>
+            <div style="width:44px;height:44px;border-radius:12px;background:#F0EDFB;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#845EC9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            </div>
+            <div style="flex:1;">
+              <div style="font-size:14px;font-weight:600;color:var(--color-text-heading);">Lapor Masalah</div>
+              <div style="font-size:11.5px;color:var(--color-text-tertiary);margin-top:2px;">Kirim tiket pengaduan · Lacak status penanganan</div>
+            </div>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#C2B0EC" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+
+          <button style="width:100%;margin-top:12px;margin-bottom:32px;padding:14px;border-radius:14px;background:#F5F5F5;border:none;font-size:14px;font-weight:600;color:var(--color-text-secondary);font-family:'Poppins',sans-serif;cursor:pointer;">Tutup</button>
+        </div>
+      </div>
+      <footer class="dev-note" style="padding:0 20px 16px;">保留 V1.0.0 cs-contact-sheet.html 原设计（WA + Email + 复制按钮 + Tutup）。sheet card 背景纯白 + shadow，与 page 的半透明深紫色 overlay 形成清晰层次；WA 图标用实色 fill SVG 而非描边（更像真实 WhatsApp 色彩）；Email/工单图标用 #F0EDFB 品牌紫浅底。</footer>
+    </div>
+
+    <!-- ═══════ ⑩ 兽医工作台·首页（入口宿主页，展示收费适配后完整导航结构） ═══════ -->
+    <div class="page flex" id="p-vet-home">
+      <div class="entry-tag">真实宿主页：VetWorkbenchShell（Flutter 4-底部导航 Shell），当前展示 VetInboxPage 标签内容，V1.1.0 新增 Pendapatan 标签 + 队列「Sudah Dibayar」标注</div>
+
+      <!-- 深紫色 Header：问候 + 在线 Toggle + 3色统计卡 -->
+      <div style="background:#2B2540;padding:14px 18px 16px;flex-shrink:0;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+          <div>
+            <div style="font-size:12px;color:rgba(255,255,255,.5);">Selamat pagi,</div>
+            <div style="font-size:18px;font-weight:700;color:#fff;">drh. Dewi Santoso</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <!-- 真实 Toggle Switch（对齐代码 VetTopBar） -->
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span style="font-size:11px;color:rgba(255,255,255,.6);">Online</span>
+              <div style="width:44px;height:24px;border-radius:9999px;background:#5BCBBB;position:relative;cursor:pointer;flex-shrink:0;">
+                <div style="width:20px;height:20px;border-radius:9999px;background:#fff;position:absolute;top:2px;right:2px;box-shadow:0 1px 4px rgba(0,0,0,.25);"></div>
+              </div>
+            </div>
+            <div style="width:40px;height:40px;border-radius:9999px;background:linear-gradient(135deg,#845EC9,#9E83DA);display:flex;align-items:center;justify-content:center;font-size:18px;">👩‍⚕️</div>
+          </div>
+        </div>
+        <!-- 3色统计卡（对齐代码 _StatRow：奶油/薄荷/金色） -->
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+          <div style="background:#FEF3DE;border-radius:12px;padding:11px 8px;text-align:center;">
+            <div style="font-size:22px;font-weight:700;color:#8A5A00;">3</div>
+            <div style="font-size:9px;font-weight:600;color:#B07A0A;margin-top:2px;">Antrian</div>
+          </div>
+          <div style="background:#D6F5E7;border-radius:12px;padding:11px 8px;text-align:center;">
+            <div style="font-size:22px;font-weight:700;color:#0E7A4D;">8</div>
+            <div style="font-size:9px;font-weight:600;color:#0E7A4D;margin-top:2px;">Selesai Hari Ini</div>
+          </div>
+          <div style="background:linear-gradient(135deg,#FFF3C4,#FFE47A);border-radius:12px;padding:11px 8px;text-align:center;">
+            <div style="font-size:22px;font-weight:700;color:#7A5500;">4.9</div>
+            <div style="font-size:9px;font-weight:600;color:#7A5500;margin-top:2px;">Rating ⭐</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 队列内容区 -->
+      <div style="padding:14px 18px;flex:1;overflow-y:auto;">
+        <div style="font-size:11px;font-weight:700;color:var(--color-text-tertiary);letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px;">ANTRIAN SEKARANG (3)</div>
+
+        <!-- 队列卡片1：黄色 triage + BARU 已付款标注 + 操作按钮 -->
+        <div class="new-row" style="margin-bottom:10px;">
+          <span class="new-tag" style="top:-7px;right:8px;background:#0E7A4D;">Sudah Dibayar</span>
+          <div class="new-outline" style="background:var(--color-bg-surface);border-radius:14px;box-shadow:0 2px 8px rgba(22,34,51,.07);overflow:hidden;">
+            <div style="height:4px;background:#F6A609;"></div>
+            <div style="padding:12px 14px;">
+              <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;">
+                <div style="width:38px;height:38px;border-radius:9999px;background:#F8F6FF;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🐱</div>
+                <div style="flex:1;">
+                  <div style="font-size:13px;font-weight:700;color:var(--color-text-heading);">Mochi · @aditya</div>
+                  <div style="font-size:11px;color:var(--color-text-secondary);">Kucing · Betina · 1 thn</div>
+                </div>
+                <span style="font-size:9.5px;font-weight:700;color:#8A5A00;background:#FEF3DE;padding:3px 7px;border-radius:6px;white-space:nowrap;">🟡 Perlu Konsul</span>
+              </div>
+              <div style="font-size:12px;color:var(--color-text-secondary);font-style:italic;margin-bottom:10px;line-height:1.4;">"Muntah busa putih 2x, lemas, tidak nafsu makan"</div>
+              <div style="display:flex;gap:8px;align-items:center;">
+                <span style="font-size:10.5px;color:var(--color-text-tertiary);flex:1;">⏱ 2 mnt lalu</span>
+                <button style="padding:6px 14px;border:1.5px solid #E0E0E0;border-radius:8px;background:none;font-size:11.5px;font-weight:600;color:var(--color-text-secondary);font-family:'Poppins',sans-serif;cursor:pointer;">Lewati</button>
+                <button onclick="nav(null,'vet-queue-pay')" style="padding:6px 16px;border:none;border-radius:8px;background:#5BCBBB;font-size:11.5px;font-weight:700;color:#fff;font-family:'Poppins',sans-serif;cursor:pointer;">Lihat Detail</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 队列卡片2：绿色 triage + 操作按钮（半透明，表示在后面） -->
+        <div style="background:var(--color-bg-surface);border-radius:14px;box-shadow:0 2px 8px rgba(22,34,51,.07);overflow:hidden;opacity:.55;">
+          <div style="height:4px;background:#1FB877;"></div>
+          <div style="padding:12px 14px;">
+            <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;">
+              <div style="width:38px;height:38px;border-radius:9999px;background:#EFF7F4;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🐶</div>
+              <div style="flex:1;">
+                <div style="font-size:13px;font-weight:700;color:var(--color-text-heading);">Oyen · @rani</div>
+                <div style="font-size:11px;color:var(--color-text-secondary);">Anjing · Jantan · 3 thn</div>
+              </div>
+              <span style="font-size:9.5px;font-weight:700;color:#0E7A4D;background:#E7F8F0;padding:3px 7px;border-radius:6px;">🟢 Normal</span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <span style="font-size:10.5px;color:var(--color-text-tertiary);flex:1;">⏱ 5 mnt lalu</span>
+              <button style="padding:6px 14px;border:1.5px solid #E0E0E0;border-radius:8px;background:none;font-size:11.5px;font-weight:600;color:var(--color-text-secondary);font-family:'Poppins',sans-serif;cursor:pointer;">Lewati</button>
+              <button style="padding:6px 16px;border:none;border-radius:8px;background:#5BCBBB;font-size:11.5px;font-weight:700;color:#fff;font-family:'Poppins',sans-serif;cursor:pointer;">Lihat Detail</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 底部导航（对齐代码 VetWorkbenchShell 4-tab）-->
+      <div style="background:#fff;border-top:1px solid #F0F0F0;display:flex;flex-shrink:0;">
+        <button style="flex:1;padding:10px 4px 8px;border:none;background:none;font-family:'Poppins',sans-serif;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#5BCBBB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0H4"/></svg>
+          <span style="font-size:10px;font-weight:700;color:#5BCBBB;">Antrian</span>
+        </button>
+        <button onclick="nav(null,'vet-active')" style="flex:1;padding:10px 4px 8px;border:none;background:none;font-family:'Poppins',sans-serif;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#B0B0B0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          <span style="font-size:10px;font-weight:500;color:#B0B0B0;">Aktif</span>
+        </button>
+        <button onclick="nav(null,'vet-history-pay')" style="flex:1;padding:10px 4px 8px;border:none;background:none;font-family:'Poppins',sans-serif;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#B0B0B0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2 2"/></svg>
+          <span style="font-size:10px;font-weight:500;color:#B0B0B0;">Riwayat</span>
+        </button>
+        <div class="new-row" style="margin:0;flex:1;position:relative;">
+          <span class="new-tag" style="top:-6px;right:6px;font-size:7px;padding:1px 4px;">BARU</span>
+          <button onclick="nav(null,'vet-income')" style="width:100%;padding:10px 4px 8px;border:none;background:none;font-family:'Poppins',sans-serif;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#B0B0B0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+            <span style="font-size:10px;font-weight:500;color:#B0B0B0;">Pendapatan</span>
+          </button>
+        </div>
+        <button style="flex:1;padding:10px 4px 8px;border:none;background:none;font-family:'Poppins',sans-serif;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#B0B0B0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span style="font-size:10px;font-weight:500;color:#B0B0B0;">Saya</span>
+        </button>
+      </div>
+
+      <footer class="dev-note">对齐 VetWorkbenchShell（4-底部导航）+ VetInboxPage 代码实现：① 在线状态改为真实 Toggle Switch；② 统计卡改为奶油/薄荷/金三色（对齐 _StatRow）；③ 队列卡片新增 Lewati/Lihat Detail 操作按钮 + 「Sudah Dibayar」BARU 标注（FR-53A）；④ 底部导航5项，「Pendapatan」为 V1.1.0 新增（FR-53D）。</footer>
+    </div>
+
+    <!-- ═══════ ⑩ 兽医工作台·接单队列（FR-53A：不展示用户支付金额） ═══════ -->
+    <div class="page" id="p-vet-queue-pay">
+      <div class="entry-tag">真实宿主页：V-02 兽医工作台·待接单列表（V1.0.0 既有页面），V1.1.0 起队列内全部请求均已付款，但金额字段对兽医不可见</div>
+      <div style="background:#2B2540;padding:14px 18px 14px;display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <div style="font-size:13px;color:rgba(255,255,255,.6);">Selamat pagi,</div>
+          <div style="font-size:17px;font-weight:700;color:#fff;">drh. Dewi Santoso</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);border-radius:9999px;padding:5px 12px;">
+          <div style="width:8px;height:8px;border-radius:9999px;background:#5BCBBB;"></div>
+          <span style="font-size:12px;font-weight:600;color:#fff;">Online</span>
+        </div>
+      </div>
+      <div style="padding:16px 18px 8px;">
+        <div style="font-size:11px;font-weight:700;color:var(--color-text-tertiary);letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px;">ANTRIAN SEKARANG (2)</div>
+        <div class="new-row" style="margin-bottom:11px;">
+          <span class="new-tag" style="top:-7px;right:8px;">Sudah dibayar</span>
+          <div class="new-outline" style="background:var(--color-bg-surface);border-radius:16px;box-shadow:0 3px 12px rgba(22,34,51,.08);overflow:hidden;">
+            <div style="height:4px;background:#F6A609;"></div>
+            <div style="padding:13px 15px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                <div style="display:flex;gap:9px;align-items:center;">
+                  <div style="width:36px;height:36px;border-radius:9999px;background:linear-gradient(135deg,#F8F6FF,#DCD2F7);display:flex;align-items:center;justify-content:center;font-size:16px;">🐱</div>
+                  <div><div style="font-size:13px;font-weight:700;color:var(--color-text-heading);">Mochi · @aditya</div><div style="font-size:11px;color:var(--color-text-secondary);">Kucing · Betina · 1 thn</div></div>
+                </div>
+                <div style="text-align:right;"><div style="font-size:10px;font-weight:700;color:#F6A609;background:#FEF3DE;padding:2px 8px;border-radius:6px;margin-bottom:3px;">🟡 Perlu Konsul</div><div style="font-size:10px;color:var(--color-text-tertiary);">2 mnt lalu</div></div>
+              </div>
+              <div style="background:#FEF3DE;border-radius:9px;padding:8px 11px;margin-bottom:10px;"><div style="font-size:10px;font-weight:700;color:#8A5A00;margin-bottom:3px;">RINGKASAN AI</div><div style="font-size:12px;color:var(--color-text-primary);line-height:1.45;">Muntah busa putih 2x sejak dini hari, lemas, tidak nafsu makan.</div></div>
+              <div style="display:flex;gap:8px;">
+                <button style="flex:1;padding:9px;background:transparent;border:1.5px solid #E6E6E6;border-radius:10px;font-size:12px;color:var(--color-text-secondary);font-family:'Poppins',sans-serif;cursor:pointer;">Lewati</button>
+                <button style="flex:2;padding:9px;background:#5BCBBB;border:none;border-radius:10px;font-size:12px;font-weight:700;color:#fff;font-family:'Poppins',sans-serif;cursor:pointer;box-shadow:0 3px 10px rgba(91,203,187,.3);">Lihat Detail →</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="new-row">
+          <span class="new-tag" style="top:-7px;right:8px;">Sudah dibayar</span>
+          <div class="new-outline" style="background:var(--color-bg-surface);border-radius:16px;box-shadow:0 3px 12px rgba(22,34,51,.08);overflow:hidden;">
+            <div style="height:4px;background:#5BCBBB;"></div>
+            <div style="padding:13px 15px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                <div style="display:flex;gap:9px;align-items:center;">
+                  <div style="width:36px;height:36px;border-radius:9999px;background:linear-gradient(135deg,#EFF7F4,#5BCBBB);display:flex;align-items:center;justify-content:center;font-size:16px;">🐶</div>
+                  <div><div style="font-size:13px;font-weight:700;color:var(--color-text-heading);">Oyen · @rani</div><div style="font-size:11px;color:var(--color-text-secondary);">Anjing · Jantan · 3 thn</div></div>
+                </div>
+                <div style="text-align:right;"><div style="font-size:10px;font-weight:700;color:#5BCBBB;background:#EFF7F4;padding:2px 8px;border-radius:6px;margin-bottom:3px;">🟢 Normal</div><div style="font-size:10px;color:var(--color-text-tertiary);">5 mnt lalu</div></div>
+              </div>
+              <div style="display:flex;gap:8px;">
+                <button style="flex:1;padding:9px;background:transparent;border:1.5px solid #E6E6E6;border-radius:10px;font-size:12px;color:var(--color-text-secondary);font-family:'Poppins',sans-serif;cursor:pointer;">Lewati</button>
+                <button style="flex:2;padding:9px;background:#5BCBBB;border:none;border-radius:10px;font-size:12px;font-weight:700;color:#fff;font-family:'Poppins',sans-serif;cursor:pointer;box-shadow:0 3px 10px rgba(91,203,187,.3);">Lihat Detail →</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="dev-note" style="padding:0 18px 16px;">FR-53A：队列卡片字段与 V1.0.0 完全一致（用户昵称匿名化/宠物信息/AI摘要/等待时长），唯一变化是绿色「Sudah dibayar」标记替代原本可能展示金额的位置——不展示用户支付金额、不展示支付方式（QRIS/DANA/PawCoin 对兽医外观无差别）。</footer>
+    </div>
+
+    <!-- ═══════ 兽医工作台·用户取消 Toast 提示（FR-53B） ═══════ -->
+    <div class="page" id="p-vet-cancel-toast">
+      <div class="entry-tag">触发：用户接单前取消，或 1 分钟超时无人接单（Cancel/Void 成功或失败均适用）</div>
+      <div style="background:#2B2540;padding:14px 18px 14px;display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <div style="font-size:13px;color:rgba(255,255,255,.6);">Selamat pagi,</div>
+          <div style="font-size:17px;font-weight:700;color:#fff;">drh. Dewi Santoso</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);border-radius:9999px;padding:5px 12px;">
+          <div style="width:8px;height:8px;border-radius:9999px;background:#5BCBBB;"></div>
+          <span style="font-size:12px;font-weight:600;color:#fff;">Online</span>
+        </div>
+      </div>
+      <div style="padding:16px 18px;">
+        <div style="font-size:11px;font-weight:700;color:var(--color-text-tertiary);letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px;">ANTRIAN SEKARANG (1)</div>
+        <div style="background:var(--color-bg-surface);border-radius:16px;box-shadow:0 3px 12px rgba(22,34,51,.08);overflow:hidden;opacity:.5;">
+          <div style="height:4px;background:#5BCBBB;"></div>
+          <div style="padding:13px 15px;">
+            <div style="display:flex;gap:9px;align-items:center;">
+              <div style="width:36px;height:36px;border-radius:9999px;background:linear-gradient(135deg,#EFF7F4,#5BCBBB);display:flex;align-items:center;justify-content:center;font-size:16px;">🐶</div>
+              <div><div style="font-size:13px;font-weight:700;color:var(--color-text-heading);">Oyen · @rani</div><div style="font-size:11px;color:var(--color-text-secondary);">Anjing · Jantan · 3 thn</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 顶部短暂 Toast，约3秒自动消失 -->
+      <div style="position:absolute;top:60px;left:18px;right:18px;background:#2E2742;border-radius:12px;padding:11px 15px;display:flex;align-items:center;gap:9px;box-shadow:0 8px 24px rgba(0,0,0,.25);">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+        <span style="font-size:12.5px;font-weight:600;color:#fff;">Pasien telah dibatalkan oleh pengguna</span>
+      </div>
+      <footer class="dev-note" style="padding:0 18px 16px;">FR-53B：请求从接单队列消失的同时，顶部展示约 3 秒自动消失的 Toast（「用户已取消」或「该请求已超时取消」），无需兽医操作。「兽医接单后（会话已建立）用户要求退款」场景不在工作台展示任何通知，仅走客服人工工单（OQ-9）。</footer>
+    </div>
+
+    <!-- ═══════ 兽医工作台·历史记录（到手金额展示，FR-53C） ═══════ -->
+    <div class="page" id="p-vet-history-pay">
+      <div class="entry-tag">真实宿主页：V-06 兽医工作台·历史记录列表（V1.0.0 既有页面），会话「已完成」后新增到手金额字段</div>
+      <div style="background:#2B2540;padding:14px 18px 12px;display:flex;align-items:center;justify-content:space-between;">
+        <div style="font-size:17px;font-weight:700;color:#fff;">Riwayat Konsultasi</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.5);">Total: 8 hari ini</div>
+      </div>
+      <div style="padding:14px 16px 20px;display:flex;flex-direction:column;gap:10px;">
+        <div class="new-row">
+          <span class="new-tag" style="top:-7px;right:10px;">BARU</span>
+          <div class="new-outline" style="background:var(--color-bg-surface);border-radius:14px;padding:13px 15px;box-shadow:0 2px 8px rgba(22,34,51,.06);">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+              <div style="display:flex;gap:10px;align-items:center;">
+                <div style="width:36px;height:36px;border-radius:9999px;background:linear-gradient(135deg,#F8F6FF,#DCD2F7);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">🐱</div>
+                <div><div style="font-size:13px;font-weight:700;color:var(--color-text-heading);">Mochi · @aditya</div><div style="font-size:11px;color:var(--color-text-tertiary);">Gastroenteritis ringan · 18 mnt</div></div>
+              </div>
+              <div style="text-align:right;"><div style="font-size:12px;color:#F6A609;font-weight:700;">⭐ 5.0</div><div style="font-size:10px;color:var(--color-text-tertiary);">14:32</div></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <span style="font-size:10px;background:#FEF3DE;color:#8A5A00;padding:2px 7px;border-radius:5px;font-weight:600;">Konsultasi Dasar</span>
+              <span style="font-size:14px;font-weight:700;color:#0E7A4D;">Diterima: Rp30.000</span>
+            </div>
+          </div>
+        </div>
+        <div class="new-row">
+          <span class="new-tag" style="top:-7px;right:10px;">BARU</span>
+          <div class="new-outline" style="background:var(--color-bg-surface);border-radius:14px;padding:13px 15px;box-shadow:0 2px 8px rgba(22,34,51,.06);">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+              <div style="display:flex;gap:10px;align-items:center;">
+                <div style="width:36px;height:36px;border-radius:9999px;background:#EFF7F4;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">🐶</div>
+                <div><div style="font-size:13px;font-weight:700;color:var(--color-text-heading);">Oyen · @rani</div><div style="font-size:11px;color:var(--color-text-tertiary);">Upgrade dari Cek Gejala · 9 mnt</div></div>
+              </div>
+              <div style="text-align:right;"><div style="font-size:12px;color:#F6A609;font-weight:700;">⭐ 4.8</div><div style="font-size:10px;color:var(--color-text-tertiary);">13:10</div></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <span style="font-size:10px;background:#F8F6FF;color:#845EC9;padding:2px 7px;border-radius:5px;font-weight:600;">Upgrade dari AI</span>
+              <span style="font-size:14px;font-weight:700;color:#0E7A4D;">Diterima: Rp25.000</span>
+            </div>
+          </div>
+        </div>
+        <div class="new-row">
+          <span class="new-tag" style="top:-7px;right:10px;background:#F0425A;">Refund</span>
+          <div class="new-outline" style="background:var(--color-bg-surface);border-radius:14px;padding:13px 15px;box-shadow:0 2px 8px rgba(22,34,51,.06);opacity:.7;">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+              <div style="display:flex;gap:10px;align-items:center;">
+                <div style="width:36px;height:36px;border-radius:9999px;background:#FDE7EB;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">🐕</div>
+                <div><div style="font-size:13px;font-weight:700;color:var(--color-text-heading);">Benji · @bagas</div><div style="font-size:11px;color:var(--color-text-tertiary);">Dibatalkan via CS · 11:45</div></div>
+              </div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <span class="badge b-error">Refund</span>
+              <span style="font-size:14px;font-weight:700;color:var(--color-text-tertiary);text-decoration:line-through;">Diterima: Rp0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="dev-note" style="padding:0 18px 16px;">FR-53C：基础问诊到手 Rp30.000（=Rp50.000×60%），升级问诊到手 Rp25.000（=Rp50.000×50%）；不展示用户付款总额、平台抽佣比例、分成百分比。被客服退款的已完成咨询，到手金额变更为 Rp0 并标注「Refund」，月结时不计入分成。</footer>
+    </div>
+
+    <!-- ═══════ 兽医工作台·我的收入（FR-53D，新增页面） ═══════ -->
+    <div class="page" id="p-vet-income">
+      <div class="entry-tag">入口：兽医工作台导航栏「我的收入」（与「接单」「资质」并列，本次新增）</div>
+      <div style="background:#2B2540;padding:14px 18px 12px;">
+        <span style="font-size:17px;font-weight:700;color:#fff;">Pendapatan Saya</span>
+      </div>
+      <div style="padding:16px 18px;">
+        <div style="background:linear-gradient(135deg,#845EC9,#9E83DA);border-radius:18px;padding:18px;color:#fff;margin-bottom:18px;">
+          <div style="font-size:11px;opacity:.8;margin-bottom:6px;">Bulan Ini · Juni 2026</div>
+          <div style="font-size:28px;font-weight:700;margin-bottom:8px;">Rp385.000</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:11.5px;opacity:.85;">12 konsultasi selesai</span>
+            <span style="font-size:10.5px;font-weight:700;background:rgba(255,255,255,.2);padding:3px 10px;border-radius:9999px;">Menunggu Settlement</span>
+          </div>
+          <div style="font-size:10.5px;opacity:.7;margin-top:8px;">Settlement otomatis setiap tanggal 1</div>
+        </div>
+
+        <div style="font-size:11px;font-weight:700;color:var(--color-text-tertiary);letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px;">RIWAYAT BULANAN</div>
+
+        <div style="background:var(--color-bg-surface);border-radius:14px;box-shadow:0 2px 8px rgba(22,34,51,.06);overflow:hidden;margin-bottom:10px;">
+          <div style="padding:13px 15px;cursor:pointer;" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <span style="font-size:13.5px;font-weight:700;color:var(--color-text-heading);">Mei 2026</span>
+              <span class="badge b-success">Sudah Settlement</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
+              <span style="font-size:12px;color:var(--color-text-secondary);">Rp720.000 · 23 konsultasi</span>
+              <span style="font-size:11px;color:#845EC9;">Detail ↓</span>
+            </div>
+          </div>
+          <div style="display:none;border-top:1px solid #F3F3F3;padding:10px 15px;">
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--color-text-secondary);padding:6px 0;border-bottom:1px solid #F8F8F8;"><span>31 Mei · Konsultasi Dasar</span><span style="color:#0E7A4D;font-weight:600;">Rp30.000</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--color-text-secondary);padding:6px 0;border-bottom:1px solid #F8F8F8;"><span>29 Mei · Upgrade dari AI</span><span style="color:#0E7A4D;font-weight:600;">Rp25.000</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--color-text-secondary);padding:6px 0;"><span>28 Mei · Konsultasi Dasar</span><span style="color:#0E7A4D;font-weight:600;">Rp30.000</span></div>
+            <div style="font-size:10.5px;color:var(--color-text-tertiary);margin-top:8px;">Dana ditransfer 1 Jun 2026</div>
+          </div>
+        </div>
+
+        <div style="background:var(--color-bg-surface);border-radius:14px;box-shadow:0 2px 8px rgba(22,34,51,.06);padding:13px 15px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:13.5px;font-weight:700;color:var(--color-text-heading);">April 2026</span>
+            <span class="badge b-success">Sudah Settlement</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
+            <span style="font-size:12px;color:var(--color-text-secondary);">Rp540.000 · 18 konsultasi</span>
+            <span style="font-size:11px;color:#845EC9;">Detail ↓</span>
+          </div>
+        </div>
+      </div>
+      <footer class="dev-note" style="padding:0 18px 16px;">FR-53D：当月待结算区块实时统计，「每月1日结算上月收入」；历史月份点击展开当月明细（日期+类型+到手金额）。不展示用户信息、付款总额、平台留存、分成百分比——仅展示兽医自身收入维度数据。</footer>
+    </div>
+
+
+  </div>
+</div>
+<div style="font-size:11px;color:#999;text-align:center;margin-top:10px;max-width:390px;">TailTopia V1.1.0 新增/改动页面预览（印尼语 UI） · 对应 DESIGN.md / EXPERIENCE.md（项目总述/）· 灰色「入口」标签为开发标注，非产品界面文案</div>
+</div>
+
+<script>
+function nav(btn,id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.getElementById('p-'+id).classList.add('on');
+  document.querySelectorAll('.navbtn').forEach(b=>b.classList.remove('cur'));
+  if(btn) btn.classList.add('cur');
+  else {
+    document.querySelectorAll('.navbtn').forEach(b=>{ if(b.getAttribute('onclick') && b.getAttribute('onclick').includes("'"+id+"'")) b.classList.add('cur'); });
+  }
+}
+function checkAcct(){
+  const v = document.getElementById('acct-input').value.replace(/\D/g,'');
+  const ok = v.length>=10 && v.length<=13;
+  document.getElementById('acct-submit').disabled = !ok;
+  document.getElementById('acct-hint').textContent = ok ? 'Format benar' : 'Masukkan 10-13 digit angka, akan dikonfirmasi sekali lagi sebelum dikirim.';
+  document.getElementById('acct-hint').style.color = ok ? '#0E7A4D' : '#999';
+}
+function toggleBubble(){
+  const day = document.getElementById('bubble-day');
+  const night = document.getElementById('bubble-night');
+  const showNight = day.style.display !== 'none';
+  day.style.display = showNight ? 'none' : 'flex';
+  night.style.display = showNight ? 'flex' : 'none';
+}
+function idStyle(chip,id){
+  document.querySelectorAll('.idstyle').forEach(el=>el.style.display='none');
+  document.getElementById('idstyle-'+id).style.display='block';
+  chip.parentElement.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
+  chip.classList.add('on');
+  const hint = document.getElementById('pelajar-edit-hint');
+  if(hint) hint.style.display = id==='pelajar' ? 'flex' : 'none';
+}
+(function(){
+  const y = new Date().getFullYear();
+  const el = document.getElementById('id-year-range');
+  if(el) el.textContent = y+'–'+(y+1);
+})();
+
+function hrType(card, type){
+  card.parentElement.querySelectorAll('[class*="hrtype-card"]').forEach(c=>{
+    c.style.border='1.5px solid #EDCECE';
+    c.style.boxShadow='none';
+    c.style.transform='scale(1)';
+  });
+  card.style.border='2px solid #845EC9';
+  card.style.boxShadow='0 0 0 3px rgba(132,94,201,.15)';
+  card.style.transform='scale(1.03)';
+  const vaxName = document.getElementById('hr-vax-name');
+  const tip = document.getElementById('hr-tip');
+  if(vaxName) vaxName.style.display = (type==='vax-other') ? 'block' : 'none';
+  if(tip) tip.style.display = (type==='rabies'||type==='vax-other'||type==='deworm') ? 'block' : 'none';
+  const tips = {
+    rabies: '💡 <b>Vaksin Rabies</b> wajib diulang setiap 1 tahun. Pastikan catat tanggal & nama klinik.',
+    'vax-other': '💡 Catat nama vaksin lengkap (cth: FVRCP, DHPPi) agar pengingat booster lebih akurat.',
+    deworm: '💡 <b>Obat Cacing</b> umumnya diberikan setiap 3 bulan. Catat berat badan saat pemberian.'
+  };
+  if(tip && tips[type]) tip.querySelector('.hint').innerHTML = tips[type];
+}
+
+function idZoom(){
+  const activeStyle = document.querySelector('.idstyle[style*="block"]') || document.querySelector('#idstyle-ktp');
+  const inner = document.getElementById('idcard-zoom-inner');
+  const overlay = document.getElementById('idcard-zoom-overlay');
+  if(!inner || !overlay || !activeStyle) return;
+  inner.innerHTML = activeStyle.outerHTML;
+  inner.querySelector('[onclick]') && inner.querySelectorAll('[onclick]').forEach(el=>el.removeAttribute('onclick'));
+  overlay.style.display='flex';
+}
+
+function editSchool(){
+  document.getElementById('school-display').style.display='none';
+  const wrap = document.getElementById('school-edit-wrap');
+  wrap.style.display='block';
+  const input = document.getElementById('school-input');
+  input.focus();
+  input.select();
+}
+function saveSchool(){
+  const val = document.getElementById('school-input').value.trim() || 'UNIVERSITAS TAILTOPIA';
+  document.getElementById('school-display').textContent = val;
+  document.getElementById('school-display').style.display='block';
+  document.getElementById('school-edit-wrap').style.display='none';
+}
+
+function editMajor(){
+  document.getElementById('major-display').style.display='none';
+  const wrap = document.getElementById('major-edit-wrap');
+  wrap.style.display='block';
+  const input = document.getElementById('major-input');
+  input.focus();
+  input.select();
+}
+function saveMajor(){
+  const val = document.getElementById('major-input').value.trim() || 'Kebahagiaan Hewan 🐾';
+  document.getElementById('major-display').textContent = val;
+  document.getElementById('major-display').style.display='inline-block';
+  document.getElementById('major-edit-wrap').style.display='none';
+}
+
+function postCategory(el, type){
+  el.closest('.chips').querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
+  el.classList.add('on');
+  const section = document.getElementById('health-attach-section');
+  if (!section) return;
+  section.style.display = type === 'tumbuh' ? 'block' : 'none';
+  if (type !== 'tumbuh') {
+    const toggle = document.getElementById('health-attach-toggle');
+    const knob   = document.getElementById('health-attach-knob');
+    const expand = document.getElementById('health-attach-expand');
+    const hint   = document.getElementById('health-attach-hint');
+    if (toggle) toggle.style.background = '#E0E0E0';
+    if (knob)   knob.style.left = '2px';
+    if (expand) expand.style.display = 'none';
+    if (hint)   hint.textContent = 'Opsional · postingan ini juga tercatat di Paspor';
+  }
+}
+function toggleHealthAttach(row){
+  const expand = document.getElementById('health-attach-expand');
+  const toggle = document.getElementById('health-attach-toggle');
+  const knob = document.getElementById('health-attach-knob');
+  const hint = document.getElementById('health-attach-hint');
+  const isOn = expand.style.display !== 'none';
+  if(isOn){
+    expand.style.display='none';
+    toggle.style.background='#E0E0E0';
+    knob.style.left='2px';
+    hint.textContent='Opsional · postingan ini juga tercatat di Paspor';
+  } else {
+    expand.style.display='block';
+    toggle.style.background='#845EC9';
+    knob.style.left='18px';
+    hint.textContent='Aktif · pilih jenis catatan di bawah';
+  }
+}
+function postHrType(card, type){
+  card.parentElement.querySelectorAll('div[onclick]').forEach(c=>{
+    c.style.border='1.5px solid '+c.style.borderColor;
+    c.style.boxShadow='none';
+    c.style.transform='scale(1)';
+  });
+  card.style.border='2px solid #845EC9';
+  card.style.boxShadow='0 0 0 3px rgba(132,94,201,.15)';
+  card.style.transform='scale(1.04)';
+}
+
+function paspor_tab(tab){
+  const tl = document.getElementById('paspor-view-tl');
+  const cal = document.getElementById('paspor-view-cal');
+  const btnTl = document.getElementById('paspor-tab-tl');
+  const btnCal = document.getElementById('paspor-tab-cal');
+  if(!tl||!cal||!btnTl||!btnCal) return;
+  if(tab==='tl'){
+    tl.style.display='block'; cal.style.display='none';
+    btnTl.style.background='#845EC9'; btnTl.style.color='#fff';
+    btnCal.style.background='var(--color-bg-surface)'; btnCal.style.color='var(--color-text-secondary)';
+  } else {
+    tl.style.display='none'; cal.style.display='block';
+    btnCal.style.background='#845EC9'; btnCal.style.color='#fff';
+    btnTl.style.background='var(--color-bg-surface)'; btnTl.style.color='var(--color-text-secondary)';
+  }
+}
+</script>
+</body>
+</html>
