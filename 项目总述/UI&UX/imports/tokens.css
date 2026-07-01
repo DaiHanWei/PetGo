@@ -179,6 +179,7 @@
   --font-weight-semibold: 600;
   --font-weight-bold:     700;
 
+  /* Primitive size scale (4px base grid reference) */
   --text-xs:  12px;
   --text-sm:  14px;
   --text-md:  16px;
@@ -188,8 +189,20 @@
   --text-3xl: 28px;
   --text-4xl: 34px;
 
-  --leading-tight:   1.25;
-  --leading-snug:    1.4;
+  /* Semantic typography roles — Flutter implementation (confirmed 2026-07-01) */
+  --text-display:  30px;  /* Flutter Display  / 700 */
+  --text-headline: 24px;  /* Flutter Headline / 700 — alias --text-2xl */
+  --text-title:    18px;  /* Flutter Title    / 600 — alias --text-lg */
+  --text-body:     15px;  /* Flutter Body     / 400 */
+  --text-label:    14px;  /* Flutter Label    / 500 — alias --text-sm */
+  --text-caption:  13px;  /* Flutter Caption  / 400 */
+  --text-micro:    11px;  /* Flutter Micro    / 400 */
+
+  --leading-compact: 1.2;   /* display */
+  --leading-tight:   1.25;  /* headline */
+  --leading-tighter: 1.3;   /* title / micro */
+  --leading-snug:    1.4;   /* label / caption */
+  --leading-fitted:  1.45;  /* body */
   --leading-normal:  1.5;
   --leading-relaxed: 1.6;
 
@@ -214,13 +227,14 @@
   --space-16: 64px;
   --space-20: 80px;
 
-  --radius-sm:   4px;
-  --radius-md:   8px;
-  --radius-lg:   12px;
-  --radius-xl:   16px;
-  --radius-2xl:  28px;
-  --radius-3xl:  32px;
-  --radius-full: 9999px;
+  --radius-sm:   6px;    /* badges, small status tags */
+  --radius-md:   12px;   /* form inputs, compact entries */
+  --radius-lg:   14px;   /* SIGNATURE button radius */
+  --radius-xl:   16px;   /* standard content cards */
+  --radius-2xl:  20px;   /* large cards: pet passport, consultation entry */
+  --radius-3xl:  24px;   /* bottom-sheet top corners */
+  --radius-4xl:  32px;   /* tab bar top corners */
+  --radius-full: 9999px; /* pills, chips, avatars, circular elements */
 
   --border-width-thin:  1px;
   --border-width-thick: 3px;

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<title>TailTopia · 字号刻度对比</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  body{font-family:'Poppins',sans-serif;background:#F3F3F3;padding:32px;margin:0;}
+  h1{font-size:18px;color:#333;margin:0 0 24px;}
+  .wrap{display:flex;gap:24px;flex-wrap:wrap;}
+  .col{flex:1;min-width:340px;background:#fff;border-radius:16px;padding:24px;box-shadow:0 4px 16px rgba(0,0,0,.08);}
+  .col h2{font-size:14px;color:#845EC9;text-transform:uppercase;letter-spacing:.5px;margin:0 0 4px;}
+  .col .sub{font-size:11px;color:#999;margin:0 0 20px;}
+  .row{display:flex;align-items:baseline;gap:14px;padding:10px 0;border-bottom:1px solid #eee;}
+  .row:last-child{border-bottom:none;}
+  .row .meta{flex-shrink:0;width:108px;font-size:10px;color:#aaa;font-variant-numeric:tabular-nums;}
+  .row .sample{color:#2E2742;}
+  .display{font-weight:700;}
+  .heading{font-weight:600;}
+  .body{font-weight:400;}
+  .label{font-weight:500;}
+  .caption{font-weight:400;}
+</style>
+</head>
+<body>
+<h1>两套字号刻度对比 — 同样的文字，分别用 tokens.json 的理想刻度 / preview-core-pages.html 实测刻度渲染</h1>
+<div class="wrap">
+
+  <div class="col">
+    <h2>A · tokens.json 理想刻度</h2>
+    <div class="sub">正式定稿的 token 体系，五档：28 / 20 / 16 / 14 / 12</div>
+    <div class="row"><div class="meta">display 28px/700</div><div class="sample display" style="font-size:28px;">Rawat hewan Anda</div></div>
+    <div class="row"><div class="meta">heading 20px/600</div><div class="sample heading" style="font-size:20px;">Konsultasi Dokter Hewan</div></div>
+    <div class="row"><div class="meta">body 16px/400</div><div class="sample body" style="font-size:16px;">Mochi belajar duduk manis hari ini di taman dekat rumah</div></div>
+    <div class="row"><div class="meta">label 14px/500</div><div class="sample label" style="font-size:14px;">Lanjutkan dengan Google</div></div>
+    <div class="row"><div class="meta">caption 12px/400</div><div class="sample caption" style="font-size:12px;">5 jam lalu · ★ 4.8</div></div>
+  </div>
+
+  <div class="col">
+    <h2>B · preview-core-pages.html 实测刻度</h2>
+    <div class="sub">原型里实际写死的像素值，五档：26 / 19 / 15 / 13 / 11</div>
+    <div class="row"><div class="meta">display 26px/700</div><div class="sample display" style="font-size:26px;">Rawat hewan Anda</div></div>
+    <div class="row"><div class="meta">heading 19px/600</div><div class="sample heading" style="font-size:19px;">Konsultasi Dokter Hewan</div></div>
+    <div class="row"><div class="meta">body 15px/400</div><div class="sample body" style="font-size:15px;">Mochi belajar duduk manis hari ini di taman dekat rumah</div></div>
+    <div class="row"><div class="meta">label 13px/500</div><div class="sample label" style="font-size:13px;">Lanjutkan dengan Google</div></div>
+    <div class="row"><div class="meta">caption 11px/400</div><div class="sample caption" style="font-size:11px;">5 jam lalu · ★ 4.8</div></div>
+  </div>
+
+</div>
+<p style="margin-top:20px;font-size:12px;color:#999;">提示：两栏字号差距都在 1-2px 之间，肉眼在手机屏幕上几乎无法分辨；差别更多体现在"未来要不要严格按4px倍数的标准刻度走"这件事上，不是视觉效果的差异。</p>
+</body>
+</html>
