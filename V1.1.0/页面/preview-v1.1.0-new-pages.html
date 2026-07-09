@@ -222,6 +222,75 @@ footer.dev-note{margin-top:18px;font-size:10.5px;color:#aaa;line-height:1.6;padd
 .new-row{position:relative;}
 .new-tag{position:absolute;top:-7px;right:14px;background:#F0425A;color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:6px;z-index:2;letter-spacing:.3px;}
 .new-outline{outline:2px dashed #845EC9;outline-offset:-2px;border-radius:13px;}
+
+/* ── 健康记录·分类总览卡（2026-07-09 新增：解决"用户不知道疫苗记录在哪看"，列表仍按 FR-45B 要求保持日期倒序混排不分区块，分类卡仅作为可视化入口+筛选器，不改变列表本身结构） ── */
+.hrcat{text-align:center;background:#fff;border:1.5px solid #ECECEC;border-radius:14px;padding:11px 4px 9px;cursor:pointer;transition:border-color .12s,box-shadow .12s;}
+.hrcat.sel{border-color:#845EC9;box-shadow:0 0 0 3px rgba(132,94,201,.15);}
+.hrcat-ic{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;}
+.hrcat-ic svg{width:16px;height:16px;}
+.hrcat-label{font-size:10.5px;font-weight:700;color:var(--color-text-heading);line-height:1.3;}
+.hrcat-sub{font-size:8.5px;color:var(--color-text-tertiary);margin-top:2px;line-height:1.3;}
+
+/* ── 月度回顾·12 套主题皮肤（2026-07-08 新增，FR-46C 结构不变，仅换皮肤） ── */
+.recap-card{width:230px;height:409px;border-radius:20px;overflow:hidden;position:relative;display:flex;flex-direction:column;transition:height .25s,width .25s,background .25s;background:var(--r-bg);box-shadow:0 12px 30px rgba(22,34,51,.18);}
+.recap-deco{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:1;}
+.deco{display:none;position:absolute;inset:0;}
+.recap-card svg use{width:100%;height:100%;}
+.recap-card .recap-deco svg{position:absolute;height:auto;aspect-ratio:1/1;}
+.recap-top{position:relative;z-index:2;flex:0 0 20%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px;}
+.recap-avatar{width:40px;height:40px;border-radius:9999px;background:var(--r-avatar);display:flex;align-items:center;justify-content:center;font-size:19px;box-shadow:0 3px 8px rgba(0,0,0,.25);}
+.recap-name{font-size:13px;font-weight:700;color:var(--r-text);}
+.recap-title{font-size:9.5px;color:var(--r-accent);font-weight:700;letter-spacing:.2px;}
+.recap-stats{position:relative;z-index:2;flex:0 0 20%;display:flex;align-items:center;justify-content:center;gap:14px;padding:4px 10px;border-top:1px solid var(--r-divider);border-bottom:1px solid var(--r-divider);}
+.recap-stat-num{font-size:15px;font-weight:700;color:var(--r-accent);}
+.recap-stat-label{font-size:7px;color:var(--r-text-2);letter-spacing:.2px;}
+.recap-photo{position:relative;z-index:2;flex:1 1 45%;margin:8px;border-radius:12px;overflow:hidden;background:var(--r-photo-bg);display:flex;align-items:center;justify-content:center;border:var(--r-photo-border,none);box-shadow:var(--r-photo-shadow,none);}
+.recap-photo .emoji{font-size:46px;filter:drop-shadow(0 4px 8px rgba(0,0,0,.2));}
+.recap-photo .badge{position:absolute;bottom:6px;left:8px;background:rgba(0,0,0,.35);color:#fff;font-size:7px;padding:2px 6px;border-radius:5px;}
+.recap-watermark{position:relative;z-index:2;flex:0 0 15%;display:flex;align-items:center;justify-content:flex-end;padding:0 12px;gap:4px;}
+.recap-watermark span{font-size:8px;font-weight:700;color:var(--r-accent);letter-spacing:.3px;}
+.recap-card .bunting{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-around;padding:0 10px;}
+.recap-card .bunting svg{position:static;width:9px;aspect-ratio:1/1;transform:translateY(-1px);}
+.recap-card .lights{position:absolute;top:2px;left:0;right:0;display:flex;justify-content:space-around;padding:0 14px;}
+.recap-card .lights span{width:5px;height:5px;border-radius:9999px;display:block;box-shadow:0 0 4px rgba(255,255,255,.6);opacity:.95;}
+.recap-card .deco-07 .wave{position:absolute;left:0;width:100%;height:14px;bottom:15%;aspect-ratio:auto;}
+
+/* 主题 01 · Januari — Awal Baru（金色星芒烟花 / 午夜靛蓝）*/
+.theme-01{--r-bg:linear-gradient(160deg,#150C2E,#2C1B57 55%,#3D2478);--r-text:#FFF6E0;--r-text-2:rgba(255,246,224,.7);--r-accent:#F3C969;--r-avatar:linear-gradient(135deg,#F3C969,#B9862F);--r-divider:rgba(243,201,105,.25);--r-photo-bg:linear-gradient(160deg,#3D2478,#180C33);}
+.theme-01 .deco-01{display:block;}
+/* 主题 02 · Februari — Penuh Cinta（浪漫粉玫瑰）*/
+.theme-02{--r-bg:linear-gradient(160deg,#FFE3EC,#FFB3CB);--r-text:#6B1230;--r-text-2:rgba(107,18,48,.65);--r-accent:#D9265B;--r-avatar:linear-gradient(135deg,#FF9CB8,#E23E6B);--r-divider:rgba(217,38,91,.2);--r-photo-bg:linear-gradient(160deg,#FF9CB8,#D9265B);}
+.theme-02 .deco-02{display:block;}
+/* 主题 03 · Maret — Musim Semi（薄荷绿 + 花朵）*/
+.theme-03{--r-bg:linear-gradient(160deg,#EAF9E7,#C4E9C0);--r-text:#1F4D34;--r-text-2:rgba(31,77,52,.65);--r-accent:#3F9463;--r-avatar:linear-gradient(135deg,#9FE0B3,#3F9463);--r-divider:rgba(63,148,99,.2);--r-photo-bg:linear-gradient(160deg,#9FE0B3,#3F9463);}
+.theme-03 .deco-03{display:block;}
+/* 主题 04 · April — Musim Hujan（雨蓝灰）*/
+.theme-04{--r-bg:linear-gradient(160deg,#DCEBF7,#AECBE4);--r-text:#1E3A52;--r-text-2:rgba(30,58,82,.65);--r-accent:#2F6C9E;--r-avatar:linear-gradient(135deg,#8FBEE0,#3E7CB1);--r-divider:rgba(47,108,158,.2);--r-photo-bg:linear-gradient(160deg,#8FBEE0,#2F6C9E);}
+.theme-04 .deco-04{display:block;}
+/* 主题 05 · Mei — Tropis & Hangat（日落珊瑚紫）*/
+.theme-05{--r-bg:linear-gradient(160deg,#FF9466,#E4568C 55%,#8C4FB0);--r-text:#FFF9F2;--r-text-2:rgba(255,249,242,.75);--r-accent:#FFD166;--r-avatar:linear-gradient(135deg,#FFD166,#E4568C);--r-divider:rgba(255,255,255,.25);--r-photo-bg:linear-gradient(160deg,#E4568C,#6E3A93);}
+.theme-05 .deco-05{display:block;}
+/* 主题 06 · Juni — Playful（原版品牌紫，加淡爪印）*/
+.theme-06{--r-bg:#F8F2FF;--r-text:#2E2742;--r-text-2:#6B6280;--r-accent:#845EC9;--r-avatar:linear-gradient(135deg,#9E83DA,#845EC9);--r-divider:rgba(132,94,201,.12);--r-photo-bg:linear-gradient(160deg,#C4B5EC,#845EC9);}
+.theme-06 .deco-06{display:block;}
+/* 主题 07 · Juli — Terik Musim Panas（暖阳黄 + 海浪）*/
+.theme-07{--r-bg:linear-gradient(160deg,#FFF3B0,#FFD65C);--r-text:#5C3A00;--r-text-2:rgba(92,58,0,.65);--r-accent:#E8631A;--r-avatar:linear-gradient(135deg,#FFB25C,#E8631A);--r-divider:rgba(232,99,26,.2);--r-photo-bg:linear-gradient(160deg,#FFB25C,#E8631A);}
+.theme-07 .deco-07{display:block;}
+/* 主题 08 · Agustus — Semangat Merdeka（印尼红白）*/
+.theme-08{--r-bg:linear-gradient(160deg,#D42A2E,#8E1319);--r-text:#FFFFFF;--r-text-2:rgba(255,255,255,.75);--r-accent:#FFFFFF;--r-avatar:linear-gradient(135deg,#FFFFFF,#F1D9DA);--r-divider:rgba(255,255,255,.3);--r-photo-bg:linear-gradient(160deg,#8E1319,#4E0A0D);--r-photo-border:1.5px solid rgba(255,255,255,.35);}
+.theme-08 .deco-08{display:block;}
+/* 主题 09 · September — Hangat Keemasan（琥珀棕 + 落叶）*/
+.theme-09{--r-bg:linear-gradient(160deg,#F7E4C6,#E0AE6E);--r-text:#4A2A12;--r-text-2:rgba(74,42,18,.65);--r-accent:#A85C32;--r-avatar:linear-gradient(135deg,#E8C08A,#A85C32);--r-divider:rgba(168,92,50,.2);--r-photo-bg:linear-gradient(160deg,#E8C08A,#A85C32);}
+.theme-09 .deco-09{display:block;}
+/* 主题 10 · Oktober — Misteri Menggemaskan（呆萌暗紫）*/
+.theme-10{--r-bg:linear-gradient(160deg,#2B1B3D,#4A2E63);--r-text:#F3E8FF;--r-text-2:rgba(243,232,255,.65);--r-accent:#C79BFF;--r-avatar:linear-gradient(135deg,#B084F5,#7A4FBF);--r-divider:rgba(192,155,255,.25);--r-photo-bg:linear-gradient(160deg,#4A2E63,#22132F);--r-photo-shadow:inset 0 0 20px rgba(176,132,245,.35);}
+.theme-10 .deco-10{display:block;}
+/* 主题 11 · November — Bersyukur（暖棕格调）*/
+.theme-11{--r-bg:linear-gradient(160deg,#F3E5D8,#D9B48D);--r-text:#3E2712;--r-text-2:rgba(62,39,18,.65);--r-accent:#8B5E3C;--r-avatar:linear-gradient(135deg,#D9AE7E,#8B5E3C);--r-divider:rgba(139,94,60,.22);--r-photo-bg:linear-gradient(160deg,#D9AE7E,#8B5E3C);--r-photo-border:1.5px dashed rgba(139,94,60,.4);}
+.theme-11 .deco-11{display:block;}
+/* 主题 12 · Desember — Perayaan Akhir Tahun（宝石绿金 + 雪花彩灯）*/
+.theme-12{--r-bg:linear-gradient(160deg,#0F3D3E,#0A2426);--r-text:#FFF7E0;--r-text-2:rgba(255,247,224,.7);--r-accent:#E8C468;--r-avatar:linear-gradient(135deg,#E8C468,#B4863A);--r-divider:rgba(232,196,104,.25);--r-photo-bg:linear-gradient(160deg,#14514F,#082022);}
+.theme-12 .deco-12{display:block;}
 </style>
 </head>
 <body>
@@ -266,9 +335,8 @@ footer.dev-note{margin-top:18px;font-size:10.5px;color:#aaa;line-height:1.6;padd
     </div>
 
     <div class="navgrp">
-      <div class="navgrp-title">④ 月度回顾 / 新手任务 · FR-46/47</div>
+      <div class="navgrp-title">④ 新手任务 · FR-47</div>
       <div class="navwrap">
-        <button class="navbtn" onclick="nav(this,'recap')">月度回顾</button>
         <button class="navbtn" onclick="nav(this,'milestone-with-starter')">里程碑+新手任务</button>
         <button class="navbtn" onclick="nav(this,'starter-welcome-back')">老用户欢迎弹窗</button>
       </div>
@@ -317,6 +385,13 @@ footer.dev-note{margin-top:18px;font-size:10.5px;color:#aaa;line-height:1.6;padd
         <button class="navbtn" onclick="nav(this,'vet-cancel-toast')">取消Toast</button>
         <button class="navbtn" onclick="nav(this,'vet-history-pay')">历史·到手金额</button>
         <button class="navbtn" onclick="nav(this,'vet-income')">我的收入</button>
+      </div>
+    </div>
+
+    <div class="navgrp">
+      <div class="navgrp-title" style="color:#F0425A;">⑨ 已移出 V1.1.0 · 仅供参考（原 FR-46）</div>
+      <div class="navwrap">
+        <button class="navbtn" onclick="nav(this,'recap')">月度回顾（12主题原型，待排期）</button>
       </div>
     </div>
 
@@ -490,7 +565,7 @@ footer.dev-note{margin-top:18px;font-size:10.5px;color:#aaa;line-height:1.6;padd
 
     <!-- ═══════ 订单详情（FR-54A 全量 7 状态，2026-07-07 按 FR-43D 修订重建，取代旧版「已暂停」PawCoin/QRIS 两变体 + Cancel/Void 兜底变体 + 即时退成功页） ═══════ -->
     <div class="page" id="p-order-detail">
-      <div class="entry-tag">入口：订单列表卡片点击；本页用状态 chips 一次性演示 FR-54A 全部 7 种订单状态</div>
+      <div class="entry-tag">入口：订单列表卡片点击；本页用状态 chips 一次性演示 FR-54A 全部 6 种订单状态</div>
       <div class="appbar"><button class="ibtn" onclick="nav(null,'orders')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><span class="appbar-title">Detail Pesanan</span></div>
 
       <div class="chips" style="flex-wrap:wrap;overflow-x:visible;">
@@ -498,7 +573,6 @@ footer.dev-note{margin-top:18px;font-size:10.5px;color:#aaa;line-height:1.6;padd
         <div class="chip" onclick="orderState(this,'pay')">Menunggu Bayar</div>
         <div class="chip" onclick="orderState(this,'active')">Berlangsung</div>
         <div class="chip" onclick="orderState(this,'done')">Selesai</div>
-        <div class="chip" onclick="orderState(this,'cancelled')">Dibatalkan</div>
         <div class="chip" onclick="orderState(this,'refunding')">Pengembalian Diproses</div>
         <div class="chip" onclick="orderState(this,'refunded')">Sudah Dikembalikan</div>
       </div>
@@ -523,9 +597,10 @@ footer.dev-note{margin-top:18px;font-size:10.5px;color:#aaa;line-height:1.6;padd
           <span class="txt"><b>Belum ada biaya yang dikenakan.</b> Kamu bisa membatalkan permintaan ini kapan saja — tidak ada dana yang perlu dikembalikan karena belum membayar.</span>
         </div>
         <div style="padding:4px 20px;">
-          <button class="btn btn-secondary">Batalkan Permintaan</button>
+          <button class="btn btn-secondary" onclick="nav(null,'orders')">Batalkan Permintaan</button>
         </div>
       </div>
+      <!-- 2026-07-08 移除「已取消」订单状态：点击「Batalkan Permintaan」或 1 分钟无人接单超时后，请求直接从队列/订单列表消失，不生成任何订单记录（因未产生扣费，不属于 FR-54「支付凭证中心」跟踪范围），用户直接回到 Konsultasi 主页可立即发起新请求。原「Dibatalkan」终态卡片与状态徽章已删除，PRD FR-54A 同步更正。 -->
 
       <!-- 待支付（兽医已接单，限时窗口内） -->
       <div class="orderstate" id="os-pay" style="display:none;">
@@ -588,26 +663,6 @@ footer.dev-note{margin-top:18px;font-size:10.5px;color:#aaa;line-height:1.6;padd
         </div>
         <div style="padding:4px 20px;">
           <button class="btn btn-primary">Beri Ulasan</button>
-        </div>
-      </div>
-
-      <!-- 已取消 -->
-      <div class="orderstate" id="os-cancelled" style="display:none;">
-        <div class="card">
-          <div class="card-pad">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-              <span style="font-size:15px;font-weight:700;color:var(--color-text-heading);">Konsultasi Dokter Hewan</span>
-              <span class="badge" style="background:#F0F0F0;color:var(--color-text-tertiary);">Dibatalkan</span>
-            </div>
-            <div style="font-size:12.5px;color:var(--color-text-secondary);line-height:2;">
-              Alasan: Tidak ada dokter yang menerima dalam 1 menit<br>
-              Waktu: 24 Jun 2026, 08:15
-            </div>
-          </div>
-        </div>
-        <div style="margin:0 20px 12px;background:#F5F5F5;border-radius:10px;padding:10px 13px;font-size:11.5px;color:var(--color-text-tertiary);">Tidak ada biaya yang dikenakan, tidak ada dana yang perlu dikembalikan.</div>
-        <div style="padding:4px 20px;">
-          <button class="btn btn-primary">Konsultasi Lagi</button>
         </div>
       </div>
 
@@ -688,7 +743,7 @@ footer.dev-note{margin-top:18px;font-size:10.5px;color:#aaa;line-height:1.6;padd
         </div>
       </div>
 
-      <footer class="dev-note">FR-54A 修订（2026-07-07）：本页用状态 chips 一次性演示全部 7 种订单状态，取代旧版按支付方式拆分的「已暂停」详情页（PawCoin/QRIS 两变体）与「Cancel/Void 失败兜底」变体——新模型下接单前不产生任何扣费，这些状态已不可达。</footer>
+      <footer class="dev-note">FR-54A 修订（2026-07-07）：本页用状态 chips 一次性演示全部 6 种订单状态，取代旧版按支付方式拆分的「已暂停」详情页（PawCoin/QRIS 两变体）与「Cancel/Void 失败兜底」变体——新模型下接单前不产生任何扣费，这些状态已不可达。2026-07-08 修订：删除「已取消」状态（原为第 7 种），待接单阶段的主动放弃/超时无人接单不再生成订单记录，详见上方代码注释与 PRD FR-54A。</footer>
     </div>
 
     <!-- ═══════ 退款方式选择 ═══════ -->
@@ -1016,25 +1071,82 @@ footer.dev-note{margin-top:18px;font-size:10.5px;color:#aaa;line-height:1.6;padd
         </button>
       </div>
 
-      <!-- 混合列表：结构化记录（可点击编辑）+ 问诊存档（只读，FR-45B），按日期倒序，不分区块 -->
-      <div class="lrow" onclick="openHealthEdit('rabies','30 Jun 2026')" style="cursor:pointer;">
-        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></div>
-        <div class="body"><div class="title">Vaksin Rabies</div><div class="sub">30 Jun 2026</div></div>
-        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#A7A7A7" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+      <!-- 分类总览卡（2026-07-09 新增）：解决"用户不知道疫苗记录在哪看"——一眼看到每个类型最近一条记录的日期，点击即筛选下方列表；若该分类下还没有记录，直接呼出预选该类型的添加弹层，而不是展示一个空列表。列表本身仍按 FR-45B 要求保持日期倒序混排、不分区块，本组件只是叠加的可视化入口+筛选器，不改变数据结构 -->
+      <div style="padding:2px 20px 4px;">
+        <div style="font-size:11px;font-weight:700;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.4px;margin-bottom:9px;">Kategori</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+          <div class="hrcat" data-cat="vaksin" onclick="hrFilter('vaksin',this)">
+            <div class="hrcat-ic" style="background:#FDE7EB;color:#C4263C;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2.5l-9 9M10 7L7 10M17 14l-3 3M9.5 14.5l-5 5M8 10l-1.5-1.5"/><path d="M14.5 2.5l7 7-4 4-7-7z"/></svg></div>
+            <div class="hrcat-label">Vaksin</div>
+            <div class="hrcat-sub" id="hrcat-sub-vaksin">30 Jun 2026</div>
+          </div>
+          <div class="hrcat" data-cat="deworm" onclick="hrFilter('deworm',this)">
+            <div class="hrcat-ic" style="background:#E7F8F0;color:#0E7A4D;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="4" ry="2"/><path d="M8 5c0 5.5 8 5.5 8 0M8 5c0 8 8 8 8 0M6 9c-3 2-3 7 3 7s5-5 3-7M18 9c3 2 3 7-3 7s-5-5-3-7"/></svg></div>
+            <div class="hrcat-label">Obat Cacing</div>
+            <div class="hrcat-sub" id="hrcat-sub-deworm">12 Mei 2026</div>
+          </div>
+          <div class="hrcat" data-cat="steril" onclick="hrFilter('steril',this)">
+            <div class="hrcat-ic" style="background:#F2E4F8;color:#8B3AB5;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v6M3 6h6M18 3v6M15 6h6M6 15v6M3 18h6M18 15v6M15 18h6"/><circle cx="12" cy="12" r="3"/></svg></div>
+            <div class="hrcat-label">Sterilisasi</div>
+            <div class="hrcat-sub" id="hrcat-sub-steril">Belum ada</div>
+          </div>
+          <div class="hrcat" data-cat="checkup" onclick="hrFilter('checkup',this)">
+            <div class="hrcat-ic" style="background:#E0F2FE;color:#0369A1;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/><path d="M9 12h6M9 16h3"/></svg></div>
+            <div class="hrcat-label">Pemeriksaan</div>
+            <div class="hrcat-sub" id="hrcat-sub-checkup">Belum ada</div>
+          </div>
+          <div class="hrcat" data-cat="other" onclick="hrFilter('other',this)">
+            <div class="hrcat-ic" style="background:#F0F0F0;color:#666;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></div>
+            <div class="hrcat-label">Lainnya</div>
+            <div class="hrcat-sub" id="hrcat-sub-other">Belum ada</div>
+          </div>
+          <div class="hrcat" data-cat="konsultasi" onclick="hrFilter('konsultasi',this)">
+            <div class="hrcat-ic" style="background:#EFF7FF;color:#0369A1;font-size:16px;">🏥</div>
+            <div class="hrcat-label">Konsultasi</div>
+            <div class="hrcat-sub" id="hrcat-sub-konsultasi">20 Jun 2026</div>
+          </div>
+        </div>
       </div>
-      <div class="lrow" style="cursor:default;">
-        <div class="ic" style="color:#0369A1;background:#EFF7FF;">🏥</div>
-        <div class="body"><div class="title">Cek Gejala · Muntah busa putih</div><div class="sub">🏥 Dari Konsultasi · 20 Jun 2026 · Hanya baca</div></div>
+
+      <!-- 筛选状态提示条（默认隐藏，选中某分类后展示；点击「Tampilkan Semua」清除筛选，回到完整日期倒序列表） -->
+      <div id="hr-filter-bar" style="display:none;padding:10px 20px 2px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;background:#F8F6FF;border-radius:10px;padding:8px 12px;">
+          <span style="font-size:12px;color:#845EC9;font-weight:600;">Menampilkan: <span id="hr-filter-label">Vaksin</span></span>
+          <span style="font-size:12px;color:#845EC9;font-weight:700;cursor:pointer;" onclick="hrFilterClear()">Tampilkan Semua ✕</span>
+        </div>
       </div>
-      <div class="lrow" onclick="openHealthEdit('deworm','12 Mei 2026')" style="cursor:pointer;">
-        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="4" ry="2"/><path d="M8 5c0 5.5 8 5.5 8 0M8 5c0 8 8 8 8 0M6 9c-3 2-3 7 3 7s5-5 3-7M18 9c3 2 3 7-3 7s-5-5-3-7"/></svg></div>
-        <div class="body"><div class="title">Obat Cacing</div><div class="sub">12 Mei 2026</div></div>
-        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#A7A7A7" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+
+      <div style="font-size:11px;font-weight:700;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.4px;padding:14px 20px 6px;">Semua Catatan · Terbaru</div>
+
+      <!-- 混合列表：结构化记录（可点击编辑）+ 问诊存档（只读，FR-45B），按日期倒序，不分区块；图标按类型着色以呼应上方分类卡，便于扫视辨认 -->
+      <div id="hr-list">
+        <div class="lrow" data-type="rabies" onclick="openHealthEdit('rabies','30 Jun 2026')" style="cursor:pointer;">
+          <div class="ic" style="background:#FDE7EB;color:#C4263C;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></div>
+          <div class="body"><div class="title">Vaksin Rabies</div><div class="sub">30 Jun 2026</div></div>
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#A7A7A7" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+        </div>
+        <div class="lrow" data-type="konsultasi" style="cursor:default;">
+          <div class="ic" style="color:#0369A1;background:#EFF7FF;">🏥</div>
+          <div class="body"><div class="title">Cek Gejala · Muntah busa putih</div><div class="sub">🏥 Dari Konsultasi · 20 Jun 2026 · Hanya baca</div></div>
+        </div>
+        <div class="lrow" data-type="deworm" onclick="openHealthEdit('deworm','12 Mei 2026')" style="cursor:pointer;">
+          <div class="ic" style="background:#E7F8F0;color:#0E7A4D;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="4" ry="2"/><path d="M8 5c0 5.5 8 5.5 8 0M8 5c0 8 8 8 8 0M6 9c-3 2-3 7 3 7s5-5 3-7M18 9c3 2 3 7-3 7s-5-5-3-7"/></svg></div>
+          <div class="body"><div class="title">Obat Cacing</div><div class="sub">12 Mei 2026</div></div>
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#A7A7A7" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+        </div>
       </div>
+
+      <!-- 筛选后无匹配记录时的空状态（正常情况下已被 hrFilter() 的"无记录直接开录入弹层"逻辑拦截，此处仅作兜底，如 Konsultasi 类未来清空） -->
+      <div id="hr-empty" style="display:none;padding:40px 24px;text-align:center;">
+        <div style="font-size:32px;margin-bottom:8px;">🗒️</div>
+        <div style="font-size:13px;color:var(--color-text-secondary);">Belum ada catatan di kategori ini.</div>
+      </div>
+
       <div style="padding:18px 20px;">
         <button class="btn btn-primary" onclick="openHealthAdd()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg> Tambah Catatan</button>
       </div>
-      <footer class="dev-note">FR-45 修订（2026-07-07）：原「健康记录列表」与「健康记录录入」两个独立页面合并为一页——添加/编辑记录改为弹层（`#health-add-sheet`）而非跳转新页，理由：①列表与录入本就是同一任务的两半，跳页会打断连续操作；②FR-45C 要求里程碑徽章点击后能"预选类型直接进入录入"，弹层可以在保留列表上下文的同时预选类型，跳独立页则无法兼顾。列表按日期倒序混排结构化记录（可点击进入编辑，含删除入口）与问诊存档（🏥 标签，只读不可点击，生命周期由 FR-16 管理）。纯文字字段，V1.1.0 无图片附件（OQ-10 已决议）。空状态走温暖语气，非错误态，此处略。</footer>
+      <footer class="dev-note">FR-45 修订（2026-07-07）：原「健康记录列表」与「健康记录录入」两个独立页面合并为一页——添加/编辑记录改为弹层（`#health-add-sheet`）而非跳转新页，理由：①列表与录入本就是同一任务的两半，跳页会打断连续操作；②FR-45C 要求里程碑徽章点击后能"预选类型直接进入录入"，弹层可以在保留列表上下文的同时预选类型，跳独立页则无法兼顾。列表按日期倒序混排结构化记录（可点击进入编辑，含删除入口）与问诊存档（🏥 标签，只读不可点击，生命周期由 FR-16 管理）。纯文字字段，V1.1.0 无图片附件（OQ-10 已决议）。空状态走温暖语气，非错误态，此处略。
+      <br><br>2026-07-09 优化：原版仅有 3 行同款灰色图标的扁平列表（用户反馈"看着很丑很乱，不知道疫苗记录该去哪看"）。新增「分类总览卡」（6 类：Vaksin/Obat Cacing/Sterilisasi/Pemeriksaan/Lainnya/Konsultasi，配色与下方「添加记录」弹层的类型选择器一致），一眼展示各类型最近一条记录日期，点击可筛选下方列表；若该分类尚无记录，则直接呼出预选该类型的添加弹层（`hrFilter()`），而不是筛出一个空列表——把"这类记录在哪看"和"没有就去记一条"合并成一次点击。列表行图标同步按类型着色（红=疫苗/绿=驱虫/紫=绝育/蓝=检查/灰=其他/浅蓝=问诊存档），呼应分类卡配色，减少扁平同款灰图标造成的辨认困难。**FR-45B「不按类型分组、日期倒序混排」的底层数据结构未变**——分类卡与筛选只是叠加的可视化层，「Tampilkan Semua」一键清除筛选即回到完整时间线。</footer>
 
       <!-- 添加/编辑记录弹层（合并自原「健康记录录入」独立页） -->
       <div id="health-add-sheet" style="display:none;position:absolute;inset:0;background:rgba(14,10,20,.6);z-index:997;align-items:flex-end;overflow:hidden;" onclick="if(event.target===this)closeHealthAdd()">
@@ -1175,20 +1287,9 @@ footer.dev-note{margin-top:18px;font-size:10.5px;color:#aaa;line-height:1.6;padd
         </div>
       </div>
 
-      <!-- Kalender 视图（含 BARU 月度回顾卡，入口在这里） -->
+      <!-- Kalender 视图 -->
       <div id="paspor-view-cal" style="display:none;padding:0 20px 16px;">
-        <!-- BARU：月度回顾入口（Kalender 视图顶部，≥5条记录才出现）；2026-07-07 修订：从大块纯色渐变卡片改为与「Catatan Kesehatan」同尺寸的紧凑行，此前的大卡片与页面其他入口视觉体量不成比例、显得突兀 -->
-        <div class="new-row" style="margin:0 0 12px;">
-          <span class="new-tag">BARU</span>
-          <div class="new-outline" style="border-radius:13px;background:var(--color-bg-surface);box-shadow:0 2px 8px rgba(22,34,51,.05);padding:11px 13px;cursor:pointer;display:flex;align-items:center;gap:11px;" onclick="nav(null,'recap')">
-            <div style="width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#845EC9,#9E83DA);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:17px;">✨</div>
-            <div style="flex:1;min-width:0;">
-              <div style="font-size:14px;font-weight:700;color:var(--color-text-heading);">Rangkuman Juni Mochi</div>
-              <div style="font-size:11px;color:var(--color-text-tertiary);margin-top:1px;">Sudah siap dilihat</div>
-            </div>
-            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#A7A7A7" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
-          </div>
-        </div>
+        <!-- 2026-07-08 移除：原「月度回顾」入口卡（FR-46 系列已整体移出 V1.1.0，具体上线版本待定，见 PRD §3.3 / Roadmap.md「待排期功能池」）。重新排期该功能时，从此处恢复入口，样式参考已保留的原型见 p-recap 页 -->
         <!-- 日历网格示意 -->
         <div style="background:var(--color-bg-surface);border-radius:14px;padding:12px;box-shadow:0 2px 8px rgba(22,34,51,.06);">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
@@ -1211,7 +1312,8 @@ footer.dev-note{margin-top:18px;font-size:10.5px;color:#aaa;line-height:1.6;padd
         <div style="margin-top:10px;font-size:11px;color:var(--color-text-tertiary);text-align:center;">紫色 = 有记录的日期 · 点击查看当日内容</div>
       </div>
 
-      <footer class="dev-note">复刻自 V1.0.0 preview-core-pages.html 的 p-paspor 原页面。V1.1.0 改动：①「健康记录」入口（BARU）；②「身份证」appbar 按钮（BARU）；③ Kalender 视图新增「月度回顾」卡片（BARU，✨ Rangkuman Baru Siap）——入口从原来浮在 Diary 顶部改为藏在 Kalender 视图内，更符合"月度回顾是日历层面的汇总"的逻辑；④ 移除了 Tugas Pemula 横幅（新手任务直接在里程碑页展示，不在 Diary 主页重复）。2026-07-07 代码同步：Tab 名 Tumbuh → Diary（commit 58c5e5a），预览文件原用更早一代命名「Paspor」，本页起统一改为 Diary。</footer>
+      <footer class="dev-note">复刻自 V1.0.0 preview-core-pages.html 的 p-paspor 原页面。V1.1.0 改动：①「健康记录」入口（BARU）；②「身份证」appbar 按钮（BARU）；③ 移除了 Tugas Pemula 横幅（新手任务直接在里程碑页展示，不在 Diary 主页重复）。2026-07-07 代码同步：Tab 名 Tumbuh → Diary（commit 58c5e5a），预览文件原用更早一代命名「Paspor」，本页起统一改为 Diary。
+      <br><br>2026-07-08 移除：原 Kalender 视图顶部「月度回顾」入口卡（✨ Rangkuman Baru Siap）。FR-46 系列已整体移出 V1.1.0，具体上线版本待定，见 PRD §3.3 / `Roadmap.md`「待排期功能池」。p-recap 页原型（含新设计的 12 套月度主题皮肤）予以保留，供未来重新排期时直接复用，但已从本页及左侧调试导航的常规入口摘除，改为左侧导航底部单独标注的「已移出/仅供参考」分组，避免与 V1.1.0 实际上线范围混淆。</footer>
     </div>
 
     <!-- ═══════ 真实入口 Profil 主页（完整复刻 p-profil + 标记新增） ═══════ -->
@@ -1339,46 +1441,172 @@ footer.dev-note{margin-top:18px;font-size:10.5px;color:#aaa;line-height:1.6;padd
       <footer class="dev-note">复刻自 V1.0.0 p-ai-result 黄色结果页。2026-07-07 修订（用户决策，已同步 PRD FR-43A）：额度用尽后，等级图标区域与「SARAN PERAWATAN」详细建议区域**一并整块模糊**（`filter:blur()`，非此前"仅详细建议渐变遮罩截断、等级图标始终可见"的方案），两部分由同一次 Rp10,000 付费解锁，不可分别付费；「RINGKASAN GEJALA」症状摘要是用户自己提交的内容，不属于锁定范围。红色评级不受本次改动影响，任何情况下仍完整免费展示，是绿/黄捆绑锁定规则的唯一例外（FR-43C 安全护栏，不可妥协）。顶部 chips 可切换查看解锁前后对比。</footer>
     </div>
 
-    <!-- ═══════ 月度回顾详情（FR-46C 完整卡片设计：头像/名字/标题 + 三项统计 + 当月最受欢迎照片 + 品牌水印，2026-07-07 重做，取代原单一渐变卡片） ═══════ -->
+    <!-- ═══════ 【已移出 V1.1.0，仅供参考】月度回顾详情 —— 原 FR-46/46A/46B/46C，2026-07-08 整体移出，具体上线版本待定，见 v1-1-0PRD.md §3.3 / Roadmap.md「待排期功能池」。本页不在 V1.1.0 任何真实入口可达（Diary/Kalender 入口已摘除），仅通过左侧调试导航「⑨ 已移出」分组访问，保留 2026-07-08 新设计的「12 套月度主题皮肤」原型供重新排期时直接复用 ═══════ -->
     <div class="page" id="p-recap">
-      <div class="entry-tag">入口：Diary 顶部回顾卡片 / Kalender 视图历史月份横幅</div>
-      <div class="appbar"><button class="ibtn" onclick="nav(null,'paspor-entries')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><span class="appbar-title">Rangkuman Juni</span></div>
+      <div class="entry-tag" style="background:#F0425A;color:#fff;">⚠️ 已移出 V1.1.0，仅供参考 —— 原入口（Diary 顶部 / Kalender 视图历史月份横幅）已摘除，具体上线版本待定</div>
+      <div class="appbar"><button class="ibtn" onclick="nav(null,'paspor-entries')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button><span class="appbar-title" id="recap-appbar-title">Rangkuman Juni</span></div>
+
+      <!-- SVG 图形素材（12 套主题共用的装饰图案，通过 <use> 复用，不产生额外资源加载） -->
+      <svg width="0" height="0" style="position:absolute;">
+        <defs>
+          <symbol id="ic-star" viewBox="0 0 24 24"><path fill="currentColor" d="M12 1L14.2 9.3 22.5 11.5 14.2 13.7 12 22 9.8 13.7 1.5 11.5 9.8 9.3Z"/></symbol>
+          <symbol id="ic-heart" viewBox="0 0 24 24"><path fill="currentColor" d="M12 21C12 21 3.5 15.5 3.5 9.4 3.5 6.4 5.8 4 8.7 4 10.4 4 11.6 4.9 12 6 12.4 4.9 13.6 4 15.3 4 18.2 4 20.5 6.4 20.5 9.4 20.5 15.5 12 21 12 21Z"/></symbol>
+          <symbol id="ic-flower" viewBox="0 0 24 24"><g fill="currentColor"><circle cx="12" cy="5.2" r="3.6"/><circle cx="18.2" cy="9.4" r="3.6"/><circle cx="15.8" cy="16.6" r="3.6"/><circle cx="8.2" cy="16.6" r="3.6"/><circle cx="5.8" cy="9.4" r="3.6"/><circle cx="12" cy="12" r="3" fill="#fff" opacity=".85"/></g></symbol>
+          <symbol id="ic-drop" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C8.5 7 5.5 11.2 5.5 15A6.5 6.5 0 0018.5 15C18.5 11.2 15.5 7 12 2Z"/></symbol>
+          <symbol id="ic-ray" viewBox="0 0 24 24"><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="2" x2="12" y2="7"/><line x1="12" y1="17" x2="12" y2="22"/><line x1="2" y1="12" x2="7" y2="12"/><line x1="17" y1="12" x2="22" y2="12"/><line x1="4.9" y1="4.9" x2="8.3" y2="8.3"/><line x1="15.7" y1="15.7" x2="19.1" y2="19.1"/><line x1="4.9" y1="19.1" x2="8.3" y2="15.7"/><line x1="15.7" y1="8.3" x2="19.1" y2="4.9"/><circle cx="12" cy="12" r="3.4" fill="currentColor"/></g></symbol>
+          <symbol id="ic-paw" viewBox="0 0 24 24"><g fill="currentColor"><ellipse cx="12" cy="16.8" rx="5.2" ry="4.2"/><ellipse cx="5.3" cy="10.2" rx="2.1" ry="2.6" transform="rotate(-25 5.3 10.2)"/><ellipse cx="9.6" cy="6.1" rx="2.2" ry="2.8"/><ellipse cx="14.4" cy="6.1" rx="2.2" ry="2.8"/><ellipse cx="18.7" cy="10.2" rx="2.1" ry="2.6" transform="rotate(25 18.7 10.2)"/></g></symbol>
+          <symbol id="ic-leaf" viewBox="0 0 24 24"><path fill="currentColor" d="M4 20C4 20 3 10 12 4C21 10 20 20 20 20C14 17 10 17 4 20Z"/><path stroke="rgba(0,0,0,.2)" stroke-width="1" d="M12 6L12 19"/></symbol>
+          <symbol id="ic-ghost" viewBox="0 0 24 24"><path fill="currentColor" d="M12 3C7.5 3 5 6.2 5 10.5V19.5C5 20.3 5.9 20.7 6.5 20.1L8 18.6L9.5 20.1C9.9 20.5 10.5 20.5 10.9 20.1L12 19L13.1 20.1C13.5 20.5 14.1 20.5 14.5 20.1L16 18.6L17.5 20.1C18.1 20.7 19 20.3 19 19.5V10.5C19 6.2 16.5 3 12 3Z"/><circle cx="9.3" cy="10.6" r="1.2" fill="#2B1B3D"/><circle cx="14.7" cy="10.6" r="1.2" fill="#2B1B3D"/></symbol>
+          <symbol id="ic-snow" viewBox="0 0 24 24"><g stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="12" y1="2" x2="12" y2="22"/><line x1="3.7" y1="7" x2="20.3" y2="17"/><line x1="3.7" y1="17" x2="20.3" y2="7"/></g></symbol>
+          <symbol id="ic-tri" viewBox="0 0 24 24"><path fill="currentColor" d="M3 3L21 3L12 19Z"/></symbol>
+        </defs>
+      </svg>
 
       <!-- 尺寸切换（FR-46C：框架需同时支持 9:16 与 1:1，此处切换预览） -->
-      <div class="chips" style="margin-bottom:14px;">
+      <div class="chips" id="recap-size-chips" style="margin-bottom:10px;">
         <div class="chip on" onclick="recapSize(this,'916')">9:16 · Stories</div>
         <div class="chip" onclick="recapSize(this,'11')">1:1 · Feed</div>
       </div>
 
-      <!-- 卡片预览：区域比例严格对应 FR-46C（顶部20% / 统计20% / 主图45% / 水印15%） -->
+      <!-- BARU 2026-07-08：12 套月度主题模版切换（每月视觉风格不同，参照网易云年度报告"千人千面"思路，让分享出去的卡片全年都有新鲜感，而不是 12 个月同一张皮换个数字） -->
+      <div class="chips" style="margin-bottom:14px;">
+        <div class="chip" onclick="recapTheme(this,1)">🎆 Jan</div>
+        <div class="chip" onclick="recapTheme(this,2)">💕 Feb</div>
+        <div class="chip" onclick="recapTheme(this,3)">🌸 Mar</div>
+        <div class="chip" onclick="recapTheme(this,4)">☔ Apr</div>
+        <div class="chip" onclick="recapTheme(this,5)">🌴 Mei</div>
+        <div class="chip on" onclick="recapTheme(this,6)">🐾 Jun</div>
+        <div class="chip" onclick="recapTheme(this,7)">☀️ Jul</div>
+        <div class="chip" onclick="recapTheme(this,8)">🎉 Agu</div>
+        <div class="chip" onclick="recapTheme(this,9)">🍂 Sep</div>
+        <div class="chip" onclick="recapTheme(this,10)">👻 Okt</div>
+        <div class="chip" onclick="recapTheme(this,11)">🍁 Nov</div>
+        <div class="chip" onclick="recapTheme(this,12)">🎄 Des</div>
+      </div>
+
+      <!-- 卡片预览：区域比例严格对应 FR-46C（顶部20% / 统计20% / 主图45% / 水印15%），主题皮肤通过 .theme-01~12 类切换，结构与数据槽位完全不变 -->
       <div style="display:flex;justify-content:center;margin-bottom:16px;">
-        <div id="recap-card" style="width:230px;height:409px;border-radius:20px;overflow:hidden;background:#F8F2FF;box-shadow:0 12px 30px rgba(22,34,51,.18);display:flex;flex-direction:column;transition:height .25s;">
+        <div id="recap-card" class="recap-card theme-06">
+          <div class="recap-deco" aria-hidden="true">
+            <!-- 01 Januari · Awal Baru：金色星芒烟花 -->
+            <div class="deco deco-01">
+              <svg class="d-star" style="top:8%;left:14%;width:16px;color:#F3C969;opacity:.9;transform:rotate(-8deg);"><use href="#ic-star"/></svg>
+              <svg class="d-star" style="top:14%;left:72%;width:11px;color:#fff;opacity:.8;transform:rotate(20deg);"><use href="#ic-star"/></svg>
+              <svg class="d-star" style="top:34%;left:82%;width:14px;color:#F3C969;opacity:.85;"><use href="#ic-star"/></svg>
+              <svg class="d-star" style="top:6%;left:44%;width:9px;color:#fff;opacity:.7;"><use href="#ic-star"/></svg>
+              <svg class="d-star" style="top:40%;left:8%;width:12px;color:#F3C969;opacity:.75;transform:rotate(12deg);"><use href="#ic-star"/></svg>
+            </div>
+            <!-- 02 Februari · Penuh Cinta：飘浮爱心 -->
+            <div class="deco deco-02">
+              <svg class="d-heart" style="top:8%;left:12%;width:14px;color:#fff;opacity:.8;transform:rotate(-10deg);"><use href="#ic-heart"/></svg>
+              <svg class="d-heart" style="top:6%;left:70%;width:10px;color:#E23E6B;opacity:.55;transform:rotate(14deg);"><use href="#ic-heart"/></svg>
+              <svg class="d-heart" style="top:32%;left:80%;width:16px;color:#fff;opacity:.7;"><use href="#ic-heart"/></svg>
+              <svg class="d-heart" style="top:38%;left:6%;width:11px;color:#E23E6B;opacity:.5;transform:rotate(-16deg);"><use href="#ic-heart"/></svg>
+            </div>
+            <!-- 03 Maret · Musim Semi：小花点缀 -->
+            <div class="deco deco-03">
+              <svg class="d-flower" style="top:7%;left:10%;width:15px;color:#F6A9C9;opacity:.9;"><use href="#ic-flower"/></svg>
+              <svg class="d-flower" style="top:10%;left:76%;width:11px;color:#8CC9A0;opacity:.8;transform:rotate(20deg);"><use href="#ic-flower"/></svg>
+              <svg class="d-flower" style="top:36%;left:84%;width:13px;color:#F6A9C9;opacity:.75;"><use href="#ic-flower"/></svg>
+              <svg class="d-flower" style="top:40%;left:7%;width:10px;color:#8CC9A0;opacity:.7;transform:rotate(-14deg);"><use href="#ic-flower"/></svg>
+            </div>
+            <!-- 04 April · Musim Hujan：斜落雨滴 -->
+            <div class="deco deco-04">
+              <svg class="d-drop" style="top:5%;left:16%;width:9px;color:#7FAFD4;opacity:.65;transform:rotate(15deg);"><use href="#ic-drop"/></svg>
+              <svg class="d-drop" style="top:16%;left:34%;width:7px;color:#7FAFD4;opacity:.5;transform:rotate(15deg);"><use href="#ic-drop"/></svg>
+              <svg class="d-drop" style="top:8%;left:66%;width:10px;color:#5B8CB4;opacity:.6;transform:rotate(15deg);"><use href="#ic-drop"/></svg>
+              <svg class="d-drop" style="top:28%;left:84%;width:8px;color:#7FAFD4;opacity:.55;transform:rotate(15deg);"><use href="#ic-drop"/></svg>
+              <svg class="d-drop" style="top:36%;left:8%;width:9px;color:#5B8CB4;opacity:.5;transform:rotate(15deg);"><use href="#ic-drop"/></svg>
+            </div>
+            <!-- 05 Mei · Tropis：正后方大太阳光芒 -->
+            <div class="deco deco-05">
+              <svg class="d-ray-big" style="top:-6%;left:50%;width:78px;color:rgba(255,255,255,.35);transform:translateX(-50%);"><use href="#ic-ray"/></svg>
+              <svg class="d-star" style="top:10%;left:14%;width:10px;color:#FFD166;opacity:.8;"><use href="#ic-star"/></svg>
+              <svg class="d-star" style="top:34%;left:84%;width:9px;color:#fff;opacity:.7;"><use href="#ic-star"/></svg>
+            </div>
+            <!-- 06 Juni · Playful：肉垫足迹（原版风格，仅加淡淡爪印） -->
+            <div class="deco deco-06">
+              <svg class="d-paw" style="top:8%;left:12%;width:14px;color:#845EC9;opacity:.14;transform:rotate(-16deg);"><use href="#ic-paw"/></svg>
+              <svg class="d-paw" style="top:12%;left:74%;width:11px;color:#845EC9;opacity:.12;transform:rotate(18deg);"><use href="#ic-paw"/></svg>
+              <svg class="d-paw" style="top:36%;left:82%;width:13px;color:#845EC9;opacity:.13;"><use href="#ic-paw"/></svg>
+              <svg class="d-paw" style="top:40%;left:8%;width:10px;color:#845EC9;opacity:.12;transform:rotate(-10deg);"><use href="#ic-paw"/></svg>
+            </div>
+            <!-- 07 Juli · Terik Musim Panas：双太阳角标 + 底部海浪 -->
+            <div class="deco deco-07">
+              <svg class="d-ray" style="top:6%;left:8%;width:20px;color:#fff;opacity:.55;"><use href="#ic-ray"/></svg>
+              <svg class="d-ray" style="top:10%;left:78%;width:15px;color:#FF7A3D;opacity:.5;"><use href="#ic-ray"/></svg>
+              <svg class="wave" viewBox="0 0 100 12" preserveAspectRatio="none"><path d="M0,6 C15,0 30,12 45,6 C60,0 75,12 90,6 C95,4 98,4 100,6 L100,12 L0,12 Z" fill="rgba(255,255,255,.4)"/></svg>
+            </div>
+            <!-- 08 Agustus · Semangat Merdeka：顶部三角旗串 + 星芒 -->
+            <div class="deco deco-08">
+              <div class="bunting">
+                <svg style="width:9px;color:#fff;opacity:.85;"><use href="#ic-tri"/></svg>
+                <svg style="width:9px;color:#F3C969;opacity:.9;"><use href="#ic-tri"/></svg>
+                <svg style="width:9px;color:#fff;opacity:.85;"><use href="#ic-tri"/></svg>
+                <svg style="width:9px;color:#F3C969;opacity:.9;"><use href="#ic-tri"/></svg>
+                <svg style="width:9px;color:#fff;opacity:.85;"><use href="#ic-tri"/></svg>
+              </div>
+              <svg class="d-star" style="top:34%;left:84%;width:11px;color:#fff;opacity:.7;"><use href="#ic-star"/></svg>
+              <svg class="d-star" style="top:38%;left:8%;width:9px;color:#F3C969;opacity:.75;"><use href="#ic-star"/></svg>
+            </div>
+            <!-- 09 September · Hangat Keemasan：飘落枯叶 -->
+            <div class="deco deco-09">
+              <svg class="d-leaf" style="top:6%;left:12%;width:13px;color:#C6813F;opacity:.75;transform:rotate(-20deg);"><use href="#ic-leaf"/></svg>
+              <svg class="d-leaf" style="top:12%;left:76%;width:11px;color:#A85C32;opacity:.7;transform:rotate(25deg);"><use href="#ic-leaf"/></svg>
+              <svg class="d-leaf" style="top:36%;left:84%;width:12px;color:#C6813F;opacity:.65;transform:rotate(8deg);"><use href="#ic-leaf"/></svg>
+              <svg class="d-leaf" style="top:40%;left:8%;width:10px;color:#A85C32;opacity:.6;transform:rotate(-30deg);"><use href="#ic-leaf"/></svg>
+            </div>
+            <!-- 10 Oktober · Misteri Menggemaskan：呆萌小幽灵 + 星光 -->
+            <div class="deco deco-10">
+              <svg class="d-ghost" style="top:6%;left:74%;width:20px;color:rgba(255,255,255,.55);"><use href="#ic-ghost"/></svg>
+              <svg class="d-star" style="top:10%;left:12%;width:9px;color:#B084F5;opacity:.8;"><use href="#ic-star"/></svg>
+              <svg class="d-star" style="top:36%;left:10%;width:8px;color:#fff;opacity:.6;"><use href="#ic-star"/></svg>
+              <svg class="d-star" style="top:40%;left:86%;width:7px;color:#B084F5;opacity:.7;"><use href="#ic-star"/></svg>
+            </div>
+            <!-- 11 November · Bersyukur：暖调落叶 + 缝线相框感 -->
+            <div class="deco deco-11">
+              <svg class="d-leaf" style="top:7%;left:14%;width:12px;color:#8B5E3C;opacity:.7;transform:rotate(-14deg);"><use href="#ic-leaf"/></svg>
+              <svg class="d-leaf" style="top:10%;left:78%;width:10px;color:#B4784A;opacity:.65;transform:rotate(18deg);"><use href="#ic-leaf"/></svg>
+              <svg class="d-leaf" style="top:38%;left:84%;width:11px;color:#8B5E3C;opacity:.6;"><use href="#ic-leaf"/></svg>
+            </div>
+            <!-- 12 Desember · Perayaan Akhir Tahun：雪花 + 顶部彩灯串 -->
+            <div class="deco deco-12">
+              <div class="lights"><span style="background:#F0425A;"></span><span style="background:#F3C969;"></span><span style="background:#5FB88A;"></span><span style="background:#F0425A;"></span><span style="background:#F3C969;"></span><span style="background:#5FB88A;"></span></div>
+              <svg class="d-snow" style="top:14%;left:12%;width:12px;color:#fff;opacity:.8;"><use href="#ic-snow"/></svg>
+              <svg class="d-snow" style="top:34%;left:82%;width:14px;color:#fff;opacity:.7;"><use href="#ic-snow"/></svg>
+              <svg class="d-snow" style="top:40%;left:10%;width:9px;color:#fff;opacity:.6;"><use href="#ic-snow"/></svg>
+              <svg class="d-star" style="top:9%;left:76%;width:9px;color:#E8C468;opacity:.8;"><use href="#ic-star"/></svg>
+            </div>
+          </div>
+
           <!-- 顶部 20%：头像+名字+标题 -->
-          <div style="flex:0 0 20%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px;">
-            <div style="width:40px;height:40px;border-radius:9999px;background:linear-gradient(135deg,#9E83DA,#845EC9);display:flex;align-items:center;justify-content:center;font-size:19px;box-shadow:0 3px 8px rgba(132,94,201,.3);">🐱</div>
-            <div style="font-size:13px;font-weight:700;color:#2E2742;">Mochi</div>
-            <div style="font-size:9.5px;color:#845EC9;font-weight:600;">Rangkuman Juni</div>
+          <div class="recap-top">
+            <div class="recap-avatar">🐱</div>
+            <div class="recap-name">Mochi</div>
+            <div class="recap-title" id="recap-title">Rangkuman Juni</div>
           </div>
           <!-- 统计区 20%：三项横排 -->
-          <div style="flex:0 0 20%;display:flex;align-items:center;justify-content:center;gap:14px;padding:4px 10px;border-top:1px solid rgba(132,94,201,.12);border-bottom:1px solid rgba(132,94,201,.12);">
-            <div style="text-align:center;"><div style="font-size:15px;font-weight:700;color:#845EC9;">18</div><div style="font-size:7px;color:#6B6280;letter-spacing:.2px;">Momen<br>Bahagia</div></div>
-            <div style="text-align:center;"><div style="font-size:15px;font-weight:700;color:#845EC9;">3</div><div style="font-size:7px;color:#6B6280;letter-spacing:.2px;">Milestone</div></div>
-            <div style="text-align:center;"><div style="font-size:15px;font-weight:700;color:#845EC9;">142</div><div style="font-size:7px;color:#6B6280;letter-spacing:.2px;">Hari<br>Bersama</div></div>
+          <div class="recap-stats">
+            <div style="text-align:center;"><div class="recap-stat-num">18</div><div class="recap-stat-label">Momen<br>Bahagia</div></div>
+            <div style="text-align:center;"><div class="recap-stat-num">3</div><div class="recap-stat-label">Milestone</div></div>
+            <div style="text-align:center;"><div class="recap-stat-num">142</div><div class="recap-stat-label">Hari<br>Bersama</div></div>
           </div>
           <!-- 主图区 45%：当月最受欢迎照片 -->
-          <div style="flex:1 1 45%;margin:8px;border-radius:12px;overflow:hidden;background:linear-gradient(160deg,#C4B5EC,#845EC9);display:flex;align-items:center;justify-content:center;position:relative;">
-            <span style="font-size:46px;">🐱</span>
-            <div style="position:absolute;bottom:6px;left:8px;background:rgba(0,0,0,.35);color:#fff;font-size:7px;padding:2px 6px;border-radius:5px;">❤️ 24 suka · 15 Jun</div>
+          <div class="recap-photo">
+            <span class="emoji">🐱</span>
+            <div class="badge">❤️ 24 suka · 15 Jun</div>
           </div>
           <!-- 水印 15% -->
-          <div style="flex:0 0 15%;display:flex;align-items:center;justify-content:flex-end;padding:0 12px;gap:4px;">
-            <span style="font-size:8px;font-weight:700;color:#845EC9;letter-spacing:.3px;">🐾 TailTopia</span>
+          <div class="recap-watermark">
+            <span>🐾 TailTopia</span>
           </div>
         </div>
       </div>
 
       <div style="padding:0 20px;"><button class="btn btn-primary">Bagikan Rangkuman</button></div>
-      <footer class="dev-note">FR-46C 重做（2026-07-07）：原页面只有一句纯文字总结+纯色渐变卡片，缺少 PRD 要求的完整卡片结构（头像/名字/标题、快乐时刻/里程碑/陪伴天数三项统计、当月最受欢迎照片主图、品牌水印）——现按 FR-46C 表格的区域占比（20%/20%/45%/15%）1:1 还原，并加了 9:16/1:1 双尺寸预览切换（`recapSize()`），对应框架"须从 V1.1.0 首次实现时即支持多种输出尺寸"的要求。生成门槛：当月快乐时刻记录数 ≥5 条才出现，<5 条完全不展示卡片（FR-46A 已决议）；最受欢迎照片取当月点赞最高的一条，全 0 赞则取最早发布一条。「Bagikan」触发系统分享菜单，预填文案见 FR-46C（本页暂未演示分享菜单弹层）。</footer>
+      <footer class="dev-note">FR-46C 重做（2026-07-07）：原页面只有一句纯文字总结+纯色渐变卡片，缺少 PRD 要求的完整卡片结构（头像/名字/标题、快乐时刻/里程碑/陪伴天数三项统计、当月最受欢迎照片主图、品牌水印）——现按 FR-46C 表格的区域占比（20%/20%/45%/15%）1:1 还原，并加了 9:16/1:1 双尺寸预览切换（`recapSize()`），对应框架"须从 V1.1.0 首次实现时即支持多种输出尺寸"的要求。生成门槛：当月快乐时刻记录数 ≥5 条才出现，<5 条完全不展示卡片（FR-46A 已决议）；最受欢迎照片取当月点赞最高的一条，全 0 赞则取最早发布一条。「Bagikan」触发系统分享菜单，预填文案见 FR-46C（本页暂未演示分享菜单弹层）。
+      <br><br>2026-07-08 新增「12 套月度主题」：此前 12 个月共用同一张纯色渐变皮肤，只是数字不同，分享到社交媒体时毫无新鲜感、也没有"到点了想晒"的冲动。参照网易云音乐年度报告"每年画风不同、当年样式提前保密到解锁那天"的思路，给每个自然月设计了独立配色+装饰图案（1 月烟花金、2 月爱心粉、3 月春日绿、4 月雨滴蓝、5 月热带日光、6 月原版紫爪印、7 月盛夏黄+海浪、8 月印尼独立日红白旗串、9 月秋褐落叶、10 月呆萌幽灵紫、11 月感恩暖棕、12 月雪花绿金彩灯），数据槽位（头像/名字/统计/主图/水印）完全不变，只换皮肤，不增加生成逻辑复杂度。实现上仅通过 `.theme-01~12` 类切换 CSS 变量 + 显隐对应 `.deco-01~12` 装饰层，`recapTheme()` 函数负责切换类名与文案月份。
+      <br><br><b>2026-07-08 本页整体移出 V1.1.0：</b>FR-46/46A/46B/46C 连同上述「12 套月度主题」设计一并推迟，具体上线版本待定，完整决议记录见 `v1-1-0PRD.md` §3.3 与 `Roadmap.md`「待排期功能池」。Diary 主页（p-paspor-entries）Kalender 视图顶部的入口卡、左侧调试导航原 FR-46/47 分组下的入口按钮均已摘除，本页现仅可通过左侧导航底部单独标注的「⑨ 已移出 V1.1.0 · 仅供参考」分组访问。本页 HTML/CSS/JS（含 12 主题原型）保留不删，供重新排期时直接复用，不代表本页仍是 V1.1.0 的一部分。</footer>
     </div>
 
     <!-- ═══════ 新手任务清单 ═══════ -->
@@ -1586,7 +1814,7 @@ footer.dev-note{margin-top:18px;font-size:10.5px;color:#aaa;line-height:1.6;padd
 
     <!-- ═══════ 兽医咨询·等待接单（FR-4B 1分钟超时机制，免费阶段） ═══════ -->
     <div class="page" id="p-vet-waiting" style="background:#1A1625;">
-      <div class="entry-tag" style="color:#fff;">入口：提交咨询请求后自动跳转；等待兽医接单期间展示，1 分钟无人接单自动转为「已取消」</div>
+      <div class="entry-tag" style="color:#fff;">入口：提交咨询请求后自动跳转；等待兽医接单期间展示，1 分钟无人接单则请求自动消失（不生成订单记录）</div>
       <div style="padding:60px 24px 0;text-align:center;">
         <div style="width:64px;height:64px;border-radius:9999px;background:rgba(132,94,201,.2);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;position:relative;">
           <div style="width:64px;height:64px;border-radius:9999px;border:3px solid #845EC9;border-top-color:transparent;position:absolute;animation:spin 1s linear infinite;"></div>
@@ -1600,7 +1828,7 @@ footer.dev-note{margin-top:18px;font-size:10.5px;color:#aaa;line-height:1.6;padd
       <div style="padding:40px 20px 0;">
         <button class="btn btn-ghost" style="background:rgba(255,255,255,.08);color:#fff;" onclick="nav(null,'orders')">Batalkan</button>
       </div>
-      <footer class="dev-note" style="color:rgba(255,255,255,.4);">FR-4B：1 分钟无人接单自动转为「已取消」，未产生扣费，无需退款；用户也可随时点「Batalkan」提前取消，效果相同。兽医接单后自动跳转至下一页「限时支付」。</footer>
+      <footer class="dev-note" style="color:rgba(255,255,255,.4);">FR-4B：1 分钟无人接单则请求自动消失，未产生扣费，无需退款；用户也可随时点「Batalkan」提前取消，效果相同。**2026-07-08 更正**：不再转为「已取消」订单状态并保留记录（该状态已随 FR-54A 修订删除），两种触发方式均直接回到 Konsultasi 主页，无可回看的历史条目。兽医接单后自动跳转至下一页「限时支付」。</footer>
     </div>
 
     <!-- ═══════ 兽医咨询·限时支付（FR-43D：兽医接单后 1.5 分钟内完成支付，会话才建立） ═══════ -->
@@ -2560,7 +2788,7 @@ footer.dev-note{margin-top:18px;font-size:10.5px;color:#aaa;line-height:1.6;padd
             <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
               <div style="display:flex;gap:10px;align-items:center;">
                 <div style="width:36px;height:36px;border-radius:9999px;background:#FDE7EB;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">🐕</div>
-                <div><div style="font-size:13px;font-weight:700;color:var(--color-text-heading);">Benji · @bagas</div><div style="font-size:11px;color:var(--color-text-tertiary);">Dibatalkan via CS · 11:45</div></div>
+                <div><div style="font-size:13px;font-weight:700;color:var(--color-text-heading);">Benji · @bagas</div><div style="font-size:11px;color:var(--color-text-tertiary);">Dikembalikan via CS · 11:45</div></div>
               </div>
             </div>
             <div style="display:flex;justify-content:space-between;align-items:center;">
@@ -2786,6 +3014,35 @@ function goHealthAddFromMilestone(type){
   openHealthAdd(type);
 }
 
+// ── 健康记录·分类总览卡筛选（2026-07-09 新增）：点击分类卡筛选下方混排列表；若该分类下尚无记录，直接呼出预选类型的添加弹层 ──
+const HR_CAT_TYPES = {vaksin:['rabies','vax-other'], deworm:['deworm'], steril:['steril'], checkup:['checkup'], other:['other'], konsultasi:['konsultasi']};
+const HR_CAT_LABEL = {vaksin:'Vaksin', deworm:'Obat Cacing', steril:'Sterilisasi', checkup:'Pemeriksaan Umum', other:'Lainnya', konsultasi:'Konsultasi'};
+let hrActiveCat = null;
+function hrFilter(cat, card){
+  const types = HR_CAT_TYPES[cat];
+  const rows = Array.from(document.querySelectorAll('#hr-list .lrow'));
+  const matched = rows.filter(r => types.includes(r.dataset.type));
+  if(matched.length === 0){
+    if(cat !== 'konsultasi') openHealthAdd(types[0]);
+    return;
+  }
+  if(hrActiveCat === cat){ hrFilterClear(); return; }
+  hrActiveCat = cat;
+  document.querySelectorAll('.hrcat').forEach(c=>c.classList.remove('sel'));
+  card.classList.add('sel');
+  rows.forEach(r => r.style.display = types.includes(r.dataset.type) ? 'flex' : 'none');
+  document.getElementById('hr-empty').style.display = 'none';
+  document.getElementById('hr-filter-bar').style.display = 'block';
+  document.getElementById('hr-filter-label').textContent = HR_CAT_LABEL[cat];
+}
+function hrFilterClear(){
+  hrActiveCat = null;
+  document.querySelectorAll('.hrcat').forEach(c=>c.classList.remove('sel'));
+  document.querySelectorAll('#hr-list .lrow').forEach(r=>r.style.display='flex');
+  document.getElementById('hr-empty').style.display = 'none';
+  document.getElementById('hr-filter-bar').style.display = 'none';
+}
+
 // ── 月度回顾卡片·尺寸切换（FR-46C：框架需同时支持 9:16 与 1:1） ──
 function recapSize(chip, id){
   chip.parentElement.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
@@ -2793,6 +3050,22 @@ function recapSize(chip, id){
   const card = document.getElementById('recap-card');
   if(id==='916'){ card.style.width='230px'; card.style.height='409px'; }
   else { card.style.width='300px'; card.style.height='300px'; }
+}
+
+// ── 月度回顾卡片·12 套主题切换（2026-07-08 新增：每个自然月独立配色+装饰，参照网易云年度报告思路）──
+const RECAP_MONTHS = ['','Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+function recapTheme(chip, n){
+  chip.parentElement.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
+  chip.classList.add('on');
+  const card = document.getElementById('recap-card');
+  card.className = 'recap-card theme-' + String(n).padStart(2,'0');
+  const label = 'Rangkuman ' + RECAP_MONTHS[n];
+  document.getElementById('recap-title').textContent = label;
+  document.getElementById('recap-appbar-title').textContent = label;
+  const sizeChip = document.querySelector('#recap-size-chips .chip.on');
+  const is11 = sizeChip && sizeChip.textContent.indexOf('1:1') > -1;
+  card.style.width = is11 ? '300px' : '230px';
+  card.style.height = is11 ? '300px' : '409px';
 }
 
 // ── AI 问诊结果·绿/黄评级捆绑锁定演示（FR-43A 2026-07-07 修订：等级图标随详细建议一并模糊锁定） ──
