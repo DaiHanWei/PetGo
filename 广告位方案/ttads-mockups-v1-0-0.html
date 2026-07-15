@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TailTopia 广告位方案 v1.0.0 — 示意图</title>
+<style>
+
+/* ============ deck chrome tokens (presentation shell, theme-aware) ============ */
+:root{
+  --deck-bg: #FAF9FC;
+  --deck-bg-2: #F1EEF7;
+  --deck-ink: #211F2E;
+  --deck-ink-2: #57536B;
+  --deck-muted: #8E89A3;
+  --deck-rule: #E4E0EE;
+  --deck-card: #FFFFFF;
+  --deck-accent: #7D45F6;
+  --deck-accent-soft: #EFE6FF;
+  --deck-amber: #B9760A;
+  --deck-amber-soft: #FBEBD2;
+  --deck-coral: #C23A50;
+  --deck-coral-soft: #FBE2E6;
+  --deck-green: #167A52;
+  --deck-green-soft: #E1F3EA;
+  --deck-shadow: 0 1px 2px rgba(33,31,46,.04), 0 12px 32px rgba(33,31,46,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --deck-bg: #15131C;
+    --deck-bg-2: #1D1A26;
+    --deck-ink: #EDEBF5;
+    --deck-ink-2: #B3AEC6;
+    --deck-muted: #837E99;
+    --deck-rule: #2C2838;
+    --deck-card: #1D1A26;
+    --deck-accent: #A98BFA;
+    --deck-accent-soft: #2C2444;
+    --deck-amber: #E3B15C;
+    --deck-amber-soft: #362A16;
+    --deck-coral: #F0879A;
+    --deck-coral-soft: #3A1E24;
+    --deck-green: #6FCBA0;
+    --deck-green-soft: #16281F;
+    --deck-shadow: 0 1px 2px rgba(0,0,0,.3), 0 20px 48px rgba(0,0,0,.45);
+  }
+}
+:root[data-theme="dark"]{
+  --deck-bg: #15131C; --deck-bg-2: #1D1A26; --deck-ink: #EDEBF5; --deck-ink-2: #B3AEC6;
+  --deck-muted: #837E99; --deck-rule: #2C2838; --deck-card: #1D1A26; --deck-accent: #A98BFA;
+  --deck-accent-soft: #2C2444; --deck-amber: #E3B15C; --deck-amber-soft: #362A16;
+  --deck-coral: #F0879A; --deck-coral-soft: #3A1E24; --deck-green: #6FCBA0; --deck-green-soft: #16281F;
+  --deck-shadow: 0 1px 2px rgba(0,0,0,.3), 0 20px 48px rgba(0,0,0,.45);
+}
+:root[data-theme="light"]{
+  --deck-bg: #FAF9FC; --deck-bg-2: #F1EEF7; --deck-ink: #211F2E; --deck-ink-2: #57536B;
+  --deck-muted: #8E89A3; --deck-rule: #E4E0EE; --deck-card: #FFFFFF; --deck-accent: #7D45F6;
+  --deck-accent-soft: #EFE6FF; --deck-amber: #B9760A; --deck-amber-soft: #FBEBD2;
+  --deck-coral: #C23A50; --deck-coral-soft: #FBE2E6; --deck-green: #167A52; --deck-green-soft: #E1F3EA;
+  --deck-shadow: 0 1px 2px rgba(33,31,46,.04), 0 12px 32px rgba(33,31,46,.06);
+}
+
+/* ============ TailTopia real product tokens (fixed — the phone screens are a literal
+   reproduction of the shipping light-mode UI, they do not follow the viewer's theme) ============ */
+:root{
+  --tt-violet: #845EC9;
+  --tt-violet-2: #9E83DA;
+  --tt-violet-deep: #6C48AE;
+  --tt-violet-tint: #F8F2FF;
+  --tt-canvas: #FFFFFF;
+  --tt-ink: #2E2A45;
+  --tt-ink-2: #544864;
+  --tt-muted: #9690A6;
+  --tt-line: #E6E6E6;
+  --tt-line-2: #F0F0F0;
+  --tt-coral: #F0425A;
+  --tt-coral-tint: #FDE7EB;
+  --tt-gold: #F6A609;
+  --tt-gold-tint: #FEF3DE;
+  --tt-momen-bg: #E7F8F0;
+  --tt-momen-text: #0E7A4D;
+  --tt-tips-text: #8A5A00;
+  --tt-sky-tint: #F8F6FF;
+  --tt-radius: 14px;
+  --tt-font: Poppins, "Century Gothic", "Futura", "Trebuchet MS", sans-serif;
+}
+
+*{ box-sizing: border-box; }
+html,body{ margin:0; padding:0; }
+body{
+  background: var(--deck-bg);
+  color: var(--deck-ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+h1,h2,h3{
+  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  font-weight: 600;
+  text-wrap: balance;
+  margin: 0;
+}
+a{ color: inherit; }
+::selection{ background: var(--deck-accent-soft); }
+
+.wrap{ max-width: 1180px; margin: 0 auto; padding: 0 28px 120px; }
+
+/* ---------- header ---------- */
+.deck-header{
+  padding: 72px 0 40px;
+  border-bottom: 1px solid var(--deck-rule);
+  margin-bottom: 44px;
+}
+.eyebrow{
+  display:inline-flex; align-items:center; gap:8px;
+  font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--deck-accent); font-weight: 600; margin: 0 0 14px;
+}
+.eyebrow::before{
+  content:""; width:16px; height:1.5px; background: var(--deck-accent); display:inline-block;
+}
+.deck-header h1{ font-size: 34px; color: var(--deck-ink); }
+.deck-sub{
+  max-width: 62ch; color: var(--deck-ink-2); font-size: 15.5px; margin: 16px 0 0;
+}
+.deck-sub em{ color: var(--deck-muted); font-style: normal; }
+
+/* ---------- sticky jump nav ---------- */
+.jumpnav{
+  position: sticky; top: 0; z-index: 20;
+  display:flex; gap: 2px; padding: 10px 0; margin-bottom: 8px;
+  background: color-mix(in srgb, var(--deck-bg) 88%, transparent);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--deck-rule);
+}
+.jumpnav a{
+  font-size: 13px; font-weight: 600; text-decoration:none; color: var(--deck-ink-2);
+  padding: 8px 14px; border-radius: 999px; transition: color .15s, background-color .15s;
+}
+.jumpnav a:hover, .jumpnav a:focus-visible{ color: var(--deck-accent); background: var(--deck-accent-soft); }
+.jumpnav a:focus-visible{ outline: 2px solid var(--deck-accent); outline-offset: 2px; }
+
+/* ---------- version sections ---------- */
+.spec{ padding: 56px 0; border-bottom: 1px solid var(--deck-rule); scroll-margin-top: 64px; }
+.spec:last-of-type{ border-bottom: none; }
+
+.spec-head{ display:flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 6px; }
+.ver-tag{
+  font-family: "Iowan Old Style", Georgia, serif;
+  font-size: 13px; font-weight: 600; color: var(--deck-accent);
+  border: 1px solid var(--deck-accent); border-radius: 999px;
+  padding: 3px 12px;
+}
+.spec-head h2{ font-size: 24px; color: var(--deck-ink); }
+.spec-tagline{ color: var(--deck-ink-2); font-size: 14.5px; max-width: 60ch; margin: 10px 0 32px; }
+.spec-tagline b{ color: var(--deck-ink); font-weight: 600; }
+
+.spec-body{
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 40px;
+  align-items: start;
+}
+@media (max-width: 760px){
+  .spec-body{ grid-template-columns: 1fr; }
+}
+
+/* ---------- notes column ---------- */
+.notes{ display:flex; flex-direction:column; gap: 18px; }
+.note-row{ display:grid; grid-template-columns: 108px 1fr; gap: 16px; align-items:start; }
+@media (max-width:420px){ .note-row{ grid-template-columns: 1fr; gap:4px; } }
+.note-label{ font-size: 11.5px; letter-spacing:.06em; text-transform:uppercase; color: var(--deck-muted); padding-top: 2px; }
+.note-value{ font-size: 14.5px; color: var(--deck-ink-2); }
+.note-value b{ color: var(--deck-ink); font-weight: 600; }
+
+.chip{
+  display:inline-flex; align-items:center; gap:6px;
+  font-size: 12.5px; font-weight: 600; padding: 3px 10px; border-radius: 999px;
+}
+.chip.low{ background: var(--deck-green-soft); color: var(--deck-green); }
+.chip.mid{ background: var(--deck-amber-soft); color: var(--deck-amber); }
+.chip.high{ background: var(--deck-coral-soft); color: var(--deck-coral); }
+.chip::before{ content:""; width:6px; height:6px; border-radius:50%; background: currentColor; }
+
+.placeholder-note{
+  margin-top: 4px; font-size: 13px; color: var(--deck-muted); border-left: 2px solid var(--deck-rule);
+  padding-left: 12px;
+}
+
+/* ============ phone frame ============ */
+.phone-shell{
+  width: 300px; max-width: 100%; aspect-ratio: 9 / 19.5;
+  background: #0d0c12; border-radius: 46px; padding: 12px;
+  box-shadow: var(--deck-shadow);
+  position: relative;
+}
+.phone-screen{
+  background: var(--tt-canvas); width:100%; height:100%; border-radius: 34px; overflow: hidden;
+  display:flex; flex-direction:column; font-family: var(--tt-font); position: relative;
+}
+.notch{
+  position:absolute; top:12px; left:50%; transform:translateX(-50%);
+  width: 90px; height: 22px; background:#0d0c12; border-radius: 12px; z-index: 5;
+}
+.statusbar{
+  height: 40px; flex: 0 0 auto; display:flex; align-items:flex-end; justify-content:space-between;
+  padding: 0 22px 6px; font-size: 12px; font-weight: 600; color: var(--tt-ink);
+}
+.screen-scroll{ flex:1; overflow:hidden; display:flex; flex-direction:column; position:relative; min-height:0; }
+.fade-bottom{
+  position:absolute; left:0; right:0; bottom:0; height:46px; z-index:4; pointer-events:none;
+  background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,.94) 78%);
+}
+
+.app-bar{
+  flex: 0 0 auto; display:flex; align-items:center; justify-content:space-between;
+  padding: 6px 18px 10px;
+}
+.logo{ font-family: var(--tt-font); font-weight: 700; font-size: 16px; color: var(--tt-violet); }
+.bell{ width:18px; height:18px; border-radius:50%; border:1.6px solid var(--tt-ink-2); position:relative; }
+
+.tabs{ display:flex; gap: 8px; padding: 0 18px 12px; flex: 0 0 auto; }
+.tab{
+  font-size: 11px; font-weight: 600; padding: 6px 12px; border-radius: 999px;
+  color: var(--tt-ink-2); background: var(--tt-line-2);
+}
+.tab.active{ background: var(--tt-violet); color: #fff; }
+
+.feed{ padding: 0 14px 14px; display:flex; flex-direction:column; gap: 10px; flex: 0 0 auto; }
+
+/* ---------- content card ---------- */
+.card{
+  background: var(--tt-canvas); border: 1px solid var(--tt-line); border-radius: var(--tt-radius);
+  overflow: hidden; flex-shrink: 0;
+}
+.card-head{ display:flex; align-items:center; gap:8px; padding: 10px 10px 0; }
+.avatar{
+  width: 26px; height:26px; border-radius:50%; flex: 0 0 auto;
+  display:flex; align-items:center; justify-content:center;
+  font-size: 11px; font-weight:700; color:#fff;
+}
+.card-meta{ flex:1; min-width:0; }
+.card-name{ font-size: 10.5px; font-weight:700; color: var(--tt-ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.card-time{ font-size: 9px; color: var(--tt-muted); }
+.badge{ font-size: 8px; font-weight:700; padding: 2.5px 7px; border-radius:6px; flex:0 0 auto; }
+.badge.momen{ background: var(--tt-momen-bg); color: var(--tt-momen-text); }
+.badge.tips{ background: var(--tt-gold-tint); color: var(--tt-tips-text); }
+.badge.ad{ background: var(--tt-line-2); color: var(--tt-ink-2); }
+.card-body{ font-size: 10.5px; line-height:1.5; color: var(--tt-ink); padding: 7px 10px 9px; }
+.card-img{ aspect-ratio: 4/3; width:100%; }
+.img-daily{ background: var(--tt-coral-tint); }
+.img-momen{ background: var(--tt-gold-tint); }
+.img-tips{ background: var(--tt-sky-tint); }
+.img-ad{
+  background: linear-gradient(135deg, #F6E7C9 0%, #F0D49A 55%, #E8C078 100%);
+  position: relative;
+}
+
+/* ---------- banner ---------- */
+.banner{
+  border-radius: var(--tt-radius); border: 1px solid var(--tt-line); overflow:hidden;
+  position: relative; aspect-ratio: 3/1; margin: 0 14px 12px; flex: 0 0 auto;
+  background: linear-gradient(120deg,#F6E7C9 0%,#EFCE96 60%,#E6BA75 100%);
+  box-shadow: 0 1px 2px rgba(46,42,69,.04), 0 3px 8px rgba(46,42,69,.05);
+}
+.banner-tag{
+  position:absolute; top:8px; right:8px;
+  background: rgba(0,0,0,.55); color:#fff; font-size: 8px; font-weight:700;
+  padding: 2.5px 7px; border-radius: 5px; letter-spacing:.02em;
+}
+.banner-copy{
+  position:absolute; left:12px; bottom:10px; right:44px;
+  color: #4A3417; font-size: 9.5px; font-weight:700; line-height:1.35;
+}
+
+/* ---------- triage-specific ---------- */
+.triage-pad{ padding: 4px 18px 12px; flex: 0 0 auto; }
+.triage-hero-title{ font-size: 19px; font-weight:800; color: var(--tt-ink); margin:0; }
+.triage-hero-sub{ font-size: 10.5px; color: var(--tt-muted); margin: 3px 0 14px; }
+.kcard{ border-radius: 16px; padding: 13px; margin-bottom: 10px; }
+.kcard.ai{ background: linear-gradient(135deg, var(--tt-violet), var(--tt-violet-2)); color:#fff; }
+.kcard.vet{ background:#fff; border: 1.4px solid var(--tt-line); }
+.kcard-icon{
+  width:30px; height:30px; border-radius:9px; display:flex; align-items:center; justify-content:center;
+  font-size:14px; margin-bottom:7px;
+}
+.kcard.ai .kcard-icon{ background: rgba(255,255,255,.22); }
+.kcard.vet .kcard-icon{ background: var(--tt-sky-tint); }
+.kcard-title{ font-size: 13px; font-weight:700; margin: 0 0 2px; }
+.kcard-desc{ font-size: 9px; line-height:1.5; margin:0 0 8px; }
+.kcard.ai .kcard-desc{ color: rgba(255,255,255,.88); }
+.kcard.vet .kcard-desc{ color: var(--tt-ink-2); }
+.kcard-dot{ display:flex; align-items:center; gap:5px; font-size:8.5px; margin-bottom:9px; }
+.kcard-dot .dot{ width:6px; height:6px; border-radius:50%; background: var(--tt-momen-text); }
+.kcard.ai .kcard-dot{ color: rgba(255,255,255,.9); }
+.kcard.vet .kcard-dot{ color: var(--tt-ink-2); }
+.kcard-cta{
+  font-size: 10.5px; font-weight:700; text-align:center; padding: 7px; border-radius: 9px;
+}
+.kcard.ai .kcard-cta{ background:#fff; color: var(--tt-violet); }
+.kcard.vet .kcard-cta{ background:#fff; color: var(--tt-violet); border: 1.4px solid var(--tt-violet); }
+
+.section-title{ font-size: 11.5px; font-weight:700; color: var(--tt-ink); padding: 6px 18px 8px; flex: 0 0 auto; }
+.history-empty{ margin: 0 18px; font-size: 9.5px; color: var(--tt-muted); flex: 0 0 auto; }
+
+/* D: sponsored-content long-form hint */
+.readmore{ font-size: 9.5px; color: var(--tt-violet); font-weight:600; padding: 0 10px 9px; }
+
+footer.deck-foot{
+  margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--deck-rule);
+  font-size: 12.5px; color: var(--deck-muted);
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="deck-header">
+    <p class="eyebrow">TailTopia · 广告位方案 v1.0.0</p>
+    <h1>四个版本的示意图</h1>
+    <p class="deck-sub">按 App 现有设计 token（<code>AppColors</code> / <code>AppTypography</code> / <code>AppRounded</code>）复刻，用来跟老板对齐坑位和标注方式。<em>手机截图内的文案、品牌素材为占位示意，非最终视觉稿；App 真实字体为 Poppins，本页用系统字体近似还原。</em></p>
+  </header>
+
+  <nav class="jumpnav">
+    <a href="#ver-a">A · 原生信息流</a>
+    <a href="#ver-b">B · 首页 Banner</a>
+    <a href="#ver-c">C · 问诊页 Banner</a>
+    <a href="#ver-d">D · 内容植入</a>
+  </nav>
+
+  <!-- ============ VERSION A ============ -->
+  <section class="spec" id="ver-a">
+    <div class="spec-head">
+      <span class="ver-tag">版本 A</span>
+      <h2>原生信息流广告</h2>
+    </div>
+    <p class="spec-tagline">卡片外壳照抄 <b>MasonryCard</b>，客户端按固定间隔插进瀑布流，<b>不改动</b>后端 Feed 分页接口。</p>
+    <div class="spec-body">
+
+      <div class="phone-shell"><div class="notch"></div><div class="phone-screen">
+        <div class="statusbar"><span>9:41</span><span>●●●●</span></div>
+        <div class="screen-scroll">
+          <div class="app-bar"><span class="logo">TailTopia</span><span class="bell"></span></div>
+          <div class="tabs">
+            <span class="tab active">Semua</span><span class="tab">Momen</span><span class="tab">Diary</span><span class="tab">Edukasi &amp; Tips</span>
+          </div>
+          <div class="feed">
+
+            <div class="card">
+              <div class="card-head">
+                <div class="avatar" style="background:var(--tt-violet)">S</div>
+                <div class="card-meta"><div class="card-name">Sari &amp; Kopi</div><div class="card-time">2 jam lalu</div></div>
+                <span class="badge momen">Momen</span>
+              </div>
+              <div class="card-body">Kopi abis mandi langsung modelling depan kamera 😂📸 anaknya emang paling PD sekampung.</div>
+              <div class="card-img img-daily"></div>
+            </div>
+
+            <div class="card" style="box-shadow:none">
+              <div class="card-head">
+                <div class="avatar" style="background:var(--tt-violet-deep)">F</div>
+                <div class="card-meta"><div class="card-name">Furkids Petfood</div><div class="card-time">Iklan</div></div>
+                <span class="badge ad">Iklan</span>
+              </div>
+              <div class="card-body">Nutrisi harian lengkap buat si bulu kesayangan — sekarang ada varian salmon 🐟</div>
+              <div class="card-img img-ad"></div>
+            </div>
+
+          </div>
+          <div class="fade-bottom"></div>
+        </div>
+      </div></div>
+
+      <div class="notes">
+        <div class="note-row"><div class="note-label">插入方式</div><div class="note-value">客户端固定间隔（如每 8 条）本地插入，<b>不碰</b> <code>FeedItem</code> 数据模型和分页游标</div></div>
+        <div class="note-row"><div class="note-label">曝光范围</div><div class="note-value">游客 + 登录用户；曝光次数<b>随下滑深度变化</b></div></div>
+        <div class="note-row"><div class="note-label">标注方式</div><div class="note-value">灰色 pill（<code>line2</code> 底 / <code>ink2</code> 字），占用「Momen/Tips」徽章同一个槽位，形状一致、色系不同</div></div>
+        <div class="note-row"><div class="note-label">工程量</div><div class="note-value"><span class="chip mid">中等偏低</span></div></div>
+        <div class="note-row"><div class="note-label">风险</div><div class="note-value">"像不像内容"的度要克制，标注不能为了融入感被弱化</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VERSION B ============ -->
+  <section class="spec" id="ver-b">
+    <div class="spec-head">
+      <span class="ver-tag">版本 B</span>
+      <h2>首页顶部 Banner</h2>
+    </div>
+    <p class="spec-tagline">插在分类 Tab 下方、瀑布流之上，<b>固定一条</b>，四个版本里工程量最低。</p>
+    <div class="spec-body">
+
+      <div class="phone-shell"><div class="notch"></div><div class="phone-screen">
+        <div class="statusbar"><span>9:41</span><span>●●●●</span></div>
+        <div class="screen-scroll">
+          <div class="app-bar"><span class="logo">TailTopia</span><span class="bell"></span></div>
+          <div class="tabs">
+            <span class="tab active">Semua</span><span class="tab">Momen</span><span class="tab">Diary</span><span class="tab">Edukasi &amp; Tips</span>
+          </div>
+
+          <div class="banner">
+            <span class="banner-tag">Iklan</span>
+            <div class="banner-copy">Furkids Petfood — nutrisi lengkap, harga bersahabat</div>
+          </div>
+
+          <div class="feed">
+            <div class="card">
+              <div class="card-head">
+                <div class="avatar" style="background:var(--tt-violet)">S</div>
+                <div class="card-meta"><div class="card-name">Sari &amp; Kopi</div><div class="card-time">2 jam lalu</div></div>
+                <span class="badge momen">Momen</span>
+              </div>
+              <div class="card-body">Kopi abis mandi langsung modelling depan kamera 😂📸</div>
+              <div class="card-img img-daily"></div>
+            </div>
+          </div>
+          <div class="fade-bottom"></div>
+        </div>
+      </div></div>
+
+      <div class="notes">
+        <div class="note-row"><div class="note-label">插入方式</div><div class="note-value">首页头部组件里固定一条，<b>不随内容穿插</b></div></div>
+        <div class="note-row"><div class="note-label">曝光范围</div><div class="note-value">游客 + 登录用户；<b>每次进入/刷新首页必定曝光一次</b></div></div>
+        <div class="note-row"><div class="note-label">标注方式</div><div class="note-value">深色半透明贴纸（黑 55% + 白字），叠在素材图右上角——图片明暗不可控，不能用固定底色的 pill</div></div>
+        <div class="note-row"><div class="note-label">工程量</div><div class="note-value"><span class="chip low">四版本中最低</span></div></div>
+        <div class="note-row"><div class="note-label">风险</div><div class="note-value">视觉上更"广告感"，一进 App 就可见，冲击集中在开屏那一刻</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VERSION C ============ -->
+  <section class="spec" id="ver-c">
+    <div class="spec-head">
+      <span class="ver-tag">版本 C</span>
+      <h2>问诊页 Banner</h2>
+    </div>
+    <p class="spec-tagline">放在「Cek Gejala / Chat Dokter Hewan」两个平级入口卡<b>下方</b>，不打断核心转化动线。</p>
+    <div class="spec-body">
+
+      <div class="phone-shell"><div class="notch"></div><div class="phone-screen">
+        <div class="statusbar"><span>9:41</span><span>●●●●</span></div>
+        <div class="screen-scroll">
+          <div class="triage-pad">
+            <p class="triage-hero-title">Kesehatan</p>
+            <p class="triage-hero-sub">Tenang, kami bantu cek anabul-mu 💚</p>
+
+            <div class="kcard ai">
+              <div class="kcard-icon">⚡</div>
+              <p class="kcard-title">Cek Gejala</p>
+              <p class="kcard-desc">Unggah foto gejala → hasil hijau / kuning / merah.</p>
+              <div class="kcard-dot"><span class="dot" style="background:#fff"></span>Selalu aktif · Jawaban otomatis</div>
+              <div class="kcard-cta">Mulai Cek →</div>
+            </div>
+
+            <div class="kcard vet">
+              <div class="kcard-icon">🩺</div>
+              <p class="kcard-title">Chat Dokter Hewan</p>
+              <p class="kcard-desc">Ngobrol langsung (teks &amp; foto) dengan dokter spesialis.</p>
+              <div class="kcard-dot"><span class="dot"></span>Dokter tersedia sekarang</div>
+              <div class="kcard-cta">Mulai konsultasi →</div>
+            </div>
+          </div>
+
+          <div class="banner" style="margin-top:2px;">
+            <span class="banner-tag">Iklan</span>
+            <div class="banner-copy">Furkids Petfood — teman sehat si bulu tiap hari</div>
+          </div>
+
+          <p class="section-title">Konsultasi saya</p>
+          <p class="history-empty">Belum ada riwayat konsultasi.</p>
+          <div class="fade-bottom"></div>
+        </div>
+      </div></div>
+
+      <div class="notes">
+        <div class="note-row"><div class="note-label">插入方式</div><div class="note-value">两个入口卡下方、"Konsultasi saya"历史列表之前，固定一条</div></div>
+        <div class="note-row"><div class="note-label">曝光范围</div><div class="note-value">仅登录用户（游客先被登录墙拦截）；场景关联度比首页更高，但也更敏感</div></div>
+        <div class="note-row"><div class="note-label">标注方式</div><div class="note-value">与版本 B 同款深色半透明贴纸</div></div>
+        <div class="note-row"><div class="note-label">工程量</div><div class="note-value"><span class="chip low">与版本 B 相当</span></div></div>
+        <div class="note-row"><div class="note-label">风险</div><div class="note-value"><span class="chip mid">中</span>&nbsp; 用户来处理宠物健康问题时插商业内容，措辞不能涉及功效宣称（驱虫/营养需法务确认）</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VERSION D ============ -->
+  <section class="spec" id="ver-d">
+    <div class="spec-head">
+      <span class="ver-tag">版本 D</span>
+      <h2>内容植入</h2>
+    </div>
+    <p class="spec-tagline">品牌发真实内容，走正常 Feed 排序，<b>没有固定坑位</b>——唯一的区分点是作者信息位的「Iklan」标签。</p>
+    <div class="spec-body">
+
+      <div class="phone-shell"><div class="notch"></div><div class="phone-screen">
+        <div class="statusbar"><span>9:41</span><span>●●●●</span></div>
+        <div class="screen-scroll">
+          <div class="app-bar"><span class="logo">TailTopia</span><span class="bell"></span></div>
+          <div class="tabs">
+            <span class="tab active">Semua</span><span class="tab">Momen</span><span class="tab">Diary</span><span class="tab">Edukasi &amp; Tips</span>
+          </div>
+          <div class="feed">
+
+            <div class="card">
+              <div class="card-head">
+                <div class="avatar" style="background:var(--tt-violet)">S</div>
+                <div class="card-meta"><div class="card-name">Sari &amp; Kopi</div><div class="card-time">2 jam lalu</div></div>
+                <span class="badge momen">Momen</span>
+              </div>
+              <div class="card-body">Kopi abis mandi langsung modelling depan kamera 😂📸</div>
+              <div class="card-img img-daily"></div>
+            </div>
+
+            <div class="card">
+              <div class="card-head">
+                <div class="avatar" style="background:var(--tt-violet-deep)">F</div>
+                <div class="card-meta"><div class="card-name">Furkids Petfood</div><div class="card-time">3 jam lalu</div></div>
+                <span class="badge ad">Iklan</span>
+              </div>
+              <div class="card-body">4 kesalahan pola makan kucing indoor yang sering nggak disadari pemilik — nomor 2 paling sering kejadian di rumah dengan &gt;1 kucing...</div>
+              <div class="readmore">Baca selengkapnya →</div>
+              <div class="card-img img-ad"></div>
+            </div>
+
+          </div>
+          <div class="fade-bottom"></div>
+        </div>
+      </div></div>
+
+      <div class="notes">
+        <div class="note-row"><div class="note-label">呈现方式</div><div class="note-value">真实一条 <code>FeedItem</code>，作者信息位显示品牌 Logo + 品牌名；徽章槽位用「Iklan」灰色 pill 替代内容类型徽章</div></div>
+        <div class="note-row"><div class="note-label">插入方式</div><div class="note-value">由 Feed 现有排序逻辑决定位置，<b>没有</b>"每隔 N 条"这类客户端逻辑</div></div>
+        <div class="note-row"><div class="note-label">详情页</div><div class="note-value">点进去和普通内容详情页完全一样，无需单独设计</div></div>
+        <div class="note-row"><div class="note-label">工程量</div><div class="note-value"><span class="chip high">四版本中最高</span>&nbsp; 要给 <code>FeedItem</code> 加赞助标记字段，且走真实内容创建/审核流程</div></div>
+        <div class="note-row"><div class="note-label">范围提醒</div><div class="note-value">"短视频"形式 App 里目前<b>完全不存在</b>（无视频上传/播放能力）——MVP 建议先只做文章/图文</div></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="deck-foot">
+    完整方案文档见同目录 <code>ttadsv1-0-0.md</code>；本页仅作位置/标注方式的示意参考。
+  </footer>
+
+</div>
+</body>
+</html>

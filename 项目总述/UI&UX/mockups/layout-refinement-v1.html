@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TailTopia 布局精细化 — 首页瀑布流 &amp; 兽医队列</title>
+<style>
+
+/* ============ deck chrome tokens ============ */
+:root{
+  --deck-bg: #FAF9FC; --deck-bg-2: #F1EEF7; --deck-ink: #211F2E; --deck-ink-2: #57536B;
+  --deck-muted: #8E89A3; --deck-rule: #E4E0EE; --deck-accent: #7D45F6; --deck-accent-soft: #EFE6FF;
+  --deck-amber: #B9760A; --deck-amber-soft: #FBEBD2; --deck-coral: #C23A50; --deck-coral-soft: #FBE2E6;
+  --deck-green: #167A52; --deck-green-soft: #E1F3EA;
+  --deck-shadow: 0 1px 2px rgba(33,31,46,.04), 0 12px 32px rgba(33,31,46,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --deck-bg:#15131C; --deck-bg-2:#1D1A26; --deck-ink:#EDEBF5; --deck-ink-2:#B3AEC6; --deck-muted:#837E99;
+    --deck-rule:#2C2838; --deck-accent:#A98BFA; --deck-accent-soft:#2C2444; --deck-amber:#E3B15C;
+    --deck-amber-soft:#362A16; --deck-coral:#F0879A; --deck-coral-soft:#3A1E24; --deck-green:#6FCBA0; --deck-green-soft:#16281F;
+    --deck-shadow: 0 1px 2px rgba(0,0,0,.3), 0 20px 48px rgba(0,0,0,.45);
+  }
+}
+:root[data-theme="dark"]{
+  --deck-bg:#15131C; --deck-bg-2:#1D1A26; --deck-ink:#EDEBF5; --deck-ink-2:#B3AEC6; --deck-muted:#837E99;
+  --deck-rule:#2C2838; --deck-accent:#A98BFA; --deck-accent-soft:#2C2444; --deck-amber:#E3B15C;
+  --deck-amber-soft:#362A16; --deck-coral:#F0879A; --deck-coral-soft:#3A1E24; --deck-green:#6FCBA0; --deck-green-soft:#16281F;
+  --deck-shadow: 0 1px 2px rgba(0,0,0,.3), 0 20px 48px rgba(0,0,0,.45);
+}
+:root[data-theme="light"]{
+  --deck-bg:#FAF9FC; --deck-bg-2:#F1EEF7; --deck-ink:#211F2E; --deck-ink-2:#57536B; --deck-muted:#8E89A3;
+  --deck-rule:#E4E0EE; --deck-accent:#7D45F6; --deck-accent-soft:#EFE6FF; --deck-amber:#B9760A;
+  --deck-amber-soft:#FBEBD2; --deck-coral:#C23A50; --deck-coral-soft:#FBE2E6; --deck-green:#167A52; --deck-green-soft:#E1F3EA;
+  --deck-shadow: 0 1px 2px rgba(33,31,46,.04), 0 12px 32px rgba(33,31,46,.06);
+}
+
+/* ============ TailTopia real product tokens (fixed, from tokens.json / colors.dart) ============ */
+:root{
+  --tt-violet:#845EC9; --tt-violet-2:#9E83DA; --tt-violet-deep:#6C48AE; --tt-violet-tint:#F8F2FF;
+  --tt-canvas:#FFFFFF; --tt-ink:#2E2A45; --tt-ink-2:#544864; --tt-muted:#9690A6;
+  --tt-line:#E6E6E6; --tt-line-2:#F0F0F0;
+  --tt-coral:#F0425A; --tt-coral-tint:#FDE7EB; --tt-gold:#F6A609; --tt-gold-tint:#FEF3DE;
+  --tt-momen-bg:#E7F8F0; --tt-momen-text:#0E7A4D; --tt-tips-text:#8A5A00; --tt-sky-tint:#F8F6FF;
+  --tt-vet-primary:#5BCBBB; --tt-vet-primary-deep:#203D39; --tt-vet-surface:#EFF7F4; --tt-vet-surface2:#F8FBFA;
+  --tt-triage-green:#1F9E6A; --tt-triage-yellow:#F6A609; --tt-triage-red:#F0425A;
+  --tt-radius:14px;
+  --tt-font: Poppins, "Century Gothic", "Futura", "Trebuchet MS", sans-serif;
+}
+
+*{ box-sizing:border-box; }
+html,body{ margin:0; padding:0; }
+body{
+  background: var(--deck-bg); color: var(--deck-ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height:1.5; -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{ font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif; font-weight:600; text-wrap:balance; margin:0; }
+::selection{ background: var(--deck-accent-soft); }
+.wrap{ max-width:1240px; margin:0 auto; padding:0 28px 120px; }
+
+.deck-header{ padding:72px 0 40px; border-bottom:1px solid var(--deck-rule); margin-bottom:44px; }
+.eyebrow{ display:inline-flex; align-items:center; gap:8px; font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--deck-accent); font-weight:600; margin:0 0 14px; }
+.eyebrow::before{ content:""; width:16px; height:1.5px; background:var(--deck-accent); display:inline-block; }
+.deck-header h1{ font-size:32px; color:var(--deck-ink); }
+.deck-sub{ max-width:66ch; color:var(--deck-ink-2); font-size:15.5px; margin:16px 0 0; }
+.deck-sub em{ color:var(--deck-muted); font-style:normal; }
+
+.callout{
+  margin: 28px 0 0; padding: 16px 18px; border-radius: 12px; border: 1px solid var(--deck-rule);
+  background: var(--deck-bg-2); font-size: 13.5px; color: var(--deck-ink-2); max-width: 70ch;
+}
+.callout b{ color: var(--deck-ink); }
+.callout code{ background: var(--deck-rule); padding: 1px 5px; border-radius: 4px; font-size: 12.5px; }
+
+.jumpnav{
+  position:sticky; top:0; z-index:20; display:flex; gap:2px; padding:10px 0; margin-bottom:8px;
+  background: color-mix(in srgb, var(--deck-bg) 88%, transparent); backdrop-filter: blur(6px);
+  border-bottom:1px solid var(--deck-rule);
+}
+.jumpnav a{ font-size:13px; font-weight:600; text-decoration:none; color:var(--deck-ink-2); padding:8px 14px; border-radius:999px; }
+.jumpnav a:hover, .jumpnav a:focus-visible{ color:var(--deck-accent); background:var(--deck-accent-soft); }
+
+.spec{ padding:56px 0; border-bottom:1px solid var(--deck-rule); scroll-margin-top:64px; }
+.spec:last-of-type{ border-bottom:none; }
+.spec-head{ display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; margin-bottom:6px; }
+.ver-tag{ font-family:"Iowan Old Style",Georgia,serif; font-size:13px; font-weight:600; color:var(--deck-accent); border:1px solid var(--deck-accent); border-radius:999px; padding:3px 12px; }
+.spec-head h2{ font-size:23px; color:var(--deck-ink); }
+.spec-tagline{ color:var(--deck-ink-2); font-size:14.5px; max-width:68ch; margin:10px 0 30px; }
+.spec-tagline b{ color:var(--deck-ink); font-weight:600; }
+
+.compare{ display:grid; grid-template-columns: 1fr 1fr; gap: 36px; align-items:start; }
+@media (max-width: 860px){ .compare{ grid-template-columns:1fr; } }
+.compare-col{ display:flex; flex-direction:column; gap:14px; align-items:center; }
+.compare-label{ display:flex; align-items:center; gap:8px; font-size:12.5px; font-weight:700; letter-spacing:.03em; text-transform:uppercase; }
+.compare-label.before{ color: var(--deck-muted); }
+.compare-label.before::before{ content:"现状"; }
+.compare-label.after{ color: var(--deck-accent); }
+.compare-label.after::before{ content:"提案"; }
+.compare-note{ font-size:12.5px; color:var(--deck-ink-2); text-align:center; max-width:280px; }
+
+.annotate{ margin-top: 28px; display:flex; flex-direction:column; gap:14px; max-width: 76ch; }
+.note-row{ display:grid; grid-template-columns:120px 1fr; gap:16px; align-items:start; }
+@media (max-width:420px){ .note-row{ grid-template-columns:1fr; gap:4px; } }
+.note-label{ font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--deck-muted); padding-top:2px; }
+.note-value{ font-size:14.5px; color:var(--deck-ink-2); }
+.note-value b{ color:var(--deck-ink); font-weight:600; }
+.chip{ display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:600; padding:3px 10px; border-radius:999px; }
+.chip.low{ background:var(--deck-green-soft); color:var(--deck-green); }
+.chip.mid{ background:var(--deck-amber-soft); color:var(--deck-amber); }
+.chip.high{ background:var(--deck-coral-soft); color:var(--deck-coral); }
+.chip::before{ content:""; width:6px; height:6px; border-radius:50%; background:currentColor; }
+
+/* ============ phone frame ============ */
+.phone-shell{ width:270px; max-width:100%; aspect-ratio: 9/19.5; background:#0d0c12; border-radius:42px; padding:11px; box-shadow: var(--deck-shadow); }
+.phone-screen{ background:var(--tt-canvas); width:100%; height:100%; border-radius:31px; overflow:hidden; display:flex; flex-direction:column; font-family:var(--tt-font); position:relative; }
+.notch{ position:absolute; top:11px; left:50%; transform:translateX(-50%); width:80px; height:20px; background:#0d0c12; border-radius:11px; z-index:5; }
+.statusbar{ height:36px; flex:0 0 auto; display:flex; align-items:flex-end; justify-content:space-between; padding:0 20px 6px; font-size:11px; font-weight:600; color:var(--tt-ink); }
+.screen-scroll{ flex:1; overflow:hidden; display:flex; flex-direction:column; position:relative; min-height:0; }
+.fade-bottom{ position:absolute; left:0; right:0; bottom:0; height:42px; z-index:4; pointer-events:none; background:linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,.94) 78%); }
+.fade-bottom.on-dark{ background:linear-gradient(to bottom, rgba(239,247,244,0) 0%, rgba(239,247,244,.95) 78%); }
+
+.app-bar{ flex:0 0 auto; display:flex; align-items:center; justify-content:space-between; padding:6px 16px 8px; }
+.logo{ font-weight:700; font-size:15px; color:var(--tt-violet); }
+.bell{ width:16px; height:16px; border-radius:50%; border:1.4px solid var(--tt-ink-2); }
+.tabs{ display:flex; gap:7px; padding:0 16px 10px; flex:0 0 auto; }
+.tab{ font-size:10px; font-weight:600; padding:5px 10px; border-radius:999px; color:var(--tt-ink-2); background:var(--tt-line-2); }
+.tab.active{ background:var(--tt-violet); color:#fff; }
+
+/* ---------- single-column card (current home) ---------- */
+.feed-single{ padding:0 12px 12px; display:flex; flex-direction:column; gap:9px; flex:0 0 auto; }
+.card{ background:var(--tt-canvas); border:1px solid var(--tt-line); border-radius:var(--tt-radius); overflow:hidden; flex-shrink:0; }
+.card-head{ display:flex; align-items:center; gap:7px; padding:9px 9px 0; }
+.avatar{ width:23px; height:23px; border-radius:50%; flex:0 0 auto; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:#fff; }
+.card-meta{ flex:1; min-width:0; }
+.card-name{ font-size:9.5px; font-weight:700; color:var(--tt-ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.card-time{ font-size:8px; color:var(--tt-muted); }
+.badge{ font-size:7.5px; font-weight:700; padding:2px 6px; border-radius:6px; flex:0 0 auto; }
+.badge.momen{ background:var(--tt-momen-bg); color:var(--tt-momen-text); }
+.badge.tips{ background:var(--tt-gold-tint); color:var(--tt-tips-text); }
+.card-body{ font-size:9.5px; line-height:1.5; color:var(--tt-ink); padding:6px 9px 8px; }
+.card-img{ aspect-ratio:4/3; width:100%; }
+.img-daily{ background:var(--tt-coral-tint); }
+.img-momen{ background:var(--tt-gold-tint); }
+.img-tips{ background:var(--tt-sky-tint); }
+
+/* ---------- masonry grid (proposed home) ---------- */
+.feed-masonry{ padding:0 10px 10px; columns:2; column-gap:8px; flex:0 0 auto; }
+.mcard{ break-inside:avoid; margin-bottom:8px; border-radius:var(--tt-radius); overflow:hidden; border:1px solid var(--tt-line); background:var(--tt-canvas); }
+.mcard-img{ width:100%; display:block; }
+.mcard-foot{ display:flex; align-items:center; gap:5px; padding:6px 7px 7px; }
+.mcard-name{ font-size:8.3px; font-weight:700; color:var(--tt-ink); flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.mcard-like{ font-size:8px; color:var(--tt-muted); display:flex; align-items:center; gap:2px; flex:0 0 auto; }
+.mcard-cap{ font-size:8.6px; line-height:1.4; color:var(--tt-ink-2); padding:0 7px 6px; }
+
+/* ---------- vet: stat row + top bar ---------- */
+.vet-topbar{ flex:0 0 auto; padding:8px 14px 6px; display:flex; align-items:baseline; justify-content:space-between; }
+.vet-greet{ font-size:13px; font-weight:700; color:var(--tt-ink); }
+.vet-online{ font-size:8.5px; color:var(--tt-vet-primary-deep); background:var(--tt-vet-surface); padding:2.5px 8px; border-radius:999px; font-weight:700; }
+.stat-row{ display:flex; gap:6px; padding:2px 14px 8px; flex:0 0 auto; }
+.stat-card{ flex:1; border-radius:11px; padding:8px 4px; text-align:center; }
+.stat-value{ font-size:15px; font-weight:800; }
+.stat-label{ font-size:7px; color:var(--tt-ink-2); margin-top:1px; }
+.queue-head{ display:flex; align-items:center; justify-content:space-between; padding:2px 14px 6px; flex:0 0 auto; }
+.queue-title{ font-size:9px; font-weight:700; color:var(--tt-ink-2); letter-spacing:.04em; }
+.queue-refresh{ font-size:11px; color:var(--tt-ink-2); }
+
+/* current: uniform vet card */
+.vet-list{ padding:0 12px 12px; display:flex; flex-direction:column; gap:8px; flex:0 0 auto; }
+.vcard{ background:var(--tt-canvas); border-radius:14px; overflow:hidden; box-shadow:0 2px 8px rgba(46,42,69,.07); flex-shrink:0; }
+.vcard-strip{ height:3.5px; }
+.vcard-body{ padding:10px 11px 11px; }
+.vcard-top{ display:flex; align-items:flex-start; gap:7px; }
+.vcard-avatar{ width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; flex:0 0 auto; }
+.vcard-name{ font-size:10.5px; font-weight:700; color:var(--tt-ink); }
+.vcard-species{ font-size:8px; color:var(--tt-ink-2); }
+.vcard-badge{ font-size:7px; font-weight:700; padding:2px 6px; border-radius:5px; white-space:nowrap; }
+.vcard-wait{ font-size:7px; color:var(--tt-muted); margin-top:2px; text-align:right; }
+.vcard-summary{ margin-top:7px; border-radius:8px; padding:6px 8px; font-size:8.3px; line-height:1.45; }
+.vcard-summary b{ display:block; font-size:7.3px; font-weight:800; margin-bottom:1px; }
+.vcard-cta{ margin-top:8px; display:flex; gap:6px; }
+.vcard-btn{ flex:1; text-align:center; font-size:8.3px; font-weight:700; padding:6px 0; border-radius:8px; }
+
+/* proposed: hero (urgent) + compact rows (routine) */
+.vhero{ margin:0 12px 10px; border-radius:16px; overflow:hidden; background: linear-gradient(155deg, #FDEBEE 0%, #FBD9DE 100%); border:1.4px solid #F3AEB8; flex-shrink:0; }
+.vhero-top{ display:flex; align-items:center; gap:9px; padding:12px 13px 0; }
+.vhero-icon{ width:38px; height:38px; border-radius:50%; background:#fff; display:flex; align-items:center; justify-content:center; font-size:18px; flex:0 0 auto; box-shadow:0 2px 6px rgba(194,58,80,.18); }
+.vhero-flag{ font-size:8.5px; font-weight:800; color:var(--tt-coral); letter-spacing:.03em; }
+.vhero-name{ font-size:14px; font-weight:800; color:#7A2233; }
+.vhero-body{ padding:9px 13px 12px; }
+.vhero-summary{ font-size:9.3px; line-height:1.5; color:#7A2233; background:rgba(255,255,255,.6); border-radius:9px; padding:8px 10px; }
+.vhero-btn{ margin-top:9px; background:var(--tt-coral); color:#fff; text-align:center; font-size:10.5px; font-weight:800; padding:9px; border-radius:10px; }
+
+.vrow-title{ padding:2px 14px 5px; font-size:8.5px; font-weight:700; color:var(--tt-ink-2); letter-spacing:.04em; flex:0 0 auto; }
+.vrows{ padding:0 12px 12px; display:flex; flex-direction:column; gap:5px; flex:0 0 auto; }
+.vrow{ display:flex; align-items:center; gap:8px; background:var(--tt-canvas); border:1px solid var(--tt-line); border-radius:11px; padding:7px 9px; flex-shrink:0; }
+.vrow-avatar{ width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; flex:0 0 auto; }
+.vrow-main{ flex:1; min-width:0; }
+.vrow-name{ font-size:9.5px; font-weight:700; color:var(--tt-ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.vrow-meta{ font-size:7.5px; color:var(--tt-muted); }
+.vrow-badge{ font-size:6.8px; font-weight:700; padding:2px 6px; border-radius:5px; flex:0 0 auto; }
+.vrow-chev{ color:var(--tt-muted); font-size:11px; flex:0 0 auto; }
+
+footer.deck-foot{ margin-top:60px; padding-top:24px; border-top:1px solid var(--deck-rule); font-size:12.5px; color:var(--deck-muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="deck-header">
+    <p class="eyebrow">TailTopia · 布局精细化 v1</p>
+    <h1>首页瀑布流 &amp; 兽医队列分级</h1>
+    <p class="deck-sub">按 App 现有设计 token 复刻，两组「现状 / 提案」对比。<em>手机截图内文案为占位示意；App 真实字体 Poppins 用系统字体近似还原。</em></p>
+    <div class="callout">
+      <b>需要注意：</b>首页从单列改双列瀑布流，会推翻 <code>DESIGN.md</code> 里已经写明的「Single-column mobile layout throughout」规则——代码注释里也明确提到当初选的是"非 2 列瀑布"。这版对比图先让你看清楚双列瀑布流具体长什么样、值不值得推翻这条规则；决定要推翻的话，还需要回头同步更新 <code>DESIGN.md</code> 这条规则本身，不然文档和实际方向会对不上。
+    </div>
+  </header>
+
+  <nav class="jumpnav">
+    <a href="#home">首页 Feed</a>
+    <a href="#vet">兽医队列</a>
+  </nav>
+
+  <!-- ============ HOME FEED ============ -->
+  <section class="spec" id="home">
+    <div class="spec-head"><span class="ver-tag">首页</span><h2>单列列表 → 双列瀑布流</h2></div>
+    <p class="spec-tagline">现状每张卡片都是同一个模具：头像行 + 两行文字 + 固定 4:3 图，一屏看下来节奏很平。提案让图片<b>保留原始宽高比</b>参差排列，信息也重新排序为「图片优先」。</p>
+
+    <div class="compare">
+      <div class="compare-col">
+        <div class="compare-label before"></div>
+        <div class="phone-shell"><div class="notch"></div><div class="phone-screen">
+          <div class="statusbar"><span>9:41</span><span>●●●●</span></div>
+          <div class="screen-scroll">
+            <div class="app-bar"><span class="logo">TailTopia</span><span class="bell"></span></div>
+            <div class="tabs"><span class="tab active">Semua</span><span class="tab">Momen</span><span class="tab">Diary</span><span class="tab">Edukasi &amp; Tips</span></div>
+            <div class="feed-single">
+              <div class="card">
+                <div class="card-head">
+                  <div class="avatar" style="background:var(--tt-violet)">S</div>
+                  <div class="card-meta"><div class="card-name">Sari &amp; Kopi</div><div class="card-time">2 jam lalu</div></div>
+                  <span class="badge momen">Momen</span>
+                </div>
+                <div class="card-body">Kopi abis mandi langsung modelling depan kamera 😂📸</div>
+                <div class="card-img img-daily"></div>
+              </div>
+              <div class="card">
+                <div class="card-head">
+                  <div class="avatar" style="background:var(--tt-gold)">R</div>
+                  <div class="card-meta"><div class="card-name">drh. Rani</div><div class="card-time">5 jam lalu</div></div>
+                  <span class="badge tips">Edukasi &amp; Tips</span>
+                </div>
+                <div class="card-body">3 tanda dehidrasi pada kucing yang sering terlewat pemilik.</div>
+                <div class="card-img img-tips"></div>
+              </div>
+            </div>
+            <div class="fade-bottom"></div>
+          </div>
+        </div></div>
+        <p class="compare-note">卡片形状完全一致，图被裁死成 4:3——一眼扫过去像同一张卡在重复。</p>
+      </div>
+
+      <div class="compare-col">
+        <div class="compare-label after"></div>
+        <div class="phone-shell"><div class="notch"></div><div class="phone-screen">
+          <div class="statusbar"><span>9:41</span><span>●●●●</span></div>
+          <div class="screen-scroll">
+            <div class="app-bar"><span class="logo">TailTopia</span><span class="bell"></span></div>
+            <div class="tabs"><span class="tab active">Semua</span><span class="tab">Momen</span><span class="tab">Diary</span><span class="tab">Edukasi &amp; Tips</span></div>
+            <div class="feed-masonry">
+              <div class="mcard">
+                <div class="mcard-img" style="height:150px;background:linear-gradient(160deg,#FDE7EB,#F7C3CE);"></div>
+                <div class="mcard-cap">Kopi abis mandi langsung modelling 😂📸</div>
+                <div class="mcard-foot"><span class="mcard-name">Sari &amp; Kopi</span><span class="mcard-like">♡ 128</span></div>
+              </div>
+              <div class="mcard">
+                <div class="mcard-img" style="height:104px;background:linear-gradient(160deg,#F8F6FF,#E3DBFF);"></div>
+                <div class="mcard-cap">Titik lagi belajar duduk manis</div>
+                <div class="mcard-foot"><span class="mcard-name">Budi &amp; Titik</span><span class="mcard-like">♡ 42</span></div>
+              </div>
+              <div class="mcard">
+                <div class="mcard-img" style="height:120px;background:linear-gradient(160deg,#FEF3DE,#FBDFA0);"></div>
+                <div class="mcard-cap">3 tanda dehidrasi pada kucing</div>
+                <div class="mcard-foot"><span class="mcard-name">drh. Rani</span><span class="mcard-like">♡ 96</span></div>
+              </div>
+              <div class="mcard">
+                <div class="mcard-img" style="height:186px;background:linear-gradient(160deg,#E7F8F0,#BDEBD3);"></div>
+                <div class="mcard-cap">Growth check bulan ke-6 🐾</div>
+                <div class="mcard-foot"><span class="mcard-name">Nadia &amp; Mochi</span><span class="mcard-like">♡ 210</span></div>
+              </div>
+            </div>
+            <div class="fade-bottom"></div>
+          </div>
+        </div></div>
+        <p class="compare-note">每张图保留自己的原始比例，两列高度自然错落，视觉节奏靠内容本身产生，不是硬做出来的。</p>
+      </div>
+    </div>
+
+    <div class="annotate">
+      <div class="note-row"><div class="note-label">信息重排</div><div class="note-value">从「作者行在上、图在下」改成<b>图片优先</b>、作者名+点赞挪到底部一行——这是内容发现型 Feed 的常见排布，但代价是<b>作者身份的可见度降低了</b>，值得跟你确认这个取舍是否接受，毕竟社区信任目前挺依赖"看得到是谁发的"</div></div>
+      <div class="note-row"><div class="note-label">技术依赖</div><div class="note-value"><code>FeedItem</code> 现在只有 <code>firstImageUrl</code>，没有宽高信息——真瀑布流要在图片加载前就排好布局，<b>后端需要补图片宽高元数据</b>，否则网格会在图片加载完成前后跳动</div></div>
+      <div class="note-row"><div class="note-label">文档同步</div><div class="note-value">推翻后需要回去改 <code>DESIGN.md</code>「Single-column mobile layout throughout」这条，并在 <code>feed_view.dart</code> 类注释里更新决策依据，不然下一个人看文档还是会觉得双列是被否掉的方向</div></div>
+      <div class="note-row"><div class="note-label">工程量</div><div class="note-value"><span class="chip mid">中</span>&nbsp; 交错网格布局（Flutter 常用 <code>flutter_staggered_grid_view</code>）+ 后端图片元数据字段，比单纯换皮肤重</div></div>
+    </div>
+  </section>
+
+  <!-- ============ VET QUEUE ============ -->
+  <section class="spec" id="vet">
+    <div class="spec-head"><span class="ver-tag">兽医工作台</span><h2>均质队列 → 按紧急程度分级</h2></div>
+    <p class="spec-tagline">现状红/黄/绿三种病例卡片<b>形状和大小完全一样</b>，只有一条 4px 顶部色条和徽章颜色不同——真正的分级应该体现在版面大小和密度上，不只是颜色。</p>
+
+    <div class="compare">
+      <div class="compare-col">
+        <div class="compare-label before"></div>
+        <div class="phone-shell"><div class="notch"></div><div class="phone-screen">
+          <div class="statusbar"><span>9:41</span><span>●●●●</span></div>
+          <div class="screen-scroll">
+            <div class="vet-topbar"><span class="vet-greet">Halo, drh. Amara</span><span class="vet-online">● Online</span></div>
+            <div class="stat-row">
+              <div class="stat-card" style="background:var(--tt-violet-tint)"><div class="stat-value" style="color:var(--tt-violet)">4</div><div class="stat-label">Antrian</div></div>
+              <div class="stat-card" style="background:var(--tt-vet-surface)"><div class="stat-value" style="color:var(--tt-vet-primary-deep)">12</div><div class="stat-label">Selesai</div></div>
+              <div class="stat-card" style="background:var(--tt-gold-tint)"><div class="stat-value" style="color:var(--tt-gold)">4.9</div><div class="stat-label">Rating</div></div>
+            </div>
+            <div class="queue-head"><span class="queue-title">ANTRIAN SEKARANG (4)</span><span class="queue-refresh">⟳</span></div>
+            <div class="vet-list">
+              <div class="vcard">
+                <div class="vcard-strip" style="background:var(--tt-triage-red)"></div>
+                <div class="vcard-body">
+                  <div class="vcard-top">
+                    <div class="vcard-avatar" style="background:rgba(240,66,90,.14)">🐶</div>
+                    <div style="flex:1"><div class="vcard-name">Bobby</div><div class="vcard-species">Anjing · 2 thn · @dimas</div></div>
+                    <div><span class="vcard-badge" style="background:var(--tt-coral-tint);color:#C4263C">🔴 Darurat</span><div class="vcard-wait">baru saja</div></div>
+                  </div>
+                  <div class="vcard-summary" style="background:var(--tt-coral-tint);color:#C4263C"><b>⚠️ PERHATIAN SEGERA</b>Muntah darah sejak pagi, lemas</div>
+                  <div class="vcard-cta"><div class="vcard-btn" style="background:var(--tt-triage-red);color:#fff;flex:1">⚠ Tangani Sekarang</div></div>
+                </div>
+              </div>
+              <div class="vcard">
+                <div class="vcard-strip" style="background:var(--tt-vet-primary)"></div>
+                <div class="vcard-body">
+                  <div class="vcard-top">
+                    <div class="vcard-avatar" style="background:rgba(91,203,187,.16)">🐱</div>
+                    <div style="flex:1"><div class="vcard-name">Mochi</div><div class="vcard-species">Kucing · 8 bln · @nadia</div></div>
+                    <div><span class="vcard-badge" style="background:var(--tt-vet-surface);color:var(--tt-vet-primary-deep)">🟢 Normal</span><div class="vcard-wait">3 mnt lalu</div></div>
+                  </div>
+                  <div class="vcard-summary" style="background:var(--tt-vet-surface2);color:var(--tt-ink-2)">Nafsu makan turun 2 hari · 1 foto dilampirkan</div>
+                  <div class="vcard-cta"><div class="vcard-btn" style="border:1.4px solid var(--tt-line);color:var(--tt-ink-2)">Lewati</div><div class="vcard-btn" style="background:var(--tt-vet-primary);color:#fff;flex:2">Lihat Detail →</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="fade-bottom"></div>
+          </div>
+        </div></div>
+        <p class="compare-note">红色病例和绿色病例是<b>同一个尺寸模板</b>，只是颜色不同——扫队列时紧急程度全靠自己读文字判断。</p>
+      </div>
+
+      <div class="compare-col">
+        <div class="compare-label after"></div>
+        <div class="phone-shell"><div class="notch"></div><div class="phone-screen">
+          <div class="statusbar"><span>9:41</span><span>●●●●</span></div>
+          <div class="screen-scroll">
+            <div class="vet-topbar"><span class="vet-greet">Halo, drh. Amara</span><span class="vet-online">● Online</span></div>
+            <div class="stat-row">
+              <div class="stat-card" style="background:var(--tt-violet-tint)"><div class="stat-value" style="color:var(--tt-violet)">4</div><div class="stat-label">Antrian</div></div>
+              <div class="stat-card" style="background:var(--tt-vet-surface)"><div class="stat-value" style="color:var(--tt-vet-primary-deep)">12</div><div class="stat-label">Selesai</div></div>
+              <div class="stat-card" style="background:var(--tt-gold-tint)"><div class="stat-value" style="color:var(--tt-gold)">4.9</div><div class="stat-label">Rating</div></div>
+            </div>
+
+            <div class="vhero">
+              <div class="vhero-top">
+                <div class="vhero-icon">🐶</div>
+                <div style="flex:1"><div class="vhero-flag">⚠️ PERHATIAN SEGERA</div><div class="vhero-name">Bobby · Anjing · 2 thn</div></div>
+              </div>
+              <div class="vhero-body">
+                <div class="vhero-summary">Muntah darah sejak pagi, lemas — baru saja masuk antrian</div>
+                <div class="vhero-btn">⚠ Tangani Sekarang</div>
+              </div>
+            </div>
+
+            <p class="vrow-title">ANTRIAN NORMAL (3)</p>
+            <div class="vrows">
+              <div class="vrow">
+                <div class="vrow-avatar" style="background:rgba(91,203,187,.16)">🐱</div>
+                <div class="vrow-main"><div class="vrow-name">Mochi · @nadia</div><div class="vrow-meta">Nafsu makan turun · 1 foto</div></div>
+                <span class="vrow-badge" style="background:var(--tt-vet-surface);color:var(--tt-vet-primary-deep)">🟢</span>
+                <span class="vrow-chev">›</span>
+              </div>
+              <div class="vrow">
+                <div class="vrow-avatar" style="background:rgba(246,166,9,.16)">🐶</div>
+                <div class="vrow-main"><div class="vrow-name">Coco · @rina</div><div class="vrow-meta">Gatal-gatal 3 hari · tanpa foto</div></div>
+                <span class="vrow-badge" style="background:var(--tt-gold-tint);color:var(--tt-tips-text)">🟡</span>
+                <span class="vrow-chev">›</span>
+              </div>
+              <div class="vrow">
+                <div class="vrow-avatar" style="background:rgba(91,203,187,.16)">🐱</div>
+                <div class="vrow-main"><div class="vrow-name">Luna · @wati</div><div class="vrow-meta">Cek rutin bulanan · 2 foto</div></div>
+                <span class="vrow-badge" style="background:var(--tt-vet-surface);color:var(--tt-vet-primary-deep)">🟢</span>
+                <span class="vrow-chev">›</span>
+              </div>
+            </div>
+            <div class="fade-bottom on-dark"></div>
+          </div>
+        </div></div>
+        <p class="compare-note">紧急病例做成大版位、不用读字就能一眼看到；常规病例收进紧凑单行列表，扫得更快。</p>
+      </div>
+    </div>
+
+    <div class="annotate">
+      <div class="note-row"><div class="note-label">分级逻辑</div><div class="note-value">红色（Darurat）永远置顶、大卡展示，<b>不参与"先到先得"排序</b>；黄/绿按现有等待时间排序，压成单行紧凑列表，需要时点进去再看 AI 摘要详情</div></div>
+      <div class="note-row"><div class="note-label">信息取舍</div><div class="note-value">紧凑行去掉了 AI 摘要预览框和大图标，只保留一行关键信息——常规病例数量多时更利于扫，但<b>牺牲了列表页就能看到摘要的即时性</b>，这个取舍要跟真实兽医用户确认是否可接受</div></div>
+      <div class="note-row"><div class="note-label">对照文档</div><div class="note-value"><code>EXPERIENCE.md</code> 目前只描述了兽医队列的状态/交互规则，没有规定卡片必须等大——这处改动不像首页那样跟已有文档冲突，风险更低</div></div>
+      <div class="note-row"><div class="note-label">工程量</div><div class="note-value"><span class="chip low">低</span>&nbsp; 纯前端布局改动，不需要改数据模型或后端接口，`aiDangerLevel` 现在就有</div></div>
+    </div>
+  </section>
+
+  <footer class="deck-foot">
+    示意图，非最终视觉稿；首页方向涉及推翻 <code>DESIGN.md</code> 既有规则，落地前建议先过一遍设计评审。
+  </footer>
+
+</div>
+</body>
+</html>
