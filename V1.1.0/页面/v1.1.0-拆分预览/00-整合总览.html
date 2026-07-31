@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TailTopia V1.1.0 · 整合总览</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light;}
+*{box-sizing:border-box;}
+body{margin:0;font-family:'Poppins',sans-serif;background:#F3F1F8;color:#2E2742;}
+header.top{position:sticky;top:0;z-index:50;background:#2E2742;color:#fff;padding:16px 24px;}
+header.top h1{font-size:16px;margin:0 0 3px;font-weight:700;}
+header.top p{font-size:11.5px;margin:0;color:rgba(255,255,255,.65);}
+.section{padding:22px 24px 4px;}
+.section h2{font-size:13px;font-weight:700;color:#845EC9;letter-spacing:.4px;margin:0 0 14px;padding-bottom:8px;border-bottom:1.5px solid #E4DCF7;}
+.grid{display:flex;flex-wrap:wrap;gap:28px;padding:0 24px 12px;}
+.item{width:390px;}
+.item .label{font-size:12px;font-weight:600;color:#4A4458;margin-bottom:8px;}
+.item iframe{width:390px;height:844px;border:none;border-radius:12px;box-shadow:0 10px 30px rgba(22,20,40,.15);background:#fff;display:block;}
+footer.bottom{padding:30px 24px 50px;font-size:11px;color:#8A8398;text-align:center;}
+</style>
+</head><body>
+<header class="top"><h1>TailTopia V1.1.0 · UI/UX 整合总览（共 51 个页面/状态）</h1><p>每个卡片对应 pages/ 目录下一个独立 HTML 文件；一个状态 = 一个文件，页面内不再有状态切换 tab。本页仅供技术整体预览，请以 pages/ 下单个文件作为逐页实现依据。</p></header>
+<div class="section"><h2>① 订单 & 退款 · FR-54/43D</h2><div class="grid">
+<div class="item"><div class="label">订单列表 · 有订单<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/01-订单列表-有订单.html</span></div><iframe src="pages/01-订单列表-有订单.html"></iframe></div>
+<div class="item"><div class="label">订单列表 · 零订单空状态<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/01-订单列表-零订单空状态.html</span></div><iframe src="pages/01-订单列表-零订单空状态.html"></iframe></div>
+<div class="item"><div class="label">订单详情 · 待接单<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/02-订单详情-待接单.html</span></div><iframe src="pages/02-订单详情-待接单.html"></iframe></div>
+<div class="item"><div class="label">订单详情 · 待支付<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/02-订单详情-待支付.html</span></div><iframe src="pages/02-订单详情-待支付.html"></iframe></div>
+<div class="item"><div class="label">订单详情 · 进行中<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/02-订单详情-进行中.html</span></div><iframe src="pages/02-订单详情-进行中.html"></iframe></div>
+<div class="item"><div class="label">订单详情 · 已完成<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/02-订单详情-已完成.html</span></div><iframe src="pages/02-订单详情-已完成.html"></iframe></div>
+<div class="item"><div class="label">订单详情 · 退款处理中(CS未批准)<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/02-订单详情-退款处理中-CS审核中.html</span></div><iframe src="pages/02-订单详情-退款处理中-CS审核中.html"></iframe></div>
+<div class="item"><div class="label">订单详情 · 退款处理中(CS已批准)<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/02-订单详情-退款处理中-CS已批准.html</span></div><iframe src="pages/02-订单详情-退款处理中-CS已批准.html"></iframe></div>
+<div class="item"><div class="label">订单详情 · 已退款(转PawCoin)<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/02-订单详情-已退款-转PawCoin.html</span></div><iframe src="pages/02-订单详情-已退款-转PawCoin.html"></iframe></div>
+<div class="item"><div class="label">订单详情 · 已退款(退真钱)<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/02-订单详情-已退款-退真钱.html</span></div><iframe src="pages/02-订单详情-已退款-退真钱.html"></iframe></div>
+<div class="item"><div class="label">订单详情 · CS驳回退款<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/02-订单详情-CS驳回退款.html</span></div><iframe src="pages/02-订单详情-CS驳回退款.html"></iframe></div>
+<div class="item"><div class="label">退款方式选择<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/03-退款方式选择.html</span></div><iframe src="pages/03-退款方式选择.html"></iframe></div>
+<div class="item"><div class="label">退回真钱 · 选渠道填账户<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/04-退回真钱-选渠道填账户.html</span></div><iframe src="pages/04-退回真钱-选渠道填账户.html"></iframe></div>
+<div class="item"><div class="label">退款 · 账户审核中<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/05-退款审核中.html</span></div><iframe src="pages/05-退款审核中.html"></iframe></div>
+<div class="item"><div class="label">转PawCoin · 即时到账<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/06-转PawCoin退款成功.html</span></div><iframe src="pages/06-转PawCoin退款成功.html"></iframe></div>
+</div></div>
+<div class="section"><h2>② PawCoin · FR-50/50A</h2><div class="grid">
+<div class="item"><div class="label">PawCoin余额页<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/07-PawCoin余额页.html</span></div><iframe src="pages/07-PawCoin余额页.html"></iframe></div>
+<div class="item"><div class="label">充值档位选择<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/08-PawCoin充值档位.html</span></div><iframe src="pages/08-PawCoin充值档位.html"></iframe></div>
+<div class="item"><div class="label">充值暂停(浮存门槛)<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/10-充值暂停.html</span></div><iframe src="pages/10-充值暂停.html"></iframe></div>
+</div></div>
+<div class="section"><h2>③ 健康记录 · FR-45</h2><div class="grid">
+<div class="item"><div class="label">记录列表 + 添加弹层<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/11-健康记录列表.html</span></div><iframe src="pages/11-健康记录列表.html"></iframe></div>
+</div></div>
+<div class="section"><h2>④ 新手任务 · FR-47</h2><div class="grid">
+<div class="item"><div class="label">新手任务清单<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/16-新手任务清单.html</span></div><iframe src="pages/16-新手任务清单.html"></iframe></div>
+<div class="item"><div class="label">老用户欢迎弹窗<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/30-新手任务老用户欢迎弹窗.html</span></div><iframe src="pages/30-新手任务老用户欢迎弹窗.html"></iframe></div>
+<div class="item"><div class="label">里程碑+新手任务专区 · 未完成<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/31-里程碑新手任务专区-未完成.html</span></div><iframe src="pages/31-里程碑新手任务专区-未完成.html"></iframe></div>
+<div class="item"><div class="label">里程碑+新手任务专区 · 全部完成<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/31-里程碑新手任务专区-已完成.html</span></div><iframe src="pages/31-里程碑新手任务专区-已完成.html"></iframe></div>
+</div></div>
+<div class="section"><h2>⑤ 客服 · FR-52</h2><div class="grid">
+<div class="item"><div class="label">投诉表单<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/17-客服投诉表单.html</span></div><iframe src="pages/17-客服投诉表单.html"></iframe></div>
+<div class="item"><div class="label">投诉已提交确认<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/18-客服投诉已提交.html</span></div><iframe src="pages/18-客服投诉已提交.html"></iframe></div>
+<div class="item"><div class="label">工单列表<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/19-客服工单列表.html</span></div><iframe src="pages/19-客服工单列表.html"></iframe></div>
+<div class="item"><div class="label">工单详情<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/20-客服工单详情.html</span></div><iframe src="pages/20-客服工单详情.html"></iframe></div>
+<div class="item"><div class="label">客服入口底抽屉<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/32-客服入口底抽屉.html</span></div><iframe src="pages/32-客服入口底抽屉.html"></iframe></div>
+</div></div>
+<div class="section"><h2>⑥ 付费解锁 · FR-43A/D/49D</h2><div class="grid">
+<div class="item"><div class="label">AI问诊结果 · 未解锁<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/15-AI问诊结果-未解锁.html</span></div><iframe src="pages/15-AI问诊结果-未解锁.html"></iframe></div>
+<div class="item"><div class="label">AI问诊结果 · 已解锁<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/15-AI问诊结果-已解锁.html</span></div><iframe src="pages/15-AI问诊结果-已解锁.html"></iframe></div>
+<div class="item"><div class="label">AI解锁弹层<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/21-AI问诊付费解锁弹层.html</span></div><iframe src="pages/21-AI问诊付费解锁弹层.html"></iframe></div>
+<div class="item"><div class="label">兽医咨询 · 免费提交<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/22-兽医咨询免费提交确认.html</span></div><iframe src="pages/22-兽医咨询免费提交确认.html"></iframe></div>
+<div class="item"><div class="label">兽医咨询 · 等待接单<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/23-兽医咨询等待接单.html</span></div><iframe src="pages/23-兽医咨询等待接单.html"></iframe></div>
+<div class="item"><div class="label">兽医咨询 · 限时支付<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/24-兽医咨询限时支付.html</span></div><iframe src="pages/24-兽医咨询限时支付.html"></iframe></div>
+<div class="item"><div class="label">身份证详情 · 老档案未生成<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/25-身份证详情-老档案未生成.html</span></div><iframe src="pages/25-身份证详情-老档案未生成.html"></iframe></div>
+<div class="item"><div class="label">身份证详情 · 已生成(三风格)<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/25-身份证详情-已生成.html</span></div><iframe src="pages/25-身份证详情-已生成.html"></iframe></div>
+<div class="item"><div class="label">分享落地页 · 档案正常<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/26-身份证分享落地页-档案正常.html</span></div><iframe src="pages/26-身份证分享落地页-档案正常.html"></iframe></div>
+<div class="item"><div class="label">分享落地页 · 档案已删除<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/26-身份证分享落地页-档案已删除.html</span></div><iframe src="pages/26-身份证分享落地页-档案已删除.html"></iframe></div>
+<div class="item"><div class="label">身份证付费下载<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/27-身份证付费下载.html</span></div><iframe src="pages/27-身份证付费下载.html"></iframe></div>
+</div></div>
+<div class="section"><h2>⑦ 真实入口页</h2><div class="grid">
+<div class="item"><div class="label">Profil 主页<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/13-Profil主页.html</span></div><iframe src="pages/13-Profil主页.html"></iframe></div>
+<div class="item"><div class="label">Diary 主页(原Paspor)<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/12-Diary主页.html</span></div><iframe src="pages/12-Diary主页.html"></iframe></div>
+<div class="item"><div class="label">Kesehatan 主页(原Konsultasi)<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/14-Kesehatan主页.html</span></div><iframe src="pages/14-Kesehatan主页.html"></iframe></div>
+<div class="item"><div class="label">内容发布 · 健康记录<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/28-内容发布健康记录.html</span></div><iframe src="pages/28-内容发布健康记录.html"></iframe></div>
+</div></div>
+<div class="section"><h2>⑧ 兽医工作台 · FR-53A-D</h2><div class="grid">
+<div class="item"><div class="label">工作台首页<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/33-兽医工作台首页.html</span></div><iframe src="pages/33-兽医工作台首页.html"></iframe></div>
+<div class="item"><div class="label">接单队列 · 初始<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/34-兽医工作台接单队列-初始.html</span></div><iframe src="pages/34-兽医工作台接单队列-初始.html"></iframe></div>
+<div class="item"><div class="label">接单队列 · 已接单等待支付<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/34-兽医工作台接单队列-已接单等待支付.html</span></div><iframe src="pages/34-兽医工作台接单队列-已接单等待支付.html"></iframe></div>
+<div class="item"><div class="label">用户取消 Toast<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/35-兽医工作台取消Toast.html</span></div><iframe src="pages/35-兽医工作台取消Toast.html"></iframe></div>
+<div class="item"><div class="label">历史 · 到手金额<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/36-兽医工作台历史记录.html</span></div><iframe src="pages/36-兽医工作台历史记录.html"></iframe></div>
+<div class="item"><div class="label">我的收入<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/37-兽医工作台我的收入.html</span></div><iframe src="pages/37-兽医工作台我的收入.html"></iframe></div>
+<div class="item"><div class="label">进行中会话 · 有会话<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/38-兽医工作台进行中会话-有会话.html</span></div><iframe src="pages/38-兽医工作台进行中会话-有会话.html"></iframe></div>
+<div class="item"><div class="label">进行中会话 · 空状态<br><span style="font-weight:400;color:#A79FBE;font-size:10.5px;">pages/38-兽医工作台进行中会话-空状态.html</span></div><iframe src="pages/38-兽医工作台进行中会话-空状态.html"></iframe></div>
+</div></div>
+<footer class="bottom">TailTopia V1.1.0 · 对应 DESIGN.md / EXPERIENCE.md（项目总述/）· 灰色「入口」标签为开发标注，非产品界面文案</footer>
+</body></html>
