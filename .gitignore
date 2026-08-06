@@ -1,5 +1,6 @@
 .DS_Store
-数据埋点/数据查询/db-schema-reference.md
+# DB schema 导出（目录重编号后路径由 数据埋点/ 变为 3.数据埋点/，改为不限路径匹配）
+db-schema-reference.md
 
 # UI 稿逐屏截图产物（本地核验用，不入库）
 .shots/
