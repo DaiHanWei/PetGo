@@ -7,6 +7,28 @@
 
 ---
 
+
+> ## ⚠️ V1.1.2 起激活态规范已更新（2026-08-03）
+>
+> **FR-78A「方案A 萌化」已替换本文档原定的 Pop Art 错位套色激活态。** 本文档以下涉及
+> 「双层结构 / 红色错位偏移层 / 3px 偏位」的章节（第二节风格定义、第五节 Active 态规格、
+> 第九节自检清单相关项）**对底部 Tab Bar 不再生效**，保留仅供追溯。
+>
+> **V1.1.2 起的 Tab 激活态 = 方案A**：
+> 1. glyph **尺寸/形状两态一致**（辨识锚点不变），激活时转品牌紫 `--violet-500`（#845EC9）实心；
+> 2. 叠加**柔和圆角高亮底**（violet @14% 透明，圆角 10）——取代红色错位偏移层；
+> 3. 右上角叠加**一处宠物特征装饰**：Diary=猫耳 / Health=爪印 / Discovery=尾巴 / Me=项圈铃铛；
+> 4. 一次轻弹跳，**≤150ms**；系统「减少动态效果」开启时 `duration=0`（状态照常切换，仅去动画）。
+> 5. `[+]` **不参与萌化**（与原 Pop Art 一致）。
+>
+> **Tab 图标映射变更**：首页改名 **Discovery（探索）**，图标由 `House` 改为**罗盘 Compass**
+> （房子与「探索」语义不符）。其余 Tab glyph 不变。
+>
+> 实现见 `petgo_app/lib/shared/widgets/bottom_tab_bar.dart`；决议见 PRD V1.1.2 FR-78A / OQ-13、
+> UI 稿 `ui-v1.1.2.html` T3 屏。⚠️ 当前为简笔 SVG 近似，**设计精修萌化图标到位后整批替换**。
+
+---
+
 ## 一、图标库
 
 **选用：Phosphor Icons**（`phosphor-react-native`）
@@ -43,11 +65,11 @@ npm install phosphor-react-native
 
 | Tab | 位置 | Inactive 图标 | Active 图标 | 需要登录 |
 |---|---|---|---|---|
-| 首页 | 1（最左） | `<House weight="regular" />` | `<House weight="fill" />` | 否 |
-| 成长档案 | 2 | `<BookOpen weight="regular" />` | `<BookOpen weight="fill" />` | 是 |
+| ~~首页~~ **Discovery 探索** | ~~1（最左）~~ **4**（V1.1.2 重排） | `<Compass weight="regular" />` | `<Compass weight="fill" />` + 尾巴装饰 | 否 |
+| **Diary 成长档案** | ~~2~~ **1（最左）**（V1.1.2 重排） | `<BookOpen weight="regular" />` | `<BookOpen weight="fill" />` + 猫耳装饰 | ~~是~~ **否**（Story 2.4 起对游客开放） |
 | [+] 发布 | 3（中间） | 特殊处理，见第六节 | — | 是 |
-| 问诊 | 4 | `<Stethoscope weight="regular" />` | `<Stethoscope weight="fill" />` | 是 |
-| 我的 | 5（最右） | `<User weight="regular" />` | `<User weight="fill" />` | 是 |
+| **Health 问诊** | ~~4~~ **2**（V1.1.2 重排） | `<Stethoscope weight="regular" />` | `<Stethoscope weight="fill" />` + 爪印装饰 | 是 |
+| Me 我的 | 5（最右，不变） | `<User weight="regular" />` | `<User weight="fill" />` + 项圈铃铛装饰 | 是 |
 
 ---
 
