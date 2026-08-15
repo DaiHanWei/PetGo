@@ -8,4 +8,5 @@ db-schema-reference.md
 # 决策记录：过程性内部文档，不入库（2026-08-10 产品决定）
 # 只留在本地，供下一轮工作追溯；不限路径匹配，各版本目录下的同名文件一并忽略
 .decision-log.md
+.decision-log-*.md
 .memlog.md
