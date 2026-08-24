@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>TailTopia V1.2.0 — 账户与轻量功能 UI 完整度草稿（FR-58）</title>
+<style>
+
+:root{
+  --tt-violet:#845EC9; --tt-violet-2:#9E83DA; --tt-violet-deep:#6C48AE; --tt-violet-tint:#F8F2FF;
+  --tt-canvas:#FFFFFF; --tt-ink:#2E2A45; --tt-ink-2:#544864; --tt-muted:#9690A6;
+  --tt-line:#E6E6E6; --tt-line-2:#F0F0F0; --tt-dashed-violet:#C2B0EC;
+  --tt-coral:#F0425A; --tt-coral-tint:#FDE7EB; --tt-gold:#F6A609; --tt-gold-tint:#FEF3DE;
+  --tt-pop-red:#E5604D; --tt-info-blue:#5B9BD5; --tt-triage-green:#1F9E6A;
+  --tt-radius:14px;
+  --tt-font: 'Poppins', system-ui, "Segoe UI", Roboto, sans-serif;
+
+  --page-bg:#FAF9FC; --page-bg-2:#F1EEF7; --page-ink:#211F2E; --page-ink-2:#57536B;
+  --page-muted:#8E89A3; --page-rule:#E4E0EE; --page-accent:#7D45F6; --page-accent-soft:#EFE6FF;
+  --lane-a:#E5604D;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --page-bg:#15131C; --page-bg-2:#1D1A26; --page-ink:#EDEBF5; --page-ink-2:#B3AEC6; --page-muted:#837E99; --page-rule:#2C2838; --page-accent:#A98BFA; --page-accent-soft:#2C2444; }
+}
+:root[data-theme="dark"]{ --page-bg:#15131C; --page-bg-2:#1D1A26; --page-ink:#EDEBF5; --page-ink-2:#B3AEC6; --page-muted:#837E99; --page-rule:#2C2838; --page-accent:#A98BFA; --page-accent-soft:#2C2444; }
+:root[data-theme="light"]{ --page-bg:#FAF9FC; --page-bg-2:#F1EEF7; --page-ink:#211F2E; --page-ink-2:#57536B; --page-muted:#8E89A3; --page-rule:#E4E0EE; --page-accent:#7D45F6; --page-accent-soft:#EFE6FF; }
+
+*{ box-sizing:border-box; }
+html,body{ margin:0; padding:0; }
+body{ background:var(--page-bg); color:var(--page-ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; line-height:1.5; -webkit-font-smoothing:antialiased; }
+h1,h2,h3{ font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif; font-weight:600; text-wrap:balance; margin:0; }
+.wrap{ max-width:1440px; margin:0 auto; padding:0 28px 140px; }
+
+.doc-header{ padding:56px 0 28px; border-bottom:1px solid var(--page-rule); margin-bottom:28px; }
+.eyebrow{ display:inline-flex; align-items:center; gap:8px; font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--page-accent); font-weight:600; margin:0 0 12px; }
+.eyebrow::before{ content:""; width:16px; height:1.5px; background:var(--page-accent); display:inline-block; }
+.doc-header h1{ font-size:25px; margin:0; }
+.doc-sub{ max-width:82ch; color:var(--page-ink-2); font-size:14.5px; margin:14px 0 0; }
+.stage-tag{ display:inline-block; font-size:11.5px; font-weight:700; padding:3px 9px; border-radius:6px; background:var(--page-accent-soft); color:var(--page-accent); margin-right:8px; }
+
+.delta-box{ margin:22px 0 0; border:1px solid #F0D9C8; background:#FFF8F0; border-radius:12px; padding:16px 18px; }
+@media (prefers-color-scheme: dark){ .delta-box{ background:#2A2015; border-color:#4A3A20; } }
+.delta-box h4{ font-family:inherit; font-size:12.5px; font-weight:700; color:#8A5A00; margin:0 0 10px; text-transform:uppercase; letter-spacing:.04em; }
+.delta-box ol{ margin:0; padding-left:18px; font-size:13px; color:var(--page-ink-2); }
+.delta-box li{ margin-bottom:7px; }
+.delta-box li:last-child{ margin-bottom:0; }
+.delta-box b{ color:var(--page-ink); }
+.delta-box code{ background:var(--page-bg-2); padding:1px 5px; border-radius:4px; font-size:12px; }
+
+.checklist{ margin:22px 0 0; border:1px solid var(--page-rule); border-radius:12px; overflow:hidden; }
+.checklist table{ width:100%; border-collapse:collapse; font-size:13px; }
+.checklist th{ text-align:left; background:var(--page-bg-2); padding:9px 12px; font-weight:650; border-bottom:1px solid var(--page-rule); }
+.checklist td{ padding:8px 12px; border-bottom:1px solid var(--page-rule); vertical-align:top; color:var(--page-ink-2); }
+.checklist tr:last-child td{ border-bottom:none; }
+.checklist td b{ color:var(--page-ink); }
+.checklist .lane-a{ color:var(--lane-a); font-weight:700; }
+
+.jumpnav{ position:sticky; top:0; z-index:30; display:flex; gap:4px; flex-wrap:wrap; padding:10px 0; margin:20px 0 4px; background:color-mix(in srgb, var(--page-bg) 90%, transparent); backdrop-filter:blur(6px); border-bottom:1px solid var(--page-rule); }
+.jumpnav a{ font-size:12px; font-weight:600; color:var(--page-ink-2); text-decoration:none; padding:6px 10px; border-radius:7px; }
+.jumpnav a:hover{ background:var(--page-accent-soft); color:var(--page-accent); }
+
+.lane{ margin:44px 0 8px; }
+.lane-title{ display:flex; align-items:center; gap:10px; margin-bottom:4px; }
+.lane-dot{ width:9px; height:9px; border-radius:50%; }
+.lane-title h2{ font-size:19px; margin:0; }
+.lane-desc{ color:var(--page-ink-2); font-size:13px; margin:4px 0 22px; max-width:82ch; }
+
+.board{ display:flex; flex-wrap:wrap; gap:30px; align-items:flex-start; }
+.frame-card{ display:flex; flex-direction:column; align-items:center; gap:10px; width:300px; }
+.frame-tag{ font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif; font-size:12.5px; font-weight:600; color:var(--page-accent); border:1px solid var(--page-accent); border-radius:999px; padding:3px 12px; text-align:center; }
+.frame-cap{ font-size:12px; color:var(--page-ink-2); text-align:left; align-self:stretch; }
+.frame-cap b{ color:var(--page-ink); }
+.fr-ref{ display:inline-block; font-size:10.5px; font-weight:700; color:var(--page-accent); background:var(--page-accent-soft); padding:1px 6px; border-radius:5px; margin-right:5px; }
+.code-ref{ display:inline-block; font-size:10.5px; font-weight:700; color:#1F6FCC; background:#E4F0FF; padding:1px 6px; border-radius:5px; margin-right:5px; font-family:ui-monospace,monospace; }
+
+.phone-shell{ width:300px; height:632px; border-radius:34px; background:#0d0c12; padding:9px; box-shadow:0 1px 2px rgba(33,31,46,.06), 0 16px 40px rgba(33,31,46,.14); flex-shrink:0; }
+.phone-screen{ width:100%; height:100%; background:var(--tt-canvas); border-radius:26px; overflow:hidden; position:relative; font-family:var(--tt-font); display:flex; flex-direction:column; }
+.statusbar{ display:flex; justify-content:space-between; padding:9px 18px 3px; font-size:11px; font-weight:600; color:var(--tt-ink); flex-shrink:0; }
+.navbar{ display:flex; align-items:center; gap:10px; padding:6px 14px 10px; flex-shrink:0; border-bottom:1px solid var(--tt-line-2); }
+.navbar .nb-title{ font-size:14.5px; font-weight:650; color:var(--tt-ink); flex:1; text-align:center; margin-right:22px; }
+.navbar .nb-icon{ width:22px; height:22px; display:flex; align-items:center; justify-content:center; color:var(--tt-ink-2); flex-shrink:0; }
+.scroll{ flex:1; overflow-y:auto; padding:14px 16px 20px; }
+.scroll.nopad{ padding:0; }
+.sticky-cta{ flex-shrink:0; padding:12px 16px 16px; background:var(--tt-canvas); border-top:1px solid var(--tt-line-2); display:flex; gap:10px; }
+.btn{ flex:1; text-align:center; font-size:13.5px; font-weight:650; padding:12px 14px; border-radius:12px; cursor:default; }
+.btn-primary{ background:var(--tt-violet); color:#fff; }
+.btn-primary.disabled{ background:var(--tt-violet-2); opacity:.45; }
+.btn-outline{ background:#fff; color:var(--tt-ink-2); border:1.4px solid var(--tt-line); }
+.btn-outline.danger{ color:var(--tt-pop-red); border-color:var(--tt-coral-tint); }
+.btn-danger{ background:var(--tt-pop-red); color:#fff; }
+.btn-sm{ font-size:12px; padding:8px 12px; border-radius:10px; flex:none; }
+
+.scrim-page{ position:relative; height:100%; }
+.scrim{ position:absolute; inset:0; background:rgba(20,18,28,.42); z-index:2; }
+.sheet{ position:absolute; left:0; right:0; bottom:0; z-index:3; background:#fff; border-radius:20px 20px 0 0; box-shadow:0 -8px 28px rgba(20,18,28,.18); padding:10px 16px 18px; max-height:82%; display:flex; flex-direction:column; }
+.sheet.layer1{ z-index:1; }
+.sheet.layer2{ z-index:3; }
+.sheet-handle{ width:36px; height:4px; border-radius:3px; background:var(--tt-line); margin:2px auto 12px; }
+.sheet-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
+.sheet-head h3{ font-size:15px; font-weight:600; margin:0; color:var(--tt-ink); }
+.sheet-body{ overflow-y:auto; }
+
+h4.section-label{ font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--tt-muted); margin:14px 0 8px; }
+h4.section-label:first-child{ margin-top:0; }
+.field-label{ font-size:12.5px; font-weight:650; color:var(--tt-ink); margin-bottom:6px; }
+
+.vrow{ display:flex; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid var(--tt-line-2); }
+.vrow:last-child{ border-bottom:none; }
+.avatar{ width:42px; height:42px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:18px; color:#fff; flex-shrink:0; }
+.avatar.letter{ font-size:14px; font-weight:700; }
+.vrow-main{ flex:1; min-width:0; }
+.vrow-name{ font-size:13px; font-weight:650; color:var(--tt-ink); display:flex; align-items:center; gap:5px; }
+.vrow-meta{ font-size:11.5px; color:var(--tt-muted); margin-top:2px; }
+
+.tag-pill{ font-size:10.5px; font-weight:650; padding:2px 7px; border-radius:20px; display:inline-flex; align-items:center; gap:3px; white-space:nowrap; }
+.tag-locked{ background:var(--tt-coral-tint); color:var(--tt-pop-red); }
+.tag-muted{ background:var(--tt-line-2); color:var(--tt-muted); }
+
+.card{ border:1px solid var(--tt-line-2); border-radius:var(--tt-radius); padding:12px 14px; background:#fff; box-shadow:0 3px 12px rgba(46,42,69,.06); }
+.card + .card{ margin-top:10px; }
+
+/* mini profile sheet (real: mini_profile_sheet.dart) */
+.mp-topbar{ display:flex; justify-content:flex-end; margin:-2px 0 2px; }
+.mp-ibtn{ width:32px; height:32px; border-radius:10px; display:flex; align-items:center; justify-content:center; background:var(--tt-coral-tint); color:var(--tt-pop-red); flex-shrink:0; }
+.mp-avatar{ width:64px; height:64px; border-radius:50%; background:linear-gradient(135deg,var(--tt-violet-2),var(--tt-violet)); display:flex; align-items:center; justify-content:center; font-size:26px; margin:0 auto; }
+.mp-name{ font-size:16px; font-weight:700; color:var(--tt-ink); text-align:center; margin-top:9px; }
+.mp-count{ font-size:11.5px; color:var(--tt-muted); text-align:center; margin-top:2px; }
+.mp-comingsoon{ font-size:12.5px; color:var(--tt-ink-2); text-align:center; margin-top:12px; line-height:1.5; }
+.mp-close{ text-align:center; font-size:13px; font-weight:650; color:var(--tt-violet); margin-top:16px; }
+
+/* report reason cards (real: report_sheet.dart _reasonCard — border=line unselected, violet+tint selected;
+   Dart const is literally named "mint" but its hex value = violet #845EC9, so this mockup uses --tt-violet directly) */
+.reason-card{ display:flex; align-items:center; gap:9px; padding:11px 13px; border-radius:13px; border:1.5px solid var(--tt-line); background:#fff; margin-bottom:9px; }
+.reason-card.selected{ border-color:var(--tt-violet); background:var(--tt-violet-tint); }
+.reason-radio{ width:19px; height:19px; border-radius:50%; border:2px solid var(--tt-muted); flex-shrink:0; }
+.reason-radio.on{ border-color:var(--tt-violet); background:radial-gradient(var(--tt-violet) 0 40%, transparent 42%); }
+.reason-label{ font-size:12.5px; color:var(--tt-ink); }
+
+.confirm-icon{ width:56px; height:56px; border-radius:50%; margin:0 auto 12px; display:flex; align-items:center; justify-content:center; }
+
+.notif-group-label{ font-size:10.5px; font-weight:700; letter-spacing:.05em; color:var(--tt-muted); margin:2px 0 8px 2px; }
+
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="doc-header">
+    <div class="eyebrow">V1.2.0 · UI 页面完整度草稿</div>
+    <h1>账户与轻量功能 — 用户账号举报（FR-58）</h1>
+    <p class="doc-sub">
+      <span class="stage-tag">阶段 1／3：页面完整度</span>
+      <b>2026-07-23 拆分说明</b>：本文件原包含 FR-70（手机号采集入口）、FR-76（里程碑完成通知补齐）两个功能，因这两项与本文件其余功能相对独立，已拆分至 <code>ui-standalone-features-integrated-v1.html</code> 单独维护，此处对应页面已删除，仅保留 FR-58。已对照 <code>petgo-platform</code> 实际代码构建——迷你主页预览卡（<code>mini_profile_sheet.dart</code>）、内容举报抽屉（<code>report_sheet.dart</code>，FR-58 明确要求复用此交互模式）等真实文件，字体/配色/组件结构均取自代码。仍不是最终视觉稿，阶段 2 再做美观/创意打磨。
+    </p>
+    <div class="delta-box">
+      <h4>核对代码发现的关键点</h4>
+      <ol>
+        <li><b>举报理由是全新的一套选项，不能复用 <code>ReportReason</code> 枚举</b>：<code>report_reason.dart</code> 现有枚举是 illegal/misinfo/inappropriate/harassment/other（内容举报用），与 FR-58 要求的账号举报理由（垃圾信息/恶意营销、仿冒他人、持续骚扰、发布违规内容、其他）文案不同——PRD 本身也明确这是"独立于内容举报"的新举报类型。复用的只是 <code>report_sheet.dart</code> 的**交互结构**（单选卡+提交+成功态原地切换），需要新建一套账号举报专用理由集合，不是复用现有枚举本身。</li>
+        <li><b>「举报」按钮选中态颜色实为紫色，非字面意义的薄荷色</b>：<code>report_sheet.dart</code> 里选中态用 <code>AppColors.mint</code>，但该常量在 <code>colors.dart</code> 中实际定义为 <code>Color(0xFF845EC9)</code>（violet-500，代码注释里写着"新组件优先用这一层...常量名沿用 mint* 不改"）——即命名是历史遗留，实际颜色是紫色。本稿选中态直接用 <code>--tt-violet</code>，未按字面"mint/薄荷绿"designed，避免被常量名误导。</li>
+        <li><b>迷你主页预览卡目前没有任何"×"关闭图标</b>：现有 <code>mini_profile_sheet.dart</code> 用 Flutter 原生 <code>showDragHandle:true</code>（拖拽条）+ 底部一个"Tutup"文字按钮作为唯一关闭方式，没有右上角×图标。PRD 原文提到"第一层需用户另外点击其自身的「×」关闭"——本稿解读为泛指"该层自己的关闭手势/按钮"，沿用既有的拖拽条+Tutup方案，**不新增**一个多余的×图标按钮；如产品认为必须是显式×图标，需另行确认。</li>
+      </ol>
+    </div>
+    <div class="checklist">
+      <table>
+        <tr><th style="width:34px">#</th><th style="width:70px">聚类</th><th>页面 / 状态</th><th style="width:110px">对应 FR</th></tr>
+        <tr><td>1</td><td class="lane-a">FR-58</td><td>迷你主页预览卡 · 新增右上角举报入口</td><td>FR-58 / FR-26</td></tr>
+        <tr><td>2</td><td class="lane-a">FR-58</td><td>举报二次确认抽屉（第二层，表单态，叠于第一层之上）</td><td>FR-58</td></tr>
+        <tr><td>3</td><td class="lane-a">FR-58</td><td>举报成功态（第二层原地切换，第一层仍在下方）</td><td>FR-58</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <nav class="jumpnav">
+    <a href="#lane-a">→ 用户账号举报 (1–3)</a>
+  </nav>
+
+  <!-- =================================================================== -->
+  <!-- LANE A: 用户账号举报 FR-58                                          -->
+  <!-- =================================================================== -->
+  <section class="lane" id="lane-a">
+    <div class="lane-title"><span class="lane-dot" style="background:var(--lane-a)"></span><h2>用户账号举报</h2></div>
+    <p class="lane-desc">唯一入口是迷你主页预览卡（FR-26）右上角新增的举报按钮；二次确认抽屉直接复用 <code class="code-ref" style="margin:0">report_sheet.dart</code> 已验证的表单+成功态两段式结构，作为叠加在第一层之上的独立第二层。流程进行中（表单态/中途取消）两层各自独立；<b>提交成功后关闭则整体收起两层</b>，直接返回举报前所在页面。</p>
+
+    <div class="board">
+
+      <!-- 1: mini profile with report entry -->
+      <div class="frame-card">
+        <span class="frame-tag">01 · 迷你主页预览卡·新增举报入口</span>
+        <div class="phone-shell"><div class="phone-screen">
+          <div class="scrim-page">
+            <div class="scrim"></div>
+            <div class="sheet" style="max-height:70%">
+              <div class="sheet-handle"></div>
+              <div class="mp-topbar">
+                <div class="mp-ibtn">🚩</div>
+              </div>
+              <div class="mp-avatar">🐾</div>
+              <div class="mp-name">Sari Wulandari</div>
+              <div class="mp-count">12 postingan dibagikan</div>
+              <div class="mp-comingsoon">Halaman pribadi mereka sedang disiapkan dengan penuh perhatian, lebih banyak kejutan menanti ✨</div>
+              <div class="mp-close">Tutup</div>
+            </div>
+          </div>
+        </div></div>
+        <div class="frame-cap"><span class="code-ref">mini_profile_sheet.dart</span><span class="fr-ref">FR-58</span> 第一层原有结构（头像/昵称/发布数/筹备中文案/Tutup）完全不变，仅在拖拽条下新增右上角小号举报旗帜图标，点击进入第二层确认抽屉。</div>
+      </div>
+
+      <!-- 2: report confirm sheet layer 2 form -->
+      <div class="frame-card">
+        <span class="frame-tag">02 · 举报二次确认抽屉（第二层·表单态）</span>
+        <div class="phone-shell"><div class="phone-screen">
+          <div class="scrim-page">
+            <div class="scrim"></div>
+            <div class="sheet layer1" style="max-height:70%;opacity:.5">
+              <div class="sheet-handle"></div>
+              <div class="mp-avatar" style="width:48px;height:48px;font-size:20px">🐾</div>
+              <div class="mp-name" style="font-size:13px;margin-top:6px">Sari Wulandari</div>
+            </div>
+            <div class="sheet layer2" style="max-height:88%">
+              <div class="sheet-handle"></div>
+              <div class="sheet-body">
+                <div style="font-size:16px;font-weight:700;color:var(--tt-ink)">Laporkan akun ini?</div>
+                <div style="font-size:12px;color:var(--tt-ink-2);margin-top:4px">Pilih alasan yang paling sesuai</div>
+                <div style="margin-top:14px">
+                  <div class="reason-card selected"><div class="reason-radio on"></div><div class="reason-label">Spam / promosi berlebihan</div></div>
+                  <div class="reason-card"><div class="reason-radio"></div><div class="reason-label">Menyamar sebagai orang lain</div></div>
+                  <div class="reason-card"><div class="reason-radio"></div><div class="reason-label">Pelecehan berulang</div></div>
+                  <div class="reason-card"><div class="reason-radio"></div><div class="reason-label">Memposting konten yang melanggar aturan</div></div>
+                  <div class="reason-card"><div class="reason-radio"></div><div class="reason-label">Lainnya</div></div>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px;margin-top:2px">
+                <div class="btn btn-primary" style="flex:none">Kirim Laporan</div>
+                <div class="btn btn-outline" style="flex:none">Batal</div>
+              </div>
+            </div>
+          </div>
+        </div></div>
+        <div class="frame-cap"><span class="code-ref">report_sheet.dart</span><span class="fr-ref">FR-58</span> 结构 1:1 复用（单选卡+提交+Batal），理由文案换成 FR-58 指定的 5 项账号级举报理由（本稿新拟）。第一层压暗但仍在原位，体现"两层独立"。</div>
+      </div>
+
+      <!-- 3: report success state layer 2 -->
+      <div class="frame-card">
+        <span class="frame-tag">03 · 举报成功态（关闭后整体收起）</span>
+        <div class="phone-shell"><div class="phone-screen">
+          <div class="scroll" style="padding-top:50px;filter:brightness(.9)">
+            <div class="notif-group-label">FEED</div>
+            <div class="card" style="margin-bottom:10px">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+                <div class="mp-avatar" style="width:32px;height:32px;font-size:14px;margin:0">🐾</div>
+                <div style="font-size:12.5px;font-weight:650;color:var(--tt-ink)">Sari Wulandari</div>
+              </div>
+              <div style="font-size:12px;color:var(--tt-ink-2)">Momen jalan-jalan sore ini ☀️</div>
+            </div>
+            <div class="card"><div style="font-size:12px;color:var(--tt-ink-2)">— konten lain di Feed —</div></div>
+          </div>
+          <div class="scrim-page" style="position:absolute;inset:0">
+            <div class="scrim"></div>
+            <div class="sheet" style="max-height:60%;text-align:center">
+              <div class="sheet-handle"></div>
+              <div style="font-size:40px;margin-top:6px">✅</div>
+              <div style="font-size:15px;font-weight:700;color:var(--tt-ink);margin-top:10px">Laporan diterima</div>
+              <div style="font-size:13px;color:var(--tt-ink-2);margin-top:6px">Kami akan segera memprosesnya.</div>
+              <div class="btn" style="flex:none;background:rgba(150,144,166,.15);color:var(--tt-ink-2);margin-top:18px">Tutup</div>
+            </div>
+          </div>
+        </div></div>
+        <div class="frame-cap"><span class="code-ref">report_sheet.dart</span><span class="fr-ref">FR-58</span> 与内容举报成功态视觉一致（✅+标题+正文+灰底「Tutup」），但关闭行为不同——点击「Tutup」直接收起整条举报流程（第一层迷你主页预览卡 + 第二层确认抽屉一并收起），返回用户点击迷你主页预览卡之前所在的页面（背景仅示意，实际可以是 Feed/内容详情页/评论区），不再停留在迷你主页预览卡。中途取消（点击「Batal」而非提交成功）不受影响，仍只收起第二层、回到迷你主页预览卡。</div>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

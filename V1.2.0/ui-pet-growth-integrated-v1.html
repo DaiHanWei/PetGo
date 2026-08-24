@@ -1,0 +1,720 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>TailTopia V1.2.0 — 成长档案与宠物管理 UI 完整度草稿（FR-64 / FR-65 / FR-62）</title>
+<style>
+
+:root{
+  --tt-violet:#845EC9; --tt-violet-2:#9E83DA; --tt-violet-deep:#6C48AE; --tt-violet-tint:#F8F2FF;
+  --tt-canvas:#FFFFFF; --tt-ink:#2E2A45; --tt-ink-2:#544864; --tt-muted:#9690A6;
+  --tt-line:#E6E6E6; --tt-line-2:#F0F0F0; --tt-dashed-violet:#C2B0EC;
+  --tt-coral:#F0425A; --tt-coral-tint:#FDE7EB; --tt-gold:#F6A609; --tt-gold-tint:#FEF3DE;
+  --tt-pop-red:#E5604D; --tt-info-blue:#5B9BD5; --tt-triage-green:#1F9E6A;
+  --tt-radius:14px;
+  --tt-font: 'Poppins', system-ui, "Segoe UI", Roboto, sans-serif;
+
+  --page-bg:#FAF9FC; --page-bg-2:#F1EEF7; --page-ink:#211F2E; --page-ink-2:#57536B;
+  --page-muted:#8E89A3; --page-rule:#E4E0EE; --page-accent:#7D45F6; --page-accent-soft:#EFE6FF;
+  --lane-a:#845EC9; --lane-b:#C4863C; --lane-c:#1F8E7B;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --page-bg:#15131C; --page-bg-2:#1D1A26; --page-ink:#EDEBF5; --page-ink-2:#B3AEC6; --page-muted:#837E99; --page-rule:#2C2838; --page-accent:#A98BFA; --page-accent-soft:#2C2444; }
+}
+:root[data-theme="dark"]{ --page-bg:#15131C; --page-bg-2:#1D1A26; --page-ink:#EDEBF5; --page-ink-2:#B3AEC6; --page-muted:#837E99; --page-rule:#2C2838; --page-accent:#A98BFA; --page-accent-soft:#2C2444; }
+:root[data-theme="light"]{ --page-bg:#FAF9FC; --page-bg-2:#F1EEF7; --page-ink:#211F2E; --page-ink-2:#57536B; --page-muted:#8E89A3; --page-rule:#E4E0EE; --page-accent:#7D45F6; --page-accent-soft:#EFE6FF; }
+
+*{ box-sizing:border-box; }
+html,body{ margin:0; padding:0; }
+body{ background:var(--page-bg); color:var(--page-ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; line-height:1.5; -webkit-font-smoothing:antialiased; }
+h1,h2,h3{ font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif; font-weight:600; text-wrap:balance; margin:0; }
+.wrap{ max-width:1440px; margin:0 auto; padding:0 28px 140px; }
+
+.doc-header{ padding:56px 0 28px; border-bottom:1px solid var(--page-rule); margin-bottom:28px; }
+.eyebrow{ display:inline-flex; align-items:center; gap:8px; font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--page-accent); font-weight:600; margin:0 0 12px; }
+.eyebrow::before{ content:""; width:16px; height:1.5px; background:var(--page-accent); display:inline-block; }
+.doc-header h1{ font-size:25px; margin:0; }
+.doc-sub{ max-width:82ch; color:var(--page-ink-2); font-size:14.5px; margin:14px 0 0; }
+.stage-tag{ display:inline-block; font-size:11.5px; font-weight:700; padding:3px 9px; border-radius:6px; background:var(--page-accent-soft); color:var(--page-accent); margin-right:8px; }
+
+.delta-box{ margin:22px 0 0; border:1px solid #F0D9C8; background:#FFF8F0; border-radius:12px; padding:16px 18px; }
+@media (prefers-color-scheme: dark){ .delta-box{ background:#2A2015; border-color:#4A3A20; } }
+.delta-box h4{ font-family:inherit; font-size:12.5px; font-weight:700; color:#8A5A00; margin:0 0 10px; text-transform:uppercase; letter-spacing:.04em; }
+.delta-box ol{ margin:0; padding-left:18px; font-size:13px; color:var(--page-ink-2); }
+.delta-box li{ margin-bottom:7px; }
+.delta-box li:last-child{ margin-bottom:0; }
+.delta-box b{ color:var(--page-ink); }
+.delta-box code{ background:var(--page-bg-2); padding:1px 5px; border-radius:4px; font-size:12px; }
+
+.checklist{ margin:22px 0 0; border:1px solid var(--page-rule); border-radius:12px; overflow:hidden; }
+.checklist table{ width:100%; border-collapse:collapse; font-size:13px; }
+.checklist th{ text-align:left; background:var(--page-bg-2); padding:9px 12px; font-weight:650; border-bottom:1px solid var(--page-rule); }
+.checklist td{ padding:8px 12px; border-bottom:1px solid var(--page-rule); vertical-align:top; color:var(--page-ink-2); }
+.checklist tr:last-child td{ border-bottom:none; }
+.checklist td b{ color:var(--page-ink); }
+.checklist .lane-a{ color:var(--lane-a); font-weight:700; }
+.checklist .lane-b{ color:var(--lane-b); font-weight:700; }
+.checklist .lane-c{ color:var(--lane-c); font-weight:700; }
+
+.jumpnav{ position:sticky; top:0; z-index:30; display:flex; gap:4px; flex-wrap:wrap; padding:10px 0; margin:20px 0 4px; background:color-mix(in srgb, var(--page-bg) 90%, transparent); backdrop-filter:blur(6px); border-bottom:1px solid var(--page-rule); }
+.jumpnav a{ font-size:12px; font-weight:600; color:var(--page-ink-2); text-decoration:none; padding:6px 10px; border-radius:7px; }
+.jumpnav a:hover{ background:var(--page-accent-soft); color:var(--page-accent); }
+
+.lane{ margin:44px 0 8px; }
+.lane-title{ display:flex; align-items:center; gap:10px; margin-bottom:4px; }
+.lane-dot{ width:9px; height:9px; border-radius:50%; }
+.lane-title h2{ font-size:19px; margin:0; }
+.lane-desc{ color:var(--page-ink-2); font-size:13px; margin:4px 0 22px; max-width:82ch; }
+
+.board{ display:flex; flex-wrap:wrap; gap:30px; align-items:flex-start; }
+.frame-card{ display:flex; flex-direction:column; align-items:center; gap:10px; width:300px; }
+.frame-tag{ font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif; font-size:12.5px; font-weight:600; color:var(--page-accent); border:1px solid var(--page-accent); border-radius:999px; padding:3px 12px; text-align:center; }
+.frame-cap{ font-size:12px; color:var(--page-ink-2); text-align:left; align-self:stretch; }
+.frame-cap b{ color:var(--page-ink); }
+.fr-ref{ display:inline-block; font-size:10.5px; font-weight:700; color:var(--page-accent); background:var(--page-accent-soft); padding:1px 6px; border-radius:5px; margin-right:5px; }
+.code-ref{ display:inline-block; font-size:10.5px; font-weight:700; color:#1F6FCC; background:#E4F0FF; padding:1px 6px; border-radius:5px; margin-right:5px; font-family:ui-monospace,monospace; }
+
+.phone-shell{ width:300px; height:632px; border-radius:34px; background:#0d0c12; padding:9px; box-shadow:0 1px 2px rgba(33,31,46,.06), 0 16px 40px rgba(33,31,46,.14); flex-shrink:0; }
+.phone-screen{ width:100%; height:100%; background:var(--tt-canvas); border-radius:26px; overflow:hidden; position:relative; font-family:var(--tt-font); display:flex; flex-direction:column; }
+.statusbar{ display:flex; justify-content:space-between; padding:9px 18px 3px; font-size:11px; font-weight:600; color:var(--tt-ink); flex-shrink:0; }
+.navbar{ display:flex; align-items:center; gap:10px; padding:6px 14px 10px; flex-shrink:0; border-bottom:1px solid var(--tt-line-2); }
+.navbar .nb-title{ font-size:14.5px; font-weight:650; color:var(--tt-ink); flex:1; text-align:center; margin-right:22px; }
+.navbar .nb-icon{ width:22px; height:22px; display:flex; align-items:center; justify-content:center; color:var(--tt-ink-2); flex-shrink:0; }
+.scroll{ flex:1; overflow-y:auto; padding:14px 16px 20px; }
+.scroll.nopad{ padding:0; }
+.sticky-cta{ flex-shrink:0; padding:12px 16px 16px; background:var(--tt-canvas); border-top:1px solid var(--tt-line-2); display:flex; gap:10px; }
+.btn{ flex:1; text-align:center; font-size:13.5px; font-weight:650; padding:12px 14px; border-radius:12px; cursor:default; }
+.btn-primary{ background:var(--tt-violet); color:#fff; }
+.btn-primary.disabled{ background:var(--tt-violet-2); opacity:.45; }
+.btn-outline{ background:#fff; color:var(--tt-ink-2); border:1.4px solid var(--tt-line); }
+.btn-outline.danger{ color:var(--tt-pop-red); border-color:var(--tt-coral-tint); }
+.btn-danger{ background:var(--tt-pop-red); color:#fff; }
+.btn-sm{ font-size:12px; padding:8px 12px; border-radius:10px; }
+
+.scrim-page{ position:relative; height:100%; }
+.scrim{ position:absolute; inset:0; background:rgba(20,18,28,.42); z-index:2; }
+.sheet{ position:absolute; left:0; right:0; bottom:0; z-index:3; background:#fff; border-radius:20px 20px 0 0; box-shadow:0 -8px 28px rgba(20,18,28,.18); padding:10px 16px 18px; max-height:82%; display:flex; flex-direction:column; }
+.sheet-handle{ width:36px; height:4px; border-radius:3px; background:var(--tt-line); margin:2px auto 12px; }
+.sheet-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
+.sheet-head h3{ font-size:15px; font-weight:600; margin:0; color:var(--tt-ink); }
+.sheet-body{ overflow-y:auto; }
+
+h4.section-label{ font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--tt-muted); margin:14px 0 8px; }
+h4.section-label:first-child{ margin-top:0; }
+.field-label{ font-size:12.5px; font-weight:650; color:var(--tt-ink); margin-bottom:6px; }
+
+.vrow{ display:flex; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid var(--tt-line-2); }
+.vrow:last-child{ border-bottom:none; }
+.avatar{ width:42px; height:42px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:18px; color:#fff; flex-shrink:0; }
+.avatar.letter{ font-size:14px; font-weight:700; }
+.vrow-main{ flex:1; min-width:0; }
+.vrow-name{ font-size:13px; font-weight:650; color:var(--tt-ink); display:flex; align-items:center; gap:5px; }
+.vrow-meta{ font-size:11.5px; color:var(--tt-muted); margin-top:2px; }
+.checkbox{ width:21px; height:21px; border-radius:7px; border:1.6px solid var(--tt-line); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.checkbox.on{ background:var(--tt-violet); border-color:var(--tt-violet); }
+.radio{ width:19px; height:19px; border-radius:50%; border:2px solid var(--tt-line); flex-shrink:0; }
+.radio.on{ border-color:var(--tt-violet); background:radial-gradient(var(--tt-violet) 0 40%, transparent 42%); }
+
+.tag-pill{ font-size:10.5px; font-weight:650; padding:2px 7px; border-radius:20px; display:inline-flex; align-items:center; gap:3px; white-space:nowrap; }
+.tag-locked{ background:var(--tt-coral-tint); color:var(--tt-pop-red); }
+.tag-verified{ display:inline-flex; align-items:center; gap:4px; font-size:11.5px; font-weight:600; color:var(--tt-violet); }
+
+.empty-wrap{ height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:0 28px; gap:14px; }
+.empty-icon{ width:56px; height:56px; border-radius:50%; background:var(--tt-violet-tint); display:flex; align-items:center; justify-content:center; color:var(--tt-violet); font-size:24px; }
+.empty-title{ font-size:14.5px; font-weight:650; color:var(--tt-ink); }
+.empty-sub{ font-size:12px; color:var(--tt-muted); max-width:38ch; }
+
+.card{ border:1px solid var(--tt-line-2); border-radius:var(--tt-radius); padding:12px 14px; background:#fff; box-shadow:0 3px 12px rgba(46,42,69,.06); }
+.card.flat{ box-shadow:none; }
+.card + .card{ margin-top:10px; }
+
+/* pet switcher (NEW, FR-64) */
+.pet-switcher{ display:flex; gap:12px; overflow-x:auto; padding:2px 0 14px; }
+.pet-slot{ display:flex; flex-direction:column; align-items:center; gap:5px; flex-shrink:0; width:52px; }
+.pet-slot .ring{ width:52px; height:52px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:20px; color:#fff; font-weight:700; border:2.5px solid transparent; }
+.pet-slot.selected .ring{ border-color:var(--tt-violet); box-shadow:0 0 0 2px #fff, 0 0 0 4px var(--tt-violet-tint); }
+.pet-slot .lb{ font-size:10px; color:var(--tt-ink-2); font-weight:600; max-width:52px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.pet-slot.add .ring{ background:#fff; border:1.6px dashed var(--tt-dashed-violet); color:var(--tt-violet); font-size:22px; }
+
+/* info card (Paspor style) */
+.info-card{ padding:16px; border-radius:20px; background:#fff; box-shadow:0 6px 20px rgba(43,42,39,.08); }
+.info-top{ display:flex; align-items:center; gap:13px; }
+.info-avatar{ width:58px; height:58px; border-radius:50%; background:linear-gradient(135deg,var(--tt-violet-2),var(--tt-violet)); display:flex; align-items:center; justify-content:center; font-size:24px; flex-shrink:0; }
+.info-name{ font-size:18px; font-weight:700; color:var(--tt-ink); }
+.info-sub{ font-size:11.5px; color:var(--tt-ink-2); margin-top:2px; }
+.stats-row{ display:flex; background:var(--tt-violet-tint); border-radius:12px; margin-top:13px; }
+.stats-col{ flex:1; text-align:center; padding:9px 6px; }
+.stats-col .n{ font-size:16px; font-weight:700; color:var(--tt-violet); }
+.stats-col .l{ font-size:9.5px; color:var(--tt-ink-2); margin-top:1px; }
+.stats-div{ width:1px; background:var(--tt-line); margin:9px 0; }
+
+.entry-card{ display:flex; align-items:center; gap:12px; padding:13px 14px; border-radius:14px; background:#fff; box-shadow:0 2px 8px rgba(43,42,39,.05); }
+.entry-icon{ width:26px; height:26px; flex-shrink:0; }
+.entry-title{ font-size:14px; font-weight:600; color:var(--tt-ink); }
+.entry-sub{ font-size:11.5px; color:var(--tt-ink-2); margin-top:1px; }
+
+.toggle-row{ display:flex; gap:7px; }
+.toggle-pill{ flex:1; text-align:center; padding:9px; border-radius:10px; font-size:11.5px; font-weight:650; border:1.4px solid var(--tt-line); color:var(--tt-ink-2); }
+.toggle-pill.on{ background:var(--tt-violet); color:#fff; border-color:var(--tt-violet); }
+
+.cat-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:9px; }
+.cat-card{ border:1px solid var(--tt-line); border-radius:14px; padding:11px 4px; text-align:center; }
+.cat-icon{ width:40px; height:40px; border-radius:50%; margin:0 auto 7px; display:flex; align-items:center; justify-content:center; }
+.cat-label{ font-size:11.5px; font-weight:700; color:var(--tt-ink); }
+.cat-date{ font-size:9.5px; color:var(--tt-muted); margin-top:2px; }
+.cat-reminder{ font-size:9px; color:var(--tt-violet); font-weight:700; margin-top:2px; }
+
+.confirm-icon{ width:56px; height:56px; border-radius:50%; margin:0 auto 12px; display:flex; align-items:center; justify-content:center; }
+
+.seg-row{ display:flex; gap:9px; }
+.seg-card{ flex:1; border:1.6px solid var(--tt-line); border-radius:12px; padding:11px 4px; text-align:center; }
+.seg-card.selected{ border-color:var(--tt-violet); background:var(--tt-violet-tint); }
+.seg-card .em{ font-size:20px; }
+.seg-card .lb{ font-size:11px; font-weight:650; color:var(--tt-ink); margin-top:4px; }
+
+.dashed-avatar{ width:88px; height:88px; border-radius:50%; border:2px dashed var(--tt-dashed-violet); display:flex; align-items:center; justify-content:center; font-size:32px; margin:0 auto; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="doc-header">
+    <div class="eyebrow">V1.2.0 · UI 页面完整度草稿</div>
+    <h1>成长档案与宠物管理 — 多宠物账号管理（FR-64）+ 宠物年龄换算分享卡（FR-65）+ 健康提醒激活（FR-62）</h1>
+    <p class="doc-sub">
+      <span class="stage-tag">阶段 1／3：页面完整度</span>
+      已对照 <code>petgo-platform</code>（stag 分支）实际代码构建——成长档案页（<code>growth_archive_page.dart</code>）、宠物信息卡（<code>pet_info_card.dart</code>）、健康记录列表（<code>health_list_page.dart</code>）、身份证页（<code>id_card_page.dart</code>）、建档/编辑表单（<code>pet_profile_create_page.dart</code>/<code>pet_profile_edit_page.dart</code>）、二次确认抽屉（<code>confirm_sheet.dart</code>）等真实文件，字体/配色/组件结构均取自代码。仍不是最终视觉稿，阶段 2 再做美观/创意打磨。
+    </p>
+    <div class="delta-box">
+      <h4>本轮核对代码发现的关键点</h4>
+      <ol>
+        <li><b>宠物切换器是全新 UI 元素</b>：现有 <code>growth_archive_page.dart</code> 完全没有多宠物概念（单宠物档案，无切换器）。本稿在"Paspor {name}"标题行上方新增了横向头像切换器，是本次设计的核心新增部分，非改动现有代码结构。</li>
+        <li><b>建档表单本身不需要重画</b>：FR-64 明确"沿用 V1.0.0 宠物档案创建流程，不新增字段"——<code>pet_profile_create_page.dart</code> 现有表单（头像/名字/物种/品种/生日/简介）直接复用，本稿只展示切换器"+"入口如何跳转到这个既有表单，不重新设计表单本身。</li>
+        <li><b>删除确认沿用 <code>confirm_sheet.dart</code> 组件</b>：拖拽条+圆形图标(危险态红/中性态紫)+标题+说明+主按钮+描边取消按钮，已有的样式，本稿删除宠物场景直接复用。</li>
+        <li><b>健康记录表单目前疫苗名称是自由文本框，不是预设下拉</b>：<code>health_list_page.dart</code> 里 <code>_HealthRecordForm</code> 的疫苗名称字段是 <code>TextField</code>（最多30字自由输入），但 PRD FR-62 假设"沿用 V1.1.0 FR-45A 已定义的预设疫苗名称清单"。如果代码里这份预设清单实际并未落地成一个选择器 UI（本次只查到自由文本框），FR-62 的"按疫苗名称分别设默认提醒间隔"在工程实现上可能需要先把这个字段改造成下拉选择器，否则系统无法准确匹配"这条记录对应哪个预设疫苗名称"来查默认间隔——这是一个需要与工程确认的潜在缺口，本稿设计按 PRD 假设的"下拉选择"呈现，但请注意现状可能是自由文本。</li>
+      </ol>
+    </div>
+    <div class="checklist">
+      <table>
+        <tr><th style="width:34px">#</th><th style="width:70px">聚类</th><th>页面 / 状态</th><th style="width:110px">对应 FR</th></tr>
+        <tr><td>1</td><td class="lane-a">FR-64</td><td>成长档案页 · 标题下方新增宠物切换器<span class="tag-locked" style="margin-left:6px">已按代码改标题+调位置</span></td><td>FR-64</td></tr>
+        <tr><td>2</td><td class="lane-a">FR-64</td><td>切换器"+"入口 → 复用既有建档表单（已补全字段）</td><td>FR-64</td></tr>
+        <tr><td>3</td><td class="lane-a">FR-64</td><td>归属宠物选择抽屉（已按真实存档流程重画）</td><td>FR-64</td></tr>
+        <tr><td>4</td><td class="lane-a">FR-64</td><td>归属宠物纠正抽屉（胶囊标签入口，不分记录类型）</td><td>FR-64</td></tr>
+        <tr><td>5</td><td class="lane-a">FR-64</td><td>删除宠物确认抽屉</td><td>FR-64</td></tr>
+        <tr><td>6</td><td class="lane-a">FR-64</td><td>成长日历发布 · 必须选择归属宠物</td><td>FR-64</td></tr>
+        <tr><td>7</td><td class="lane-b">FR-65</td><td>成长档案页新增年龄卡入口</td><td>FR-65</td></tr>
+        <tr><td>8</td><td class="lane-b">FR-65</td><td>体型选择（仅犬）</td><td>FR-65</td></tr>
+        <tr><td>9</td><td class="lane-b">FR-65</td><td>年龄换算分享卡预览+分享</td><td>FR-65</td></tr>
+        <tr><td>10</td><td class="lane-b">FR-65</td><td>非 App 用户静态落地页</td><td>FR-65</td></tr>
+        <tr><td>11</td><td class="lane-c">FR-62</td><td>健康记录列表页 · 类目卡新增提醒展示</td><td>FR-62</td></tr>
+        <tr><td>12</td><td class="lane-c">FR-62</td><td>提醒间隔设置抽屉</td><td>FR-62</td></tr>
+        <tr><td>13</td><td class="lane-c">FR-62</td><td>无记录时"设置提醒"引导</td><td>FR-62</td></tr>
+        <tr><td>14</td><td class="lane-c">FR-62</td><td>提醒推送到达 + 落地页自动定位宠物</td><td>FR-62</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <nav class="jumpnav">
+    <a href="#lane-a">→ 多宠物管理 (1–6)</a>
+    <a href="#lane-b">→ 年龄换算卡 (7–10)</a>
+    <a href="#lane-c">→ 健康提醒 (11–14)</a>
+  </nav>
+
+  <!-- =================================================================== -->
+  <!-- LANE A: 多宠物账号管理 FR-64                                         -->
+  <!-- =================================================================== -->
+  <section class="lane" id="lane-a">
+    <div class="lane-title"><span class="lane-dot" style="background:var(--lane-a)"></span><h2>多宠物账号管理</h2></div>
+    <p class="lane-desc">成长档案 Tab 顶部新增宠物切换器；里程碑/身份证/健康记录/健康提醒均按宠物独立追踪；不经过切换器的全局入口需要弹窗确认归属宠物。</p>
+
+    <div class="board">
+
+      <!-- 1: growth archive with switcher -->
+      <div class="frame-card">
+        <span class="frame-tag">01 · 成长档案页·宠物切换器</span>
+        <div class="phone-shell"><div class="phone-screen">
+          <div class="statusbar"><span>9:41</span><span>●●●●</span></div>
+          <div class="scroll" style="padding-top:50px">
+            <div style="display:flex;align-items:center;margin-bottom:14px">
+              <div style="flex:1;font-size:19px;font-weight:700;color:var(--tt-ink)">Diary Mochi</div>
+              <div style="width:38px;height:38px;border-radius:11px;background:#fff;box-shadow:0 2px 8px rgba(22,34,51,.07);display:flex;align-items:center;justify-content:center;margin-right:8px">🪪</div>
+              <div style="width:38px;height:38px;border-radius:11px;background:#fff;box-shadow:0 2px 8px rgba(22,34,51,.07);display:flex;align-items:center;justify-content:center;margin-right:8px">🎂</div>
+              <div style="width:38px;height:38px;border-radius:11px;background:#fff;box-shadow:0 2px 8px rgba(22,34,51,.07);display:flex;align-items:center;justify-content:center">✎</div>
+            </div>
+            <div class="pet-switcher">
+              <div class="pet-slot selected"><div class="ring" style="background:linear-gradient(135deg,var(--tt-violet-2),var(--tt-violet))">🐱</div><div class="lb">Mochi</div></div>
+              <div class="pet-slot"><div class="ring" style="background:linear-gradient(135deg,#F6A609,#E08A00)">🐶</div><div class="lb">Bobby</div></div>
+              <div class="pet-slot add"><div class="ring">+</div><div class="lb">Tambah</div></div>
+            </div>
+            <div class="info-card">
+              <div class="info-top">
+                <div class="info-avatar">🐱</div>
+                <div>
+                  <div class="info-name">Mochi</div>
+                  <div class="info-sub">Anggora · 8 bulan</div>
+                  <div class="info-sub" style="font-style:italic;color:var(--tt-muted)">"si kucing manja"</div>
+                </div>
+              </div>
+              <div class="stats-row">
+                <div class="stats-col"><div class="n">24</div><div class="l">Diary</div></div>
+                <div class="stats-div"></div>
+                <div class="stats-col"><div class="n">3</div><div class="l">Konsultasi</div></div>
+                <div class="stats-div"></div>
+                <div class="stats-col"><div class="n">9</div><div class="l">Milestone</div></div>
+              </div>
+            </div>
+            <div style="height:11px"></div>
+            <div class="entry-card" style="padding:14px 16px"><span class="entry-icon">✅</span><div style="flex:1"><div class="entry-title">Catatan Kesehatan</div><div class="entry-sub">Vaksin · obat cacing · riwayat medis</div></div><span style="color:var(--tt-muted)">›</span></div>
+            <div style="height:11px"></div>
+            <div style="border-radius:12px;box-shadow:0 2px 8px rgba(43,42,39,.05);background:#fff;padding:11px 15px">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <span style="font-size:12px;font-weight:600;color:var(--tt-ink)">🏆 Pencapaian Mochi</span>
+                <span style="font-size:12px;font-weight:600;color:var(--tt-violet)">9 / 30</span>
+              </div>
+              <div style="height:5px;border-radius:99px;background:var(--tt-violet-tint);margin-top:7px;overflow:hidden"><div style="width:30%;height:100%;background:var(--tt-violet)"></div></div>
+            </div>
+            <div style="height:12px"></div>
+            <div class="toggle-row"><div class="toggle-pill on">⏱ Timeline</div><div class="toggle-pill">📅 Kalender</div></div>
+            <div style="height:14px"></div>
+            <div style="font-size:15px;font-weight:600;color:var(--tt-ink);margin-bottom:8px">Juli 2026</div>
+            <div style="border-radius:13px;box-shadow:0 2px 8px rgba(43,42,39,.05);background:#fff;padding:11px;display:flex;align-items:center;gap:10px;margin-bottom:9px">
+              <div style="width:32px;text-align:center;flex-shrink:0"><div style="font-size:12px;font-weight:600;color:var(--tt-muted)">15</div><div style="font-size:10px;font-weight:500;color:var(--tt-muted)">Jul</div></div>
+              <div style="width:52px;height:52px;border-radius:9px;background:var(--tt-gold-tint);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">🧶</div>
+              <div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:500;color:var(--tt-ink)">Belajar lompat ke sofa sendiri!</div><div style="font-size:11px;color:var(--tt-muted)">Momen Harian</div></div>
+            </div>
+            <div style="border-radius:12px;background:var(--tt-coral-tint);padding:10px 13px;display:flex;align-items:center;gap:9px">
+              <span style="font-size:18px">🩺</span>
+              <div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:600;color:#C4263C">Konsultasi Dokter — 12 Jul</div><div style="font-size:11px;color:#C4263C;opacity:.85">Nafsu makan turun 2 hari...</div></div>
+            </div>
+          </div>
+        </div></div>
+        <div class="frame-cap"><span class="fr-ref">FR-64</span><span class="code-ref">growth_archive_page.dart</span><span class="code-ref">timeline_tiles.dart</span><span style="color:#1F6FCC">已重新核对代码修正</span>：① 标题按 ARB 改回"Diary {name}"；② 统计栏第一列文案改为"Diary"（<code>petInfoStatHappyMoments</code> 真实值，不是"Momen Bahagia"）；③ 年龄卡改成和身份证一样的小图标入口（见下方第4点说明），删掉了原来占一整行的入口卡；④ 里程碑条/健康记录条去掉了之前误加的边框——代码里这些卡片都是"纯白底+柔阴影，不描边"，之前用了通用 <code>.card</code> class 带了 1px 边框，不对；⑤ 补上了之前完全没画的时间线内容（月份分组标题 + 快乐时刻条目52px缩略图+日期列 + 健康事件粉底条），样式对齐 <code>timeline_tiles.dart</code> 的 <code>_entryShell</code>/<code>HealthEventTile</code>。</div>
+      </div>
+
+      <!-- 2: add pet via existing form -->
+      <div class="frame-card">
+        <span class="frame-tag">02 · 添加宠物（复用既有表单）</span>
+        <div class="phone-shell"><div class="phone-screen">
+          <div class="statusbar"><span>9:41</span><span>●●●●</span></div>
+          <div class="navbar"><span class="nb-icon">◁</span><span class="nb-title">Buat Profil Hewan</span></div>
+          <div class="scroll">
+            <div class="dashed-avatar">🐾</div>
+            <div style="text-align:center;font-size:12.5px;font-weight:600;color:var(--tt-violet);margin-top:8px">Upload Foto</div>
+            <h4 class="section-label" style="margin-top:20px">Nama Hewan *</h4>
+            <div class="card flat" style="border:1.4px solid var(--tt-line);padding:13px 14px;color:var(--tt-muted)">Nama hewan Anda</div>
+            <div style="display:flex;align-items:baseline;gap:6px;margin-top:14px">
+              <h4 class="section-label" style="margin:0">Jenis Hewan *</h4>
+              <span style="font-size:9.5px;font-weight:600;color:var(--tt-pop-red)">(tidak bisa diubah setelah dibuat)</span>
+            </div>
+            <div class="card flat" style="border:1.4px solid var(--tt-line);padding:13px 14px;color:var(--tt-ink);margin-top:6px">🐶 Anjing</div>
+            <h4 class="section-label">RAS</h4>
+            <div class="card flat" style="border:1.4px solid var(--tt-line);padding:13px 14px;color:var(--tt-muted)">Pilih ras</div>
+            <h4 class="section-label">Tanggal Lahir *</h4>
+            <div class="card flat" style="border:1.4px solid var(--tt-line);padding:13px 14px;color:var(--tt-muted);display:flex;justify-content:space-between;align-items:center">Pilih tanggal <span>📅</span></div>
+            <h4 class="section-label">BIO (OPSIONAL)</h4>
+            <div class="card flat" style="border:1.4px solid var(--tt-line);padding:13px 14px;color:var(--tt-muted);height:64px">Ceritakan tentang hewan peliharaanmu...</div>
+          </div>
+          <div class="sticky-cta"><div class="btn btn-primary">Buat Profil</div></div>
+        </div></div>
+        <div class="frame-cap"><span class="fr-ref">FR-64</span><span class="code-ref">pet_profile_create_page.dart</span><span style="color:#1F6FCC">已核对代码补全字段</span>：之前漏画了 BIO（选填简介）字段、"物种创建后不可改"的红色提示语、生日栏的日历图标——都已按代码补上。点击切换器"+"直接跳转到<b>既有</b>建档表单（无任何字段改动），这里只是展示入口跳转关系，不是重新设计的新页面。提交后新宠物加入切换器，默认展示切换器最左侧宠物不变。</div>
+      </div>
+
+      <!-- 3: attribution sheet -->
+      <div class="frame-card">
+        <span class="frame-tag">03 · 归属宠物选择抽屉 <span style="color:#1F6FCC">已按代码重画</span></span>
+        <div class="phone-shell"><div class="phone-screen">
+          <div class="scrim-page">
+            <div class="statusbar"><span>9:41</span><span>●●●●</span></div>
+            <div class="navbar"><span class="nb-icon">◁</span><span class="nb-title">Hasil Konsultasi</span></div>
+            <div class="scroll" style="padding-top:14px">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px"><span style="font-size:16px">📋</span><span style="font-size:15px;font-weight:700;color:var(--tt-ink)">Diagnosa Akhir</span></div>
+              <div style="font-size:11px;font-weight:700;color:var(--tt-muted);letter-spacing:.04em;text-transform:uppercase">Diagnosa</div>
+              <div class="card flat" style="background:var(--tt-vet-surface,var(--tt-violet-tint));border:1px solid var(--tt-violet-2);margin-top:6px;margin-bottom:12px"><span style="color:var(--tt-violet);font-weight:700">Gastritis ringan</span></div>
+              <div style="font-size:11px;font-weight:700;color:var(--tt-muted);letter-spacing:.04em;text-transform:uppercase">Saran Umum</div>
+              <div class="card flat" style="border:1px solid var(--tt-line);margin-top:6px">Puasakan makanan padat 12 jam, perbanyak minum air.</div>
+              <div style="margin-top:16px"><div class="btn btn-primary" style="flex:none">📁 Simpan hasil ini ke arsip</div></div>
+            </div>
+            <div class="scrim"></div>
+            <div class="sheet">
+              <div class="sheet-handle"></div>
+              <div style="text-align:center">
+                <h3 style="font-size:16px">Simpan konsultasi ini ke arsip siapa?</h3>
+              </div>
+              <div class="sheet-body" style="margin-top:14px">
+                <div class="vrow"><div class="avatar letter" style="background:var(--tt-violet-2)">M</div><div class="vrow-main"><div class="vrow-name">Mochi</div><div class="vrow-meta">Anggora · 8 bulan</div></div><div class="radio on"></div></div>
+                <div class="vrow" style="border-bottom:none"><div class="avatar letter" style="background:var(--tt-gold)">B</div><div class="vrow-main"><div class="vrow-name">Bobby</div><div class="vrow-meta">Golden Retriever · 2 thn</div></div><div class="radio"></div></div>
+              </div>
+              <div style="margin-top:16px"><div class="btn btn-primary" style="width:100%">Simpan</div></div>
+              <div style="text-align:center;margin-top:10px;font-size:13px;color:var(--tt-muted)">Lewati</div>
+            </div>
+          </div>
+        </div></div>
+        <div class="frame-cap"><span class="fr-ref">FR-64</span><span class="code-ref">archive_prompt_dialog.dart</span><span class="code-ref">consult_conversation_page.dart</span>之前背景画错了（画了个不相关的聊天页），真实触发点是"会诊结果"页/弹层底部的「📁 Simpan hasil ini ke arsip」按钮（<code>_saveButton</code>）——点击后弹出既有的 <code>showArchiveSaveSheet</code> 存档确认抽屉。单宠物现状该抽屉只有一句"Simpan konsultasi ini ke arsip {petName}?"+Simpan/Lewati；多宠物时<b>直接把这句话换成宠物选择列表</b>，不额外加一层，逻辑上是同一个抽屉的多宠物变体，不是画蛇添足加一步。</div>
+      </div>
+
+      <!-- 4: attribution correction -->
+      <div class="frame-card">
+        <span class="frame-tag">04 · 归属宠物纠正抽屉 <span style="color:#1F6FCC">已按你的决定画</span></span>
+        <div class="phone-shell"><div class="phone-screen">
+          <div class="scrim-page">
+            <div class="statusbar"><span>9:41</span><span>●●●●</span></div>
+            <div class="navbar"><span class="nb-title" style="margin-right:0">Catatan Kesehatan Mochi</span></div>
+            <div class="scroll" style="padding-top:14px">
+              <h4 class="section-label" style="margin-top:0">Semua Catatan</h4>
+              <div style="border:1px solid var(--tt-line-2);border-radius:14px;padding:12px;margin-bottom:9px">
+                <div style="display:flex;justify-content:space-between"><div class="vrow-name" style="color:var(--tt-violet)">Vaksin · Rabies</div><span style="font-size:11px;color:var(--tt-muted)">2026-06-12</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+                  <span style="font-size:11px;color:var(--tt-muted)">Bisa diedit</span>
+                  <span style="font-size:11.5px;font-weight:600;color:var(--tt-ink-2);background:var(--tt-line-2);padding:3px 9px;border-radius:999px">🐱 Mochi ›</span>
+                </div>
+              </div>
+              <div style="border:1px solid var(--tt-line-2);border-radius:14px;padding:12px;background:var(--tt-vet-surface2,#fafafa)">
+                <div style="display:flex;justify-content:space-between"><div class="vrow-name" style="color:#C4263C">🩺 Konsultasi — 8 Jul</div><span style="font-size:11px;color:var(--tt-muted)">Hanya lihat</span></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+                  <span style="font-size:11px;color:var(--tt-muted)">Hasil konsultasi tidak bisa diubah</span>
+                  <span style="font-size:11.5px;font-weight:600;color:var(--tt-ink-2);background:var(--tt-line-2);padding:3px 9px;border-radius:999px">🐶 Bobby ›</span>
+                </div>
+              </div>
+            </div>
+            <div class="scrim"></div>
+            <div class="sheet">
+              <div class="sheet-handle"></div>
+              <div style="text-align:center"><h3 style="font-size:15px">Catatan ini untuk hewan mana?</h3></div>
+              <div class="sheet-body" style="margin-top:12px">
+                <div class="vrow"><div class="avatar letter" style="background:var(--tt-violet-2)">M</div><div class="vrow-main"><div class="vrow-name">Mochi</div></div><div class="radio on"></div></div>
+                <div class="vrow" style="border-bottom:none"><div class="avatar letter" style="background:var(--tt-gold)">B</div><div class="vrow-main"><div class="vrow-name">Bobby</div></div><div class="radio"></div></div>
+              </div>
+              <div style="margin-top:14px"><div class="btn btn-primary" style="width:100%">Simpan</div></div>
+            </div>
+          </div>
+        </div></div>
+        <div class="frame-cap"><span class="fr-ref">FR-64</span>按你的决定——不单独做详情页，加一个小小的宠物归属胶囊标签（🐱 Mochi ›），<b>不管这条记录本身能不能编辑</b>都能点，点开就是这个轻量选择抽屉，跟 03 页是同一套组件。这样结构化健康记录和只读的问诊记录用的是<b>同一个入口机制</b>，不用为问诊记录另外开一个可编辑状态。改归属后原宠物该类型提醒基准同步重算（若无其他记录则回退"无记录，不触发提醒"）。</div>
+      </div>
+
+      <!-- 5: delete pet confirm -->
+      <div class="frame-card">
+        <span class="frame-tag">05 · 删除宠物确认抽屉 <span style="color:#1F6FCC">已换真实文案</span></span>
+        <div class="phone-shell"><div class="phone-screen">
+          <div class="scrim-page">
+            <div class="statusbar"><span>9:41</span><span>●●●●</span></div>
+            <div class="navbar"><span class="nb-icon">◁</span><span class="nb-title">Edit Profil Bobby</span></div>
+            <div class="scrim"></div>
+            <div class="sheet" style="border-radius:24px 24px 0 0">
+              <div class="sheet-handle"></div>
+              <div style="text-align:center">
+                <div class="confirm-icon" style="background:rgba(229,96,77,.12)">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="var(--tt-pop-red)" stroke-width="1.8" style="width:26px;height:26px" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0-.8 12.1a1 1 0 0 1-1 .9H8.8a1 1 0 0 1-1-.9L7 7"/><path d="M10 11v6M14 11v6"/></svg>
+                </div>
+                <div style="font-size:16px;font-weight:700;color:var(--tt-ink)">Hapus profil ini?</div>
+                <p style="font-size:13px;color:var(--tt-ink-2);line-height:1.6;margin:6px 0 0">Arsip tumbuh kembang dan milestone Bobby akan dihapus permanen. Postinganmu tetap ada, dan setelahnya kamu bisa ganti status hewan.</p>
+              </div>
+              <div style="margin-top:20px"><div class="btn btn-danger">Hapus</div></div>
+              <div style="margin-top:9px"><div class="btn btn-outline">Batal</div></div>
+            </div>
+          </div>
+        </div></div>
+        <div class="frame-cap"><span class="fr-ref">FR-64</span><span class="code-ref">confirm_sheet.dart</span>是的，结构上完全复用（拖拽条+危险态红圆图标+标题+说明+红色主按钮+描边取消），这点没错；<span style="color:#1F6FCC">但文案是我编的，已改成 ARB 真实文案</span>：标题固定是"Hapus profil ini?"（不带宠物名），说明文字是 <code>petProfileDeleteConfirmBody</code> 原文（提到"之后可以改宠物状态"，原文里其实<b>没有提到"健康记录"</b>，只说"档案+里程碑"），按钮就是"Hapus"（不是"Ya, Hapus Bobby"）。多宠物场景下文案区分：<b>非最后一只</b>删除后不触发强制建档；若是<b>唯一剩余</b>宠物，这句话的落地行为需要另外确认（现有单宠物文案本来就是为"删除即回建档引导"设计的，多宠物时"非最后一只"这个分支是全新场景，文案可能要跟着调整，这里先保留原文案示意）。</div>
+      </div>
+
+      <!-- 6: growth calendar publish must pick pet -->
+      <div class="frame-card">
+        <span class="frame-tag">06 · 成长日历发布·选归属宠物 <span style="color:#1F6FCC">已按代码重画</span></span>
+        <div class="phone-shell"><div class="phone-screen">
+          <div class="statusbar"><span>9:41</span><span>●●●●</span></div>
+          <div style="padding:10px 20px 8px">
+            <div style="width:40px;height:5px;border-radius:3px;background:var(--tt-line);margin:0 auto 14px"></div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <div style="width:32px;height:32px;border-radius:50%;background:#EFEDF3;display:flex;align-items:center;justify-content:center;color:var(--tt-ink-2);flex-shrink:0;font-size:13px">✕</div>
+              <div style="flex:1;text-align:center;font-size:14px;font-weight:700;color:var(--tt-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Postingan Baru</div>
+              <div style="background:var(--tt-violet);color:#fff;font-size:12px;font-weight:700;padding:8px 12px;border-radius:9px;flex-shrink:0;white-space:nowrap">Bagikan</div>
+            </div>
+          </div>
+          <div class="scroll" style="padding-top:6px">
+            <div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:2px">
+              <span class="toggle-pill" style="flex:none;padding:7px 13px;border-radius:999px">Momen</span>
+              <span class="toggle-pill" style="flex:none;padding:7px 13px;border-radius:999px">Edukasi &amp; Tips</span>
+              <span class="toggle-pill on" style="flex:none;padding:7px 13px;border-radius:999px">Diary 🌟</span>
+            </div>
+            <div style="margin-top:14px;background:var(--tt-violet-tint);border-radius:11px;padding:9px 13px;display:flex;align-items:center;justify-content:space-between">
+              <div><span style="font-size:12px;color:var(--tt-ink-2)">Untuk: </span><span style="font-size:12px;font-weight:600;color:var(--tt-violet)">🐱 Mochi</span></div>
+              <span style="font-size:11px;font-weight:600;color:var(--tt-violet)">Ganti ›</span>
+            </div>
+            <h4 class="section-label">Foto / Gambar (maks. 9)</h4>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px">
+              <div style="aspect-ratio:1;border-radius:9px;border:1.6px dashed var(--tt-dashed-violet);background:var(--tt-violet-tint);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px"><span style="color:var(--tt-violet)">+</span><span style="font-size:9px;font-weight:500;color:var(--tt-violet)">Tambah</span></div>
+              <div style="aspect-ratio:1;border-radius:9px;background:var(--tt-gold-tint);display:flex;align-items:center;justify-content:center;font-size:22px">🧶</div>
+            </div>
+            <div style="margin-top:14px;border:1.4px solid var(--tt-line);border-radius:11px;padding:11px">
+              <div style="font-size:13px;color:var(--tt-ink);line-height:1.6">Hari ini Mochi belajar lompat ke sofa sendiri!</div>
+              <div style="text-align:right;font-size:10.5px;color:var(--tt-muted);margin-top:6px">42 / 500</div>
+            </div>
+            <div style="margin-top:12px;background:var(--tt-violet-tint);border:1.4px solid var(--tt-dashed-violet);border-radius:12px;padding:9px 13px;display:flex;align-items:center;gap:9px">
+              <span style="color:var(--tt-violet)">📅</span>
+              <div style="flex:1;font-size:12.5px;color:var(--tt-ink)">Tanggal momen: <b style="color:var(--tt-violet)">15 Jul 2026</b></div>
+              <span style="color:var(--tt-violet)">›</span>
+            </div>
+            <div style="text-align:center;font-size:11px;color:var(--tt-muted);margin-top:16px;line-height:1.6">Postingan Anda akan terlihat oleh semua pengguna.</div>
+          </div>
+        </div></div>
+        <div class="frame-cap"><span class="fr-ref">FR-64</span><span class="code-ref">publish_compose_page.dart</span>之前这里凭空画了一个简化的独立页面，实际代码是<b>三种内容类型共用同一个发布 Compose 抽屉</b>（Momen/Edukasi &amp; Tips/Diary 类型 chip 切换），选中"Diary"类型才出现"Untuk: {宠物}"这一行。现状单宠物时这行只是纯展示（写死当前唯一宠物），<b>多宠物时改为可点击"Ganti"跳出宠物选择</b>——不再是我之前画的"必填单选列表+说明文字"独立页，而是嵌入这个既有发布抽屉里的一个可改行。</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =================================================================== -->
+  <!-- LANE B: 宠物年龄换算分享卡 FR-65                                     -->
+  <!-- =================================================================== -->
+  <section class="lane" id="lane-b">
+    <div class="lane-title"><span class="lane-dot" style="background:var(--lane-b)"></span><h2>宠物年龄换算分享卡</h2></div>
+    <p class="lane-desc">视觉语言参考既有宠物身份证页（<code>id_card_page.dart</code>：卡面预览 + 分享按钮 + 免责声明），但工程量需从零评估，不是同一套框架复用。</p>
+
+    <div class="board">
+
+      <!-- 7: entry (same as screen 1's entry card, shown standalone for clarity) -->
+      <div class="frame-card">
+        <span class="frame-tag">07 · 成长档案页年龄卡入口 <span style="color:#1F6FCC">已改为图标入口</span></span>
+        <div class="phone-shell"><div class="phone-screen">
+          <div class="statusbar"><span>9:41</span><span>●●●●</span></div>
+          <div class="scroll">
+            <div style="display:flex;align-items:center;margin-bottom:16px">
+              <div style="flex:1;font-size:19px;font-weight:700;color:var(--tt-ink)">Diary Mochi</div>
+              <div style="width:38px;height:38px;border-radius:11px;background:#fff;box-shadow:0 2px 8px rgba(22,34,51,.07);display:flex;align-items:center;justify-content:center;margin-right:8px">🪪</div>
+              <div style="width:38px;height:38px;border-radius:11px;background:var(--tt-violet-tint);border:1.4px solid var(--tt-violet-2);display:flex;align-items:center;justify-content:center;margin-right:8px;position:relative">🎂<span style="position:absolute;top:-3px;right:-3px;width:8px;height:8px;border-radius:50%;background:var(--tt-violet)"></span></div>
+              <div style="width:38px;height:38px;border-radius:11px;background:#fff;box-shadow:0 2px 8px rgba(22,34,51,.07);display:flex;align-items:center;justify-content:center">✎</div>
+            </div>
+            <div class="card flat" style="background:var(--tt-violet-tint);border:none;text-align:center;padding:16px">
+              <div style="font-size:11.5px;color:var(--tt-ink-2);line-height:1.6">Ketuk 🎂 kapan saja untuk menghitung usia Mochi setara usia manusia &amp; membuat kartu untuk dibagikan.</div>
+            </div>
+          </div>
+        </div></div>
+        <div class="frame-cap"><span class="fr-ref">FR-65</span>不做成跟"健康记录"一样占一整行的入口卡——年龄卡和身份证一样是低频功能（可能一两个月才用一次），跟健康记录这种高频功能放同等视觉权重不合适。改成和身份证一致的小图标（38×38，白底+阴影），塞进标题行的图标簇里；<b>用小圆点做一次性的"这里有新功能"提示</b>（用户点过一次后消失，不是常驻角标，也不是文字"NEW"标签）。图注下方的浅紫提示卡是可选的一次性引导，非必须。</div>
+      </div>
+
+      <!-- 8: body size picker (dogs only) -->
+      <div class="frame-card">
+        <span class="frame-tag">08 · 体型选择（仅犬）</span>
+        <div class="phone-shell"><div class="phone-screen">
+          <div class="scrim-page">
+            <div class="statusbar"><span>9:41</span><span>●●●●</span></div>
+            <div class="navbar"><span class="nb-icon">◁</span><span class="nb-title">Kartu Usia Bobby</span></div>
+            <div class="scrim"></div>
+            <div class="sheet">
+              <div class="sheet-handle"></div>
+              <div class="sheet-head"><h3>Pilih Ukuran Tubuh Bobby</h3></div>
+              <div class="sheet-body">
+                <p style="font-size:12px;color:var(--tt-ink-2);margin:0 0 12px">Ukuran tubuh memengaruhi cara menghitung usia setara manusia untuk anjing.</p>
+                <div class="seg-row">
+                  <div class="seg-card"><div class="em">🐕</div><div class="lb">Kecil</div></div>
+                  <div class="seg-card selected"><div class="em">🐕‍🦺</div><div class="lb">Sedang</div></div>
+                </div>
+                <div class="seg-row" style="margin-top:9px">
+                  <div class="seg-card"><div class="em">🐕‍🦺</div><div class="lb">Besar</div></div>
+                  <div class="seg-card"><div class="em">🐕‍🦺</div><div class="lb">Sangat Besar</div></div>
+                </div>
+              </div>
+              <div style="margin-top:14px"><div class="btn btn-primary" style="width:100%">Buat Kartu</div></div>
+            </div>
+          </div>
+        </div></div>
+        <div class="frame-cap"><span class="fr-ref">FR-65</span>用户<b>手动选择体型档位</b>，非品种自动识别；仅犬需要这一步，猫/其他宠物直接进预览页（其他宠物用通用近似公式，卡片注明"仅供参考"）。</div>
+      </div>
+
+      <!-- 9: age card preview + share -->
+      <div class="frame-card">
+        <span class="frame-tag">09 · 年龄换算卡预览+分享 <span style="color:#1F6FCC">已重新设计</span></span>
+        <div class="phone-shell"><div class="phone-screen">
+          <div class="statusbar"><span>9:41</span><span>●●●●</span></div>
+          <div class="navbar"><span class="nb-icon">◁</span><span class="nb-title">Kartu Usia Mochi</span></div>
+          <div class="scroll" style="text-align:center">
+            <div style="aspect-ratio:4/5;max-width:246px;margin:0 auto;border-radius:24px;overflow:hidden;box-shadow:0 12px 32px rgba(43,42,39,.16);display:flex;flex-direction:column;background:#fff">
+              <div style="flex:0 0 46%;position:relative;background:linear-gradient(155deg,var(--tt-violet-2),var(--tt-violet) 70%);display:flex;align-items:center;justify-content:center">
+                <div style="position:absolute;top:14px;left:18px;font-size:11px;font-weight:700;letter-spacing:.08em;color:rgba(255,255,255,.75)">KARTU USIA</div>
+                <div style="position:absolute;font-size:76px;opacity:.14;top:-8px;right:-10px">🐾</div>
+                <div style="width:96px;height:96px;border-radius:50%;background:#fff;padding:4px;box-shadow:0 5px 16px rgba(0,0,0,.18)">
+                  <div style="width:100%;height:100%;border-radius:50%;background:var(--tt-gold-tint);display:flex;align-items:center;justify-content:center;font-size:40px">🐱</div>
+                </div>
+              </div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px 20px 16px;gap:3px">
+                <div style="font-size:18px;font-weight:700;color:var(--tt-ink)">Mochi</div>
+                <div style="font-size:12px;color:var(--tt-muted);margin-bottom:5px">Anggora · 8 bulan</div>
+                <div style="font-size:42px;font-weight:700;color:var(--tt-violet);line-height:1">15</div>
+                <div style="font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--tt-violet);text-transform:uppercase">Tahun Manusia</div>
+                <div style="width:34px;height:2px;background:var(--tt-line);margin:10px 0 7px"></div>
+                <div style="font-size:11px;color:var(--tt-muted)">TailTopia 🐾</div>
+              </div>
+            </div>
+          </div>
+          <div class="sticky-cta"><div class="btn btn-primary">↗ Bagikan ke WhatsApp / IG Stories</div></div>
+        </div></div>
+        <div class="frame-cap"><span class="fr-ref">FR-65</span><span class="code-ref">id_card_page.dart</span><span style="color:#1F6FCC">已重新设计</span>：去掉了9:16/1:1切换，<b>只保留 4:5 一个比例</b>；卡面改为上下两段式——上段紫色渐变头图（含头像圆环+爪印装饰），下段白底放宠物名/年龄换算结果/品牌水印，层次更清楚，不再是一整块居中堆文字。视觉语言参考身份证页（卡面预览+分享按钮），但<b>不是同一套框架直接复用</b>——需从零评估卡片生成工程量（PRD 特别强调此前被低估）。</div>
+      </div>
+
+      <!-- 10: non-app landing -->
+      <div class="frame-card">
+        <span class="frame-tag">10 · 非 App 用户静态落地页</span>
+        <div class="phone-shell"><div class="phone-screen">
+          <div class="statusbar"><span>9:41</span><span>●●●●</span></div>
+          <div class="scroll" style="text-align:center;padding-top:34px">
+            <div style="aspect-ratio:4/5;max-width:222px;margin:0 auto;border-radius:24px;overflow:hidden;box-shadow:0 12px 32px rgba(43,42,39,.16);display:flex;flex-direction:column;background:#fff">
+              <div style="flex:0 0 46%;position:relative;background:linear-gradient(155deg,var(--tt-violet-2),var(--tt-violet) 70%);display:flex;align-items:center;justify-content:center">
+                <div style="position:absolute;top:12px;left:16px;font-size:10px;font-weight:700;letter-spacing:.08em;color:rgba(255,255,255,.75)">KARTU USIA</div>
+                <div style="width:86px;height:86px;border-radius:50%;background:#fff;padding:4px;box-shadow:0 5px 16px rgba(0,0,0,.18)">
+                  <div style="width:100%;height:100%;border-radius:50%;background:var(--tt-gold-tint);display:flex;align-items:center;justify-content:center;font-size:36px">🐱</div>
+                </div>
+              </div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:15px 17px;gap:2px">
+                <div style="font-size:16px;font-weight:700;color:var(--tt-ink)">Mochi</div>
+                <div style="font-size:36px;font-weight:700;color:var(--tt-violet);line-height:1;margin-top:5px">15</div>
+                <div style="font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--tt-violet);text-transform:uppercase">Tahun Manusia</div>
+              </div>
+            </div>
+            <div class="empty-title" style="margin-top:20px;font-size:14px">Hitung usia hewan peliharaanmu juga!</div>
+            <div style="margin-top:12px"><div class="btn btn-primary" style="flex:none;display:inline-block;padding:11px 24px">Unduh TailTopia</div></div>
+          </div>
+        </div></div>
+        <div class="frame-cap"><span class="fr-ref">FR-65</span>非登录访问，看到静态图片+下载引导（与 FR-49 宠物身份证既有分享落地页一致的处理方式）；卡片样式已同步 09 页的新设计（4:5、上下两段式）。</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =================================================================== -->
+  <!-- LANE C: 健康提醒激活 FR-62                                           -->
+  <!-- =================================================================== -->
+  <section class="lane" id="lane-c">
+    <div class="lane-title"><span class="lane-dot" style="background:var(--lane-c)"></span><h2>健康提醒激活</h2></div>
+    <p class="lane-desc">在既有健康记录列表页（<code>health_list_page.dart</code>）基础上，为类目卡新增下次提醒展示；新增提醒间隔设置抽屉。</p>
+
+    <div class="board">
+
+      <!-- 11: health list with reminders -->
+      <div class="frame-card">
+        <span class="frame-tag">11 · 健康记录列表·新增提醒展示</span>
+        <div class="phone-shell"><div class="phone-screen">
+          <div class="statusbar"><span>9:41</span><span>●●●●</span></div>
+          <div class="navbar"><span class="nb-title" style="margin-right:0">Riwayat Kesehatan Mochi</span><span class="nb-icon">+</span></div>
+          <div class="scroll">
+            <h4 class="section-label">Kategori</h4>
+            <div class="cat-grid">
+              <div class="cat-card"><div class="cat-icon" style="background:rgba(240,66,90,.12)">💉</div><div class="cat-label">Vaksin</div><div class="cat-date">12 Jun 2026</div><div class="cat-reminder">🔔 Jun 2027</div></div>
+              <div class="cat-card"><div class="cat-icon" style="background:rgba(31,158,106,.12)">💊</div><div class="cat-label">Obat Cacing</div><div class="cat-date">1 Jul 2026</div><div class="cat-reminder">🔔 1 Agu 2026</div></div>
+              <div class="cat-card"><div class="cat-icon" style="background:rgba(132,94,201,.12)">🩹</div><div class="cat-label">Steril</div><div class="cat-date">Belum ada</div></div>
+              <div class="cat-card"><div class="cat-icon" style="background:rgba(91,155,213,.12)">💧</div><div class="cat-label">Menstruasi</div><div class="cat-date">Belum ada</div></div>
+              <div class="cat-card"><div class="cat-icon" style="background:rgba(150,144,166,.12)">📝</div><div class="cat-label">Lainnya</div><div class="cat-date">Belum ada</div></div>
+              <div class="cat-card"><div class="cat-icon" style="background:rgba(240,66,90,.12)">🏥</div><div class="cat-label">Konsultasi</div><div class="cat-date">3 catatan</div></div>
+            </div>
+            <h4 class="section-label">Semua Catatan</h4>
+            <div class="vrow" style="border:1px solid var(--tt-line-2);border-radius:14px;padding:12px;margin-bottom:8px">
+              <div class="avatar" style="background:var(--tt-coral-tint)">🐾</div>
+              <div class="vrow-main"><div class="vrow-name" style="color:var(--tt-violet)">Vaksin · Rabies</div><div class="vrow-meta">Catatan pertama</div></div>
+              <span style="font-size:11px;color:var(--tt-muted)">2026-06-12</span>
+            </div>
+          </div>
+          <div class="sticky-cta"><div class="btn btn-primary">+ Tambah Catatan</div></div>
+        </div></div>
+        <div class="frame-cap"><span class="fr-ref">FR-62</span><span class="code-ref">health_list_page.dart</span>类目卡新增第三行"🔔 下次提醒日期"（新增元素，原代码只有名称+最近记录日期两行）。绝育/其他为一次性或无默认值类型，不展示提醒行。</div>
+      </div>
+
+      <!-- 12: reminder interval settings -->
+      <div class="frame-card">
+        <span class="frame-tag">12 · 提醒间隔设置（已并入既有表单）</span>
+        <div class="phone-shell"><div class="phone-screen">
+          <div class="scrim-page">
+            <div class="statusbar"><span>9:41</span><span>●●●●</span></div>
+            <div class="navbar"><span class="nb-title" style="margin-right:0">Catatan Kesehatan Mochi</span></div>
+            <div class="scrim"></div>
+            <div class="sheet">
+              <div class="sheet-handle"></div>
+              <div style="font-size:17px;font-weight:700;color:var(--tt-ink)">Ubah catatan</div>
+              <div class="sheet-body" style="margin-top:14px">
+                <h4 class="section-label" style="margin-top:0">Jenis</h4>
+                <div class="card flat" style="border:1.4px solid var(--tt-line);padding:12px 14px">Vaksin</div>
+                <h4 class="section-label">Tanggal</h4>
+                <div class="card flat" style="border:1.4px solid var(--tt-line);padding:12px 14px">12 Jun 2026</div>
+                <h4 class="section-label">Nama vaksin</h4>
+                <div class="card flat" style="border:1.4px solid var(--tt-line);padding:12px 14px">Rabies</div>
+                <h4 class="section-label">Ingatkan Saya Lagi Pada <span style="color:var(--tt-violet);font-weight:600;text-transform:none;letter-spacing:0">— baru</span></h4>
+                <div class="card flat" style="border:1.4px solid var(--tt-violet-2);padding:12px 14px;display:flex;justify-content:space-between;align-items:center">
+                  <span style="color:var(--tt-ink)">12 Jun 2027</span>
+                  <span style="font-size:11px;color:var(--tt-violet);font-weight:600">Ubah</span>
+                </div>
+                <div class="empty-sub" style="margin-top:4px;text-align:left">Default 1 tahun untuk Vaksin Rabies. Bisa diganti kapan saja.</div>
+                <h4 class="section-label">Catatan</h4>
+                <div class="card flat" style="border:1.4px solid var(--tt-line);padding:12px 14px;color:var(--tt-muted)">Opsional</div>
+              </div>
+              <div style="margin-top:12px"><div class="btn btn-primary" style="width:100%">Simpan</div></div>
+              <div style="text-align:center;margin-top:8px;font-size:12px;color:var(--tt-muted)">Hapus</div>
+            </div>
+          </div>
+        </div></div>
+        <div class="frame-cap"><span class="fr-ref">FR-62</span><span class="code-ref">health_list_page.dart _HealthRecordForm</span><span style="color:#1F6FCC">已按你的要求合并</span>：之前独立开了一个抽屉，现在改为直接在<b>既有</b>新增/编辑健康记录表单里插入"Ingatkan Saya Lagi Pada"这一个新字段（Jenis/Tanggal/Nama vaksin/Catatan 都是代码原有字段，顺序未变），不再多开一层。默认间隔按"物种×疫苗名称"取值（此处狂犬疫苗=每年），用户可手动覆盖为任意具体日期；覆盖后运营调整后台默认值不影响这条记录。<span style="color:#1F6FCC">「Hapus」按钮已改为灰色小字</span>，不再用红色抢视觉——这个表单现在承载了提醒设置，删除不该是最显眼的操作。</div>
+      </div>
+
+      <!-- 13: no record reminder guide -->
+      <div class="frame-card">
+        <span class="frame-tag">13 · 无记录时"设置提醒"引导 <span style="color:#1F6FCC">已改为页内提示</span></span>
+        <div class="phone-shell"><div class="phone-screen">
+          <div class="statusbar"><span>9:41</span><span>●●●●</span></div>
+          <div class="navbar"><span class="nb-title" style="margin-right:0">Catatan Kesehatan Bobby</span><span class="nb-icon">+</span></div>
+          <div class="scroll">
+            <h4 class="section-label">Kategori</h4>
+            <div class="cat-grid">
+              <div class="cat-card"><div class="cat-icon" style="background:rgba(240,66,90,.12)">💉</div><div class="cat-label">Vaksin</div><div class="cat-date">Belum ada</div></div>
+              <div class="cat-card"><div class="cat-icon" style="background:rgba(31,158,106,.12)">💊</div><div class="cat-label">Obat Cacing</div><div class="cat-date">Belum ada</div></div>
+              <div class="cat-card"><div class="cat-icon" style="background:rgba(132,94,201,.12)">🩹</div><div class="cat-label">Steril</div><div class="cat-date">Belum ada</div></div>
+              <div class="cat-card"><div class="cat-icon" style="background:rgba(91,155,213,.12)">💧</div><div class="cat-label">Menstruasi</div><div class="cat-date">Belum ada</div></div>
+              <div class="cat-card"><div class="cat-icon" style="background:rgba(150,144,166,.12)">📝</div><div class="cat-label">Lainnya</div><div class="cat-date">Belum ada</div></div>
+              <div class="cat-card"><div class="cat-icon" style="background:rgba(240,66,90,.12)">🏥</div><div class="cat-label">Konsultasi</div><div class="cat-date">Belum ada</div></div>
+            </div>
+            <h4 class="section-label" style="margin-top:22px">Semua Catatan</h4>
+            <div style="display:flex;align-items:center;gap:10px;padding:16px 4px">
+              <span style="font-size:18px;flex-shrink:0">🔔</span>
+              <div style="font-size:11.5px;color:var(--tt-muted);line-height:1.6">Bobby belum punya catatan. Ketuk kategori di atas untuk mulai mencatat & mengaktifkan pengingat.</div>
+            </div>
+          </div>
+          <div class="sticky-cta"><div class="btn btn-primary">+ Tambah Catatan</div></div>
+        </div></div>
+        <div class="frame-cap"><span class="fr-ref">FR-62</span><span class="code-ref">health_list_page.dart</span><span style="color:#1F6FCC">已减少页面拥挤感</span>：之前用了一整块紫底提示卡，跟上面 6 张类目卡挤在一起显得很密。改成一行轻量的图标+说明文字（灰色小字，无色块背景），加大了和上方类目区的间距。点空类目卡是 <code>onTap: () => _openForm(presetType: c.type)</code>——<b>直接弹出新增表单</b>，不跳转新页面，本页只是提示引导。</div>
+      </div>
+
+      <!-- 14: push notification landing -->
+      <div class="frame-card">
+        <span class="frame-tag">14 · 提醒推送到达+落地</span>
+        <div class="phone-shell"><div class="phone-screen">
+          <div class="statusbar"><span>9:41</span><span>●●●●</span></div>
+          <div class="scroll" style="padding-top:30px">
+            <div class="card" style="background:var(--tt-ink);color:#fff;border:none">
+              <div style="display:flex;gap:10px;align-items:flex-start">
+                <span style="font-size:20px">🐾</span>
+                <div>
+                  <div style="font-size:12.5px;font-weight:700">TailTopia</div>
+                  <div style="font-size:12px;margin-top:2px;opacity:.9">Waktunya obat cacing untuk Bobby! Terakhir 3 bulan lalu.</div>
+                </div>
+              </div>
+            </div>
+            <div style="text-align:center;margin-top:24px" class="empty-sub">↓ 点击后</div>
+            <div class="pet-switcher" style="margin-top:12px;justify-content:center">
+              <div class="pet-slot"><div class="ring" style="background:linear-gradient(135deg,var(--tt-violet-2),var(--tt-violet))">🐱</div><div class="lb">Mochi</div></div>
+              <div class="pet-slot selected"><div class="ring" style="background:linear-gradient(135deg,#F6A609,#E08A00)">🐶</div><div class="lb">Bobby</div></div>
+            </div>
+            <div class="empty-sub" style="text-align:center">落地成长档案页，切换器已自动定位到 Bobby（而非用户点推送前切换器停留的宠物），确保之后录入的驱虫记录不会被默认误记到 Mochi 名下。</div>
+          </div>
+        </div></div>
+        <div class="frame-cap"><span class="fr-ref">FR-62</span><span class="fr-ref">FR-64</span>关键规则：点击推送后必须<b>先把切换器自动定位到提醒所属宠物</b>，再进入健康记录录入，这样才能落回 FR-64①"入口在专属页面下默认归属切换器当前宠物"的安全路径，避免多宠物场景下的静默错记。</div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="doc-footer" style="margin-top:60px;padding-top:20px;border-top:1px solid var(--page-rule);font-size:12px;color:var(--page-muted)">
+    示意图，结构对齐真实代码，配色/间距细节下一阶段继续打磨。核心待确认：① 健康记录疫苗名称字段目前是自由文本还是已有预设下拉（见页头差异说明第4条）；② 体型档位（08 页）具体命名/图标需 UX 定案；③ 宠物切换器的具体交互细节（滑动/点击态、超过多少只宠物时如何横向滚动）本稿给出的是最小可行方案。
+  </div>
+
+</div>
+</body>
+</html>
