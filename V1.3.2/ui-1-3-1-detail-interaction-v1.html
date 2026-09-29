@@ -1,0 +1,994 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>TailTopia V1.3.2 补充 — 详情页互动栏回退与优化</title><style>:root{
+  --page-bg:#FAF9FC; --page-bg-2:#F1EEF7; --page-ink:#211F2E; --page-ink-2:#57536B;
+  --page-muted:#8E89A3; --page-rule:#E4E0EE; --page-accent:#7D45F6; --page-accent-soft:#EFE6FF;
+  --lane-a:#8E89A3; --lane-b:#845EC9; --lane-c:#3D8BD1; --lane-d:#1FB877;
+  /* ═══ 以下全部取自 core/theme/colors.dart 的真实值，不自造 ═══ */
+  --tt-base:#FFFFFF;      /* AppColors.base = cream */
+  --tt-surface:#FFFFFF;   /* AppColors.surface = card */
+  --tt-cream2:#F8F2FF;    /* 输入框填充 / Penulis 徽章底 */
+  --tt-ink:#2E2A45;       /* 正文主 */
+  --tt-ink2:#544864;      /* textSecondary（未赞图标与数字） */
+  --tt-muted:#9690A6;     /* textTertiary */
+  --tt-line:#E6E6E6;      /* border（底栏上边线） */
+  --tt-line2:#F0F0F0;     /* divider */
+  --tt-mint:#845EC9;      /* 品牌紫（发送钮 / Penulis 字） */
+  --tt-coral:#F0425A;     /* likeHeart */
+  --b-momen-bg:#E7F8F0; --b-momen-tx:#0E7A4D;   /* Diary 绿 */
+  --b-tips-bg:#FEF3DE;  --b-tips-tx:#8A5A00;    /* Edukasi & Tips 黄 */
+  --b-cerita-bg:#F8F6FF;--b-cerita-tx:#845EC9;  /* Momen 紫 */
+  --ok:#1FB877; --ok-bg:#E7F8F0; --ok-tx:#0E7A4D;
+  --warn:#F6A609; --warn-bg:#FEF3DE; --warn-tx:#8A5A00;
+  --err:#F0425A; --err-bg:#FDE7EB; --err-tx:#C4263C;
+}
+*{ box-sizing:border-box; }
+html,body{ margin:0; padding:0; background:var(--page-bg); }
+body{ color:var(--page-ink); font-family:"Poppins",-apple-system,BlinkMacSystemFont,sans-serif;
+  line-height:1.5; -webkit-font-smoothing:antialiased; }
+h1,h2,h3{ font-family:"Iowan Old Style",Palatino,Georgia,serif; font-weight:600; margin:0; }
+.wrap{ max-width:1440px; margin:0 auto; padding:0 28px 140px; }
+.doc-header{ padding:56px 0 28px; border-bottom:1px solid var(--page-rule); margin-bottom:28px; }
+.eyebrow{ display:inline-flex; align-items:center; gap:8px; font-size:12px; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--page-accent); font-weight:600; margin:0 0 12px; }
+.eyebrow::before{ content:""; width:16px; height:1.5px; background:var(--page-accent); display:inline-block; }
+.doc-header h1{ font-size:30px; margin:0 0 14px; }
+.doc-header p{ color:var(--page-ink-2); font-size:13.5px; max-width:96ch; margin:0 0 10px; line-height:1.8; }
+.doc-header b{ color:var(--page-ink); }
+code{ background:var(--page-bg-2); padding:1px 6px; border-radius:4px; font-size:11.5px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace; }
+.note{ border-left:3px solid var(--page-accent); background:#fff; border-radius:0 10px 10px 0;
+  padding:14px 18px; margin:18px 0 0; font-size:13px; color:var(--page-ink-2); line-height:1.85; max-width:96ch; }
+.note.warn{ border-left-color:var(--warn); }
+.note.done{ border-left-color:var(--ok); }
+.note h4{ font-family:"Poppins",sans-serif; font-size:12.5px; font-weight:700; color:var(--page-ink);
+  margin:0 0 6px; letter-spacing:.02em; }
+.lane{ margin:48px 0 8px; }
+.lane-title{ display:flex; align-items:center; gap:10px; margin-bottom:4px; }
+.lane-dot{ width:9px; height:9px; border-radius:50%; }
+.lane-title h2{ font-size:19px; margin:0; }
+.lane-fr{ font-size:11.5px; font-weight:700; color:#fff; background:var(--page-muted); padding:2px 9px; border-radius:999px; }
+.lane-fr.pick{ background:var(--page-accent); }
+.lane-fr.ok{ background:var(--ok); }
+.lane-desc{ color:var(--page-ink-2); font-size:13px; margin:4px 0 20px; max-width:88ch; line-height:1.8; }
+.lane-desc b{ color:var(--page-ink); }
+.flow{ display:flex; flex-wrap:wrap; align-items:center; gap:7px; font-size:12.5px; color:var(--page-ink-2);
+  line-height:1.9; margin:0 0 22px; padding:12px 16px; background:#fff; border:1px solid var(--page-rule); border-radius:10px; }
+.flow s{ text-decoration:none; font-weight:600; color:var(--page-accent); background:var(--page-accent-soft);
+  border-radius:6px; padding:2px 8px; }
+.flow i{ font-style:normal; color:var(--page-muted); }
+.flow em{ font-style:normal; color:var(--page-ink); font-weight:600; }
+.flow .nl{ flex-basis:100%; height:0; }
+.frames{ display:grid; grid-template-columns:repeat(3,384px); gap:40px 34px; justify-content:start; padding:8px 4px 26px; }
+.frame-card{ display:flex; flex-direction:column; align-items:center; gap:10px; width:384px; }
+.frame-tag{ display:inline-block; font-family:"Iowan Old Style",Palatino,Georgia,serif; font-size:12.5px;
+  font-weight:600; color:var(--page-accent); border:1px solid var(--page-accent); border-radius:999px; padding:3px 12px; }
+.frame-card[data-v="grey"] .frame-tag{ color:var(--page-muted); border-color:var(--page-rule); }
+.frame-card[data-v="spec"] .frame-tag{ color:var(--lane-c); border-color:var(--lane-c); }
+.frame-cap{ font-size:12px; color:var(--page-ink-2); text-align:left; align-self:stretch; line-height:1.75; }
+.frame-cap b{ color:var(--page-ink); }
+
+/* ═══════════ 手机框 ═══════════ */
+.phone-shell{ width:384px; height:812px; border-radius:42px; background:var(--tt-base); flex-shrink:0;
+  border:1px solid var(--page-rule); box-shadow:0 8px 28px rgba(40,30,70,.08); overflow:hidden; position:relative; }
+.phone-screen{ width:100%; height:100%; overflow:hidden; position:relative; display:flex; flex-direction:column;
+  background:var(--tt-base); color:var(--tt-ink); font-size:15px; -webkit-font-smoothing:antialiased; }
+.spec-shell{ width:384px; height:812px; border-radius:14px; background:#fff; flex-shrink:0;
+  border:2px dashed var(--page-rule); overflow:hidden; position:relative; }
+.spec-shell::before{ content:"◇ 规格图 · 非 App 页面"; position:absolute; right:10px; top:8px;
+  font-size:10.5px; color:var(--page-muted); z-index:3; }
+.spec-screen{ width:100%; height:100%; padding:44px 16px 16px; display:flex; flex-direction:column; gap:14px;
+  font-size:12px; color:var(--page-ink-2); overflow:hidden; }
+.ph-num{ font-family:"Iowan Old Style",Palatino,Georgia,serif; font-size:44px; font-weight:600; color:var(--page-rule); }
+.ph-name{ font-size:13.5px; font-weight:600; color:var(--page-muted); }
+.ph-blank{ width:100%; height:100%; display:flex; flex-direction:column; align-items:center;
+  justify-content:center; gap:8px; }
+
+/* ── AppBar（app_theme.dart：44 高 / elevation 0 / chevron 28）── */
+.d-appbar{ height:44px; flex:none; display:flex; align-items:center; padding:0 12px; }
+.d-appbar .sp{ margin-left:auto; }
+.d-scroll{ flex:1; overflow:hidden; display:flex; flex-direction:column; }
+.d-pad{ padding:0 16px; }           /* AppSpacing.screenEdge = 16 */
+
+/* ── 作者行 ── */
+.d-author{ display:flex; align-items:center; gap:8px; padding:12px 16px 0; }
+.d-ava{ width:36px; height:36px; border-radius:50%; background:#EADFF8; color:#6C48AE;
+  display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:700; flex:none; }
+.d-aname{ font-size:15px; font-weight:700; color:var(--tt-ink); line-height:1.45; }
+.d-atime{ font-size:13px; color:var(--tt-muted); line-height:1.4; }
+.d-badge{ font-size:11px; font-weight:700; padding:4px 9px; border-radius:7px; flex:none; }
+.d-badge.momen{ background:var(--b-momen-bg); color:var(--b-momen-tx); }
+.d-badge.tips{ background:var(--b-tips-bg); color:var(--b-tips-tx); }
+.d-badge.cerita{ background:var(--b-cerita-bg); color:var(--b-cerita-tx); }
+
+/* ── 图片（通栏出血、无圆角）── */
+.d-photo{ margin-top:12px; width:100%; aspect-ratio:4/3; background:#EFECF5; position:relative;
+  display:flex; align-items:center; justify-content:center; flex:none; }
+.d-photo svg{ opacity:.35; }
+.d-pgcount{ position:absolute; top:8px; right:8px; background:rgba(0,0,0,.54); color:#fff;
+  font-size:11px; padding:2px 8px; border-radius:8px; }
+
+/* ── 正文 ── */
+.d-body{ font-size:15px; line-height:1.45; color:var(--tt-ink); margin-top:12px; }
+
+/* ── 互动栏（回退位：正文与评论区之间）── */
+.d-actions{ display:flex; align-items:center; gap:16px; margin-top:12px; }
+.d-act{ display:inline-flex; align-items:center; gap:4px; color:var(--tt-ink2); }
+.d-act span{ font-size:13px; line-height:1.4; font-variant-numeric:tabular-nums; }
+.d-act.liked{ color:var(--tt-coral); }
+
+/* ══ 第三步：优化后的互动栏 ══ */
+/* v2 = 形态甲（裸图标）。热区 44 靠 padding 隐性扩展，可见图标仍 20。
+   负 margin 把左右 padding 吃掉，让图标光学左对齐正文（否则视觉缩进 24 ≠ 正文 16）。 */
+.d-actions.v2{ display:flex; align-items:center; gap:8px;
+  margin:4px -8px 0; }
+.d-actions.v2 .d-act{ min-height:44px; min-width:44px; padding:12px 8px; gap:6px;
+  justify-content:center; border-radius:12px; }
+.d-actions.v2 .d-act span{ font-weight:500; font-variant-numeric:tabular-nums; }
+.d-actions.v2 .share{ margin-left:auto; }
+/* v3 = 形态乙（胶囊底）。热区边界肉眼可见。 */
+.d-actions.v3{ display:flex; align-items:center; gap:8px; margin:6px 0 0; }
+.d-actions.v3 .d-act{ min-height:44px; padding:11px 14px; gap:6px;
+  background:var(--tt-cream2); border-radius:999px; justify-content:center; }
+.d-actions.v3 .d-act span{ font-weight:500; font-variant-numeric:tabular-nums; }
+.d-actions.v3 .d-act.liked{ background:#FDE7EB; }
+.d-actions.v3 .share{ margin-left:auto; }
+.d-hit{ outline:1px dashed rgba(240,66,90,.55); outline-offset:0; }
+
+/* ── 分隔线 + 评论标题 ── */
+.d-div{ height:1px; background:var(--tt-line2); margin:4px 0 20px; }
+.d-ctitle{ font-size:13px; font-weight:700; letter-spacing:.5px; color:var(--tt-ink2); }
+
+/* ── 评论行 ── */
+.d-cmt{ display:flex; gap:8px; padding:4px 0; }
+.d-cava{ width:30px; height:30px; border-radius:50%; background:#EADFF8; color:#6C48AE; flex:none;
+  display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; }
+.d-cava.reply{ width:24px; height:24px; font-size:11px; }
+.d-cmain{ flex:1; min-width:0; }
+.d-chead{ display:flex; align-items:center; gap:4px; }
+.d-cname{ font-size:13px; font-weight:700; color:var(--tt-ink); }
+.d-cpenulis{ font-size:11px; font-weight:600; color:var(--tt-mint); background:var(--tt-cream2);
+  padding:1px 6px; border-radius:6px; }
+.d-ctime{ margin-left:auto; font-size:11px; color:var(--tt-muted); }
+.d-ctext{ font-size:15px; line-height:1.45; color:var(--tt-ink); margin-top:2px; }
+.d-cact{ display:flex; align-items:center; gap:12px; margin-top:2px; color:var(--tt-muted); }
+.d-cact .lk{ display:inline-flex; align-items:center; gap:2px; font-size:11px; }
+.d-cact .lk.liked{ color:var(--tt-coral); }
+.d-cact .bl{ font-size:11px; color:var(--tt-muted); }
+.d-creplies{ margin-top:4px; margin-left:12px; padding-left:8px;
+  border-left:2px solid var(--tt-line); }
+.d-more{ font-size:11px; color:var(--tt-muted); margin-top:6px; }
+.d-empty{ font-size:13px; color:var(--tt-muted); padding:22px 0; text-align:center; }
+
+/* ── 底栏（纯输入框 + 发送钮）── */
+.d-bottom{ flex:none; background:var(--tt-surface); border-top:1px solid var(--tt-line);
+  padding:12px 16px; display:flex; flex-direction:column; gap:4px; }
+.d-brow{ display:flex; align-items:center; gap:8px; }
+.d-input{ flex:1; background:var(--tt-cream2); border-radius:999px; padding:12px 16px;
+  font-size:15px; color:var(--tt-muted); line-height:1.45; }
+.d-input.typed{ color:var(--tt-ink); }
+.d-input.guest{ background:var(--tt-cream2); border-radius:999px; padding:12px 16px; font-size:15px; }
+.d-send{ width:42px; height:42px; border-radius:50%; background:var(--tt-mint); flex:none;
+  display:flex; align-items:center; justify-content:center; }
+.d-replypill{ display:inline-flex; align-items:center; gap:4px; align-self:flex-start;
+  background:var(--tt-cream2); border-radius:999px; padding:2px 8px; font-size:13px;
+  font-weight:700; color:var(--tt-mint); }
+.d-kb{ flex:none; height:238px; background:#D3D3D9; display:flex; flex-direction:column;
+  justify-content:center; gap:9px; padding:12px 6px 26px; }
+.d-kbrow{ display:flex; gap:6px; justify-content:center; }
+.d-kbkey{ height:38px; flex:1; background:#FCFCFD; border-radius:5px; box-shadow:0 1px 0 rgba(0,0,0,.28); }
+.d-kbkey.w2{ flex:2.4; } .d-kbkey.dark{ background:#ADADB6; }
+
+/* ── 规格图元件 ── */
+.sp-t{ font-size:12.5px; font-weight:700; color:var(--page-ink); }
+.sp-sub{ font-size:11.5px; color:var(--page-muted); line-height:1.7; }
+.sp-box{ border:1px solid var(--page-rule); border-radius:10px; padding:14px; background:#fff; }
+.sp-live{ background:var(--tt-base); border:1px solid var(--tt-line); border-radius:8px; padding:12px 16px; }
+.sp-tbl{ width:100%; border-collapse:collapse; font-size:11.5px; }
+.sp-tbl td{ padding:5px 0; border-bottom:1px dashed var(--page-rule); vertical-align:top; }
+.sp-tbl td:last-child{ text-align:right; font-weight:700; color:var(--page-ink);
+  font-variant-numeric:tabular-nums; white-space:nowrap; padding-left:10px; }
+.sp-tbl tr:last-child td{ border-bottom:none; }
+.sp-warn{ background:var(--warn-bg); color:var(--warn-tx); border-radius:8px; padding:9px 12px;
+  font-size:11.5px; line-height:1.7; }
+.hitbox{ outline:1px dashed var(--err); outline-offset:-1px; }
+.sp-hit{ position:relative; display:inline-flex; align-items:center; gap:4px;
+  outline:1px dashed var(--err); color:var(--tt-ink2); }
+
+/* ── 表格 ── */
+.tbl{ width:100%; border-collapse:collapse; font-size:12.5px; margin:10px 0 0; background:#fff;
+  border:1px solid var(--page-rule); border-radius:10px; overflow:hidden; }
+.tbl th,.tbl td{ text-align:left; padding:10px 14px; border-bottom:1px solid var(--page-rule); vertical-align:top; }
+.tbl th{ background:var(--page-bg-2); font-weight:700; font-size:11.5px; letter-spacing:.04em;
+  text-transform:uppercase; color:var(--page-ink-2); }
+.tbl tr:last-child td{ border-bottom:none; }
+.tbl b{ color:var(--page-ink); }
+.tag{ display:inline-block; font-size:10.5px; font-weight:700; padding:2px 8px; border-radius:999px; white-space:nowrap; }
+.tag.keep{ background:var(--ok-bg); color:var(--ok-tx); }
+.tag.change{ background:var(--page-accent-soft); color:var(--page-accent); }
+.tag.none{ background:var(--page-bg-2); color:var(--page-muted); }
+.tag.risk{ background:var(--warn-bg); color:var(--warn-tx); }
+</style></head>
+<body><div class="wrap">
+
+<div class="doc-header">
+  <p class="eyebrow">TailTopia V1.3.2 补充块 · 定稿</p>
+  <h1>内容详情页 — 互动栏回退 V1.2.0 位置 ＋ 互动栏本体优化</h1>
+  <p><b>起因：</b>V1.3.0（Story 2.3 · AD-A13）把详情页互动栏从「正文正下方一整行」迁进固定底栏、
+  并设为两态互斥。上线后点赞量下降，已由运营侧数据确认<b>就是这次位置调整造成的</b>。</p>
+  <p><b>版本归属：</b>V1.3.2 的额外补充块，与 9/28 已定稿的 <code>ui-1-3-2-integrated-v1.html</code> 并列。</p>
+
+  <div class="note done">
+    <h4>方案</h4>
+    <b>位置：</b>互动栏回到<b>正文与评论区之间</b>一整行（点赞数 · 评论数 · 分享数），
+    底栏为纯输入框 + 常驻发送钮，<b>不存在两态互斥</b> —— 打字时互动栏照常可见可点。<br>
+    <b>范围：</b>撤销的只有「互动栏搬进底栏 + 两态互斥」这一件事。V1.3.0 在详情页的其余改动
+    <b>全部保留</b>：图片前置且通栏出血、回复态紫色胶囊、占位文案随回复态切换、@ 提及、
+    长按操作菜单、评论点赞、新评论会话内置顶、发回复后自动展开并滚动定位。<br>
+    <b>组件边界：</b>详情页的点赞按钮<b>单独一份实现</b>，不与首页共用 ——
+    <b>首页 Feed 卡片及其操作行一行都不改。</b><br>
+    <b>形态：</b>裸图标 + 数字（度量见 C2 / 三态见 C3）。
+  </div>
+
+  <div class="note warn">
+    <h4>⚠️ 唯一的后端依赖：分享计数</h4>
+    <code>content_shares</code> 表对每条内容<b>只有一行</b>（<code>uk_content_shares_post</code> 唯一约束），
+    设计即「重复分享复用同一 token」，<b>不累加、不记次数</b>。分享数取
+    <b>「点击分享按钮的次数」</b>，需要：计数字段 + 分享端点每次点击 +1 + 详情接口下发该值。
+    其余全部为客户端改动。
+  </div>
+
+  <div class="note">
+    <h4>取值来源</h4>
+    配色、字号、间距、文案全部取自 <code>colors.dart</code> / <code>typography.dart</code> /
+    <code>app_localizations_id.dart</code> 的真实值。<b>C1 = 改动前度量、C2 = 目标度量</b>，逐字段可比。
+  </div>
+</div>
+</div>
+
+
+<!-- ══════════════════ B 泳道 ══════════════════ -->
+<div class="lane">
+  <div class="lane-title"><span class="lane-dot" style="background:var(--lane-b)"></span>
+    <h2>B · 主方案：回退 V1.2.0 位置 ＋ 互动栏优化</h2><span class="lane-fr ok">形态已定 · 甲</span></div>
+  <p class="lane-desc">互动栏回到<b>正文与评论区之间</b>：点赞数 · 评论数 · 分享，评论数重新可见，
+  点评论数直接聚焦输入框弹键盘（V1.2.0 的行为一并恢复）。底栏恢复<b>输入框 + 常驻紫色发送钮</b>。
+  <b>本泳道的互动栏已按 9 条优化重做</b>：热区 44、Basil 2px 线重、数字 500 字重 + tabular-nums、
+  分享右对齐并带计数、0 不显示数字、破千缩写。度量见 C2。</p>
+  <div class="flow">
+    <em>主路径：</em><s>B1</s> 默认态 <i>→</i> 点 ❤️ <i>→</i> <s>B2</s> 已点赞
+    <i>／</i> 点 💬 或输入框 <i>→</i> <s>B3</s> 输入态 <i>→</i> 发送后回 <s>B1</s>
+    <span class="nl"></span>
+    <em>分支：</em>评论行点「Balas」<i>→</i> <s>B4</s> 回复态（输入框上方出现回复胶囊）
+    <span class="nl"></span>
+    <em>变体：</em><s>B5</s> 游客 <i>／</i> <s>B6</s> 无图帖 <i>／</i> <s>B7</s> 零评论 <i>／</i> <s>B8</s> 大数字（四者各自替代 B1）
+  </div>
+  <div class="frames">
+
+    <!-- B1 -->
+    <div class="frame-card"><span class="frame-tag">B1</span>
+      <div class="phone-shell"><div class="phone-screen">
+        <div class="d-appbar">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2E2A45" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          <span class="sp"></span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#2E2A45"><circle cx="5" cy="12" r="1.8"/>
+            <circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>
+        </div>
+        <div class="d-scroll">
+          <div class="d-author">
+            <div class="d-ava">R</div>
+            <div style="flex:1;min-width:0">
+              <div class="d-aname">Rina Wijaya</div><div class="d-atime">2 jam lalu</div></div>
+            <div class="d-badge momen">Diary</div>
+          </div>
+          <div class="d-photo">
+            <svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="#845EC9" stroke-width="1.6"
+              stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/>
+              <circle cx="8.5" cy="9.5" r="1.8"/><path d="M21 16l-5-5-6 6-3-3-4 4"/></svg>
+            <span class="d-pgcount">1/3</span>
+          </div>
+          <div class="d-pad">
+            <p class="d-body" style="margin:12px 0 0">Hari ini Miko akhirnya mau makan sayur!
+              Butuh tiga minggu sampai dia mau coba. Ada yang punya tips lain?</p>
+            <div class="d-actions v2">
+              <span class="d-act">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#544864" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.3-4.7-9-8.4A5 5 0 0 1 12 6.4 5 5 0 0 1 21 12c-1.7 3.8-9 8.5-9 8.5z"/></svg>
+                <span>12</span></span>
+              <span class="d-act">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#544864" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"><path d="M20 4H4a2 2 0 0 0-2 2v15l4-4h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/></svg>
+                <span>8</span></span>
+              <span class="d-act share">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#544864" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 7l4-4 4 4M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6"/></svg>
+              <span>24</span>
+              </span>
+            </div>
+            <div class="d-div"></div>
+            <div class="d-ctitle">KOMENTAR (8)</div>
+            <div style="height:8px"></div>
+            <div class="d-cmt"><div class="d-cava">B</div><div class="d-cmain">
+              <div class="d-chead"><span class="d-cname">Budi Santoso</span><span class="d-ctime">1 jam lalu</span></div>
+              <div class="d-ctext">Lucu banget! Miko umurnya berapa?</div>
+              <div class="d-cact"><span class="lk">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9690A6" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.3-4.7-9-8.4A5 5 0 0 1 12 6.4 5 5 0 0 1 21 12c-1.7 3.8-9 8.5-9 8.5z"/></svg>
+                3</span><span class="bl">Balas</span></div>
+              <div class="d-creplies">
+                <div class="d-cmt" style="padding-top:6px"><div class="d-cava reply">R</div><div class="d-cmain">
+                  <div class="d-chead"><span class="d-cname">Rina Wijaya</span>
+                    <span class="d-cpenulis">Penulis</span><span class="d-ctime">42 mnt lalu</span></div>
+                  <div class="d-ctext">Baru 8 bulan, masih bayi!</div>
+                  <div class="d-cact"><span class="lk">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9690A6" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.3-4.7-9-8.4A5 5 0 0 1 12 6.4 5 5 0 0 1 21 12c-1.7 3.8-9 8.5-9 8.5z"/></svg>
+                    </span><span class="bl">Balas</span></div></div></div>
+              </div></div></div>
+            <div class="d-cmt"><div class="d-cava">S</div><div class="d-cmain">
+              <div class="d-chead"><span class="d-cname">Siti Nurhaliza</span><span class="d-ctime">2 jam lalu</span></div>
+              <div class="d-ctext">Coba campur dengan wortel rebus, kucingku suka banget.</div>
+              <div class="d-cact"><span class="lk">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9690A6" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.3-4.7-9-8.4A5 5 0 0 1 12 6.4 5 5 0 0 1 21 12c-1.7 3.8-9 8.5-9 8.5z"/></svg>
+                </span><span class="bl">Balas</span></div></div></div>
+            <div class="d-more">Lihat komentar lainnya</div>
+          </div>
+        </div>
+        <div class="d-bottom"><div class="d-brow">
+          <div class="d-input">Tulis komentar...</div>
+          <div class="d-send"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l16-8-6 16-2.4-6.2L4 12z"/></svg></div>
+        </div></div>
+      </div></div>
+      <p class="frame-cap"><b>主屏。</b>原有模块一个没少：AppBar「···」· 作者行（头像/昵称/运营标签位/时间/分类徽章）·
+      通栏图片与 <code>1/3</code> 角标 · 正文 · 分隔线 · KOMENTAR (N) · 评论列表（含二级回复与 Penulis 标签）·
+      「Lihat komentar lainnya」· 底栏输入框。<b>新增：互动栏整行插在正文与分隔线之间。</b>
+      二级回复区保留 2px 左竖线，缩进 <b>12 + 线 2 + 8 = 22</b>（改动前 34）。</p></div>
+
+    <!-- B2 -->
+    <div class="frame-card"><span class="frame-tag">B2</span>
+      <div class="phone-shell"><div class="phone-screen">
+        <div class="d-appbar">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2E2A45" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          <span class="sp"></span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#2E2A45"><circle cx="5" cy="12" r="1.8"/>
+            <circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>
+        </div>
+        <div class="d-scroll">
+          <div class="d-author">
+            <div class="d-ava">R</div>
+            <div style="flex:1;min-width:0">
+              <div class="d-aname">Rina Wijaya</div><div class="d-atime">2 jam lalu</div></div>
+            <div class="d-badge momen">Diary</div>
+          </div>
+          <div class="d-photo">
+            <svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="#845EC9" stroke-width="1.6"
+              stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/>
+              <circle cx="8.5" cy="9.5" r="1.8"/><path d="M21 16l-5-5-6 6-3-3-4 4"/></svg>
+            <span class="d-pgcount">1/3</span>
+          </div>
+          <div class="d-pad">
+            <p class="d-body" style="margin:12px 0 0">Hari ini Miko akhirnya mau makan sayur!
+              Butuh tiga minggu sampai dia mau coba. Ada yang punya tips lain?</p>
+            <div class="d-actions v2">
+              <span class="d-act liked">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#F0425A" stroke="none">
+                  <path d="M12 20.5s-7.3-4.7-9-8.4A5 5 0 0 1 12 6.4 5 5 0 0 1 21 12c-1.7 3.8-9 8.5-9 8.5z"/></svg>
+                <span>13</span></span>
+              <span class="d-act">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#544864" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"><path d="M20 4H4a2 2 0 0 0-2 2v15l4-4h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/></svg>
+                <span>8</span></span>
+              <span class="d-act share">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#544864" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 7l4-4 4 4M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6"/></svg>
+              <span>24</span>
+              </span>
+            </div>
+            <div class="d-div"></div>
+            <div class="d-ctitle">KOMENTAR (8)</div>
+            <div style="height:8px"></div>
+            <div class="d-cmt"><div class="d-cava">B</div><div class="d-cmain">
+              <div class="d-chead"><span class="d-cname">Budi Santoso</span><span class="d-ctime">1 jam lalu</span></div>
+              <div class="d-ctext">Lucu banget! Miko umurnya berapa?</div>
+              <div class="d-cact"><span class="lk liked">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#F0425A" stroke="none">
+                  <path d="M12 20.5s-7.3-4.7-9-8.4A5 5 0 0 1 12 6.4 5 5 0 0 1 21 12c-1.7 3.8-9 8.5-9 8.5z"/></svg>
+                4</span><span class="bl">Balas</span></div></div></div>
+          </div>
+        </div>
+        <div class="d-bottom"><div class="d-brow">
+          <div class="d-input">Tulis komentar...</div>
+          <div class="d-send"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l16-8-6 16-2.4-6.2L4 12z"/></svg></div>
+        </div></div>
+      </div></div>
+      <p class="frame-cap">已赞：心形填充 + 数字<b>同步</b>变 <code>#F0425A</code>（现有规则，保留）。
+      图中第一条评论也画成已赞态，用来对照评论行点赞的 14px 图标。</p></div>
+
+    <!-- B3 -->
+    <div class="frame-card"><span class="frame-tag">B3</span>
+      <div class="phone-shell"><div class="phone-screen">
+        <div class="d-appbar">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2E2A45" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          <span class="sp"></span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#2E2A45"><circle cx="5" cy="12" r="1.8"/>
+            <circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>
+        </div>
+        <div class="d-scroll">
+          <div class="d-pad">
+            <p class="d-body" style="margin:12px 0 0">Hari ini Miko akhirnya mau makan sayur!
+              Butuh tiga minggu sampai dia mau coba.</p>
+            <div class="d-actions v2">
+              <span class="d-act">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#544864" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.3-4.7-9-8.4A5 5 0 0 1 12 6.4 5 5 0 0 1 21 12c-1.7 3.8-9 8.5-9 8.5z"/></svg>
+                <span>12</span></span>
+              <span class="d-act">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#544864" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"><path d="M20 4H4a2 2 0 0 0-2 2v15l4-4h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/></svg>
+                <span>8</span></span>
+              <span class="d-act share">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#544864" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 7l4-4 4 4M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6"/></svg>
+              <span>24</span>
+              </span>
+            </div>
+            <div class="d-div"></div>
+            <div class="d-ctitle">KOMENTAR (8)</div>
+            <div style="height:8px"></div>
+            <div class="d-cmt"><div class="d-cava">B</div><div class="d-cmain">
+              <div class="d-chead"><span class="d-cname">Budi Santoso</span><span class="d-ctime">1 jam lalu</span></div>
+              <div class="d-ctext">Lucu banget! Miko umurnya berapa?</div>
+              <div class="d-cact"><span class="lk"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9690A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.3-4.7-9-8.4A5 5 0 0 1 12 6.4 5 5 0 0 1 21 12c-1.7 3.8-9 8.5-9 8.5z"/></svg>
+                2</span><span class="bl">Balas</span></div></div></div>
+          </div>
+        </div>
+        <div class="d-bottom"><div class="d-brow">
+          <div class="d-input typed">Bagus banget|</div>
+          <div class="d-send"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l16-8-6 16-2.4-6.2L4 12z"/></svg></div>
+        </div></div>
+        <div class="d-kb">
+          <div class="d-kbrow"><i class="d-kbkey"></i><i class="d-kbkey"></i><i class="d-kbkey"></i>
+            <i class="d-kbkey"></i><i class="d-kbkey"></i><i class="d-kbkey"></i><i class="d-kbkey"></i></div>
+          <div class="d-kbrow"><i class="d-kbkey"></i><i class="d-kbkey"></i><i class="d-kbkey"></i>
+            <i class="d-kbkey"></i><i class="d-kbkey"></i><i class="d-kbkey"></i></div>
+          <div class="d-kbrow"><i class="d-kbkey dark"></i><i class="d-kbkey"></i><i class="d-kbkey"></i>
+            <i class="d-kbkey"></i><i class="d-kbkey"></i><i class="d-kbkey dark"></i></div>
+          <div class="d-kbrow"><i class="d-kbkey dark"></i><i class="d-kbkey w2"></i><i class="d-kbkey dark"></i></div>
+        </div>
+      </div></div>
+      <p class="frame-cap"><b>关键差异：</b>互动栏在正文区、跟着页面滚，<b>不受输入态影响</b>；
+      底栏只有输入框 + 发送钮，没有两态互斥这回事。</p></div>
+
+    <!-- B4 -->
+    <div class="frame-card"><span class="frame-tag">B4</span>
+      <div class="phone-shell"><div class="phone-screen">
+        <div class="d-appbar">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2E2A45" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          <span class="sp"></span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#2E2A45"><circle cx="5" cy="12" r="1.8"/>
+            <circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>
+        </div>
+        <div class="d-scroll">
+          <div class="d-pad">
+            <div class="d-ctitle" style="margin-top:12px">KOMENTAR (8)</div>
+            <div style="height:8px"></div>
+            <div class="d-cmt"><div class="d-cava">B</div><div class="d-cmain">
+              <div class="d-chead"><span class="d-cname">Budi Santoso</span><span class="d-ctime">1 jam lalu</span></div>
+              <div class="d-ctext">Lucu banget! Miko umurnya berapa?</div>
+              <div class="d-cact"><span class="lk">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9690A6" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.3-4.7-9-8.4A5 5 0 0 1 12 6.4 5 5 0 0 1 21 12c-1.7 3.8-9 8.5-9 8.5z"/></svg>
+                3</span><span class="bl">Balas</span></div></div></div>
+            <div class="d-cmt"><div class="d-cava">S</div><div class="d-cmain">
+              <div class="d-chead"><span class="d-cname">Siti Nurhaliza</span><span class="d-ctime">2 jam lalu</span></div>
+              <div class="d-ctext">Coba campur dengan wortel rebus.</div>
+              <div class="d-cact"><span class="lk"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9690A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.3-4.7-9-8.4A5 5 0 0 1 12 6.4 5 5 0 0 1 21 12c-1.7 3.8-9 8.5-9 8.5z"/></svg>
+                1</span><span class="bl">Balas</span></div></div></div>
+          </div>
+        </div>
+        <div class="d-bottom">
+          <span class="d-replypill">Membalas @Budi Santoso
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#845EC9" stroke-width="2.4"
+              stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span>
+          <div class="d-brow">
+            <div class="d-input">Balas @Budi Santoso…</div>
+            <div class="d-send"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l16-8-6 16-2.4-6.2L4 12z"/></svg></div>
+          </div>
+        </div>
+        <div class="d-kb">
+          <div class="d-kbrow"><i class="d-kbkey"></i><i class="d-kbkey"></i><i class="d-kbkey"></i>
+            <i class="d-kbkey"></i><i class="d-kbkey"></i><i class="d-kbkey"></i><i class="d-kbkey"></i></div>
+          <div class="d-kbrow"><i class="d-kbkey"></i><i class="d-kbkey"></i><i class="d-kbkey"></i>
+            <i class="d-kbkey"></i><i class="d-kbkey"></i><i class="d-kbkey"></i></div>
+          <div class="d-kbrow"><i class="d-kbkey dark"></i><i class="d-kbkey"></i><i class="d-kbkey"></i>
+            <i class="d-kbkey"></i><i class="d-kbkey"></i><i class="d-kbkey dark"></i></div>
+          <div class="d-kbrow"><i class="d-kbkey dark"></i><i class="d-kbkey w2"></i><i class="d-kbkey dark"></i></div>
+        </div>
+      </div></div>
+      <p class="frame-cap">V1.3.0 的回复胶囊<b>保留</b>（紫字 + ✕），占位文案切成
+      <code>Balas @Budi Santoso…</code>。这一条不属于回退范围。</p></div>
+
+    <!-- B5 -->
+    <div class="frame-card"><span class="frame-tag">B5</span>
+      <div class="phone-shell"><div class="phone-screen">
+        <div class="d-appbar">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2E2A45" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          <span class="sp"></span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#2E2A45"><circle cx="5" cy="12" r="1.8"/>
+            <circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>
+        </div>
+        <div class="d-scroll">
+          <div class="d-author">
+            <div class="d-ava">R</div>
+            <div style="flex:1;min-width:0">
+              <div class="d-aname">Rina Wijaya</div><div class="d-atime">2 jam lalu</div></div>
+            <div class="d-badge momen">Diary</div>
+          </div>
+          <div class="d-photo">
+            <svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="#845EC9" stroke-width="1.6"
+              stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/>
+              <circle cx="8.5" cy="9.5" r="1.8"/><path d="M21 16l-5-5-6 6-3-3-4 4"/></svg>
+            <span class="d-pgcount">1/3</span>
+          </div>
+          <div class="d-pad">
+            <p class="d-body" style="margin:12px 0 0">Hari ini Miko akhirnya mau makan sayur!</p>
+            <div class="d-actions v2">
+              <span class="d-act">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#544864" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.3-4.7-9-8.4A5 5 0 0 1 12 6.4 5 5 0 0 1 21 12c-1.7 3.8-9 8.5-9 8.5z"/></svg>
+                <span>12</span></span>
+              <span class="d-act">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#544864" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"><path d="M20 4H4a2 2 0 0 0-2 2v15l4-4h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/></svg>
+                <span>8</span></span>
+              <span class="d-act share">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#544864" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 7l4-4 4 4M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6"/></svg>
+              <span>24</span>
+              </span>
+            </div>
+            <div class="d-div"></div>
+            <div class="d-ctitle">KOMENTAR (8)</div>
+            <div style="height:8px"></div>
+            <div class="d-cmt"><div class="d-cava">B</div><div class="d-cmain">
+              <div class="d-chead"><span class="d-cname">Budi Santoso</span><span class="d-ctime">1 jam lalu</span></div>
+              <div class="d-ctext">Lucu banget! Miko umurnya berapa?</div>
+              <div class="d-cact"><span class="lk"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9690A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.3-4.7-9-8.4A5 5 0 0 1 12 6.4 5 5 0 0 1 21 12c-1.7 3.8-9 8.5-9 8.5z"/></svg>
+                5</span><span class="bl">Balas</span></div></div></div>
+          </div>
+        </div>
+        <div class="d-bottom"><div class="d-brow">
+          <div class="d-input guest">Tulis komentar...</div>
+        </div></div>
+      </div></div>
+      <p class="frame-cap">游客：底栏是<b>只读提示条</b>（无发送钮，V1.2.0 原样），点击走 FR-0C 登录引导；
+      互动栏照常渲染，点赞转登录引导、分享本就允许游客用。<br>
+      提示条填充改为与登录态同款 <code>cream2</code>（#F8F2FF）+ 圆角 999
+      —— 改动前填充取 <code>base</code>、底栏取 <code>surface</code>，两者都是 <code>#FFFFFF</code>，
+      游客看到的是一段悬空灰字而非输入框。<b>仍然没有发送钮</b>：游客本来就不能发。</p></div>
+
+    <!-- B6 -->
+    <div class="frame-card"><span class="frame-tag">B6</span>
+      <div class="phone-shell"><div class="phone-screen">
+        <div class="d-appbar">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2E2A45" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          <span class="sp"></span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#2E2A45"><circle cx="5" cy="12" r="1.8"/>
+            <circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>
+        </div>
+        <div class="d-scroll">
+          <div class="d-author">
+            <div class="d-ava">A</div>
+            <div style="flex:1;min-width:0">
+              <div class="d-aname">Andi Pratama</div><div class="d-atime">5 jam lalu</div></div>
+            <div class="d-badge tips">Edukasi &amp; Tips</div>
+          </div>
+          <div class="d-pad">
+            <p class="d-body">Tiga tanda kucing kamu stres: sembunyi terus, nafsu makan turun,
+              dan grooming berlebihan sampai bulunya rontok. Kalau ketiganya muncul bersamaan,
+              sebaiknya langsung konsultasi ke dokter hewan.</p>
+            <div style="display:flex;gap:4px;margin-top:8px">
+              <span style="font-size:11.5px;background:#F8F2FF;color:#845EC9;padding:5px 11px;border-radius:999px">Kucing</span>
+              <span style="font-size:11.5px;background:#F8F2FF;color:#845EC9;padding:5px 11px;border-radius:999px">Kesehatan</span>
+            </div>
+            <div class="d-actions v2">
+              <span class="d-act">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#544864" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.3-4.7-9-8.4A5 5 0 0 1 12 6.4 5 5 0 0 1 21 12c-1.7 3.8-9 8.5-9 8.5z"/></svg>
+                <span>34</span></span>
+              <span class="d-act">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#544864" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"><path d="M20 4H4a2 2 0 0 0-2 2v15l4-4h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/></svg>
+                <span>5</span></span>
+              <span class="d-act share">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#544864" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 7l4-4 4 4M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6"/></svg>
+              <span>9</span>
+              </span>
+            </div>
+            <div class="d-div"></div>
+            <div class="d-ctitle">KOMENTAR (5)</div>
+            <div style="height:8px"></div>
+            <div class="d-cmt"><div class="d-cava">D</div><div class="d-cmain">
+              <div class="d-chead"><span class="d-cname">Dewi Lestari</span><span class="d-ctime">3 jam lalu</span></div>
+              <div class="d-ctext">Makasih infonya, kucingku persis begitu minggu lalu.</div>
+              <div class="d-cact"><span class="lk"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9690A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.3-4.7-9-8.4A5 5 0 0 1 12 6.4 5 5 0 0 1 21 12c-1.7 3.8-9 8.5-9 8.5z"/></svg>
+                4</span><span class="bl">Balas</span></div></div></div>
+          </div>
+        </div>
+        <div class="d-bottom"><div class="d-brow">
+          <div class="d-input">Tulis komentar...</div>
+          <div class="d-send"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l16-8-6 16-2.4-6.2L4 12z"/></svg></div>
+        </div></div>
+      </div></div>
+      <p class="frame-cap">纯文字帖：无图 → 装饰标签落在正文下方单独一行小胶囊（既有 AC5 行为，保留），
+      <b>互动栏排在标签之下</b>。这里要核对的是三块挨在一起会不会挤。</p></div>
+
+    <!-- B7 -->
+    <div class="frame-card"><span class="frame-tag">B7</span>
+      <div class="phone-shell"><div class="phone-screen">
+        <div class="d-appbar">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2E2A45" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          <span class="sp"></span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#2E2A45"><circle cx="5" cy="12" r="1.8"/>
+            <circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>
+        </div>
+        <div class="d-scroll">
+          <div class="d-author">
+            <div class="d-ava">M</div>
+            <div style="flex:1;min-width:0">
+              <div class="d-aname">Maya Sari</div><div class="d-atime">baru saja</div></div>
+            <div class="d-badge cerita">Momen</div>
+          </div>
+          <div class="d-photo">
+            <svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="#845EC9" stroke-width="1.6"
+              stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/>
+              <circle cx="8.5" cy="9.5" r="1.8"/><path d="M21 16l-5-5-6 6-3-3-4 4"/></svg>
+          </div>
+          <div class="d-pad">
+            <p class="d-body" style="margin:12px 0 0">Pagi pertama di rumah baru.</p>
+            <div class="d-actions v2">
+              <span class="d-act">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#544864" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.3-4.7-9-8.4A5 5 0 0 1 12 6.4 5 5 0 0 1 21 12c-1.7 3.8-9 8.5-9 8.5z"/></svg>
+                </span>
+              <span class="d-act">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#544864" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"><path d="M20 4H4a2 2 0 0 0-2 2v15l4-4h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/></svg>
+                </span>
+              <span class="d-act share">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#544864" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 7l4-4 4 4M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6"/></svg>
+              </span>
+            </div>
+            <div class="d-div"></div>
+            <div class="d-ctitle">KOMENTAR (0)</div>
+            <div class="d-empty">Belum ada komentar, yuk mulai obrolan!</div>
+          </div>
+        </div>
+        <div class="d-bottom"><div class="d-brow">
+          <div class="d-input">Tulis komentar...</div>
+          <div class="d-send"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l16-8-6 16-2.4-6.2L4 12z"/></svg></div>
+        </div></div>
+      </div></div>
+      <p class="frame-cap">零评论：空态文案取代码实值 <code>detailNoComments</code>。
+      <b>计数为 0 时不显示数字</b> —— 三个入口只剩图标，
+      与评论行点赞既有的「0 赞不显示数字」口径一致。空态文案取 <code>detailNoComments</code>。</p></div>
+
+    <!-- B8 -->
+    <div class="frame-card"><span class="frame-tag">B8</span>
+      <div class="phone-shell"><div class="phone-screen">
+        <div class="d-appbar">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2E2A45" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          <span class="sp"></span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#2E2A45"><circle cx="5" cy="12" r="1.8"/>
+            <circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>
+        </div>
+        <div class="d-scroll">
+          <div class="d-author">
+            <div class="d-ava">P</div>
+            <div style="flex:1;min-width:0">
+              <div class="d-aname">Panji Kurniawan Wibowo</div><div class="d-atime">3 hr lalu</div></div>
+            <div class="d-badge tips">Edukasi &amp; Tips</div>
+          </div>
+          <div class="d-photo">
+            <svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="#845EC9" stroke-width="1.6"
+              stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/>
+              <circle cx="8.5" cy="9.5" r="1.8"/><path d="M21 16l-5-5-6 6-3-3-4 4"/></svg>
+            <span class="d-pgcount">1/9</span>
+          </div>
+          <div class="d-pad">
+            <p class="d-body" style="margin:12px 0 0">Panduan lengkap vaksinasi anak anjing dari umur 6 minggu
+              sampai 16 minggu, plus jadwal booster tahunannya.</p>
+            <div class="d-actions v2">
+              <span class="d-act">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#544864" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.3-4.7-9-8.4A5 5 0 0 1 12 6.4 5 5 0 0 1 21 12c-1.7 3.8-9 8.5-9 8.5z"/></svg>
+                <span>1,2 rb</span></span>
+              <span class="d-act">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#544864" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"><path d="M20 4H4a2 2 0 0 0-2 2v15l4-4h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/></svg>
+                <span>1,4 rb</span></span>
+              <span class="d-act share">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#544864" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 7l4-4 4 4M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6"/></svg>
+              <span>86</span>
+              </span>
+            </div>
+            <div class="d-div"></div>
+            <div class="d-ctitle">KOMENTAR (1,4 rb)</div>
+            <div style="height:8px"></div>
+            <div class="d-cmt"><div class="d-cava">N</div><div class="d-cmain">
+              <div class="d-chead"><span class="d-cname">Nurul Hidayah</span><span class="d-ctime">1 hr lalu</span></div>
+              <div class="d-ctext">Sangat membantu, terima kasih!</div>
+              <div class="d-cact"><span class="lk">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9690A6" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.3-4.7-9-8.4A5 5 0 0 1 12 6.4 5 5 0 0 1 21 12c-1.7 3.8-9 8.5-9 8.5z"/></svg>
+                128</span><span class="bl">Balas</span></div></div></div>
+            <div class="d-more">Lihat semua 24 balasan</div>
+          </div>
+        </div>
+        <div class="d-bottom"><div class="d-brow">
+          <div class="d-input">Tulis komentar...</div>
+          <div class="d-send"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l16-8-6 16-2.4-6.2L4 12z"/></svg></div>
+        </div></div>
+      </div></div>
+      <p class="frame-cap">四位数 + 长昵称 + 最长的 ID 徽章文案「Edukasi &amp; Tips」同屏。
+      <b>数字缩写规则：</b><code>&lt;1000</code> 原样 ·
+      <code>≥1000</code> → <code>1,2 rb</code> · <code>≥1.000.000</code> → <code>1,2 jt</code>
+      （rb＝ribu、jt＝juta，印尼用逗号作小数点）。互动栏与「KOMENTAR (N)」标题<b>走同一套规则</b>。</p></div>
+  </div>
+</div>
+
+
+<!-- ══════════════════ C 泳道 ══════════════════ -->
+<div class="lane">
+  <div class="lane-title"><span class="lane-dot" style="background:var(--lane-c)"></span>
+    <h2>C · 互动栏本体：规格图</h2><span class="lane-fr ok">全部已填</span></div>
+  <p class="lane-desc">规格图（虚线框 ◇）<b>不是 App 页面</b>，用来把度量钉死，避免研发落地时各自猜数值。
+  <b>C1 现状 ↔ C2 优化后</b>逐字段可比；C3 是已选形态的三态展开（默认 / 已赞 / 零计数）。</p>
+  <div class="flow">
+    <em>说明：</em><s>C1</s> 现状度量（已填真值）<i>对照</i> <s>C2</s> 优化后度量
+    <span class="nl"></span>
+    <em>已选形态：</em><s>C3</s> 裸图标 + 数字的三态展开（装进真实页面见 <s>B1</s>）
+  </div>
+  <div class="frames">
+
+    <!-- C1 -->
+    <div class="frame-card" data-v="spec"><span class="frame-tag">C1</span>
+      <div class="spec-shell"><div class="spec-screen">
+        <div class="sp-t">互动栏 · 现状真实度量</div>
+        <div class="sp-sub">取自 <code>like_button.dart</code> · <code>content_detail_page.dart</code>（V1.2.0 版）·
+          <code>typography.dart</code> · <code>colors.dart</code></div>
+
+        <div class="sp-box">
+          <div class="sp-sub" style="margin-bottom:8px">实际渲染（红色虚线 = 真实可点范围）</div>
+          <div class="sp-live"><div style="display:flex;align-items:center;gap:16px">
+            <span class="sp-hit"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#544864"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.3-4.7-9-8.4A5 5 0 0 1 12 6.4 5 5 0 0 1 21 12c-1.7 3.8-9 8.5-9 8.5z"/></svg>
+              <span style="font-size:13px">12</span></span>
+            <span class="sp-hit"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#544864"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4H4a2 2 0 0 0-2 2v15l4-4h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/></svg>
+              <span style="font-size:13px">8</span></span>
+            <span class="sp-hit"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#544864"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 7l4-4 4 4M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6"/></svg></span>
+          </div></div>
+        </div>
+
+        <div class="sp-warn"><b>热区高度只有 20px</b>（＝图标本身）。<code>InkWell</code> / <code>GestureDetector</code>
+          直接包内容，三个入口<b>都没有 padding</b>。移动端可达性下限是 44×44。
+          评论行的点赞更小 —— 图标 14px、同样无 padding。</div>
+
+        <table class="sp-tbl">
+          <tr><td>图标尺寸（三枚）</td><td>20 px</td></tr>
+          <tr><td>图标 → 数字 间距</td><td>4 px（xs）</td></tr>
+          <tr><td>数字字号 / 行高</td><td>13 / 1.4（caption）</td></tr>
+          <tr><td>三组之间</td><td>16 px（lg）</td></tr>
+          <tr><td>可点热区</td><td>= 内容本身（高 20）</td></tr>
+          <tr><td>未赞 图标 + 数字</td><td>#544864</td></tr>
+          <tr><td>已赞 图标 + 数字</td><td>#F0425A</td></tr>
+          <tr><td>点赞图标</td><td>favorite_border_rounded</td></tr>
+          <tr><td>评论图标</td><td>mode_comment_outlined</td></tr>
+          <tr><td>分享图标</td><td>ios_share_rounded</td></tr>
+          <tr><td>栏上下留白</td><td>12 / 24（md / 到 divider）</td></tr>
+          <tr><td>栏左右屏边距</td><td>16 px（screenEdge）</td></tr>
+          <tr><td>评论行点赞 图标</td><td>14 px（0 赞不显示数字）</td></tr>
+          <tr><td>二级回复缩进</td><td>24 + 竖线 2 + 8 = 34</td></tr>
+          <tr><td>二级回复竖线</td><td>2 px #E6E6E6</td></tr>
+          <tr><td><b>分享计数</b></td><td><b>后端无此字段</b></td></tr>
+        </table>
+      </div></div>
+      <p class="frame-cap">这一屏是<b>今天的事实</b>，不是提案。第三步的 C2 会在同样的字段上给出优化后取值，两屏并排对照。</p></div>
+
+    <div class="frame-card" data-v="spec"><span class="frame-tag">C2</span>
+      <div class="spec-shell"><div class="spec-screen">
+        <div class="sp-t">互动栏 · 优化后度量</div>
+        <div class="sp-sub">9 条优化项落到具体取值。<b>加粗＝相对现状有变</b>。</div>
+
+        <div class="sp-box">
+          <div class="sp-sub" style="margin-bottom:8px">热区示意（红虚线＝可点范围，已达 44）</div>
+          <div class="sp-live"><div class="d-actions v2" style="margin:0">
+            <span class="d-act hitbox"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.3-4.7-9-8.4A5 5 0 0 1 12 6.4 5 5 0 0 1 21 12c-1.7 3.8-9 8.5-9 8.5z"/></svg><span>12</span></span>
+            <span class="d-act hitbox"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4H4a2 2 0 0 0-2 2v15l4-4h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/></svg><span>8</span></span>
+            <span class="d-act share hitbox"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 7l4-4 4 4M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6"/></svg><span>24</span></span>
+          </div></div>
+        </div>
+
+        <table class="sp-tbl">
+          <tr><td>图标尺寸</td><td>20 px（不变）</td></tr>
+          <tr><td>图标线重</td><td><b>Basil 2 px 圆头</b></td></tr>
+          <tr><td>图标 → 数字 间距</td><td><b>6 px</b>（原 4）</td></tr>
+          <tr><td>数字字号 / 字重</td><td>13 / <b>500</b>（原 400）</td></tr>
+          <tr><td>数字排版</td><td><b>tabular-nums</b></td></tr>
+          <tr><td>每组内边距</td><td><b>12 上下 · 8 左右</b></td></tr>
+          <tr><td><b>热区</b></td><td><b>44 × ≥44</b>（20+12×2）</td></tr>
+          <tr><td>组间 gap</td><td><b>8</b>（热区间隙下限）</td></tr>
+          <tr><td>可见图标间距</td><td><b>≈24</b>（8+8+8）</td></tr>
+          <tr><td>分享位置</td><td><b>行尾右对齐</b></td></tr>
+          <tr><td>整行负边距</td><td><b>左右 −8</b>（光学对齐正文）</td></tr>
+          <tr><td>计数为 0</td><td><b>只显示图标</b></td></tr>
+          <tr><td>数字缩写</td><td><b>1,2 rb / 1,2 jt</b></td></tr>
+          <tr><td>未赞色</td><td>#544864（<b>建议不改</b>）</td></tr>
+          <tr><td>已赞色</td><td>#F0425A（不变）</td></tr>
+          <tr><td>按压 · 心形</td><td><b>0.85→1.15→1 spring 300ms</b></td></tr>
+          <tr><td>按压 · 波纹</td><td><b>圆形，限定热区内</b></td></tr>
+          <tr><td>二级回复缩进</td><td><b>12 + 线2 + 8 = 22</b>（原 34）</td></tr>
+          <tr><td>评论行点赞热区</td><td><b>≥44</b>（图标仍 14）</td></tr>
+          <tr><td>互动栏 → 分隔线</td><td><b>视觉 16</b>（4 + 热区 12）</td></tr>
+          <tr><td>分隔线 → 评论标题</td><td><b>20</b></td></tr>
+        </table>
+
+      </div></div>
+      <p class="frame-cap">与 C1 逐字段对照即可看出改了什么。<b>唯一需要后端配合的是分享计数</b>
+      （<code>content_shares</code> 现在每条内容只有一行、不记次数）。<br>
+      <b>两处刻意不改：</b>① <b>图标维持 20</b> —— 图标集原生网格为 16/20/24，
+      22 属分数缩放、小尺寸描边发虚；热区已由 padding 解决，图标不必变大。
+      ② <b>未赞色维持 #544864</b> —— 对白底对比度约 8:1 已足够，可点性由热区与形态解决，不靠改色。</p></div>
+
+    <div class="frame-card" data-v="spec"><span class="frame-tag">C3</span>
+      <div class="spec-shell"><div class="spec-screen">
+        <div class="sp-t">形态甲 · 裸图标 + 数字</div>
+        <div class="sp-sub">形态与今天一致，只改度量与图标风格。视觉改动最小、最不容易出错。</div>
+        <div class="sp-box">
+          <div class="sp-sub" style="margin-bottom:8px">默认态</div>
+          <div class="sp-live"><div class="d-actions v2" style="margin:0">
+            <span class="d-act"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.3-4.7-9-8.4A5 5 0 0 1 12 6.4 5 5 0 0 1 21 12c-1.7 3.8-9 8.5-9 8.5z"/></svg><span>12</span></span>
+            <span class="d-act"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4H4a2 2 0 0 0-2 2v15l4-4h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/></svg><span>8</span></span>
+            <span class="d-act share"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 7l4-4 4 4M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6"/></svg><span>24</span></span>
+          </div></div>
+          <div class="sp-sub" style="margin:12px 0 8px">已赞态</div>
+          <div class="sp-live"><div class="d-actions v2" style="margin:0">
+            <span class="d-act liked"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20.5s-7.3-4.7-9-8.4A5 5 0 0 1 12 6.4 5 5 0 0 1 21 12c-1.7 3.8-9 8.5-9 8.5z"/></svg><span>13</span></span>
+            <span class="d-act"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4H4a2 2 0 0 0-2 2v15l4-4h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/></svg><span>8</span></span>
+            <span class="d-act share"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 7l4-4 4 4M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6"/></svg><span>24</span></span>
+          </div></div>
+          <div class="sp-sub" style="margin:12px 0 8px">零计数</div>
+          <div class="sp-live"><div class="d-actions v2" style="margin:0">
+            <span class="d-act"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.3-4.7-9-8.4A5 5 0 0 1 12 6.4 5 5 0 0 1 21 12c-1.7 3.8-9 8.5-9 8.5z"/></svg></span>
+            <span class="d-act"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4H4a2 2 0 0 0-2 2v15l4-4h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/></svg></span>
+            <span class="d-act share"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 7l4-4 4 4M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6"/></svg></span>
+          </div></div>
+        </div>
+        <table class="sp-tbl">
+          <tr><td>组底色</td><td>无</td></tr>
+          <tr><td>热区可见性</td><td>不可见（靠 44 命中框）</td></tr>
+          <tr><td>这一行的视觉重量</td><td>轻</td></tr>
+          <tr><td>与 V1.2.0 的差异</td><td>仅度量与线重</td></tr>
+        </table>
+      </div></div>
+      <p class="frame-cap">装进真实页面的样子见 <b>B1</b>。已赞态的填充心形按 Outline 默认 / Fill 激活的通行规则，与现有实现一致。</p></div>
+
+    </div>
+
+  <p class="lane-desc" style="margin-top:6px"><b>9 条优化项（全做）</b> —— 逐条落在 C2 / C3 与 B 泳道各屏上：</p>
+  <table class="tbl">
+    <tr><th style="width:40px">#</th><th style="width:170px">优化项</th><th style="width:110px">影响面</th><th>现状 → 目标</th></tr>
+    <tr><td>1</td><td><b>点击热区</b></td><td><span class="tag change">仅详情页</span></td>
+      <td>热区 = 内容本身（高 20）→ 每组包进 <b>≥44×44 透明命中框</b>，可见图标不放大。</td></tr>
+    <tr><td>2</td><td><b>图标风格</b></td><td><span class="tag change">仅详情页</span></td>
+      <td>Material 三枚 → <b>Basil Icons</b>（描边 2px、圆头圆角），三枚一起换。</td></tr>
+    <tr><td>3</td><td><b>图标尺寸</b></td><td><span class="tag change">仅详情页</span></td>
+      <td>20 → 第三步按实机对比在 20 / 22 之间定。</td></tr>
+    <tr><td>4</td><td><b>栏内位置与对齐</b></td><td><span class="tag change">仅详情页</span></td>
+      <td>三组全左对齐 → 点赞与评论左聚拢、<b>分享推到行尾右对齐</b>（分享低频，不占主动线）。</td></tr>
+    <tr><td>5</td><td><b>组间距</b></td><td><span class="tag change">仅详情页</span></td>
+      <td>详情页 16（首页是 18，两处本就不一致）→ 详情页取定值，首页不动。</td></tr>
+    <tr><td>6</td><td><b>数字排版</b></td><td><span class="tag change">仅详情页</span></td>
+      <td>常规字 → <b>tabular-nums</b>（+1 时数字宽度不跳）。破千缩写口径见 B8 待定项。</td></tr>
+    <tr><td>7</td><td><b>点赞按压反馈</b></td><td><span class="tag change">仅详情页</span></td>
+      <td>仅水波纹（无 padding 时形状怪）→ 心形缩放弹跳 + 波纹限定在圆形热区内。</td></tr>
+    <tr><td>8</td><td><b>未点赞态颜色</b></td><td><span class="tag change">仅详情页</span></td>
+      <td>#544864（与正文同色系）→ 第三步给 2–3 个候选对比。</td></tr>
+    <tr><td>9</td><td><b>评论入口行为</b></td><td><span class="tag change">仅详情页</span></td>
+      <td>V1.2.0 的「点 💬 聚焦输入框弹键盘」<b>一并恢复</b>（V1.3.0 随迁移丢失）。</td></tr>
+    <tr><td>10</td><td><b>评论行点赞热区</b></td><td><span class="tag change">仅详情页</span></td>
+      <td>图标 14px、无 padding → 同样包进 ≥44 命中框（2026-09-29 确认顺带一起修）。</td></tr>
+    <tr><td>11</td><td><b>二级回复缩进</b></td><td><span class="tag change">仅详情页</span></td>
+      <td>24 + 竖线 2 + 8 = 34 → <b>收窄到 12 + 2 + 8 = 22</b>（2026-09-29 反馈「空位太大」）。</td></tr>
+    <tr><td>12</td><td><b>分享显示计数</b></td><td><span class="tag risk">需后端</span></td>
+      <td>今天分享按钮<b>只有图标、没有数字</b> → 加计数。
+      ⚠️ 这一条不是纯 UI，见下方红框。</td></tr>
+  </table>
+
+  <div class="note warn">
+    <h4>⚠️ 分享计数：数据库里今天没有这个量，必须先定口径</h4>
+    <code>content_shares</code> 表对每条内容<b>只有一行</b>（<code>uk_content_shares_post</code> 唯一约束），
+    设计上就是「重复分享复用同一 token」，<b>不累加、不记次数</b>。所以分享数不是「把已有字段显示出来」，
+    而是新增统计。三种口径，代价与含义都不同：<br>
+    <b>① 点击分享按钮的次数</b> —— 最好做（点一次 +1）。但用户点开系统分享面板后取消也算，数字偏高。<br>
+    <b>② 真正分享成功的次数</b> —— <b>技术上做不到</b>：系统分享面板不回传结果，App 无法知道用户是否真的发出去了。<br>
+    <b>③ 分享页被打开的次数</b> —— 公开落地页 <code>GET /c/{share_token}</code> 的 PV。含义最实在
+    （「有 24 个人看过这条被分享出去的内容」），但它衡量的是传播效果、不是分享动作，
+    且新帖长期为 0，与点赞/评论并排会显得很空。<br>
+    <b>口径取 ①「点击分享按钮的次数」</b> —— 与点赞/评论同为动作计数，三个数字口径一致。
+    研发侧要做的是：<code>content_posts</code> 加计数字段（或单独计数表）、分享端点每次点击 +1、
+    详情接口下发该值。<b>这是本次唯一需要后端配合的项。</b>
+  </div>
+</div>
+
+
+<!-- ══════════════════ D 泳道 ══════════════════ -->
+<div class="lane">
+  <div class="lane-title"><span class="lane-dot" style="background:var(--lane-d)"></span>
+    <h2>D · 不改动的部分 — 核对有无遗漏</h2><span class="lane-fr ok">回归清单</span></div>
+  <table class="tbl">
+    <tr><th style="width:200px">对象</th><th style="width:90px">本次</th><th>说明</th></tr>
+    <tr><td><b>首页 Feed 卡片</b></td><td><span class="tag none">不动</span></td>
+      <td>详情页点赞为单独一份实现，<b>首页那个组件与操作行一行不改</b>，
+      也不跟着修热区。首页点赞热区同样只有 20px，如果以后要修另开一条。</td></tr>
+    <tr><td>加载中 / 404 / 403 / 网络错误</td><td><span class="tag none">不改</span></td>
+      <td>不含互动栏（整页 EmptyState 或转圈）。</td></tr>
+    <tr><td>评论加载更多 / 展开二级回复</td><td><span class="tag keep">沿用</span></td>
+      <td>改版后回归验证「发完评论自动展开并滚到新回复」仍生效。</td></tr>
+    <tr><td>评论被下架（仅作者可见）</td><td><span class="tag keep">沿用</span></td>
+      <td>评论行灰态标签。</td></tr>
+    <tr><td>长按评论操作菜单</td><td><span class="tag keep">沿用</span></td>
+      <td>复制 / 回复 / 删除 / 举报，V1.3.0 新增，保留。</td></tr>
+    <tr><td>「···」更多抽屉</td><td><span class="tag keep">沿用</span></td>
+      <td>顶栏入口不碰；顶栏不放分享这条 2026-08-14 的决定继续有效。</td></tr>
+    <tr><td>评论发送失败 / 审核拦截</td><td><span class="tag keep">沿用</span></td>
+      <td>Toast + 保留输入内容。</td></tr>
+    <tr><td>图片前置 + 通栏出血</td><td><span class="tag keep">沿用</span></td>
+      <td>V1.3.0 Story 2.2 的顺序（作者行 → 图片 → 正文）保留，不随互动栏一起退回。</td></tr>
+  </table>
+</div>
+
+
+<!-- ══════════════════ 交付说明 ══════════════════ -->
+<div class="lane">
+  <div class="lane-title"><span class="lane-dot" style="background:var(--lane-d)"></span>
+    <h2>交付说明</h2><span class="lane-fr ok">定稿 2026-09-29</span></div>
+  <table class="tbl">
+    <tr><th style="width:170px">项</th><th>说明</th></tr>
+    <tr><td><b>屏数</b></td><td>8 屏真实页面（B1–B8）+ 3 张规格图（C1 改动前度量 / C2 目标度量 / C3 三态展开）。</td></tr>
+    <tr><td><b>后端</b></td><td>仅<b>分享计数</b>一项（见上）。其余全部为客户端改动。</td></tr>
+    <tr><td><b>不动的部分</b></td><td>首页 Feed 卡片及其操作行 · 顶栏「···」· 加载/404/403/网络错误 ·
+      评论区既有行为（长按菜单、下架标签、加载更多、发回复后自动展开定位）。</td></tr>
+    <tr><td><b>回归重点</b></td><td>① 详情页点赞与 Feed 卡片点赞<b>状态互通</b>（两份实现、同一数据源，返回列表不得出现旧值）；
+      ② 发完评论自动展开父评论并滚动到新回复仍生效；③ 切 ID 语言全流程无截断。</td></tr>
+    <tr><td><b>过程记录</b></td><td>方案取舍、被否决的胶囊底形态完整规格、各项决策依据，均在同目录
+      <code>.decision-log.md</code>。</td></tr>
+  </table>
+</div>
+
+</div>
+
+</div></body></html>
