@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QRIS 支付页优化</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>:root{--page-bg:#F6F4FA;--page-ink:#1F1A2B;--page-ink-2:#4A4458;--page-muted:#8A8399;
+  --page-rule:#E4DEEE;--page-accent:#845EC9;--page-accent-soft:#EFE8FA;
+  /* App token（petgo_app/lib/core/theme/colors.dart 实际值） */
+  --mint:#845EC9;--mintTint:#F8F2FF;--cream2:#F8F2FF;--violet100:#EFE6FF;--ink:#2E2A45;--ink2:#544864;--muted:#9690A6;
+  --line:#E6E6E6;--line2:#F0F0F0;--card:#FFFFFF;--danger:#E5604D;}
+*{box-sizing:border-box}
+body{-webkit-font-smoothing:antialiased;margin:0;background:var(--page-bg);color:var(--page-ink);
+  font:14px/1.6 -apple-system,"PingFang SC","Helvetica Neue",Arial,sans-serif}
+.page{width:1360px;margin:0 auto;padding:40px 48px 80px}
+.doc-header{background:#fff;border:1px solid var(--page-rule);border-radius:14px;padding:24px 28px;margin-bottom:36px}
+.doc-header h1{margin:0 0 6px;font-size:22px}
+.doc-header .sub{color:var(--page-muted);margin:0 0 14px}
+.doc-header h3{margin:18px 0 6px;font-size:14px}
+.doc-header ul,.doc-header ol{margin:0;padding-left:20px;color:var(--page-ink-2)}
+.doc-header li{margin:2px 0}
+.doc-header table{border-collapse:collapse;width:100%;font-size:12.5px;margin-top:6px}
+.doc-header td,.doc-header th{border:1px solid var(--page-rule);padding:5px 8px;text-align:left;vertical-align:top}
+.doc-header th{background:var(--page-accent-soft)}
+.doc-header code{font-size:12px;background:#F3F0F8;border-radius:4px;padding:0 4px}
+.q{background:#FEF3DE;border-radius:10px;padding:10px 14px;margin-top:6px;color:#5C3D00}
+.lane{margin-bottom:44px}
+.lane h2{font-size:17px;margin:0 0 4px}
+.lane .desc{color:var(--page-ink-2);margin:0 0 12px}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:7px;font-size:12.5px;color:var(--page-ink-2);
+  line-height:1.9;margin:0 0 22px;padding:12px 16px;background:#fff;border:1px solid var(--page-rule);border-radius:10px}
+.flow s{text-decoration:none;font-weight:600;color:var(--page-accent);background:var(--page-accent-soft);border-radius:6px;padding:2px 8px}
+.flow i{font-style:normal;color:var(--page-muted)}
+.flow em{font-style:normal;color:var(--page-ink);font-weight:600}
+.flow .nl{flex-basis:100%;height:0}
+.frames{display:grid;grid-template-columns:repeat(3,384px);gap:40px 34px;justify-content:start;padding:8px 4px 26px}
+.frame-tag{display:block;font-weight:600;margin-bottom:8px}
+.frame-tag b{color:var(--page-accent);margin-right:6px}
+.frame-tag .k{font-size:11.5px;font-weight:700;border-radius:6px;padding:1px 7px;margin-left:6px}
+.k.new{color:#1E6B3A;background:#E2F5E9}.k.chg{color:#8A5A00;background:#FEF3DE}.k.keep{color:var(--page-muted);background:#EFEDF3}
+.frame-cap{color:var(--page-ink-2);font-size:12.5px;margin-top:10px;line-height:1.7}
+
+/* ---------- 手机框 ---------- */
+.phone-shell{width:384px;height:800px;border-radius:44px;background:#1F1A2B;padding:12px;box-shadow:0 10px 30px rgba(31,26,43,.12)}
+.phone-screen{position:relative;width:100%;height:100%;border-radius:34px;background:#fff;overflow:hidden;
+  font-family:Poppins,-apple-system,"Helvetica Neue",Arial,sans-serif;color:var(--ink);display:flex;flex-direction:column}
+.sb{height:40px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 26px;font-size:13px;font-weight:600}
+.sbr{display:flex;gap:3px;align-items:flex-end}.sbr i{width:3px;height:9px;background:var(--ink);border-radius:1px}
+.sbr i:first-child{height:5px}.sbr i:nth-child(2){height:7px}.sbr b{width:20px;height:10px;border:1.5px solid var(--ink);border-radius:3px;margin-left:5px}
+.appbar{height:52px;flex:none;display:flex;align-items:center;padding:0 8px;gap:2px}
+.appbar .back{width:40px;height:40px;display:flex;align-items:center;justify-content:center}
+.appbar .nob{width:12px}
+.appbar .title{font-size:17px;font-weight:600}
+.body{flex:1;overflow:hidden;padding:8px 16px 0;position:relative}
+.body.scroll{padding:4px 16px 0}
+.fin{padding-bottom:16px}
+.body.scroll.scrolled .fin{position:absolute;left:16px;right:16px;bottom:0}
+.h1{font-size:16px;font-weight:700;margin:2px 2px 12px}
+
+/* 金额 + 倒计时卡 */
+.sum{display:flex;justify-content:space-between;gap:10px;background:var(--mintTint);border-radius:16px;padding:14px 16px}
+.slab{font-size:11.5px;color:var(--ink2);font-weight:500}
+.samt{font-size:22px;font-weight:700;line-height:1.3;font-variant-numeric:tabular-nums;letter-spacing:-.2px}
+.samt.sm{font-size:20px}
+.ssub{font-size:12px;color:var(--mint);font-weight:600}
+.sr{text-align:right}
+.cd{font-size:22px;font-weight:700;line-height:1.3;color:var(--mint);font-variant-numeric:tabular-nums}
+.cd.sm{font-size:20px}
+.cd.urg{color:var(--danger)}
+.cd.exp{color:var(--muted)}
+.sdl{font-size:11px;color:var(--muted)}
+.red{color:var(--danger);font-weight:600}
+
+/* 二维码卡 */
+.qrc{margin-top:12px;background:#fff;border:1px solid var(--line2);border-radius:16px;padding:14px 16px 14px;
+  display:flex;flex-direction:column;align-items:center;box-shadow:0 3px 12px rgba(43,42,39,.04)}
+.qris{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.qris .qm{font-size:16px;font-weight:800;letter-spacing:.5px;color:#111;border:2px solid #111;border-radius:4px;padding:0 4px;line-height:1.25}
+.qris .qt{font-size:7.5px;line-height:1.2;font-weight:700;color:#111}
+.qrwrap{position:relative;border-radius:10px;overflow:hidden}
+.qrwrap img{width:100%;height:100%;display:block}
+.qrwrap.dim img{opacity:.12}
+.qrexp{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 8px;gap:2px}
+.qrexp b{font-size:13.5px;margin-top:6px;white-space:nowrap}.qrexp span{font-size:11.5px;color:var(--ink2);line-height:1.4}
+.qrstub{background:var(--cream2);border:1px solid var(--line);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:0 24px}
+.qrstub span{font-size:12px;color:var(--muted)}
+.ref{margin-top:10px;font-size:12px;color:var(--muted);display:flex;align-items:center;gap:4px}
+.ref b{font-weight:600;color:var(--ink2);font-variant-numeric:tabular-nums}
+.cp{display:inline-flex;padding:2px}
+.wait{margin-top:8px;display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--ink2)}
+.spin{width:14px;height:14px;border-radius:50%;border:2px solid var(--violet100);border-top-color:var(--mint);display:inline-block}
+
+/* 支持 App / 步骤 */
+.blk{margin-top:18px}
+.bt{font-size:13px;font-weight:600;color:var(--ink);margin:0 2px 8px}
+.logos{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.lg{height:30px;padding:0 9px;border:1px solid var(--line2);border-radius:8px;display:flex;align-items:center;background:#fff}
+.lg img{height:15px;width:auto;display:block}
+.lgt{font-size:13px;font-weight:700;color:#1F4E8C;letter-spacing:.2px}
+.more{font-size:12px;color:var(--muted);padding:0 4px}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.steps li{display:flex;gap:10px;font-size:12.5px;line-height:1.5;color:var(--ink2)}
+.steps .n{flex:none;width:20px;height:20px;border-radius:50%;background:var(--mintTint);color:var(--mint);font-size:11px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;margin-top:1px}
+
+/* 吸底按钮 */
+.bottom{flex:none;background:#fff;padding:10px 16px 26px;border-top:1px solid var(--line2);position:relative;z-index:2}
+.btn{height:50px;border-radius:14px;background:var(--mint);color:#fff;display:flex;align-items:center;justify-content:center;gap:8px;
+  font-size:15px;font-weight:700}
+.btn.disabled{background:var(--line2);color:var(--muted)}
+.btn.ghost{background:#fff;border:1.5px solid var(--line);color:var(--ink)}
+.btn.auto{display:inline-flex}
+.tbtn{text-align:center;color:var(--danger);font-size:14px;font-weight:600;padding:10px 0 0}
+
+/* 抽屉 */
+.bg-page{background:#FAF9FC}
+.bgcard{background:#fff;border-radius:14px;padding:14px;margin-bottom:10px}
+.bgcard.row{display:flex;gap:12px}
+.bgst{font-size:14px;font-weight:700;color:var(--danger);margin-bottom:8px}
+.bgimg{width:64px;height:64px;border-radius:10px;background:#EEE9F6}
+.bgl{height:9px;border-radius:5px;background:#EEEAF3;margin-bottom:7px}
+.w30{width:30%}.w40{width:40%}.w50{width:50%}.w60{width:60%}.w70{width:70%}.w80{width:80%}.w90{width:90%}.mt{margin-top:14px}
+.scrim{position:absolute;inset:0;background:rgba(31,26,43,.45);z-index:3}
+.sheet55{position:absolute;left:0;right:0;bottom:0;height:60%;background:#fff;border-radius:24px 24px 0 0;z-index:4;display:flex;flex-direction:column}
+.handle{flex:none;width:36px;height:4px;border-radius:99px;background:var(--line);margin:10px auto 10px}
+.sscroll{flex:1;overflow:hidden;position:relative}
+.sin{padding:0 18px 16px}
+.sscroll.scrolled .sin{position:absolute;left:0;right:0;bottom:0}
+.sheet55 .bottom{padding:10px 18px 24px}
+.shead{display:flex;justify-content:space-between;align-items:flex-end;padding:0 2px}
+.sheet55 .qrc{margin-top:10px;padding:12px 16px}
+
+/* Toast / 对话框 */
+.toast{position:absolute;left:24px;right:24px;bottom:132px;z-index:9;background:rgba(46,42,69,.94);color:#fff;border-radius:12px;
+  padding:11px 14px;font-size:13.5px;display:flex;gap:8px;align-items:center;box-shadow:0 6px 16px rgba(0,0,0,.2)}
+.scrim2{position:absolute;inset:0;background:rgba(31,26,43,.5);z-index:8}
+.dlg{position:absolute;left:22px;right:22px;top:50%;transform:translateY(-50%);z-index:9;background:#fff;border-radius:22px;padding:22px 20px 16px;text-align:center}
+.dic{width:48px;height:48px;border-radius:50%;background:var(--violet100);margin:0 auto 10px;display:flex;align-items:center;justify-content:center}
+.dt{font-size:16px;font-weight:700}
+.dm{font-size:13px;color:var(--ink2);line-height:1.55;margin-top:6px}
+.dbtns{display:flex;gap:10px;margin-top:18px}
+.dbtns span{flex:1;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:13.5px;font-weight:600;white-space:nowrap}
+.dbtns .dyes{flex:1.4}
+.dno{color:var(--ink2);background:#F5F3F8}.dyes{color:#fff;background:var(--mint)}
+
+/* B0 / 状态页 */
+.lab{font-size:13px;font-weight:600;color:var(--ink2);margin:6px 0 12px}
+.tiers{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tier{height:80px;border-radius:12px;border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.tier b{font-size:17px}.tier span{font-size:12px;color:var(--muted)}
+.tier.on{background:var(--mintTint);border:2px solid var(--mint)}.tier.on b{color:var(--mint)}
+.chip{border-radius:10px;border:1px solid var(--line);text-align:center;padding:12px 0;font-size:14px;font-weight:600}
+.chip.on{background:var(--mintTint);border:2px solid var(--mint);color:var(--mint)}
+.center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 32px 60px}
+.center .btn{align-self:stretch}.center .btn.auto{align-self:center}
+.cic{margin-bottom:12px}
+.ctitle{font-size:16px;font-weight:700}
+.cmsg{font-size:13px;color:var(--ink2);margin-top:6px;line-height:1.6}
+
+/* C0 */
+.vsub{text-align:center;font-size:13px;line-height:1.6;color:var(--ink2);padding:0 8px}
+.vcd{margin:20px auto 24px;width:max-content;padding:14px 24px;border-radius:14px;background:var(--cream2);font-size:30px;font-weight:700;letter-spacing:2px;color:var(--mint);font-variant-numeric:tabular-nums}
+.tile{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:14px;border:1.2px solid var(--line);margin-bottom:10px}
+.tile.on{border:1.6px solid var(--mint);background:var(--mintTint)}
+.tic{width:40px;height:40px;border-radius:11px;background:var(--mintTint);display:flex;align-items:center;justify-content:center}
+.tile.on .tic{background:#fff}
+.ttx{flex:1}.ttx b{display:block;font-size:15px}.ttx span{font-size:12px;color:var(--muted)}
+.rad{width:20px;height:20px;border-radius:50%;border:2px solid var(--line)}
+.rad.on{border:6px solid var(--mint)}
+
+/* 规格图 */
+.spec-shell{width:384px;min-height:560px;border:1.5px dashed #CFC6DE;border-radius:20px;background:#FBFAFD;padding:28px 24px;position:relative}
+.spec-shell::before{content:"◇ 规格";position:absolute;top:10px;left:14px;font-size:11px;color:var(--page-muted)}
+.saved{background:#fff;border-radius:16px;box-shadow:0 6px 20px rgba(31,26,43,.08);padding:22px 20px 20px;text-align:center;
+  font-family:Poppins,-apple-system,"Helvetica Neue",Arial,sans-serif;color:var(--ink);display:flex;flex-direction:column;align-items:center}
+.sv-brand{font-size:15px;font-weight:700;color:var(--mint);margin-bottom:10px}
+.sv-amt{font-size:24px;font-weight:700;margin-top:12px}
+.sv-row{font-size:12px;color:var(--ink2);margin-top:2px}
+</style></head><body><div class="page">
+<div class="doc-header">
+  <h1>V1.4.1 · QRIS 支付页优化 —— 页面稿</h1>
+  <p class="sub">2026-10-29 · 参考 Shopee QRIS 支付页 · 清单已确认，按产品要求直接出真实页面（结构 + 视觉合并一版），有问题在这份稿上改</p>
+
+  <h3>改造对象（代码基线 origin/dev_1.4.1 @ fcdae302）</h3>
+  <table>
+    <tr><th style="width:22%">泳道</th><th style="width:34%">代码位置</th><th>现在有什么 → 本次加什么</th></tr>
+    <tr><td>A. QRIS 支付抽屉（通用）</td><td>shared/widgets/qr_payment_sheet.dart（5 处调用：送礼 / 纪念品·名额 / 身份证高清 / 商城订单详情 / AI 解锁）</td>
+      <td>标题 + 扫码提示 + 二维码 + 订单号 + 取消 → 加金额、倒计时、支持 App、付款步骤、保存二维码、页内过期态；抽屉固定 60% 屏高</td></tr>
+    <tr><td>B. PawCoin 充值 · 支付中</td><td>features/pawcoin/presentation/recharge_page.dart（_payingView）</td>
+      <td>标题 + 二维码 + 扫码提示 + 倒计时 + 等待中 → 加金额（含到账 koin）、订单号、支持 App、付款步骤、保存二维码</td></tr>
+    <tr><td>C. 问诊计时付费 · 等待付款</td><td>features/consult/presentation/vet_timed_pay_page.dart（_buildAwaitingCash）</td>
+      <td>标题 + 扫码提示 + 二维码 + 订单号 + 取消 → 同 A（5 分钟窗口，倒计时红色）</td></tr>
+  </table>
+
+  <h3>已拍板</h3>
+  <ul>
+    <li>问诊付费页一起改；抽屉保留抽屉形态，<b>高 60% 屏、内部滚动</b>；不补 PRD，直接出 UI；付款 App 用官方 logo：GoPay / DANA / OVO / ShopeePay / BCA / BRI / Mandiri / BNI / SeaBank 共 9 个 +「lainnya」（见 <code>assets/pay-logos/</code>，App 里要把这 9 张图加进 petgo_app 的 assets）。</li>
+    <li><b>不放 QRIS 官方标识</b>（2026-10-29 产品定）：没找到公开的官方素材与强制展示规定，先不放；产品另找 GemPay 要官方素材与展示规范，拿到后再加在二维码上方。</li>
+    <li>倒计时一律显示（后端每类 QRIS 支付单都有付款窗）；抽屉按倒计时归零自己进入过期态（A4）。</li>
+  </ul>
+
+  <h3>新增文案（印尼语，需加进 app_id.arb / app_en.arb）</h3>
+  <table>
+    <tr><th style="width:30%">印尼语</th><th style="width:30%">英语</th><th>用在</th></tr>
+    <tr><td>Total pembayaran</td><td>Total payment</td><td>金额标签（A/B/C）</td></tr>
+    <tr><td>Bayar dalam</td><td>Pay within</td><td>倒计时标签</td></tr>
+    <tr><td>Batas bayar {time}</td><td>Pay by {time}</td><td>倒计时下方到期时刻。{time} 规则见下方「到期时刻怎么显示」</td></tr>
+    <tr><td>Nomor Pesanan</td><td>—</td><td>复用 orderNumberLabel</td></tr>
+    <tr><td>Bisa dibayar pakai</td><td>Pay with</td><td>支持 App 小节标题</td></tr>
+    <tr><td>+ lainnya</td><td>+ more</td><td>logo 行末尾</td></tr>
+    <tr><td>Cara bayar</td><td>How to pay</td><td>步骤小节标题</td></tr>
+    <tr><td>Simpan atau screenshot kode QR ini.</td><td>Save or screenshot this QR code.</td><td>步骤 1</td></tr>
+    <tr><td>Buka m-banking atau e-wallet yang mendukung QRIS, lalu pindai atau unggah kode QR dari galeri.</td><td>Open a QRIS-enabled banking or e-wallet app, then scan or upload the QR code from your gallery.</td><td>步骤 2</td></tr>
+    <tr><td>Cek nominalnya sudah sesuai, lalu selesaikan pembayaran.</td><td>Check the amount, then complete the payment.</td><td>步骤 3</td></tr>
+    <tr><td>Status pembayaran diperbarui otomatis setelah berhasil.</td><td>Your payment status updates automatically once it succeeds.</td><td>步骤 4</td></tr>
+    <tr><td>Kode QR berlaku sampai {time}. Kalau lewat, buat pembayaran baru.</td><td>This QR code is valid until {time}. After that, start a new payment.</td><td>步骤 5</td></tr>
+    <tr><td>Simpan Kode QR</td><td>Save QR Code</td><td>吸底主按钮</td></tr>
+    <tr><td>Akses foto diperlukan untuk menyimpan kode QR. Aktifkan di Pengaturan.</td><td>Photo access is needed to save the QR code. Turn it on in Settings.</td><td>A3 权限对话框正文（标题 / 按钮复用 mediaPermissionDeniedTitle / commonCancel / mediaOpenSettings）</td></tr>
+    <tr><td>Buat pembayaran baru untuk melanjutkan.</td><td>Start a new payment to continue.</td><td>A4 过期蒙层副文案（标题复用 rechargeExpiredTitle）</td></tr>
+    <tr><td>Kedaluwarsa</td><td>Expired</td><td>A4 倒计时下方</td></tr>
+  </table>
+  <p style="color:var(--page-ink-2);margin:6px 0 0">复用：Menunggu pembayaran…（vetPayProcessing / rechargeWaiting）、Batalkan Pembayaran（vetPayCancel）、Tersimpan ke galeri（cardSavedToGallery）、Tersalin（commonCopied）、Tutup（commonClose）、= {n} koin（充值档位卡同款）。原「Pindai QR untuk membayar」提示并入步骤 2，不再单独显示。</p>
+
+  <h3>到期时刻怎么显示（{time}，不是写死的）</h3>
+  <ul>
+    <li><b>数据来源</b>：每笔支付单后端下发的 <code>expiresAt</code>（UTC），App 换成<b>手机本地时区</b>显示。印尼有 WIB / WITA / WIT 三个时区，按手机设置走，文字里不带时区后缀。</li>
+    <li><b>格式</b>：到期在今天 → 只显示时分 <code>HH:mm</code>（如「12:24」）；到期跨天（如 23:30 下单、60 分钟窗口）→ <code>d MMM, HH:mm</code>，月份用印尼语缩写（如「30 Okt, 00:30」）。24 小时制。</li>
+    <li><b>用在 3 处</b>：金额卡「Batas bayar {time}」、步骤 5「Kode QR berlaku sampai {time}…」、S1 保存图片（图片会被留着以后看，<b>固定带年月日</b>：<code>d MMM yyyy, HH:mm</code>，如「29 Okt 2026, 12:24」）。</li>
+    <li>倒计时数字（59:43）同样由 <code>expiresAt − 当前时间</code> 每秒算，不是固定 60 分钟起算（同一笔单关掉再打开，剩余时间接着走）。稿里所有时间都是示例值。</li>
+  </ul>
+
+  <h3>实现要点</h3>
+  <ul>
+    <li><b>抽屉接口</b>：<code>showQrPaymentSheet</code> 新增两个<b>可选</b>具名参数 <code>amountIdr</code>、<code>expiresAt</code>（保持「新能力一律走可选参数」的既有约定，返回类型 <code>Future&lt;bool&gt;</code> 不变）。没传时对应行不显示，不阻塞灰度。</li>
+    <li><b>后端</b>：充值 / 商城已下发 <code>expiresAt</code>；送礼 / 纪念品 / 名额 / 身份证高清 / AI 解锁 / 问诊 6 类需在下单响应里补 <code>expiresAt</code>（payment_intents.expires_at 已有值）。</li>
+    <li><b>保存图片</b>：按 S1 规格把二维码 + 金额 + 订单号 + 有效期渲染成 PNG（复用 shared/card_render 的导出方式），<code>Gal.putImageBytes</code> 写相册；权限被拒走 <code>shared/utils/media_permission.dart</code> 对话框。</li>
+    <li><b>抽屉高度</b>：固定 60% 屏高，内容 <code>SingleChildScrollView</code>，按钮区固定在底部、带 SafeArea。</li>
+    <li><b>过期</b>：抽屉内 1 秒心跳算剩余时间（照 recharge_page 的 _displayTimer），归零切 A4 并停轮询；后端 Aborted 照旧优先。</li>
+  </ul>
+
+  <h3>待确认</h3>
+  <div class="q">
+    1. C3 问诊过期：默认保持现状（Toast 后离开）。
+  </div>
+</div>
+
+<div class="lane"><h2>A · QRIS 支付抽屉（通用，5 处共用）</h2><p class="desc">现金一次性购买弹出的底部抽屉，高 60% 屏、内部滚动、按钮吸底。改一次，送礼 / 纪念品·名额 / 身份证高清 / 商城 / AI 解锁 同时生效。</p><div class="flow"><em>主路径：</em><i>由各业务「选渠道」抽屉选 QRIS →</i> <s>A1</s> 等待付款 <i>→ 到账 → 抽屉自动关闭，回业务页（各业务原有成功态）</i><span class="nl"></span><em>保存二维码：</em><s>A1</s> 点「Simpan Kode QR」<i>→</i> <s>A2</s> 保存成功 <i>／ 相册权限被拒 →</i> <s>A3</s> 去设置对话框 <i>；保存出来的图片见</i> <s>S1</s><span class="nl"></span><em>退出：</em><s>A1</s> 点「Batalkan Pembayaran」<i>→ 抽屉关闭（现有逻辑）；</i> 倒计时归零 <i>→</i> <s>A4</s> 已过期 <i>→ 点「Tutup」关闭</i><span class="nl"></span><em>变体：</em><s>A5</s> A1 内部滚动到底（同一屏）</div>
+<div class="frames"><div><span class="frame-tag"><b>A1</b>等待付款 · 抽屉首屏<span class="k chg">改</span></span>
+<div class="phone-shell"><div class="phone-screen"><div class="sb"><span>11:24</span><span class="sbr"><i></i><i></i><i></i><b></b></span></div><div class="appbar"><div class="back"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2E2A45" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></div><div class="title">Detail Pesanan</div></div>
+<div class="body bg-page">
+  <div class="bgcard"><div class="bgst">Menunggu pembayaran</div><div class="bgl w70"></div></div>
+  <div class="bgcard row"><div class="bgimg"></div><div style="flex:1"><div class="bgl w80"></div><div class="bgl w40"></div><div class="bgl w30 mt"></div></div></div>
+  <div class="bgcard"><div class="bgl w50"></div><div class="bgl w90"></div><div class="bgl w60"></div></div>
+</div>
+<div class="bottom"><div class="btn">Bayar Sekarang</div></div>
+<div class="scrim"></div>
+<div class="sheet55">
+  <div class="handle"></div>
+  <div class="sscroll"><div class="sin"><div class="shead"><div><div class="slab">Total pembayaran</div><div class="samt sm">Rp52.000</div></div><div class="sr"><div class="slab">Bayar dalam</div><div class="cd sm">59:43</div></div></div><div class="qrc">
+  <div class="qrwrap" style="width:168px;height:168px"><img src="assets/qr-sample.svg" alt=""></div>
+  <div class="ref">Nomor Pesanan: <b>TP2610290842</b><span class="cp"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#845EC9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg></span></div>
+  <div class="wait"><i class="spin"></i>Menunggu pembayaran…</div>
+</div><div class="blk"><div class="bt">Bisa dibayar pakai</div>
+  <div class="logos"><span class="lg"><img src="assets/pay-logos/web/Gopay.png" alt="Gopay"></span><span class="lg"><img src="assets/pay-logos/web/Dana.png" alt="Dana"></span><span class="lg"><img src="assets/pay-logos/web/Ovo.png" alt="Ovo"></span><span class="lg"><img src="assets/pay-logos/web/Shopeepay.png" alt="Shopeepay"></span><span class="lg"><img src="assets/pay-logos/web/BCA.png" alt="BCA"></span><span class="lg"><img src="assets/pay-logos/web/BRI.png" alt="BRI"></span><span class="lg"><img src="assets/pay-logos/web/Mandiri.png" alt="Mandiri"></span><span class="lg"><img src="assets/pay-logos/web/BNI.png" alt="BNI"></span><span class="lg"><img src="assets/pay-logos/web/Seabank.png" alt="Seabank"></span><span class="more">+ lainnya</span></div></div><div class="blk"><div class="bt">Cara bayar</div><ol class="steps"><li><span class="n">1</span><span>Simpan atau screenshot kode QR ini.</span></li><li><span class="n">2</span><span>Buka m-banking atau e-wallet yang mendukung QRIS, lalu pindai atau unggah kode QR dari galeri.</span></li><li><span class="n">3</span><span>Cek nominalnya sudah sesuai, lalu selesaikan pembayaran.</span></li><li><span class="n">4</span><span>Status pembayaran diperbarui otomatis setelah berhasil.</span></li><li><span class="n">5</span><span>Kode QR berlaku sampai 12:24. Kalau lewat, buat pembayaran baru.</span></li></ol></div></div></div>
+  <div class="bottom"><div class="btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg><span>Simpan Kode QR</span></div><div class="tbtn">Batalkan Pembayaran</div></div>
+</div></div></div>
+<div class="frame-cap">抽屉高 60% 屏，内部滚动。首屏优先露出：金额 + 倒计时（一行）→ 二维码 → 订单号 → 等待中。按钮吸底：「Simpan Kode QR」主按钮 +「Batalkan Pembayaran」红色文字按钮（原红色描边按钮，改为文字按钮省高度）。背后是业务页示意（此处以商城订单详情为例，5 个调用方各自不同，本次不改）。</div></div><div><span class="frame-tag"><b>A5</b>抽屉滚到底<span class="k chg">变体</span></span>
+<div class="phone-shell"><div class="phone-screen"><div class="sb"><span>11:24</span><span class="sbr"><i></i><i></i><i></i><b></b></span></div><div class="appbar"><div class="back"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2E2A45" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></div><div class="title">Detail Pesanan</div></div>
+<div class="body bg-page">
+  <div class="bgcard"><div class="bgst">Menunggu pembayaran</div><div class="bgl w70"></div></div>
+  <div class="bgcard row"><div class="bgimg"></div><div style="flex:1"><div class="bgl w80"></div><div class="bgl w40"></div><div class="bgl w30 mt"></div></div></div>
+  <div class="bgcard"><div class="bgl w50"></div><div class="bgl w90"></div><div class="bgl w60"></div></div>
+</div>
+<div class="bottom"><div class="btn">Bayar Sekarang</div></div>
+<div class="scrim"></div>
+<div class="sheet55">
+  <div class="handle"></div>
+  <div class="sscroll scrolled"><div class="sin"><div class="shead"><div><div class="slab">Total pembayaran</div><div class="samt sm">Rp52.000</div></div><div class="sr"><div class="slab">Bayar dalam</div><div class="cd sm">59:43</div></div></div><div class="qrc">
+  <div class="qrwrap" style="width:168px;height:168px"><img src="assets/qr-sample.svg" alt=""></div>
+  <div class="ref">Nomor Pesanan: <b>TP2610290842</b><span class="cp"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#845EC9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg></span></div>
+  <div class="wait"><i class="spin"></i>Menunggu pembayaran…</div>
+</div><div class="blk"><div class="bt">Bisa dibayar pakai</div>
+  <div class="logos"><span class="lg"><img src="assets/pay-logos/web/Gopay.png" alt="Gopay"></span><span class="lg"><img src="assets/pay-logos/web/Dana.png" alt="Dana"></span><span class="lg"><img src="assets/pay-logos/web/Ovo.png" alt="Ovo"></span><span class="lg"><img src="assets/pay-logos/web/Shopeepay.png" alt="Shopeepay"></span><span class="lg"><img src="assets/pay-logos/web/BCA.png" alt="BCA"></span><span class="lg"><img src="assets/pay-logos/web/BRI.png" alt="BRI"></span><span class="lg"><img src="assets/pay-logos/web/Mandiri.png" alt="Mandiri"></span><span class="lg"><img src="assets/pay-logos/web/BNI.png" alt="BNI"></span><span class="lg"><img src="assets/pay-logos/web/Seabank.png" alt="Seabank"></span><span class="more">+ lainnya</span></div></div><div class="blk"><div class="bt">Cara bayar</div><ol class="steps"><li><span class="n">1</span><span>Simpan atau screenshot kode QR ini.</span></li><li><span class="n">2</span><span>Buka m-banking atau e-wallet yang mendukung QRIS, lalu pindai atau unggah kode QR dari galeri.</span></li><li><span class="n">3</span><span>Cek nominalnya sudah sesuai, lalu selesaikan pembayaran.</span></li><li><span class="n">4</span><span>Status pembayaran diperbarui otomatis setelah berhasil.</span></li><li><span class="n">5</span><span>Kode QR berlaku sampai 12:24. Kalau lewat, buat pembayaran baru.</span></li></ol></div></div></div>
+  <div class="bottom"><div class="btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg><span>Simpan Kode QR</span></div><div class="tbtn">Batalkan Pembayaran</div></div>
+</div></div></div>
+<div class="frame-cap">同 A1 的同一屏，内部滚到底：订单号（点复制图标复制，复用「Tersalin」Toast）、等待中状态、支持的付款 App、5 条付款步骤。按钮始终吸底。</div></div><div><span class="frame-tag"><b>A2</b>保存成功<span class="k new">新</span></span>
+<div class="phone-shell"><div class="phone-screen"><div class="sb"><span>11:24</span><span class="sbr"><i></i><i></i><i></i><b></b></span></div><div class="appbar"><div class="back"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2E2A45" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></div><div class="title">Detail Pesanan</div></div>
+<div class="body bg-page">
+  <div class="bgcard"><div class="bgst">Menunggu pembayaran</div><div class="bgl w70"></div></div>
+  <div class="bgcard row"><div class="bgimg"></div><div style="flex:1"><div class="bgl w80"></div><div class="bgl w40"></div><div class="bgl w30 mt"></div></div></div>
+  <div class="bgcard"><div class="bgl w50"></div><div class="bgl w90"></div><div class="bgl w60"></div></div>
+</div>
+<div class="bottom"><div class="btn">Bayar Sekarang</div></div>
+<div class="scrim"></div>
+<div class="sheet55">
+  <div class="handle"></div>
+  <div class="sscroll"><div class="sin"><div class="shead"><div><div class="slab">Total pembayaran</div><div class="samt sm">Rp52.000</div></div><div class="sr"><div class="slab">Bayar dalam</div><div class="cd sm">59:43</div></div></div><div class="qrc">
+  <div class="qrwrap" style="width:168px;height:168px"><img src="assets/qr-sample.svg" alt=""></div>
+  <div class="ref">Nomor Pesanan: <b>TP2610290842</b><span class="cp"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#845EC9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg></span></div>
+  <div class="wait"><i class="spin"></i>Menunggu pembayaran…</div>
+</div><div class="blk"><div class="bt">Bisa dibayar pakai</div>
+  <div class="logos"><span class="lg"><img src="assets/pay-logos/web/Gopay.png" alt="Gopay"></span><span class="lg"><img src="assets/pay-logos/web/Dana.png" alt="Dana"></span><span class="lg"><img src="assets/pay-logos/web/Ovo.png" alt="Ovo"></span><span class="lg"><img src="assets/pay-logos/web/Shopeepay.png" alt="Shopeepay"></span><span class="lg"><img src="assets/pay-logos/web/BCA.png" alt="BCA"></span><span class="lg"><img src="assets/pay-logos/web/BRI.png" alt="BRI"></span><span class="lg"><img src="assets/pay-logos/web/Mandiri.png" alt="Mandiri"></span><span class="lg"><img src="assets/pay-logos/web/BNI.png" alt="BNI"></span><span class="lg"><img src="assets/pay-logos/web/Seabank.png" alt="Seabank"></span><span class="more">+ lainnya</span></div></div><div class="blk"><div class="bt">Cara bayar</div><ol class="steps"><li><span class="n">1</span><span>Simpan atau screenshot kode QR ini.</span></li><li><span class="n">2</span><span>Buka m-banking atau e-wallet yang mendukung QRIS, lalu pindai atau unggah kode QR dari galeri.</span></li><li><span class="n">3</span><span>Cek nominalnya sudah sesuai, lalu selesaikan pembayaran.</span></li><li><span class="n">4</span><span>Status pembayaran diperbarui otomatis setelah berhasil.</span></li><li><span class="n">5</span><span>Kode QR berlaku sampai 12:24. Kalau lewat, buat pembayaran baru.</span></li></ol></div></div></div>
+  <div class="bottom"><div class="btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg><span>Simpan Kode QR</span></div><div class="tbtn">Batalkan Pembayaran</div></div>
+</div><div class="toast"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Tersimpan ke galeri</span></div></div></div>
+<div class="frame-cap">点「Simpan Kode QR」→ 保存到相册 → Toast（复用现有文案 cardSavedToGallery）。抽屉不关，继续 3 秒轮询。</div></div><div><span class="frame-tag"><b>A3</b>相册权限被拒<span class="k new">新</span></span>
+<div class="phone-shell"><div class="phone-screen"><div class="sb"><span>11:24</span><span class="sbr"><i></i><i></i><i></i><b></b></span></div><div class="appbar"><div class="back"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2E2A45" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></div><div class="title">Detail Pesanan</div></div>
+<div class="body bg-page">
+  <div class="bgcard"><div class="bgst">Menunggu pembayaran</div><div class="bgl w70"></div></div>
+  <div class="bgcard row"><div class="bgimg"></div><div style="flex:1"><div class="bgl w80"></div><div class="bgl w40"></div><div class="bgl w30 mt"></div></div></div>
+  <div class="bgcard"><div class="bgl w50"></div><div class="bgl w90"></div><div class="bgl w60"></div></div>
+</div>
+<div class="bottom"><div class="btn">Bayar Sekarang</div></div>
+<div class="scrim"></div>
+<div class="sheet55">
+  <div class="handle"></div>
+  <div class="sscroll"><div class="sin"><div class="shead"><div><div class="slab">Total pembayaran</div><div class="samt sm">Rp52.000</div></div><div class="sr"><div class="slab">Bayar dalam</div><div class="cd sm">59:43</div></div></div><div class="qrc">
+  <div class="qrwrap" style="width:168px;height:168px"><img src="assets/qr-sample.svg" alt=""></div>
+  <div class="ref">Nomor Pesanan: <b>TP2610290842</b><span class="cp"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#845EC9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg></span></div>
+  <div class="wait"><i class="spin"></i>Menunggu pembayaran…</div>
+</div><div class="blk"><div class="bt">Bisa dibayar pakai</div>
+  <div class="logos"><span class="lg"><img src="assets/pay-logos/web/Gopay.png" alt="Gopay"></span><span class="lg"><img src="assets/pay-logos/web/Dana.png" alt="Dana"></span><span class="lg"><img src="assets/pay-logos/web/Ovo.png" alt="Ovo"></span><span class="lg"><img src="assets/pay-logos/web/Shopeepay.png" alt="Shopeepay"></span><span class="lg"><img src="assets/pay-logos/web/BCA.png" alt="BCA"></span><span class="lg"><img src="assets/pay-logos/web/BRI.png" alt="BRI"></span><span class="lg"><img src="assets/pay-logos/web/Mandiri.png" alt="Mandiri"></span><span class="lg"><img src="assets/pay-logos/web/BNI.png" alt="BNI"></span><span class="lg"><img src="assets/pay-logos/web/Seabank.png" alt="Seabank"></span><span class="more">+ lainnya</span></div></div><div class="blk"><div class="bt">Cara bayar</div><ol class="steps"><li><span class="n">1</span><span>Simpan atau screenshot kode QR ini.</span></li><li><span class="n">2</span><span>Buka m-banking atau e-wallet yang mendukung QRIS, lalu pindai atau unggah kode QR dari galeri.</span></li><li><span class="n">3</span><span>Cek nominalnya sudah sesuai, lalu selesaikan pembayaran.</span></li><li><span class="n">4</span><span>Status pembayaran diperbarui otomatis setelah berhasil.</span></li><li><span class="n">5</span><span>Kode QR berlaku sampai 12:24. Kalau lewat, buat pembayaran baru.</span></li></ol></div></div></div>
+  <div class="bottom"><div class="btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg><span>Simpan Kode QR</span></div><div class="tbtn">Batalkan Pembayaran</div></div>
+</div><div class="scrim2"></div><div class="dlg">
+  <div class="dic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#845EC9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></div>
+  <div class="dt">Perlu izin</div>
+  <div class="dm">Akses foto diperlukan untuk menyimpan kode QR. Aktifkan di Pengaturan.</div>
+  <div class="dbtns"><span class="dno">Batal</span><span class="dyes">Buka Pengaturan</span></div>
+</div></div></div>
+<div class="frame-cap">首次会先弹系统权限框；被拒后再点保存，弹 App 内对话框（复用 shared/utils/media_permission.dart 的「Perlu izin」对话框，只换正文）。「Buka Pengaturan」跳系统设置。</div></div><div><span class="frame-tag"><b>A4</b>二维码已过期<span class="k new">新</span></span>
+<div class="phone-shell"><div class="phone-screen"><div class="sb"><span>11:24</span><span class="sbr"><i></i><i></i><i></i><b></b></span></div><div class="appbar"><div class="back"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2E2A45" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></div><div class="title">Detail Pesanan</div></div>
+<div class="body bg-page">
+  <div class="bgcard"><div class="bgst">Menunggu pembayaran</div><div class="bgl w70"></div></div>
+  <div class="bgcard row"><div class="bgimg"></div><div style="flex:1"><div class="bgl w80"></div><div class="bgl w40"></div><div class="bgl w30 mt"></div></div></div>
+  <div class="bgcard"><div class="bgl w50"></div><div class="bgl w90"></div><div class="bgl w60"></div></div>
+</div>
+<div class="bottom"><div class="btn">Bayar Sekarang</div></div>
+<div class="scrim"></div>
+<div class="sheet55">
+  <div class="handle"></div>
+  <div class="sscroll"><div class="sin"><div class="shead"><div><div class="slab">Total pembayaran</div><div class="samt sm">Rp52.000</div></div><div class="sr"><div class="slab">Bayar dalam</div><div class="cd sm exp">00:00</div></div></div><div class="qrc">
+  <div class="qrwrap dim" style="width:168px;height:168px"><img src="assets/qr-sample.svg" alt=""><div class="qrexp"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#544864" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2h4"/><path d="M4.6 11a8 8 0 0 0 11.8 9.2"/><path d="M19.4 16A8 8 0 0 0 8.6 5.2"/><path d="M12 6v2"/><path d="M2 2l20 20"/></svg><b>Pembayaran kedaluwarsa</b><span>Buat pembayaran baru untuk melanjutkan.</span></div></div>
+  <div class="ref">Nomor Pesanan: <b>TP2610290842</b><span class="cp"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#845EC9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg></span></div>
+  
+</div><div class="blk"><div class="bt">Bisa dibayar pakai</div>
+  <div class="logos"><span class="lg"><img src="assets/pay-logos/web/Gopay.png" alt="Gopay"></span><span class="lg"><img src="assets/pay-logos/web/Dana.png" alt="Dana"></span><span class="lg"><img src="assets/pay-logos/web/Ovo.png" alt="Ovo"></span><span class="lg"><img src="assets/pay-logos/web/Shopeepay.png" alt="Shopeepay"></span><span class="lg"><img src="assets/pay-logos/web/BCA.png" alt="BCA"></span><span class="lg"><img src="assets/pay-logos/web/BRI.png" alt="BRI"></span><span class="lg"><img src="assets/pay-logos/web/Mandiri.png" alt="Mandiri"></span><span class="lg"><img src="assets/pay-logos/web/BNI.png" alt="BNI"></span><span class="lg"><img src="assets/pay-logos/web/Seabank.png" alt="Seabank"></span><span class="more">+ lainnya</span></div></div><div class="blk"><div class="bt">Cara bayar</div><ol class="steps"><li><span class="n">1</span><span>Simpan atau screenshot kode QR ini.</span></li><li><span class="n">2</span><span>Buka m-banking atau e-wallet yang mendukung QRIS, lalu pindai atau unggah kode QR dari galeri.</span></li><li><span class="n">3</span><span>Cek nominalnya sudah sesuai, lalu selesaikan pembayaran.</span></li><li><span class="n">4</span><span>Status pembayaran diperbarui otomatis setelah berhasil.</span></li><li><span class="n">5</span><span>Kode QR berlaku sampai 12:24. Kalau lewat, buat pembayaran baru.</span></li></ol></div></div></div>
+  <div class="bottom"><div class="btn ghost">Tutup</div></div>
+</div></div></div>
+<div class="frame-cap">倒计时归零由抽屉自己进入：倒计时变 00:00 灰、二维码蒙白并提示过期、等待中消失、按钮只剩「Tutup」。送礼 / 商城原有的过期 Toast（paymentExpiredRetry）照旧在关闭后弹。</div></div><div><span class="frame-tag"><b>S1</b>保存到相册的图片<span class="k keep">规格</span></span>
+<div class="spec-shell"><div class="saved">
+  <div class="sv-brand">TailTopia</div>
+  <div class="qrwrap" style="width:220px;height:220px;margin:6px auto 0"><img src="assets/qr-sample.svg" alt=""></div>
+  <div class="sv-amt">Rp52.000</div>
+  <div class="sv-row">Nomor Pesanan: TP2610290842</div>
+  <div class="sv-row">Berlaku sampai 29 Okt 2026, 12:24</div>
+</div></div>
+<div class="frame-cap">规格图（不是 App 页面）：保存的不是裸二维码截图，而是一张带信息的图：品牌名 + 二维码 + 金额 + 订单号 + 有效期。用户在别的 App 里扫 / 上传时也能核对金额和期限。宽 1080px 导出。</div></div></div></div>
+<div class="lane"><h2>B · PawCoin 充值页（整页）</h2><p class="desc">「我的 → PawCoin → 充值」。只改「支付中」这一态，其余照搬现状。</p><div class="flow"><em>主路径：</em><s>B0</s> 选档位，点「Lanjutkan Pembayaran」 <i>→</i> <s>B1</s> 支付中 <i>→ 到账 → 自动返回 PawCoin 余额页（现有）</i><span class="nl"></span><em>保存二维码：</em><s>B1</s> <i>→</i> <s>B2</s> 保存成功 <i>／</i> <s>B3</s> 相册权限被拒<span class="nl"></span><em>异常：</em><s>B1</s> 60 分钟到期 <i>→</i> <s>B4</s> 已过期（点「Coba lagi」回 B0） <i>／ 后端返回失败 →</i> <s>B5</s> 付款未完成<span class="nl"></span><em>变体：</em><s>B1b</s> B1 滚到底（同一屏） <i>／</i> <s>B6</s> 测试环境无二维码（替代 B1）<span class="nl"></span><em>不在本次改动：</em>加载中 / 暂停充值 / 档位加载失败（现有 3 态，不画）</div>
+<div class="frames"><div><span class="frame-tag"><b>B0</b>选档位<span class="k keep">现有</span></span>
+<div class="phone-shell"><div class="phone-screen"><div class="sb"><span>11:24</span><span class="sbr"><i></i><i></i><i></i><b></b></span></div><div class="appbar"><div class="back"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2E2A45" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></div><div class="title">Isi Saldo PawCoin</div></div>
+<div class="body">
+  <div class="lab">Pilih nominal</div>
+  <div class="tiers">
+    <div class="tier on"><b>Rp10.000</b><span>= 10.000 koin</span></div>
+    <div class="tier"><b>Rp25.000</b><span>= 25.000 koin</span></div>
+    <div class="tier"><b>Rp50.000</b><span>= 50.000 koin</span></div>
+    <div class="tier"><b>Rp100.000</b><span>= 100.000 koin</span></div>
+  </div>
+  <div class="lab" style="margin-top:24px">Metode pembayaran</div>
+  <div class="chip on">QRIS</div>
+  <div class="btn" style="margin-top:32px">Lanjutkan Pembayaran</div>
+</div></div></div>
+<div class="frame-cap">入口屏，不改（照搬现状：4 档 10k / 25k / 50k / 100k、仅 QRIS）。</div></div><div><span class="frame-tag"><b>B1</b>支付中 · 首屏<span class="k chg">改</span></span>
+<div class="phone-shell"><div class="phone-screen"><div class="sb"><span>11:24</span><span class="sbr"><i></i><i></i><i></i><b></b></span></div><div class="appbar"><div class="back"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2E2A45" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></div><div class="title">Isi Saldo PawCoin</div></div>
+<div class="body scroll"><div class="fin">
+  <div class="h1">Selesaikan pembayaran</div>
+  <div class="sum">
+  <div class="sl"><div class="slab">Total pembayaran</div><div class="samt">Rp50.000</div><div class="ssub">= 50.000 koin</div></div>
+  <div class="sr"><div class="slab">Bayar dalam</div><div class="cd">59:43</div><div class="sdl">Batas bayar 12:24</div></div>
+</div>
+  <div class="qrc">
+  <div class="qrwrap" style="width:196px;height:196px"><img src="assets/qr-sample.svg" alt=""></div>
+  <div class="ref">Nomor Pesanan: <b>TP2610290842</b><span class="cp"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#845EC9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg></span></div>
+  <div class="wait"><i class="spin"></i>Menunggu pembayaran…</div>
+</div>
+  <div class="blk"><div class="bt">Bisa dibayar pakai</div>
+  <div class="logos"><span class="lg"><img src="assets/pay-logos/web/Gopay.png" alt="Gopay"></span><span class="lg"><img src="assets/pay-logos/web/Dana.png" alt="Dana"></span><span class="lg"><img src="assets/pay-logos/web/Ovo.png" alt="Ovo"></span><span class="lg"><img src="assets/pay-logos/web/Shopeepay.png" alt="Shopeepay"></span><span class="lg"><img src="assets/pay-logos/web/BCA.png" alt="BCA"></span><span class="lg"><img src="assets/pay-logos/web/BRI.png" alt="BRI"></span><span class="lg"><img src="assets/pay-logos/web/Mandiri.png" alt="Mandiri"></span><span class="lg"><img src="assets/pay-logos/web/BNI.png" alt="BNI"></span><span class="lg"><img src="assets/pay-logos/web/Seabank.png" alt="Seabank"></span><span class="more">+ lainnya</span></div></div>
+  <div class="blk"><div class="bt">Cara bayar</div><ol class="steps"><li><span class="n">1</span><span>Simpan atau screenshot kode QR ini.</span></li><li><span class="n">2</span><span>Buka m-banking atau e-wallet yang mendukung QRIS, lalu pindai atau unggah kode QR dari galeri.</span></li><li><span class="n">3</span><span>Cek nominalnya sudah sesuai, lalu selesaikan pembayaran.</span></li><li><span class="n">4</span><span>Status pembayaran diperbarui otomatis setelah berhasil.</span></li><li><span class="n">5</span><span>Kode QR berlaku sampai 12:24. Kalau lewat, buat pembayaran baru.</span></li></ol></div>
+</div></div>
+<div class="bottom"><div class="btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg><span>Simpan Kode QR</span></div></div></div></div>
+<div class="frame-cap">原有 4 项全部保留（标题 / 二维码 / 扫码提示→并入步骤 / 倒计时 / 等待中）。新增：金额卡（含到账 koin）、订单号、支持 App、付款步骤、吸底「Simpan Kode QR」。充值页原本没有取消按钮（返回即离开），本次不加。</div></div><div><span class="frame-tag"><b>B1b</b>支付中 · 滚到底<span class="k chg">变体</span></span>
+<div class="phone-shell"><div class="phone-screen"><div class="sb"><span>11:24</span><span class="sbr"><i></i><i></i><i></i><b></b></span></div><div class="appbar"><div class="back"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2E2A45" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></div><div class="title">Isi Saldo PawCoin</div></div>
+<div class="body scroll scrolled"><div class="fin">
+  <div class="h1">Selesaikan pembayaran</div>
+  <div class="sum">
+  <div class="sl"><div class="slab">Total pembayaran</div><div class="samt">Rp50.000</div><div class="ssub">= 50.000 koin</div></div>
+  <div class="sr"><div class="slab">Bayar dalam</div><div class="cd">59:43</div><div class="sdl">Batas bayar 12:24</div></div>
+</div>
+  <div class="qrc">
+  <div class="qrwrap" style="width:196px;height:196px"><img src="assets/qr-sample.svg" alt=""></div>
+  <div class="ref">Nomor Pesanan: <b>TP2610290842</b><span class="cp"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#845EC9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg></span></div>
+  <div class="wait"><i class="spin"></i>Menunggu pembayaran…</div>
+</div>
+  <div class="blk"><div class="bt">Bisa dibayar pakai</div>
+  <div class="logos"><span class="lg"><img src="assets/pay-logos/web/Gopay.png" alt="Gopay"></span><span class="lg"><img src="assets/pay-logos/web/Dana.png" alt="Dana"></span><span class="lg"><img src="assets/pay-logos/web/Ovo.png" alt="Ovo"></span><span class="lg"><img src="assets/pay-logos/web/Shopeepay.png" alt="Shopeepay"></span><span class="lg"><img src="assets/pay-logos/web/BCA.png" alt="BCA"></span><span class="lg"><img src="assets/pay-logos/web/BRI.png" alt="BRI"></span><span class="lg"><img src="assets/pay-logos/web/Mandiri.png" alt="Mandiri"></span><span class="lg"><img src="assets/pay-logos/web/BNI.png" alt="BNI"></span><span class="lg"><img src="assets/pay-logos/web/Seabank.png" alt="Seabank"></span><span class="more">+ lainnya</span></div></div>
+  <div class="blk"><div class="bt">Cara bayar</div><ol class="steps"><li><span class="n">1</span><span>Simpan atau screenshot kode QR ini.</span></li><li><span class="n">2</span><span>Buka m-banking atau e-wallet yang mendukung QRIS, lalu pindai atau unggah kode QR dari galeri.</span></li><li><span class="n">3</span><span>Cek nominalnya sudah sesuai, lalu selesaikan pembayaran.</span></li><li><span class="n">4</span><span>Status pembayaran diperbarui otomatis setelah berhasil.</span></li><li><span class="n">5</span><span>Kode QR berlaku sampai 12:24. Kalau lewat, buat pembayaran baru.</span></li></ol></div>
+</div></div>
+<div class="bottom"><div class="btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg><span>Simpan Kode QR</span></div></div></div></div>
+<div class="frame-cap">同 B1 的同一屏，滚到底：支付 App + 5 条「Cara bayar」付款步骤，「Simpan Kode QR」始终吸底。</div></div><div><span class="frame-tag"><b>B2</b>保存成功<span class="k new">新</span></span>
+<div class="phone-shell"><div class="phone-screen"><div class="sb"><span>11:24</span><span class="sbr"><i></i><i></i><i></i><b></b></span></div><div class="appbar"><div class="back"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2E2A45" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></div><div class="title">Isi Saldo PawCoin</div></div>
+<div class="body scroll"><div class="fin">
+  <div class="h1">Selesaikan pembayaran</div>
+  <div class="sum">
+  <div class="sl"><div class="slab">Total pembayaran</div><div class="samt">Rp50.000</div><div class="ssub">= 50.000 koin</div></div>
+  <div class="sr"><div class="slab">Bayar dalam</div><div class="cd">59:41</div><div class="sdl">Batas bayar 12:24</div></div>
+</div>
+  <div class="qrc">
+  <div class="qrwrap" style="width:196px;height:196px"><img src="assets/qr-sample.svg" alt=""></div>
+  <div class="ref">Nomor Pesanan: <b>TP2610290842</b><span class="cp"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#845EC9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg></span></div>
+  <div class="wait"><i class="spin"></i>Menunggu pembayaran…</div>
+</div>
+  <div class="blk"><div class="bt">Bisa dibayar pakai</div>
+  <div class="logos"><span class="lg"><img src="assets/pay-logos/web/Gopay.png" alt="Gopay"></span><span class="lg"><img src="assets/pay-logos/web/Dana.png" alt="Dana"></span><span class="lg"><img src="assets/pay-logos/web/Ovo.png" alt="Ovo"></span><span class="lg"><img src="assets/pay-logos/web/Shopeepay.png" alt="Shopeepay"></span><span class="lg"><img src="assets/pay-logos/web/BCA.png" alt="BCA"></span><span class="lg"><img src="assets/pay-logos/web/BRI.png" alt="BRI"></span><span class="lg"><img src="assets/pay-logos/web/Mandiri.png" alt="Mandiri"></span><span class="lg"><img src="assets/pay-logos/web/BNI.png" alt="BNI"></span><span class="lg"><img src="assets/pay-logos/web/Seabank.png" alt="Seabank"></span><span class="more">+ lainnya</span></div></div>
+  <div class="blk"><div class="bt">Cara bayar</div><ol class="steps"><li><span class="n">1</span><span>Simpan atau screenshot kode QR ini.</span></li><li><span class="n">2</span><span>Buka m-banking atau e-wallet yang mendukung QRIS, lalu pindai atau unggah kode QR dari galeri.</span></li><li><span class="n">3</span><span>Cek nominalnya sudah sesuai, lalu selesaikan pembayaran.</span></li><li><span class="n">4</span><span>Status pembayaran diperbarui otomatis setelah berhasil.</span></li><li><span class="n">5</span><span>Kode QR berlaku sampai 12:24. Kalau lewat, buat pembayaran baru.</span></li></ol></div>
+</div></div>
+<div class="bottom"><div class="btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg><span>Simpan Kode QR</span></div></div><div class="toast"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Tersimpan ke galeri</span></div></div></div>
+<div class="frame-cap">同 A2。页面继续轮询。</div></div><div><span class="frame-tag"><b>B3</b>相册权限被拒<span class="k new">新</span></span>
+<div class="phone-shell"><div class="phone-screen"><div class="sb"><span>11:24</span><span class="sbr"><i></i><i></i><i></i><b></b></span></div><div class="appbar"><div class="back"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2E2A45" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></div><div class="title">Isi Saldo PawCoin</div></div>
+<div class="body scroll"><div class="fin">
+  <div class="h1">Selesaikan pembayaran</div>
+  <div class="sum">
+  <div class="sl"><div class="slab">Total pembayaran</div><div class="samt">Rp50.000</div><div class="ssub">= 50.000 koin</div></div>
+  <div class="sr"><div class="slab">Bayar dalam</div><div class="cd">59:41</div><div class="sdl">Batas bayar 12:24</div></div>
+</div>
+  <div class="qrc">
+  <div class="qrwrap" style="width:196px;height:196px"><img src="assets/qr-sample.svg" alt=""></div>
+  <div class="ref">Nomor Pesanan: <b>TP2610290842</b><span class="cp"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#845EC9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg></span></div>
+  <div class="wait"><i class="spin"></i>Menunggu pembayaran…</div>
+</div>
+  <div class="blk"><div class="bt">Bisa dibayar pakai</div>
+  <div class="logos"><span class="lg"><img src="assets/pay-logos/web/Gopay.png" alt="Gopay"></span><span class="lg"><img src="assets/pay-logos/web/Dana.png" alt="Dana"></span><span class="lg"><img src="assets/pay-logos/web/Ovo.png" alt="Ovo"></span><span class="lg"><img src="assets/pay-logos/web/Shopeepay.png" alt="Shopeepay"></span><span class="lg"><img src="assets/pay-logos/web/BCA.png" alt="BCA"></span><span class="lg"><img src="assets/pay-logos/web/BRI.png" alt="BRI"></span><span class="lg"><img src="assets/pay-logos/web/Mandiri.png" alt="Mandiri"></span><span class="lg"><img src="assets/pay-logos/web/BNI.png" alt="BNI"></span><span class="lg"><img src="assets/pay-logos/web/Seabank.png" alt="Seabank"></span><span class="more">+ lainnya</span></div></div>
+  <div class="blk"><div class="bt">Cara bayar</div><ol class="steps"><li><span class="n">1</span><span>Simpan atau screenshot kode QR ini.</span></li><li><span class="n">2</span><span>Buka m-banking atau e-wallet yang mendukung QRIS, lalu pindai atau unggah kode QR dari galeri.</span></li><li><span class="n">3</span><span>Cek nominalnya sudah sesuai, lalu selesaikan pembayaran.</span></li><li><span class="n">4</span><span>Status pembayaran diperbarui otomatis setelah berhasil.</span></li><li><span class="n">5</span><span>Kode QR berlaku sampai 12:24. Kalau lewat, buat pembayaran baru.</span></li></ol></div>
+</div></div>
+<div class="bottom"><div class="btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg><span>Simpan Kode QR</span></div></div><div class="scrim2"></div><div class="dlg">
+  <div class="dic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#845EC9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></div>
+  <div class="dt">Perlu izin</div>
+  <div class="dm">Akses foto diperlukan untuk menyimpan kode QR. Aktifkan di Pengaturan.</div>
+  <div class="dbtns"><span class="dno">Batal</span><span class="dyes">Buka Pengaturan</span></div>
+</div></div></div>
+<div class="frame-cap">同 A3 组件。</div></div><div><span class="frame-tag"><b>B4</b>已过期<span class="k keep">现有</span></span>
+<div class="phone-shell"><div class="phone-screen"><div class="sb"><span>11:24</span><span class="sbr"><i></i><i></i><i></i><b></b></span></div><div class="appbar"><div class="back"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2E2A45" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></div><div class="title">Isi Saldo PawCoin</div></div>
+<div class="center">
+  <div class="cic"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#9690A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2h4"/><path d="M4.6 11a8 8 0 0 0 11.8 9.2"/><path d="M19.4 16A8 8 0 0 0 8.6 5.2"/><path d="M12 6v2"/><path d="M2 2l20 20"/></svg></div>
+  <div class="ctitle">Pembayaran kedaluwarsa</div>
+  <div class="cmsg">Batas waktu 1 jam sudah lewat. Silakan mulai isi ulang lagi.</div>
+  <div class="btn" style="margin-top:32px;">Coba lagi</div>
+</div></div></div>
+<div class="frame-cap">照搬现状，不改。点「Coba lagi」回 B0。</div></div><div><span class="frame-tag"><b>B5</b>付款未完成<span class="k keep">现有</span></span>
+<div class="phone-shell"><div class="phone-screen"><div class="sb"><span>11:24</span><span class="sbr"><i></i><i></i><i></i><b></b></span></div><div class="appbar"><div class="back"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2E2A45" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></div><div class="title">Isi Saldo PawCoin</div></div>
+<div class="center">
+  <div class="cic"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#9690A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg></div>
+  <div class="ctitle">Pembayaran tidak selesai</div>
+  <div class="cmsg">Saldo tidak berubah, tidak ada catatan.</div>
+  <div class="btn auto" style="margin-top:32px;padding:0 28px">Coba lagi</div>
+</div></div></div>
+<div class="frame-cap">照搬现状，不改。</div></div><div><span class="frame-tag"><b>B6</b>测试环境无二维码<span class="k chg">变体</span></span>
+<div class="phone-shell"><div class="phone-screen"><div class="sb"><span>11:24</span><span class="sbr"><i></i><i></i><i></i><b></b></span></div><div class="appbar"><div class="back"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2E2A45" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></div><div class="title">Isi Saldo PawCoin</div></div>
+<div class="body scroll"><div class="fin">
+  <div class="h1">Selesaikan pembayaran</div>
+  <div class="sum">
+  <div class="sl"><div class="slab">Total pembayaran</div><div class="samt">Rp50.000</div><div class="ssub">= 50.000 koin</div></div>
+  <div class="sr"><div class="slab">Bayar dalam</div><div class="cd">59:43</div><div class="sdl">Batas bayar 12:24</div></div>
+</div>
+  <div class="qrc">
+  <div class="qrstub" style="width:196px;height:196px"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#845EC9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></svg><span>Mode uji — tanpa pembayaran nyata</span></div>
+  <div class="ref">Nomor Pesanan: <b>TP2610290842</b><span class="cp"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#845EC9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg></span></div>
+  <div class="wait"><i class="spin"></i>Menunggu pembayaran…</div>
+</div>
+  <div class="blk"><div class="bt">Bisa dibayar pakai</div>
+  <div class="logos"><span class="lg"><img src="assets/pay-logos/web/Gopay.png" alt="Gopay"></span><span class="lg"><img src="assets/pay-logos/web/Dana.png" alt="Dana"></span><span class="lg"><img src="assets/pay-logos/web/Ovo.png" alt="Ovo"></span><span class="lg"><img src="assets/pay-logos/web/Shopeepay.png" alt="Shopeepay"></span><span class="lg"><img src="assets/pay-logos/web/BCA.png" alt="BCA"></span><span class="lg"><img src="assets/pay-logos/web/BRI.png" alt="BRI"></span><span class="lg"><img src="assets/pay-logos/web/Mandiri.png" alt="Mandiri"></span><span class="lg"><img src="assets/pay-logos/web/BNI.png" alt="BNI"></span><span class="lg"><img src="assets/pay-logos/web/Seabank.png" alt="Seabank"></span><span class="more">+ lainnya</span></div></div>
+  <div class="blk"><div class="bt">Cara bayar</div><ol class="steps"><li><span class="n">1</span><span>Simpan atau screenshot kode QR ini.</span></li><li><span class="n">2</span><span>Buka m-banking atau e-wallet yang mendukung QRIS, lalu pindai atau unggah kode QR dari galeri.</span></li><li><span class="n">3</span><span>Cek nominalnya sudah sesuai, lalu selesaikan pembayaran.</span></li><li><span class="n">4</span><span>Status pembayaran diperbarui otomatis setelah berhasil.</span></li><li><span class="n">5</span><span>Kode QR berlaku sampai 12:24. Kalau lewat, buat pembayaran baru.</span></li></ol></div>
+</div></div>
+<div class="bottom"><div class="btn disabled"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9690A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg><span>Simpan Kode QR</span></div></div></div></div>
+<div class="frame-cap">替代 B1：后端没给 payload（测试环境）时显示占位框，「Simpan Kode QR」置灰。线上用户不会看到。</div></div></div></div>
+<div class="lane"><h2>C · 问诊计时付费页（整页）</h2><p class="desc">兽医接单后的付费页。只改「等待 QRIS 付款」这一态；付款窗 5 分钟。</p><div class="flow"><em>主路径：</em><s>C0</s> 选 QRIS，点「Bayar Rp…」 <i>→</i> <s>C1</s> 等待付款 <i>→ 到账 → 进入问诊（现有）</i><span class="nl"></span><em>保存二维码：</em><s>C1</s> <i>→</i> <s>C2</s> 保存成功 <i>／ 相册权限被拒 → 同 A3，不另画</i><span class="nl"></span><em>退出：</em><s>C1</s> 点「Batalkan Pembayaran」<i>→ 取消并离开（现有）；</i> 5 分钟到期 <i>→</i> <s>C3</s> Toast 后离开（现有）<span class="nl"></span><em>变体：</em><s>C1b</s> C1 滚到底（同一屏）</div>
+<div class="frames"><div><span class="frame-tag"><b>C0</b>选渠道<span class="k keep">现有</span></span>
+<div class="phone-shell"><div class="phone-screen"><div class="sb"><span>11:24</span><span class="sbr"><i></i><i></i><i></i><b></b></span></div><div class="appbar"><div class="nob"></div><div class="title">Selesaikan pembayaran</div></div>
+<div class="body">
+  <div class="vsub">Dokter sudah menerima permintaanmu. Selesaikan pembayaran untuk memulai obrolan.</div>
+  <div class="vcd">04:52</div>
+  <div class="lab">Pilih metode pembayaran</div>
+  <div class="tile"><div class="tic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#845EC9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 9.5c0-1 1-1.8 3-1.8s3 .8 3 1.8-1 1.6-3 1.9-3 .9-3 2 1 1.9 3 1.9 3-.8 3-1.9"/><path d="M12 6v1.7M12 16.3V18"/></svg></div><div class="ttx"><b>PawCoin</b><span>Saldo: 12.000 koin</span></div><i class="rad"></i></div>
+  <div class="tile on"><div class="tic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#845EC9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></svg></div><div class="ttx"><b>QRIS</b><span>QRIS</span></div><i class="rad on"></i></div>
+</div>
+<div class="bottom"><div class="btn">Bayar Rp25.000</div></div></div></div>
+<div class="frame-cap">入口屏，不改（照搬现状：无返回键，返回 = 取消请求）。价格为后台配置，图中 Rp25.000 为示例。</div></div><div><span class="frame-tag"><b>C1</b>等待付款 · 首屏<span class="k chg">改</span></span>
+<div class="phone-shell"><div class="phone-screen"><div class="sb"><span>11:24</span><span class="sbr"><i></i><i></i><i></i><b></b></span></div><div class="appbar"><div class="nob"></div><div class="title">Selesaikan pembayaran</div></div>
+<div class="body scroll"><div class="fin">
+  
+  <div class="sum">
+  <div class="sl"><div class="slab">Total pembayaran</div><div class="samt">Rp25.000</div></div>
+  <div class="sr"><div class="slab">Bayar dalam</div><div class="cd urg">04:32</div><div class="sdl">Batas bayar 11:29</div></div>
+</div>
+  <div class="qrc">
+  <div class="qrwrap" style="width:196px;height:196px"><img src="assets/qr-sample.svg" alt=""></div>
+  <div class="ref">Nomor Pesanan: <b>TP2610290842</b><span class="cp"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#845EC9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg></span></div>
+  <div class="wait"><i class="spin"></i>Menunggu pembayaran…</div>
+</div>
+  <div class="blk"><div class="bt">Bisa dibayar pakai</div>
+  <div class="logos"><span class="lg"><img src="assets/pay-logos/web/Gopay.png" alt="Gopay"></span><span class="lg"><img src="assets/pay-logos/web/Dana.png" alt="Dana"></span><span class="lg"><img src="assets/pay-logos/web/Ovo.png" alt="Ovo"></span><span class="lg"><img src="assets/pay-logos/web/Shopeepay.png" alt="Shopeepay"></span><span class="lg"><img src="assets/pay-logos/web/BCA.png" alt="BCA"></span><span class="lg"><img src="assets/pay-logos/web/BRI.png" alt="BRI"></span><span class="lg"><img src="assets/pay-logos/web/Mandiri.png" alt="Mandiri"></span><span class="lg"><img src="assets/pay-logos/web/BNI.png" alt="BNI"></span><span class="lg"><img src="assets/pay-logos/web/Seabank.png" alt="Seabank"></span><span class="more">+ lainnya</span></div></div>
+  <div class="blk"><div class="bt">Cara bayar</div><ol class="steps"><li><span class="n">1</span><span>Simpan atau screenshot kode QR ini.</span></li><li><span class="n">2</span><span>Buka m-banking atau e-wallet yang mendukung QRIS, lalu pindai atau unggah kode QR dari galeri.</span></li><li><span class="n">3</span><span>Cek nominalnya sudah sesuai, lalu selesaikan pembayaran.</span></li><li><span class="n">4</span><span>Status pembayaran diperbarui otomatis setelah berhasil.</span></li><li><span class="n">5</span><span>Kode QR berlaku sampai 11:29. Kalau lewat, buat pembayaran baru.</span></li></ol></div>
+</div></div>
+<div class="bottom"><div class="btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg><span>Simpan Kode QR</span></div><div class="tbtn">Batalkan Pembayaran</div></div></div></div>
+<div class="frame-cap">原有 5 项全部保留（等待中 / 扫码提示→并入步骤 / 二维码 / 订单号 / 取消按钮）。新增同 A1；付款窗只有 5 分钟，倒计时用红色强调。</div></div><div><span class="frame-tag"><b>C1b</b>等待付款 · 滚到底<span class="k chg">变体</span></span>
+<div class="phone-shell"><div class="phone-screen"><div class="sb"><span>11:24</span><span class="sbr"><i></i><i></i><i></i><b></b></span></div><div class="appbar"><div class="nob"></div><div class="title">Selesaikan pembayaran</div></div>
+<div class="body scroll scrolled"><div class="fin">
+  
+  <div class="sum">
+  <div class="sl"><div class="slab">Total pembayaran</div><div class="samt">Rp25.000</div></div>
+  <div class="sr"><div class="slab">Bayar dalam</div><div class="cd urg">04:32</div><div class="sdl">Batas bayar 11:29</div></div>
+</div>
+  <div class="qrc">
+  <div class="qrwrap" style="width:196px;height:196px"><img src="assets/qr-sample.svg" alt=""></div>
+  <div class="ref">Nomor Pesanan: <b>TP2610290842</b><span class="cp"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#845EC9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg></span></div>
+  <div class="wait"><i class="spin"></i>Menunggu pembayaran…</div>
+</div>
+  <div class="blk"><div class="bt">Bisa dibayar pakai</div>
+  <div class="logos"><span class="lg"><img src="assets/pay-logos/web/Gopay.png" alt="Gopay"></span><span class="lg"><img src="assets/pay-logos/web/Dana.png" alt="Dana"></span><span class="lg"><img src="assets/pay-logos/web/Ovo.png" alt="Ovo"></span><span class="lg"><img src="assets/pay-logos/web/Shopeepay.png" alt="Shopeepay"></span><span class="lg"><img src="assets/pay-logos/web/BCA.png" alt="BCA"></span><span class="lg"><img src="assets/pay-logos/web/BRI.png" alt="BRI"></span><span class="lg"><img src="assets/pay-logos/web/Mandiri.png" alt="Mandiri"></span><span class="lg"><img src="assets/pay-logos/web/BNI.png" alt="BNI"></span><span class="lg"><img src="assets/pay-logos/web/Seabank.png" alt="Seabank"></span><span class="more">+ lainnya</span></div></div>
+  <div class="blk"><div class="bt">Cara bayar</div><ol class="steps"><li><span class="n">1</span><span>Simpan atau screenshot kode QR ini.</span></li><li><span class="n">2</span><span>Buka m-banking atau e-wallet yang mendukung QRIS, lalu pindai atau unggah kode QR dari galeri.</span></li><li><span class="n">3</span><span>Cek nominalnya sudah sesuai, lalu selesaikan pembayaran.</span></li><li><span class="n">4</span><span>Status pembayaran diperbarui otomatis setelah berhasil.</span></li><li><span class="n">5</span><span>Kode QR berlaku sampai 11:29. Kalau lewat, buat pembayaran baru.</span></li></ol></div>
+</div></div>
+<div class="bottom"><div class="btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg><span>Simpan Kode QR</span></div><div class="tbtn">Batalkan Pembayaran</div></div></div></div>
+<div class="frame-cap">同 C1 的同一屏，滚到底：支付 App + 5 条「Cara bayar」付款步骤（第 5 条的有效期按 5 分钟窗口显示到期时刻 11:29），两个按钮始终吸底。</div></div><div><span class="frame-tag"><b>C2</b>保存成功<span class="k new">新</span></span>
+<div class="phone-shell"><div class="phone-screen"><div class="sb"><span>11:24</span><span class="sbr"><i></i><i></i><i></i><b></b></span></div><div class="appbar"><div class="nob"></div><div class="title">Selesaikan pembayaran</div></div>
+<div class="body scroll"><div class="fin">
+  
+  <div class="sum">
+  <div class="sl"><div class="slab">Total pembayaran</div><div class="samt">Rp25.000</div></div>
+  <div class="sr"><div class="slab">Bayar dalam</div><div class="cd urg">04:30</div><div class="sdl">Batas bayar 11:29</div></div>
+</div>
+  <div class="qrc">
+  <div class="qrwrap" style="width:196px;height:196px"><img src="assets/qr-sample.svg" alt=""></div>
+  <div class="ref">Nomor Pesanan: <b>TP2610290842</b><span class="cp"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#845EC9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg></span></div>
+  <div class="wait"><i class="spin"></i>Menunggu pembayaran…</div>
+</div>
+  <div class="blk"><div class="bt">Bisa dibayar pakai</div>
+  <div class="logos"><span class="lg"><img src="assets/pay-logos/web/Gopay.png" alt="Gopay"></span><span class="lg"><img src="assets/pay-logos/web/Dana.png" alt="Dana"></span><span class="lg"><img src="assets/pay-logos/web/Ovo.png" alt="Ovo"></span><span class="lg"><img src="assets/pay-logos/web/Shopeepay.png" alt="Shopeepay"></span><span class="lg"><img src="assets/pay-logos/web/BCA.png" alt="BCA"></span><span class="lg"><img src="assets/pay-logos/web/BRI.png" alt="BRI"></span><span class="lg"><img src="assets/pay-logos/web/Mandiri.png" alt="Mandiri"></span><span class="lg"><img src="assets/pay-logos/web/BNI.png" alt="BNI"></span><span class="lg"><img src="assets/pay-logos/web/Seabank.png" alt="Seabank"></span><span class="more">+ lainnya</span></div></div>
+  <div class="blk"><div class="bt">Cara bayar</div><ol class="steps"><li><span class="n">1</span><span>Simpan atau screenshot kode QR ini.</span></li><li><span class="n">2</span><span>Buka m-banking atau e-wallet yang mendukung QRIS, lalu pindai atau unggah kode QR dari galeri.</span></li><li><span class="n">3</span><span>Cek nominalnya sudah sesuai, lalu selesaikan pembayaran.</span></li><li><span class="n">4</span><span>Status pembayaran diperbarui otomatis setelah berhasil.</span></li><li><span class="n">5</span><span>Kode QR berlaku sampai 11:29. Kalau lewat, buat pembayaran baru.</span></li></ol></div>
+</div></div>
+<div class="bottom"><div class="btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg><span>Simpan Kode QR</span></div><div class="tbtn">Batalkan Pembayaran</div></div><div class="toast"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>Tersimpan ke galeri</span></div></div></div>
+<div class="frame-cap">同 A2。相册权限被拒同 A3，不另画。</div></div><div><span class="frame-tag"><b>C3</b>已过期<span class="k keep">现有</span></span>
+<div class="phone-shell"><div class="phone-screen"><div class="sb"><span>11:24</span><span class="sbr"><i></i><i></i><i></i><b></b></span></div><div class="appbar"><div class="nob"></div><div class="title">Selesaikan pembayaran</div></div>
+<div class="body scroll"><div class="fin">
+  
+  <div class="sum">
+  <div class="sl"><div class="slab">Total pembayaran</div><div class="samt">Rp25.000</div></div>
+  <div class="sr"><div class="slab">Bayar dalam</div><div class="cd urg">00:00</div><div class="sdl">Batas bayar 11:29</div></div>
+</div>
+  <div class="qrc">
+  <div class="qrwrap" style="width:196px;height:196px"><img src="assets/qr-sample.svg" alt=""></div>
+  <div class="ref">Nomor Pesanan: <b>TP2610290842</b><span class="cp"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#845EC9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg></span></div>
+  <div class="wait"><i class="spin"></i>Menunggu pembayaran…</div>
+</div>
+  <div class="blk"><div class="bt">Bisa dibayar pakai</div>
+  <div class="logos"><span class="lg"><img src="assets/pay-logos/web/Gopay.png" alt="Gopay"></span><span class="lg"><img src="assets/pay-logos/web/Dana.png" alt="Dana"></span><span class="lg"><img src="assets/pay-logos/web/Ovo.png" alt="Ovo"></span><span class="lg"><img src="assets/pay-logos/web/Shopeepay.png" alt="Shopeepay"></span><span class="lg"><img src="assets/pay-logos/web/BCA.png" alt="BCA"></span><span class="lg"><img src="assets/pay-logos/web/BRI.png" alt="BRI"></span><span class="lg"><img src="assets/pay-logos/web/Mandiri.png" alt="Mandiri"></span><span class="lg"><img src="assets/pay-logos/web/BNI.png" alt="BNI"></span><span class="lg"><img src="assets/pay-logos/web/Seabank.png" alt="Seabank"></span><span class="more">+ lainnya</span></div></div>
+  <div class="blk"><div class="bt">Cara bayar</div><ol class="steps"><li><span class="n">1</span><span>Simpan atau screenshot kode QR ini.</span></li><li><span class="n">2</span><span>Buka m-banking atau e-wallet yang mendukung QRIS, lalu pindai atau unggah kode QR dari galeri.</span></li><li><span class="n">3</span><span>Cek nominalnya sudah sesuai, lalu selesaikan pembayaran.</span></li><li><span class="n">4</span><span>Status pembayaran diperbarui otomatis setelah berhasil.</span></li><li><span class="n">5</span><span>Kode QR berlaku sampai 11:29. Kalau lewat, buat pembayaran baru.</span></li></ol></div>
+</div></div>
+<div class="bottom"><div class="btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg><span>Simpan Kode QR</span></div><div class="tbtn">Batalkan Pembayaran</div></div><div class="toast"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg><span>Waktu pembayaran habis. Permintaan ini berakhir.</span></div></div></div>
+<div class="frame-cap">照搬现状：到期弹 Toast（vetPayExpired）后离开本页。如要改成和 A4 一样的页内过期态，告诉我。</div></div></div></div>
+</div></body></html>

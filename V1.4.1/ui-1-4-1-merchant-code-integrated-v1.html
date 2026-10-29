@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>门店邀请码 · 核对稿</title>
+<style>
+  :root{--page-bg:#F6F4FA;--page-ink:#1F1A2B;--page-ink-2:#4A4458;--page-muted:#8A8399;
+    --page-rule:#E4DEEE;--page-accent:#845EC9;--page-accent-soft:#EFE8FA;
+    /* App token（petgo_app/lib/core/theme/colors.dart 实际值） */
+    --mint:#845EC9;--violet100:#EFE6FF;--mintTint:#F8F2FF;--ink:#2E2A45;--ink2:#544864;--muted:#9690A6;
+    --line:#E6E6E6;--line2:#F0F0F0;--popRed:#F0425A;--coralTint:#FDE7EB;--card:#FFFFFF;}
+  *{box-sizing:border-box}
+  body{-webkit-font-smoothing:antialiased;margin:0;background:var(--page-bg);color:var(--page-ink);
+    font:14px/1.6 -apple-system,"PingFang SC","Helvetica Neue",Arial,sans-serif}
+  .page{width:1360px;margin:0 auto;padding:40px 48px 80px}
+  .doc-header{background:#fff;border:1px solid var(--page-rule);border-radius:14px;padding:24px 28px;margin-bottom:36px}
+  .doc-header h1{margin:0 0 6px;font-size:22px}
+  .doc-header .sub{color:var(--page-muted);margin:0 0 14px}
+  .doc-header h3{margin:18px 0 6px;font-size:14px}
+  .doc-header ul{margin:0;padding-left:20px;color:var(--page-ink-2)}
+  .doc-header li{margin:2px 0}
+  .doc-header table{border-collapse:collapse;width:100%;font-size:12.5px;margin-top:6px}
+  .doc-header td,.doc-header th{border:1px solid var(--page-rule);padding:5px 8px;text-align:left;vertical-align:top}
+  .doc-header th{background:var(--page-accent-soft)}
+  .lane{margin-bottom:44px}
+  .lane h2{font-size:17px;margin:0 0 4px}
+  .lane .desc{color:var(--page-ink-2);margin:0 0 12px}
+  .flow{display:flex;flex-wrap:wrap;align-items:center;gap:7px;font-size:12.5px;color:var(--page-ink-2);
+    line-height:1.9;margin:0 0 22px;padding:12px 16px;background:#fff;border:1px solid var(--page-rule);border-radius:10px}
+  .flow s{text-decoration:none;font-weight:600;color:var(--page-accent);background:var(--page-accent-soft);border-radius:6px;padding:2px 8px}
+  .flow i{font-style:normal;color:var(--page-muted)}
+  .flow em{font-style:normal;color:var(--page-ink);font-weight:600}
+  .flow .nl{flex-basis:100%;height:0}
+  .frames{display:grid;grid-template-columns:repeat(3,384px);gap:40px 34px;justify-content:start;padding:8px 4px 26px}
+  .frame-tag{display:block;font-weight:600;margin-bottom:8px}
+  .frame-tag b{color:var(--page-accent);margin-right:6px}
+  .frame-cap{color:var(--page-ink-2);font-size:12.5px;margin-top:10px;line-height:1.7}
+
+  /* ---------- 手机框 ---------- */
+  .phone-shell{width:384px;height:800px;border-radius:44px;background:#1F1A2B;padding:12px;box-shadow:0 10px 30px rgba(31,26,43,.12)}
+  .phone-screen{position:relative;width:100%;height:100%;border-radius:34px;background:#fff;overflow:hidden;
+    font-family:Poppins,-apple-system,"Helvetica Neue",Arial,sans-serif;color:var(--ink);display:flex;flex-direction:column}
+  .sb{height:40px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 26px;font-size:13px;font-weight:600}
+  .appbar{height:52px;flex:none;display:flex;align-items:center;padding:0 8px;gap:2px}
+  .appbar .back{width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-size:30px;line-height:1;color:var(--ink)}
+  .appbar .title{font-size:16px;font-weight:700}
+  .body{flex:1;overflow:hidden;padding:8px 20px 0}
+  .sec{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.6px;margin:0 0 10px 4px}
+  .card{background:var(--card);border-radius:16px;box-shadow:0 3px 12px rgba(43,42,39,.05);overflow:hidden;margin-bottom:22px}
+  .row{display:flex;align-items:center;padding:16px;font-size:15px;font-weight:500}
+  .row .lbl{flex:1}
+  .row .val{font-size:14px;color:var(--muted);margin-right:6px;font-variant-numeric:tabular-nums}
+  .row .chev{color:var(--muted);font-size:18px}
+  .row.danger{color:var(--popRed);font-weight:700}.row.danger .chev{color:var(--popRed)}
+  .row.toggle{padding:10px 16px}
+  .sw{width:46px;height:28px;border-radius:14px;background:var(--mint);position:relative}
+  .sw::after{content:"";position:absolute;right:3px;top:3px;width:22px;height:22px;border-radius:50%;background:#fff}
+  .div{height:1px;background:var(--line2);margin:0 16px}
+  .row.new{background:var(--mintTint)}
+  .ver{text-align:center;font-size:12px;color:var(--muted);margin-top:2px}
+
+  .lead{font-size:14px;color:var(--ink2);line-height:1.6;margin:4px 0 18px}
+  .flabel{font-size:12px;font-weight:700;letter-spacing:.8px;color:var(--muted);margin:0 0 8px}
+  .field{height:58px;border-radius:14px;border:1.6px solid var(--line);display:flex;align-items:center;padding:0 16px;
+    font-size:22px;font-weight:700;letter-spacing:6px;font-variant-numeric:tabular-nums}
+  .field.focus{border-color:var(--mint)}
+  .field.err{border-color:var(--popRed)}
+  .field .ph{color:var(--muted);font-weight:500;letter-spacing:6px}
+  .field .caret{display:inline-block;width:2px;height:24px;background:var(--mint);margin-left:2px;vertical-align:middle}
+  .field.locked{background:#FAFAFA;color:var(--muted)}
+  .msg{display:flex;gap:6px;align-items:flex-start;font-size:13px;margin:8px 2px 0;line-height:1.5}
+  .msg svg{flex:none;margin-top:1.5px}
+  .msg.err{color:var(--popRed)}
+  .msg a{color:var(--mint);font-weight:700;text-decoration:none;margin-left:4px}
+  .note{display:flex;gap:6px;align-items:flex-start;font-size:12.5px;color:var(--muted);margin:14px 2px 0;line-height:1.6}
+  .note svg{flex:none;margin-top:2px}
+  .hero{display:flex;align-items:center;gap:14px;padding:16px;border-radius:18px;background:var(--mintTint);margin:2px 0 22px}
+  .hero .ic{width:48px;height:48px;border-radius:14px;background:#fff;color:var(--mint);display:flex;align-items:center;justify-content:center;flex:none}
+  .hero .t{font-size:15px;font-weight:700;line-height:1.35;text-wrap:balance}
+  .hero .d{font-size:12.5px;color:var(--ink2);margin-top:2px}
+  .otp{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+  .otp span{height:58px;border-radius:14px;border:1.6px solid var(--line);display:flex;align-items:center;justify-content:center;
+    font-size:24px;font-weight:700;font-variant-numeric:tabular-nums;background:#fff}
+  .otp span.on{border-color:var(--mint);box-shadow:0 0 0 3px rgba(132,94,201,.14)}
+  .otp span.fill{border-color:#DCD2F7;background:var(--mintTint)}
+  .otp.err span{border-color:var(--popRed);background:#fff}
+  .ring{width:96px;height:96px;border-radius:50%;background:var(--violet100);display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+  .ring div{width:64px;height:64px;border-radius:50%;background:var(--mint);color:#fff;display:flex;align-items:center;justify-content:center}
+  .codecard{background:#fff;border-radius:20px;box-shadow:0 3px 12px rgba(43,42,39,.05);padding:22px 16px 18px;text-align:center;margin:6px 0 14px}
+  .codecard .cap{font-size:12px;font-weight:700;letter-spacing:.8px;color:var(--muted)}
+  .codecard .num{font-size:34px;font-weight:800;letter-spacing:8px;font-variant-numeric:tabular-nums;margin:6px 0 10px;padding-left:8px}
+  .codecard .since{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--ink2);background:var(--mintTint);border-radius:99px;padding:5px 12px}
+  .proposal{display:inline-block;font-size:11.5px;font-weight:700;color:#8A5A00;background:#FEF3DE;border-radius:6px;padding:1px 7px;margin-left:6px}
+  .bottom{position:sticky;bottom:0;flex:none;background:#fff;padding:12px 20px 28px}
+  .btn{height:54px;border-radius:14px;background:var(--mint);color:#fff;display:flex;align-items:center;justify-content:center;
+    font-size:17px;font-weight:700}
+  .btn.disabled{background:var(--line);color:var(--muted)}
+  .btn.ghost{background:#fff;border:1px solid var(--line2);color:var(--ink);margin-top:8px}
+  .spin{width:18px;height:18px;border-radius:50%;border:2.5px solid rgba(255,255,255,.35);border-top-color:#fff;margin-right:8px}
+  .kbd{height:250px;flex:none;background:#D2D3DA;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:8px 6px 30px}
+  .kbd span{background:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:22px}
+  .kbd span.dim{background:transparent}
+
+  .scrim{position:absolute;inset:0;background:rgba(31,26,43,.45)}
+  .sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:24px 24px 0 0;padding:12px 22px 30px;text-align:center}
+  .handle{width:36px;height:4px;border-radius:99px;background:var(--line);margin:0 auto 18px}
+  .sicon{width:60px;height:60px;border-radius:50%;background:rgba(132,94,201,.12);color:var(--mint);margin:0 auto 14px;
+    display:flex;align-items:center;justify-content:center;font-size:28px}
+  .stitle{font-size:16px;font-weight:700}
+  .smsg{font-size:13px;line-height:1.6;color:var(--ink2);margin-top:6px}
+  .sheet .btn{margin-top:22px}
+
+  .toast{position:absolute;left:24px;right:24px;bottom:345px;background:rgba(46,42,69,.94);color:#fff;border-radius:12px;
+    padding:12px 14px;font-size:14px;box-shadow:0 6px 16px rgba(0,0,0,.2)}
+  .center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 32px}
+  .bigicon{width:80px;height:80px;border-radius:50%;background:var(--violet100);color:var(--mint);display:flex;align-items:center;justify-content:center;font-size:36px;margin-bottom:16px}
+  .ctitle{font-size:18px;font-weight:800}
+  .cmsg{font-size:14px;color:var(--ink2);margin-top:6px;line-height:1.6}
+  .codebox{margin-top:18px;padding:14px 22px;border-radius:14px;background:var(--mintTint);border:1px solid #DCD2F7;
+    font-size:26px;font-weight:800;letter-spacing:6px;font-variant-numeric:tabular-nums;color:var(--ink)}
+  .kv{display:flex;justify-content:space-between;padding:16px;font-size:15px}
+  .kv .k{color:var(--ink2)} .kv .v{font-weight:700;font-variant-numeric:tabular-nums}
+  .kv .v.code{letter-spacing:3px}
+  .skel{height:16px;border-radius:8px;background:#F1EEF6;margin:16px}
+  .loadspin{width:28px;height:28px;border-radius:50%;border:3px solid var(--violet100);border-top-color:var(--mint)}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="doc-header">
+    <h1>门店邀请码（Kode toko）· 第 4 步核对稿</h1>
+    <p class="sub">V1.4.1 · 商家平台对接 FR-7 / FR-40 · 视觉稿 + 对照代码核对；待操作者最终审阅授权后才拆页移交开发</p>
+    <h3>已定（操作者 2026-10-24）</h3>
+    <ul>
+      <li>Q1：已绑定页不显示店名，只显示绑定的邀请码（契约不改）。</li>
+      <li>Q2：入口放设置页 AKUN 分组；保留 B3 永久绑定确认抽屉。</li>
+    </ul>
+    <h3>对齐的真实代码</h3>
+    <ul>
+      <li>设置页 <code>features/me/presentation/settings_page.dart</code>：分组标题 11/w700 muted、卡片圆角 16 + 阴影、行 16/16 内边距、标签 15/w500、右值 14 muted、›。原有 4 组 11 行全部保留。</li>
+      <li>确认抽屉复用 <code>shared/widgets/confirm_sheet.dart</code>（拖拽条 36×4、60 圆形图标、16/w700 标题、13 说明、主按钮 + 描边取消，带 <code>onConfirm</code> 提交态）。</li>
+      <li>输入框沿用 <code>phone_edit_sheet.dart</code> 的样式（圆角 14、聚焦紫 1.6 描边、字段标签 12/w700 字距 0.8 muted），按钮 54 高、圆角 14、17/w700。</li>
+      <li>Toast 复用 <code>shared/widgets/app_toast.dart</code>（ink 94% 底、圆角 12、底距 90）。</li>
+    </ul>
+    <h3>文案（印尼语；新增键第 4 步前再定稿，中英同步）</h3>
+    <table>
+      <tr><th>位置</th><th>文案</th><th>来源</th></tr>
+      <tr><td>设置行 / 页标题</td><td>Kode toko</td><td>新增</td></tr>
+      <tr><td>行右值（未绑定）</td><td>Masukkan</td><td>新增</td></tr>
+      <tr><td>说明</td><td>Masukkan kode undangan 6 digit dari pet shop langgananmu.</td><td>新增（「Kode undangan」沿用商家平台固定用词）</td></tr>
+      <tr><td>字段标签</td><td>KODE UNDANGAN</td><td>新增</td></tr>
+      <tr><td>提示</td><td>Satu akun hanya bisa terhubung ke 1 toko dan tidak bisa diganti.</td><td>新增</td></tr>
+      <tr><td>主按钮</td><td>Hubungkan</td><td>新增</td></tr>
+      <tr><td>确认抽屉</td><td>Hubungkan dengan toko ini? / Akunmu akan terhubung ke toko dengan kode 000035. Satu akun hanya bisa terhubung ke 1 toko dan tidak bisa diganti. / Ya, hubungkan / Batal</td><td>新增 + <code>commonCancel</code></td></tr>
+      <tr><td>码无效</td><td>Kode tidak valid. Cek lagi kode dari toko.</td><td>新增</td></tr>
+      <tr><td>已绑定过</td><td>Akunmu sudah terhubung dengan toko. Lihat</td><td>新增</td></tr>
+      <tr><td>限流</td><td>Terlalu banyak percobaan, coba lagi nanti</td><td><code>rateLimited</code></td></tr>
+      <tr><td>提交网络失败</td><td>Gagal terhubung, coba lagi</td><td>新增（同 <code>miniProfileLoadFailed</code> 措辞）</td></tr>
+      <tr><td>成功</td><td>Berhasil terhubung! / Kode tokomu: / Selesai</td><td>新增</td></tr>
+      <tr><td>已绑定页</td><td>Kode undangan / Terhubung sejak / Satu akun hanya bisa terhubung ke 1 toko.</td><td>新增</td></tr>
+      <tr><td>读取失败</td><td>Gagal memuat, silakan coba lagi / Coba lagi</td><td><code>detailNetworkError</code> / <code>commonRetry</code></td></tr>
+    </table>
+    <h3>第 3 步做了什么（ui-ux-pro-max + make-interfaces-feel-better）</h3>
+    <ul>
+      <li>emoji 图标全部换成线性 SVG（店铺 / 勾 / 警示 / 锁 / 断网），线重 2px 对应 w700 标题、正文旁 16px 图标同色 currentColor。</li>
+      <li>错误态改为「图标 + 文字」（不只靠红色）；「不可更换」提示加锁形图标，三屏一致。</li>
+      <li>C2 成功页：双环勾；C1 只读页：邀请码做主角大字 + 日期胶囊（信息不变：只有码与日期）。</li>
+      <li>数字一律等宽（tabular-nums）；圆角同心：抽屉 24 / 按钮与输入 14 / 卡片 16–20。</li>
+      <li>D2 读取失败补断网图标。</li>
+    </ul>
+    <h3>文案修正（操作者 2026-10-24）</h3>
+    <ul><li>「只能绑一次」指<strong>一个用户只能绑一家店</strong>，不是一个店只能绑一个用户（同一家店可被任意多个用户绑定）。提示与确认抽屉文案统一改为以账号为主语：「Satu akun hanya bisa terhubung ke 1 toko dan tidak bisa diganti.」，去掉易被误读为「码只能用一次」的「Kode hanya bisa diisi sekali」。</li></ul>
+    <h3>已定（续）</h3>
+    <ul><li>填码页方向：<strong>保守版</strong>（单输入框，沿用手机号输入框样式）；不加顶部价值卡，「Tanpa biaya tambahan」不用。（操作者 2026-10-24「1保守」）</li></ul>
+    <h3>第 4 步核对结论</h3>
+    <ul>
+      <li>颜色全部取自 <code>colors.dart</code> 实际值：主紫 #845EC9、violet100 #EFE6FF、violet-50 #F8F2FF、ink #2E2A45、ink2 #544864、muted #9690A6、line #E6E6E6、line2 #F0F0F0、popRed #F0425A。</li>
+      <li>字体 Poppins（<code>app_theme.dart</code>）；设置行 15/w500、右值 14、分组标题 11/w700 字距 0.6、AppBar 16/w700 —— 与 <code>settings_page.dart</code> 一致。</li>
+      <li>组件复用：<code>_navRow</code>（设置行）、<code>showConfirmSheet</code>（B3/B4，含 onConfirm 提交态）、<code>showAppToast</code>（B8）、手机号输入框样式（输入框 / 54 高按钮 / 圆角 14）。新增只有 C2 成功页与 C1 码卡片。</li>
+      <li>复用文案：<code>commonCancel</code>「Batal」、<code>rateLimited</code>、<code>detailNetworkError</code>、<code>commonRetry</code>；其余新增文案见上表，实现时中英同步补 arb。</li>
+      <li>需求硬约束复核：不显示店名 ✔；码无效与门店停用同一提示 ✔；一个账号只能绑一家店、无更换/解绑入口 ✔；门店停用后已绑定照常显示 ✔。</li>
+      <li>看图修复：B8 toast 原压在键盘上，已移到键盘上方（与 app_toast「键盘高度 + 90」一致）。</li>
+      <li>文档与代码矛盾：无待拍板项。</li>
+    </ul>
+    <h3>请审阅</h3>
+    <ul><li>这是最终核对稿。确认无误请明确授权（如「定稿」「可以交开发」），我再拆成一屏一个 HTML 并开始实现 App 页面。</li></ul>
+  </div>
+
+  <!-- ================= A ================= -->
+  <section class="lane">
+    <h2>A · 入口（设置页）</h2>
+    <p class="desc">AKUN 分组末尾新增一行「Kode toko」；其余分组与行原样保留。</p>
+    <div class="flow">
+      <em>主路径：</em><s>A1</s> 未绑定（右值 Masukkan）<i>→ 点击 →</i> <s>B1</s>
+      <span class="nl"></span>
+      <em>变体：</em><s>A2</s> 已绑定（右值 = 邀请码，替代 A1）<i>→ 点击 →</i> <s>C1</s>
+      <span class="nl"></span>
+      <em>加载：</em><i>点击行后先查绑定状态 →</i> <s>D1</s> 读取中 <i>／</i> <s>D2</s> 读取失败
+    </div>
+    <div class="frames">
+      <div>
+        <span class="frame-tag"><b>A1</b> · 设置页 · 未绑定</span>
+        <div class="phone-shell"><div class="phone-screen">
+          <div class="sb"><span>9:41</span><span>●●● ▮</span></div>
+          <div class="appbar"><span class="back">‹</span><span class="title">Pengaturan</span></div>
+          <div class="body">
+            <div class="sec">AKUN</div>
+            <div class="card">
+              <div class="row"><span class="lbl">Edit Profil</span><span class="chev">›</span></div><div class="div"></div>
+              <div class="row"><span class="lbl">Notifikasi</span><span class="val">Aktif</span><span class="chev">›</span></div><div class="div"></div>
+              <div class="row"><span class="lbl">Bahasa</span><span class="val">Bahasa Indonesia</span><span class="chev">›</span></div><div class="div"></div>
+              <div class="row"><span class="lbl">Nomor HP</span><span class="val">0812****7890</span><span class="chev">›</span></div><div class="div"></div>
+              <div class="row"><span class="lbl">Kode toko</span><span class="val">Masukkan</span><span class="chev">›</span></div>
+            </div>
+            <div class="sec">PRIVASI &amp; KEAMANAN</div>
+            <div class="card">
+              <div class="row toggle"><span class="lbl">Profil Hewan (publik)</span><span class="sw"></span></div><div class="div"></div>
+              <div class="row"><span class="lbl">Kebijakan Privasi</span><span class="chev">›</span></div><div class="div"></div>
+              <div class="row"><span class="lbl">Syarat &amp; Ketentuan</span><span class="chev">›</span></div><div class="div"></div>
+              <div class="row"><span class="lbl">Daftar Blokir</span><span class="val">0</span><span class="chev">›</span></div>
+            </div>
+            <div class="sec">TENTANG APLIKASI</div>
+            <div class="card"><div class="row"><span class="lbl">Periksa pembaruan</span><span class="val">v1.4.1</span><span class="chev">›</span></div></div>
+            <div class="sec">ZONA BAHAYA</div>
+            <div class="card">
+              <div class="row danger"><span class="lbl">Keluar</span><span class="chev">›</span></div><div class="div"></div>
+              <div class="row danger"><span class="lbl">Hapus akun</span><span class="chev">›</span></div>
+            </div>
+          </div>
+        </div></div>
+        <div class="frame-cap">原有：AKUN 4 行 / PRIVASI 4 行 / TENTANG 1 行 / ZONA BAHAYA 2 行，全部保留，顺序不变。新增：AKUN 末尾「Kode toko」一行（与其它行同一 <code>_navRow</code>）。框内下半截被屏幕高度截断。</div>
+      </div>
+      <div>
+        <span class="frame-tag"><b>A2</b> · 设置页 · 已绑定</span>
+        <div class="phone-shell"><div class="phone-screen">
+          <div class="sb"><span>9:41</span><span>●●● ▮</span></div>
+          <div class="appbar"><span class="back">‹</span><span class="title">Pengaturan</span></div>
+          <div class="body">
+            <div class="sec">AKUN</div>
+            <div class="card">
+              <div class="row"><span class="lbl">Edit Profil</span><span class="chev">›</span></div><div class="div"></div>
+              <div class="row"><span class="lbl">Notifikasi</span><span class="val">Aktif</span><span class="chev">›</span></div><div class="div"></div>
+              <div class="row"><span class="lbl">Bahasa</span><span class="val">Bahasa Indonesia</span><span class="chev">›</span></div><div class="div"></div>
+              <div class="row"><span class="lbl">Nomor HP</span><span class="val">0812****7890</span><span class="chev">›</span></div><div class="div"></div>
+              <div class="row"><span class="lbl">Kode toko</span><span class="val">000035</span><span class="chev">›</span></div>
+            </div>
+            <div class="sec">PRIVASI &amp; KEAMANAN</div>
+            <div class="card">
+              <div class="row toggle"><span class="lbl">Profil Hewan (publik)</span><span class="sw"></span></div><div class="div"></div>
+              <div class="row"><span class="lbl">Kebijakan Privasi</span><span class="chev">›</span></div><div class="div"></div>
+              <div class="row"><span class="lbl">Syarat &amp; Ketentuan</span><span class="chev">›</span></div><div class="div"></div>
+              <div class="row"><span class="lbl">Daftar Blokir</span><span class="val">0</span><span class="chev">›</span></div>
+            </div>
+          </div>
+        </div></div>
+        <div class="frame-cap">同一行，右值换成绑定的邀请码（等宽数字）。右值由 <code>GET /api/v1/me/merchant-binding</code> 决定；读不到时不显示右值（同「Notifikasi」未读到时的处理）。</div>
+      </div>
+      <div>
+        <span class="frame-tag"><b>D1</b> · 读取中</span>
+        <div class="phone-shell"><div class="phone-screen">
+          <div class="sb"><span>9:41</span><span>●●● ▮</span></div>
+          <div class="appbar"><span class="back">‹</span><span class="title">Kode toko</span></div>
+          <div class="center"><div class="loadspin"></div></div>
+        </div></div>
+        <div class="frame-cap">点「Kode toko」行先查绑定状态：未绑定 → B1，已绑定 → C1。</div>
+      </div>
+      <div>
+        <span class="frame-tag"><b>D2</b> · 读取失败</span>
+        <div class="phone-shell"><div class="phone-screen">
+          <div class="sb"><span>9:41</span><span>●●● ▮</span></div>
+          <div class="appbar"><span class="back">‹</span><span class="title">Kode toko</span></div>
+          <div class="center">
+            <div style="color:var(--muted);margin-bottom:12px"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8.5a15 15 0 0 1 20 0"/><path d="M5 12a10 10 0 0 1 14 0"/><path d="M8.5 15.5a5 5 0 0 1 7 0"/><path d="M12 19h.01"/><path d="M3 3l18 18"/></svg></div>
+            <div class="cmsg">Gagal memuat, silakan coba lagi</div>
+            <div class="btn" style="width:160px;height:46px;font-size:14.5px;margin-top:16px;border-radius:12px">Coba lagi</div>
+          </div>
+        </div></div>
+        <div class="frame-cap">复用既有 <code>detailNetworkError</code> + <code>commonRetry</code>；按钮为全局 FilledButton 主题（46 高、圆角 12）。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= B ================= -->
+  <section class="lane">
+    <h2>B · 填码</h2>
+    <p class="desc">单页 + 吸底主按钮；数字键盘；满 6 位才可提交；提交前弹确认抽屉。</p>
+    <div class="flow">
+      <em>主路径：</em><i>由 D1（未绑定）进入 →</i> <s>B1</s> 空 <i>→ 输入满 6 位 →</i> <s>B2</s> 可提交
+      <i>→</i> <s>B3</s> 确认抽屉 <i>→ Ya, hubungkan →</i> <s>B4</s> 提交中（抽屉内）<i>→</i> <s>C2</s> 成功
+      <span class="nl"></span>
+      <em>失败（抽屉关闭，回本页）：</em><s>B5</s> 码无效 <i>／</i> <s>B7</s> 太频繁 <i>／</i> <s>B8</s> 网络失败（toast）
+      <span class="nl"></span>
+      <em>特殊：</em><s>B6</s> 已绑定过 <i>→ Lihat →</i> <s>C1</s>
+    </div>
+    <div class="frames">
+      <div>
+        <span class="frame-tag"><b>B1</b> · 填码 · 空态</span>
+        <div class="phone-shell"><div class="phone-screen">
+          <div class="sb"><span>9:41</span><span>●●● ▮</span></div>
+          <div class="appbar"><span class="back">‹</span><span class="title">Kode toko</span></div>
+          <div class="body">
+            <div class="lead">Masukkan kode undangan 6 digit dari pet shop langgananmu.</div>
+            <div class="flabel">KODE UNDANGAN</div>
+            <div class="field focus"><span class="caret"></span><span class="ph">000000</span></div>
+            <div class="note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>Satu akun hanya bisa terhubung ke 1 toko dan tidak bisa diganti.</span></div>
+          </div>
+          <div class="bottom"><div class="btn disabled">Hubungkan</div></div>
+          <div class="kbd"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span class="dim"></span><span>0</span><span class="dim">⌫</span></div>
+        </div></div>
+        <div class="frame-cap">进入即聚焦、弹数字键盘；只收数字，最多 6 位（粘贴带空格的码自动去空格）。按钮禁用。</div>
+      </div>
+      <div>
+        <span class="frame-tag"><b>B2</b> · 填码 · 已输入</span>
+        <div class="phone-shell"><div class="phone-screen">
+          <div class="sb"><span>9:41</span><span>●●● ▮</span></div>
+          <div class="appbar"><span class="back">‹</span><span class="title">Kode toko</span></div>
+          <div class="body">
+            <div class="lead">Masukkan kode undangan 6 digit dari pet shop langgananmu.</div>
+            <div class="flabel">KODE UNDANGAN</div>
+            <div class="field focus">000035<span class="caret"></span></div>
+            <div class="note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>Satu akun hanya bisa terhubung ke 1 toko dan tidak bisa diganti.</span></div>
+          </div>
+          <div class="bottom"><div class="btn">Hubungkan</div></div>
+          <div class="kbd"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span class="dim"></span><span>0</span><span class="dim">⌫</span></div>
+        </div></div>
+        <div class="frame-cap">满 6 位按钮变紫可点。</div>
+      </div>
+      <div>
+        <span class="frame-tag"><b>B3</b> · 永久绑定确认（抽屉）</span>
+        <div class="phone-shell"><div class="phone-screen">
+          <div class="sb"><span>9:41</span><span>●●● ▮</span></div>
+          <div class="appbar"><span class="back">‹</span><span class="title">Kode toko</span></div>
+          <div class="body">
+            <div class="lead">Masukkan kode undangan 6 digit dari pet shop langgananmu.</div>
+            <div class="flabel">KODE UNDANGAN</div>
+            <div class="field">000035</div>
+          </div>
+          <div class="scrim"></div>
+          <div class="sheet">
+            <div class="handle"></div>
+            <div class="sicon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9"/><path d="M3 9a3 3 0 0 0 6 0a3 3 0 0 0 6 0a3 3 0 0 0 6 0"/><path d="M5 12v8h14v-8"/><path d="M10 20v-5h4v5"/></svg></div>
+            <div class="stitle">Hubungkan dengan toko ini?</div>
+            <div class="smsg">Akunmu akan terhubung ke toko dengan kode 000035. Satu akun hanya bisa terhubung ke 1 toko dan tidak bisa diganti.</div>
+            <div class="btn">Ya, hubungkan</div>
+            <div class="btn ghost">Batal</div>
+          </div>
+        </div></div>
+        <div class="frame-cap">复用 <code>showConfirmSheet</code>（neutral 紫）；用 <code>onConfirm</code> 在抽屉内提交。图标位用线性店铺图标（2px 线重，配 16/w700 标题）。</div>
+      </div>
+      <div>
+        <span class="frame-tag"><b>B4</b> · 提交中</span>
+        <div class="phone-shell"><div class="phone-screen">
+          <div class="sb"><span>9:41</span><span>●●● ▮</span></div>
+          <div class="appbar"><span class="back">‹</span><span class="title">Kode toko</span></div>
+          <div class="body">
+            <div class="lead">Masukkan kode undangan 6 digit dari pet shop langgananmu.</div>
+            <div class="flabel">KODE UNDANGAN</div>
+            <div class="field">000035</div>
+          </div>
+          <div class="scrim"></div>
+          <div class="sheet">
+            <div class="handle"></div>
+            <div class="sicon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9"/><path d="M3 9a3 3 0 0 0 6 0a3 3 0 0 0 6 0a3 3 0 0 0 6 0"/><path d="M5 12v8h14v-8"/><path d="M10 20v-5h4v5"/></svg></div>
+            <div class="stitle">Hubungkan dengan toko ini?</div>
+            <div class="smsg">Akunmu akan terhubung ke toko dengan kode 000035. Satu akun hanya bisa terhubung ke 1 toko dan tidak bisa diganti.</div>
+            <div class="btn" style="opacity:.6"><span class="spin"></span>Ya, hubungkan</div>
+            <div class="btn ghost" style="color:var(--muted)">Batal</div>
+          </div>
+        </div></div>
+        <div class="frame-cap">confirm_sheet 既有提交态：主按钮与取消一并禁用、抽屉不可拖走。成功 → 关抽屉进 C2；失败 → 关抽屉回本页显示 B5–B8。</div>
+      </div>
+      <div>
+        <span class="frame-tag"><b>B5</b> · 邀请码无效</span>
+        <div class="phone-shell"><div class="phone-screen">
+          <div class="sb"><span>9:41</span><span>●●● ▮</span></div>
+          <div class="appbar"><span class="back">‹</span><span class="title">Kode toko</span></div>
+          <div class="body">
+            <div class="lead">Masukkan kode undangan 6 digit dari pet shop langgananmu.</div>
+            <div class="flabel">KODE UNDANGAN</div>
+            <div class="field err">123456<span class="caret"></span></div>
+            <div class="msg err"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5"/><path d="M12 16.5h.01"/></svg><span>Kode tidak valid. Cek lagi kode dari toko.</span></div>
+            <div class="note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>Satu akun hanya bisa terhubung ke 1 toko dan tidak bisa diganti.</span></div>
+          </div>
+          <div class="bottom"><div class="btn">Hubungkan</div></div>
+          <div class="kbd"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span class="dim"></span><span>0</span><span class="dim">⌫</span></div>
+        </div></div>
+        <div class="frame-cap">422 <code>merchant-code-invalid</code>（码不存在与门店停用同一文案）。改动输入即清除红字。</div>
+      </div>
+      <div>
+        <span class="frame-tag"><b>B6</b> · 已绑定过门店</span>
+        <div class="phone-shell"><div class="phone-screen">
+          <div class="sb"><span>9:41</span><span>●●● ▮</span></div>
+          <div class="appbar"><span class="back">‹</span><span class="title">Kode toko</span></div>
+          <div class="body">
+            <div class="lead">Masukkan kode undangan 6 digit dari pet shop langgananmu.</div>
+            <div class="flabel">KODE UNDANGAN</div>
+            <div class="field locked">000035</div>
+            <div class="msg err"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5"/><path d="M12 16.5h.01"/></svg><span>Akunmu sudah terhubung dengan toko.<a>Lihat</a></span></div>
+          </div>
+          <div class="bottom"><div class="btn disabled">Hubungkan</div></div>
+        </div></div>
+        <div class="frame-cap">409 <code>merchant-already-bound</code>（如另一台设备已绑）。输入锁定、按钮禁用，点「Lihat」替换到 C1。</div>
+      </div>
+      <div>
+        <span class="frame-tag"><b>B7</b> · 尝试太频繁</span>
+        <div class="phone-shell"><div class="phone-screen">
+          <div class="sb"><span>9:41</span><span>●●● ▮</span></div>
+          <div class="appbar"><span class="back">‹</span><span class="title">Kode toko</span></div>
+          <div class="body">
+            <div class="lead">Masukkan kode undangan 6 digit dari pet shop langgananmu.</div>
+            <div class="flabel">KODE UNDANGAN</div>
+            <div class="field err">111111<span class="caret"></span></div>
+            <div class="msg err"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5"/><path d="M12 16.5h.01"/></svg><span>Terlalu banyak percobaan, coba lagi nanti</span></div>
+            <div class="note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>Satu akun hanya bisa terhubung ke 1 toko dan tidak bisa diganti.</span></div>
+          </div>
+          <div class="bottom"><div class="btn">Hubungkan</div></div>
+          <div class="kbd"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span class="dim"></span><span>0</span><span class="dim">⌫</span></div>
+        </div></div>
+        <div class="frame-cap">429（每人每小时 10 次）。复用 <code>rateLimited</code>。</div>
+      </div>
+      <div>
+        <span class="frame-tag"><b>B8</b> · 网络失败</span>
+        <div class="phone-shell"><div class="phone-screen">
+          <div class="sb"><span>9:41</span><span>●●● ▮</span></div>
+          <div class="appbar"><span class="back">‹</span><span class="title">Kode toko</span></div>
+          <div class="body">
+            <div class="lead">Masukkan kode undangan 6 digit dari pet shop langgananmu.</div>
+            <div class="flabel">KODE UNDANGAN</div>
+            <div class="field focus">000035<span class="caret"></span></div>
+            <div class="note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>Satu akun hanya bisa terhubung ke 1 toko dan tidak bisa diganti.</span></div>
+          </div>
+          <div class="toast">Gagal terhubung, coba lagi</div>
+          <div class="bottom"><div class="btn">Hubungkan</div></div>
+          <div class="kbd"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span class="dim"></span><span>0</span><span class="dim">⌫</span></div>
+        </div></div>
+        <div class="frame-cap">超时 / 5xx / 断网：保留输入，toast 提示，可直接再点。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= C ================= -->
+  <section class="lane">
+    <h2>C · 已绑定</h2>
+    <p class="desc">成功结果页，以及之后从入口进来的只读页（只显示邀请码 + 绑定时间，不显示店名）。</p>
+    <div class="flow">
+      <em>主路径：</em><i>由 B4 成功 →</i> <s>C2</s> 成功 <i>→ Selesai → 回设置页（A2）</i>
+      <span class="nl"></span>
+      <em>再次进入：</em><i>由 D1（已绑定）或 B6「Lihat」→</i> <s>C1</s> 只读页
+    </div>
+    <div class="frames">
+      <div>
+        <span class="frame-tag"><b>C2</b> · 绑定成功</span>
+        <div class="phone-shell"><div class="phone-screen">
+          <div class="sb"><span>9:41</span><span>●●● ▮</span></div>
+          <div class="appbar"><span class="back"></span><span class="title"></span></div>
+          <div class="center">
+            <div class="ring"><div><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div></div>
+            <div class="ctitle">Berhasil terhubung!</div>
+            <div class="cmsg">Kode tokomu:</div>
+            <div class="codebox">000035</div>
+          </div>
+          <div class="bottom"><div class="btn">Selesai</div></div>
+        </div></div>
+        <div class="frame-cap">替换掉填码页（返回不回到填码）。双环勾（外环 violet100 96 / 内圆主紫 64，2.4px 勾），比 EmptyState 更有「完成」感；码框为 violet-50 底 + lineViolet 描边。主按钮吸底。</div>
+      </div>
+      <div>
+        <span class="frame-tag"><b>C1</b> · 已绑定 · 只读</span>
+        <div class="phone-shell"><div class="phone-screen">
+          <div class="sb"><span>9:41</span><span>●●● ▮</span></div>
+          <div class="appbar"><span class="back">‹</span><span class="title">Kode toko</span></div>
+          <div class="body">
+            <div class="codecard">
+              <div class="cap">KODE UNDANGAN</div>
+              <div class="num">000035</div>
+              <div class="since">Terhubung sejak 24 Okt 2026</div>
+            </div>
+            <div class="note"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>Satu akun hanya bisa terhubung ke 1 toko.</span></div>
+          </div>
+        </div></div>
+        <div class="frame-cap">视觉：邀请码做成主角大字（34/w800、等宽、字距 8），绑定日期收进胶囊；仍只显示码 + 日期，无更换入口。「Terhubung sejak {date}」合成一句（原结构稿为两行 key-value）。门店后来停用也照常显示。</div>
+      </div>
+    </div>
+  </section>
+
+
+</div>
+</body>
+</html>

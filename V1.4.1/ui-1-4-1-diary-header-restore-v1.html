@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diary 页头修复</title>
+<style>
+  :root{--page-bg:#F6F4FA;--page-ink:#1F1A2B;--page-ink-2:#4A4458;--page-muted:#8A8399;
+    --page-rule:#E4DEEE;--page-accent:#845EC9;--page-accent-soft:#EFE8FA;
+    /* App token（petgo_app/lib/core/theme/colors.dart 实际值） */
+    --mint:#845EC9;--mintTint:#F8F2FF;--cream2:#F8F2FF;--ink:#2E2A45;--ink2:#544864;--muted:#9690A6;
+    --line:#E6E6E6;--line2:#F0F0F0;--card:#FFFFFF;}
+  *{box-sizing:border-box}
+  body{-webkit-font-smoothing:antialiased;margin:0;background:var(--page-bg);color:var(--page-ink);
+    font:14px/1.6 -apple-system,"PingFang SC","Helvetica Neue",Arial,sans-serif}
+  .page{width:1360px;margin:0 auto;padding:40px 48px 80px}
+  .doc-header{background:#fff;border:1px solid var(--page-rule);border-radius:14px;padding:24px 28px;margin-bottom:36px}
+  .doc-header h1{margin:0 0 6px;font-size:22px}
+  .doc-header .sub{color:var(--page-muted);margin:0 0 14px}
+  .doc-header h3{margin:18px 0 6px;font-size:14px}
+  .doc-header ul{margin:0;padding-left:20px;color:var(--page-ink-2)}
+  .doc-header table{border-collapse:collapse;width:100%;font-size:12.5px;margin-top:6px}
+  .doc-header td,.doc-header th{border:1px solid var(--page-rule);padding:5px 8px;text-align:left;vertical-align:top}
+  .doc-header th{background:var(--page-accent-soft)}
+  .doc-header code{font-size:12px;background:#F3F0F8;border-radius:4px;padding:0 4px}
+  .lane h2{font-size:17px;margin:0 0 4px}
+  .lane .desc{color:var(--page-ink-2);margin:0 0 12px}
+  .frames{display:grid;grid-template-columns:repeat(3,384px);gap:40px 34px;justify-content:start;padding:8px 4px 26px}
+  .frame-tag{display:block;font-weight:600;margin-bottom:8px}
+  .frame-tag b{color:var(--page-accent);margin-right:6px}
+  .frame-cap{color:var(--page-ink-2);font-size:12.5px;margin-top:10px;line-height:1.7}
+
+  .phone-shell{width:384px;height:800px;border-radius:44px;background:#1F1A2B;padding:12px;box-shadow:0 10px 30px rgba(31,26,43,.12)}
+  .phone-screen{position:relative;width:100%;height:100%;border-radius:34px;background:#fff;overflow:hidden;
+    font-family:Poppins,-apple-system,"Helvetica Neue",Arial,sans-serif;color:var(--ink);display:flex;flex-direction:column}
+  .sb{height:40px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 26px;font-size:13px;font-weight:600}
+  .body{flex:1;overflow:hidden;padding:0 16px}
+  .ttl{display:flex;align-items:center;gap:8px;margin-bottom:14px;height:40px}
+  .ttl h3{flex:1;margin:0;font-size:19px;font-weight:700}
+  .ibtn{width:38px;height:38px;border-radius:11px;background:#fff;box-shadow:0 2px 8px rgba(22,34,51,.07);display:flex;align-items:center;justify-content:center}
+  /* 宠物卡：示意，本次不改 */
+  .pet{border-radius:18px;background:var(--cream2);padding:14px;display:flex;gap:12px;align-items:center;height:118px;position:relative}
+  .pet .av{width:64px;height:64px;border-radius:50%;background:#E3D7F5;flex:none}
+  .pet .nm{font-size:16px;font-weight:700}.pet .meta{font-size:12px;color:var(--ink2)}
+  .pet .tg{position:absolute;right:10px;top:10px;background:#fff;border-radius:99px;padding:3px 4px 3px 8px;font-size:10.5px;font-weight:600;color:var(--ink2);display:flex;gap:4px;align-items:center}
+  .pet .tg i{width:24px;height:14px;border-radius:99px;background:var(--line);position:relative}
+  .pet .tg i::after{content:"";position:absolute;left:2px;top:2px;width:10px;height:10px;border-radius:50%;background:#fff}
+
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:11px}
+
+  /* ---- 现线上（988c25e5 后）---- */
+  .ent-now{background:#fff;border:1px solid var(--line2);border-radius:14px;padding:10px 12px}
+  .ent-now b{display:block;font-size:13px;font-weight:700}
+  .ent-now span{display:block;font-size:11px;line-height:1.35;color:var(--ink2);margin-top:2px}
+  .ms-now{margin-top:11px;background:#fff;border:1px solid var(--line2);border-radius:14px;padding:10px 12px}
+  .ms-now .r{display:flex;justify-content:space-between;font-size:13px;font-weight:600}
+  .ms-now .r em{font-style:normal;color:var(--ink2);font-variant-numeric:tabular-nums}
+  .ms-now .bar{height:6px;border-radius:99px;background:var(--line2);margin-top:8px;overflow:hidden}
+  .ms-now .bar i,.ms-old .bar i{display:block;height:100%;width:40%;background:var(--mint);border-radius:99px}
+  .vt-now{display:flex;gap:8px;margin-top:12px}
+  .vt-now span{border-radius:999px;padding:6px 14px;font-size:12px;font-weight:600;border:1.5px solid var(--line);color:var(--ink2)}
+  .vt-now span.on{background:var(--mint);border-color:var(--mint);color:#fff}
+
+  /* ---- 恢复后（= 988c25e5 之前，InsightEntryCard）---- */
+  /* 入口卡：合成一张列表卡 · 两行（D2b 已选定） */
+  .ent-b{margin-top:11px;background:#fff;border-radius:14px;box-shadow:0 2px 8px rgba(43,42,39,.05);overflow:hidden}
+  .ent-b .row{display:flex;align-items:center;gap:10px;padding:10px 12px}
+  .ent-b .ic{width:32px;height:32px;border-radius:9px;background:var(--mintTint);display:flex;align-items:center;justify-content:center;flex:none}
+  .ent-b .tx{flex:1;min-width:0}
+  .ent-b b{display:block;font-size:13px;line-height:1.3;font-weight:600}
+  .ent-b span{display:block;font-size:11px;line-height:1.35;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ent-b .dv{height:1px;background:var(--line2);margin-left:54px}
+  .ms-old{margin-top:11px;background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(43,42,39,.05);padding:11px 15px}
+  .ms-old .r{display:flex;justify-content:space-between;font-size:12px;font-weight:600}
+  .ms-old .r em{font-style:normal;color:var(--mint)}
+  .ms-old .bar{height:5px;border-radius:99px;background:var(--cream2);margin-top:7px;overflow:hidden}
+  .vt-old{display:flex;gap:7px;margin-top:12px}
+  .vt-old span{flex:1;text-align:center;border-radius:10px;padding:9px 0;font-size:12px;font-weight:600;border:1.5px solid var(--line);color:var(--ink2)}
+  .vt-old span.on{background:var(--mint);border-color:var(--mint);color:#fff}
+
+  .tl{margin-top:16px;display:flex;flex-direction:column;gap:12px}
+  .tl div{height:120px;border-radius:16px;background:#FAF8FD}
+  /* 灵动岛状态栏（覆盖在内容上，模拟页面没让位时的样子）+ 宠物切换器 */
+  .sbi{position:absolute;top:0;left:0;right:0;height:54px;display:flex;align-items:center;justify-content:space-between;padding:6px 30px 0;font-size:15px;font-weight:600;z-index:5}
+  .island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:108px;height:32px;border-radius:20px;background:#000}
+  .sbi .rt{display:flex;gap:3px;align-items:flex-end}.sbi .rt i{width:3px;height:10px;background:var(--ink);border-radius:1px}
+  .sbi .rt b{width:22px;height:11px;border:1.5px solid var(--ink);border-radius:3px;margin-left:6px}
+  .body.d1{padding-top:38px}.body.d2{padding-top:62px}
+  .sw{display:flex;gap:6px;padding:0 0 4px 4px}
+  .pa{width:52px;display:flex;flex-direction:column;align-items:center}
+  .pa .c{width:40px;height:40px;border-radius:50%;background:#E3D7F5;box-shadow:0 0 0 2px #fff,0 0 0 4px var(--mint)}
+  .pa .c.add{background:#fff;box-shadow:none;border:1.5px dashed #C9B8E8;display:flex;align-items:center;justify-content:center;color:var(--mint);font-size:22px;font-weight:300}
+  .pa span{font-size:10.5px;font-weight:600;margin-top:3px;line-height:1.3}
+  .gap10{height:10px}.gap0{height:0}
+  .toprow{display:flex;align-items:flex-start;gap:8px}
+  .toprow .sw{flex:1;min-width:0;padding-bottom:0}
+  .toprow .acts{display:flex;gap:8px;padding-top:1px}
+  .ttl.solo{height:auto;margin:4px 0 12px}.ttl.solo h3{line-height:1.3}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="doc-header">
+  <h1>V1.4.1 · Diary 页头修复（5 处）</h1>
+  <p class="sub">2026-10-29 · bug 修复：①–③ 是 V1.4.0 L2 还原度提交 <code>988c25e5</code>（2026-10-19）改坏的，④–⑤ 是多宠物切换器的位置问题。下方 D1 = 现在，D2 = 修复后（按此实现）</p>
+
+  <h3>为什么会变</h3>
+  <ul>
+    <li>①–③：V1.4.0 送礼 / 多宠物 / 推送三份设计稿的背景里画到了 Diary 页头，但画的是简化示意（<code>.ent2</code> 无图标文字卡、<code>.vtog</code> 左对齐小胶囊、<code>.msb</code> 描边进度条），这块不在 V1.4.0 的改动范围内。研发做 L2 还原度时照着改了线上。<b>以本稿为准，V1.4.0 稿里这块作废。</b></li>
+    <li>④：Diary 页的 ListView 顶部写死 <code>padding top 38</code>，没有给系统状态栏让位。带灵动岛 / 刘海的 iPhone 状态栏约 54pt，切换器就压到了时间上（产品实机截图确认）。</li>
+    <li>⑤：切换器下面 <code>SizedBox(height: 10)</code> + 标题行被右侧 38 高按钮撑高，切换器名字到「Diary {name}」之间视觉上空了约 26pt；而宠物名在切换器高亮和宠物卡里已经各出现一次，标题行本身多余。产品定：作者态去掉标题行，按钮移到切换器那一行。</li>
+  </ul>
+
+  <h3>改动清单（只动这 5 处，其余不动）</h3>
+  <table>
+    <tr><th style="width:18%">位置</th><th style="width:34%">现在（错）</th><th>改为</th></tr>
+    <tr><td>① 健康 / Kenali Hewanmu 入口<br><code>diary_header.dart · _entryGrid / _entryCard</code></td>
+      <td>左右两张自绘纯文字卡：1px <code>line2</code> 描边、标题 13 w700、副标题 11 <code>ink2</code>，<b>不画图标</b></td>
+      <td><b>合成一张白卡、上下两行</b>（见 D2）：卡 白底 r14、阴影 <code>0 2 8 #0D2B2A27</code>、无描边、<code>clipBehavior antiAlias</code>。每行 padding <code>12/10</code>：左 32×32 <code>mintTint</code> r9 图标块（图标 18 <code>mint</code>：健康 <code>check_circle_outline</code> / 聚合 <code>auto_awesome_outlined</code>）→ 间距 10 → 标题 13 w600 <code>ink</code> + 副标题 11 <code>muted</code>（都单行，超出省略）→ 右侧 <code>chevron_right</code> 16 <code>muted</code>。两行之间 1px <code>line2</code> 分隔线，左缩进 54（对齐文字）。整行可点（InkWell 铺满一行）</td></tr>
+    <tr><td>② 成就进度条<br><code>diary_header.dart · _milestoneBarCard</code></td>
+      <td>1px <code>line2</code> 描边、r14、padding 12/10、标题和计数 13、计数 <code>ink2</code>、进度槽 6 高 <code>line2</code> 底、间距 8</td>
+      <td>恢复 988c25e5 之前：无描边 + 阴影 <code>0 2 8 #0D2B2A27</code>、r12、padding 15/11、标题和计数 12 w600、<b>计数 <code>mint</code> 紫</b>、进度槽 5 高 <code>cream2</code> 底、间距 7。右上未庆祝红角标逻辑不变</td></tr>
+    <tr><td>③ Linimasa / Kalender 切换<br><code>growth_archive_page.dart · _viewToggleRow / _toggleBtn</code></td>
+      <td>左对齐小胶囊：r999、padding 14/6、两枚按内容宽</td>
+      <td>恢复 988c25e5 之前：<b>两枚 <code>Expanded</code> 等分占满一行</b>、间距 7、r10、padding 竖向 9；选中 <code>mint</code> 底无描边，未选中白底 1.5 <code>line</code> 描边；字 12 w600。点击热区保持 ≥44</td></tr>
+    <tr><td>④ 切换器压住状态栏<br><code>growth_archive_page.dart · _ArchiveBody / _SwitchingBody 的 ListView padding</code></td>
+      <td>顶部固定 <code>38</code>，不读状态栏高度</td>
+      <td><b>按手机自动适配，不再写死</b>：顶部 = <code>MediaQuery.paddingOf(context).top + 8</code>。<code>paddingOf(context).top</code> 是系统告诉 App 的「这台手机状态栏有多高」（灵动岛 iPhone 约 54、刘海 iPhone 约 47、普通 Android 约 24–32、横幅通知/通话条等也会自动算进去），再加 8 的固定间距。左右 16、底 92 不变。<b>_ArchiveBody 和 _SwitchingBody 两处同时改</b>，否则切宠物时会跳位。没有宠物切换器时（访客 / 游客态）同样按这个规则，标题不再贴着状态栏</td></tr>
+    <tr><td>⑤ 切换器和标题之间太空 → <b>去掉标题行</b><br><code>growth_archive_page.dart</code> + <code>diary_header.dart</code> + <code>pet_switcher.dart</code></td>
+      <td>切换器 → 10 间距 →「Diary {name}」标题行（右侧分享 / 编辑两个 38 高按钮）→ 宠物卡。标题被按钮撑高，切换器和标题之间视觉空白约 26，标题夹在中间显得多余（宠物名在切换器高亮和宠物卡里已经各出现一次）</td>
+      <td><b>作者态且有切换器时，不再显示「Diary {name}」标题行</b>。第一行改为：<code>Row(crossAxisAlignment: start, children: [Expanded(child: PetSwitcher(...)), 分享按钮, SizedBox(width: 8), 编辑按钮])</code>，按钮仍是 38×38 白底 r11 + 阴影、图标与点击行为不变；宠物多时头像在 Expanded 区内横滑，不会滑到按钮下面。切换器下面直接接（只读横幅 belowTitle，如有 →）宠物卡，间距 <code>12</code>。<b>没有切换器的态（游客页 diary_guest_page / 访客页 visitor_archive_view）标题行保持现状不动。</b></td></tr>
+  </table>
+
+  <h3>不动</h3>
+  <ul>
+    <li>文案、key（<code>diaryHealthEntry</code> / <code>diaryIdCardButton</code> / <code>archiveMilestoneBar</code> / <code>archiveViewTimeline</code> / <code>archiveViewCalendar</code> / <code>petSwitcher</code>）、引导蒙层锚点 <code>insightsEntryAnchor</code>、埋点、点击行为全部不变。</li>
+    <li>健康副标题空态逻辑保留：0 条记录显示「Belum ada catatan」，否则「Vaksin · obat cacing · riwayat medis」。</li>
+    <li>切换器本身（头像 40、名字、选中环、「+」）、宠物卡、分享 <code>ic_link.svg</code> / 编辑 <code>ic_edit.svg</code> 两个 38×38 图标按钮本身（只换位置）、「Diary saja」开关、时间线不改（框里是示意）。</li>
+    <li>同一提交 988c25e5 里的档案编辑 C1 / 名额管理 D1 / KTP 建卡 I3 改动<b>不回退</b>。</li>
+  </ul>
+
+  <h3>给研发 AI 的执行说明（照此直接改）</h3>
+  <ol style="margin:0;padding-left:20px;color:var(--page-ink-2)">
+    <li><b>基线分支</b>：<code>origin/dev_1.4.1</code>（先 <code>git fetch</code>），新建特性分支，例如 <code>hex/1.4.1-diary-header-fix</code>。</li>
+    <li><b>②③ 参考版本</b>：目标样式 = 提交 <code>988c25e5</code> 的<b>父提交</b>。用 <code>git show 988c25e5 -- petgo_app/lib/features/profile/presentation/widgets/diary_header.dart petgo_app/lib/features/profile/presentation/growth_archive_page.dart</code> 查看差异，只把 <code>_milestoneBarCard</code>、<code>_viewToggleRow</code>、<code>_toggleBtn</code> 这三处的 hunk 反向应用。<b>不要</b>整体 <code>git revert 988c25e5</code>，也<b>不要</b>把 <code>_entryCard</code> 改回 <code>InsightEntryCard</code>（原大卡已被否决）。</li>
+    <li><b>① diary_header.dart</b>：<code>_entryGrid</code> 改为返回一张卡（Material + 阴影 DecoratedBox，规格见表格①），里面 Column：健康行 → 分隔线 → 聚合行。每行是一个 InkWell，<code>key</code> 分别为 <code>diaryHealthEntry</code> / <code>diaryIdCardButton</code>（沿用）；<code>insightsEntryAnchor</code> 挂在聚合行外层（原来挂在右栏外层）。不再需要 IntrinsicHeight。聚合页用的 <code>InsightEntryCard</code> 不动。</li>
+    <li><b>④⑤ growth_archive_page.dart / diary_header.dart / pet_switcher.dart</b>：
+      <ul>
+        <li>④ <code>_ArchiveBody</code> 与 <code>_SwitchingBody</code> 的 <code>ListView.padding</code> 改为 <code>EdgeInsets.fromLTRB(AppSpacing.lg, MediaQuery.paddingOf(context).top + 8, AppSpacing.lg, 92)</code>。</li>
+        <li>⑤ <code>DiaryHeader</code> 加一个可选参数（如 <code>showTitleRow</code>，默认 <code>true</code>）。<code>_ArchiveBody</code> 有切换器时传 <code>false</code>：不画标题行（含其右侧按钮）。<code>belowTitle</code>（只读横幅）照常显示在宠物卡上方；标题行不画时它上方的间距为 0、下方 12。游客页 / 访客页不传，行为不变。</li>
+        <li>⑤ <code>_ArchiveBody</code> 第一行改为「Expanded(切换器) + 分享按钮 + 8 + 编辑按钮」：分享按钮复用现在传给 <code>titleAction</code> 的 widget，编辑按钮复用 <code>DiaryHeader._iconBtn</code> 的样式（抽成公开小组件），key（<code>editProfileButton</code> 等）不变。第一行到宠物卡间距 12（删掉原 <code>SizedBox(height: 10)</code>）。</li>
+        <li>⑤ <code>_SwitchingBody</code>（切宠物过渡态）同步：第一行同样「切换器 + 两个按钮位」（按钮可置灰，但必须占同样位置），<b>删掉 <code>diarySwitchingTitle</code> 那行标题文字</b>，下面直接是骨架块，间距 12，保证切换前后不跳位。</li>
+        <li>⑤ <code>PetSwitcher</code> 的 <code>padding</code> 由 <code>only(left: 4, bottom: 4)</code> 改为 <code>only(left: 4)</code>；改完用只读宠物（带锁标）确认锁标没被裁。</li>
+        <li>测试里如有按 <code>find.text('Diary …')</code> / <code>diarySwitchingTitle</code> 断言作者态标题的，改为断言不存在；游客 / 访客态的标题断言保持。</li>
+      </ul></li>
+    <li><b>测试</b>：<code>petgo_app/test/profile/diary_guest_state_test.dart</code> 里「综合入口卡按 V1.4.0 稿为纯文字卡（无图标）」用例改为断言 <code>diaryIdCardButton</code> 子树里有 <code>find.byIcon(Icons.auto_awesome_outlined)</code>（<code>findsOneWidget</code>），用例名改为「综合入口有图标，且不渲染编号（编号可空）」。用到入口卡左右位置的断言（如 health 与 idCard 的 left/right 比较）要改成上下关系。其余引用这些 key 的测试（growth_archive_r2 / milestone_uncelebrated_badge / timeline_five_class_render / visitor_archive_view / visitor_deeplink_routing）跑一遍确认。</li>
+    <li><b>验收</b>：<code>flutter test test/profile</code> 全绿；真机（务必用带灵动岛的 iPhone + 一台 Android）作者态 Diary 页与下方 D2 一致：① 入口是一张两行卡，带紫色图标和右箭头；② 成就条无描边有阴影，「X / N」紫色；③ Linimasa / Kalender 等分占满一行；④ 切换器在状态栏下方、不压时间；⑤ 作者态没有「Diary {name}」标题行，分享 / 编辑在切换器同一行右侧，切换器下面直接是宠物卡（宠物多到需要横滑时，头像不会滑进按钮下面）；游客页、访客页标题照旧。切宠物时页头不跳位；访客态（不显示入口卡）、只读宠物态行为不变。</li>
+  </ol>
+</div>
+
+<div class="lane">
+  <h2>D · Diary 页（作者态 · 多宠物）</h2>
+  <p class="desc">D1：现在线上 / dev_1.4.1 的样子（灵动岛 iPhone）。D2：修复后。</p>
+  <div class="frames">
+
+    <!-- D1 现状 -->
+    <div><span class="frame-tag"><b>D1</b>现在（需修改）</span>
+      <div class="phone-shell"><div class="phone-screen">
+        <div class="island"></div><div class="sbi"><span>18:30</span><span class="rt"><i></i><i></i><i></i><b></b></span></div>
+        <div class="body d1">
+          <div class="sw"><div class="pa"><div class="c"></div><span>Mochi</span></div><div class="pa"><div class="c add">+</div></div></div><div class="gap10"></div>
+          <div class="ttl"><h3>Diary Mochi</h3><div class="ibtn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E2A45" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div><div class="ibtn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E2A45" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div></div>
+          <div class="pet"><div class="av"></div><div><div class="nm">Mochi</div><div class="meta">Kucing · 2 tahun</div></div><div class="tg">Diary saja<i></i></div></div>
+          <div class="grid">
+            <div class="ent-now"><b>Catatan Kesehatan</b><span>Vaksin · obat cacing · riwayat medis</span></div>
+            <div class="ent-now"><b>Kenali Hewanmu</b><span>Ketuk untuk lihat</span></div>
+          </div>
+          <div class="ms-now"><div class="r"><span>🏆 Pencapaian Mochi</span><em>4 / 10</em></div><div class="bar"><i></i></div></div>
+          <div class="vt-now"><span class="on">⏱ Linimasa</span><span>📅 Kalender</span></div>
+          <div class="tl"><div></div><div></div></div>
+        </div>
+      </div></div>
+      <div class="frame-cap">④ 切换器顶在 38，压住灵动岛机型的状态栏时间；⑤ 切换器到标题之间偏空；① 入口卡没有图标；② 成就条描边、计数深灰；③ 切换是左对齐小胶囊。</div>
+    </div>
+
+    <!-- D2 修复后 -->
+    <div><span class="frame-tag"><b>D2</b>修复后（按此实现）</span>
+      <div class="phone-shell"><div class="phone-screen">
+        <div class="island"></div><div class="sbi"><span>18:30</span><span class="rt"><i></i><i></i><i></i><b></b></span></div>
+        <div class="body d2">
+          <div class="toprow"><div class="sw"><div class="pa"><div class="c"></div><span>Mochi</span></div><div class="pa"><div class="c add">+</div></div></div><div class="acts"><div class="ibtn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E2A45" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div><div class="ibtn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E2A45" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div></div></div>
+          <div style="height:12px"></div>
+          <div class="pet"><div class="av"></div><div><div class="nm">Mochi</div><div class="meta">Kucing · 2 tahun</div></div><div class="tg">Diary saja<i></i></div></div>
+          <div class="ent-b">
+            <div class="row"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="#845EC9"><path d="M16.59 7.58L10 14.17l-3.59-3.58L5 12l5 5 8-8zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/></svg></div><div class="tx"><b>Catatan Kesehatan</b><span>Vaksin · obat cacing · riwayat medis</span></div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9690A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></div>
+            <div class="dv"></div>
+            <div class="row"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="#845EC9"><path d="M19 9l1.25-2.75L23 5l-2.75-1.25L19 1l-1.25 2.75L15 5l2.75 1.25L19 9zm-7.5.5L9 4 6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12l-5.5-2.5zM19 15l-1.25 2.75L15 19l2.75 1.25L19 23l1.25-2.75L23 19l-2.75-1.25L19 15z"/></svg></div><div class="tx"><b>Kenali Hewanmu</b><span>Ketuk untuk lihat</span></div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9690A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></div>
+          </div>
+          <div class="ms-old"><div class="r"><span>🏆 Pencapaian Mochi</span><em>4 / 10</em></div><div class="bar"><i></i></div></div>
+          <div class="vt-old"><span class="on">⏱ Linimasa</span><span>📅 Kalender</span></div>
+          <div class="tl"><div></div><div></div></div>
+        </div>
+      </div></div>
+      <div class="frame-cap">④ 切换器从状态栏下方 8 开始；⑤ 去掉「Diary {name}」标题行，分享 / 编辑移到切换器同一行最右侧，切换器下面直接是宠物卡（间距 12）；① 两个入口合成一张两行卡（图标 + 标题 + 单行副标题 + 箭头）；② 成就条恢复阴影卡、紫色计数；③ 切换恢复等分占满一行。</div>
+    </div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>
