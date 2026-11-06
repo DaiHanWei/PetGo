@@ -1,6 +1,6 @@
 -- ============================================================
 -- 内容运营所需数据 SQL
--- 创建日期：2026-07-17 · 最近更新：2026-07-22
+-- 创建日期：2026-07-17 · 最近更新：2026-10-02（口径② 补 V1.3.2 三类一次性解锁；身份证高清改为 PawCoin 行 + ID_HD 到账，与后台看板对齐）
 -- 说明：以下查询全部基于现有数据库表，不依赖任何新增埋点。
 --       表名/字段名/枚举值已对照 db-schema-reference.md（staging 库 petgo_stag，56 张表）核对。
 --
@@ -15,6 +15,18 @@
 --   4. content_likes 取消点赞是直接删行，没有软删标记，点赞数无需额外过滤。
 --   5. 「当日发diary的建档用户数」中的 diary = content_posts.type='GROWTH_MOMENT'（成长日历快乐时刻），
 --      且发帖人必须是 pet_profiles 的 owner（即已建档用户）。
+--   6. 付费指标：「付费人数」= 当天发生过至少一次真实成交的去重真实用户数（同样排 ADMIN/种子账号）；
+--      「付费次数」= 当天的成交笔数，不去重（同一人多笔各算一次）。两个口径各给人数+次数一组：
+--      ① 现金到账：payment_intents.status='PAID'，覆盖全部 QRIS 真钱（问诊/PawCoin 充值/AI 解锁/身份证高清图），
+--         对财务口径最贴。payment_intents 没有 paid_at 列，用 updated_at 当到账时刻——PAID 是终态不再变，
+--         updated_at 即到账那一刻。
+--      ② 含 PawCoin 消费：consult_orders.paid_at（问诊）∪ ai_consult_orders(status='COMPLETED').paid_at（AI 解锁）
+--         ∪ 身份证高清图（id_card_hd_purchases 的 PawCoin 行 purchased_at ∪ ID_HD 支付单到账）∪ PawCoin 充值到账
+--         ∪ V1.3.2 一次性解锁（keepsake_purchases 已到账三态的 paid_at，QRIS 与 PawCoin 两渠道同源）。站内用余额付的也算，对运营口径最贴。
+--         📌 规则（V1.3.2 起）：新增任何付费点，必须同步登记进本口径与后台看板 PayingUsersInclPawcoinMetricQuery —— 本口径是白名单式的。
+--      两者差主要是「先前充值、今天用余额买问诊」的人：① 不算他今天付费，② 算。
+--      已退款订单当天仍算付费用户（退款不追溯改写付款事实）；要剔除在 spend_events 的问诊分支加
+--      AND co.status NOT IN ('REFUNDING','REFUNDED')。
 --
 -- 日报口径：
 --   - 所有时间窗口的截止点统一是"查询当天的 00:00"，即"今日新增"实际统计的是上一个完整自然日
@@ -26,9 +38,11 @@
 -- 两个指标的含义（本人推断，需运营/产品确认）：
 --   - 总安装用户数：不是当天新增，而是"截至该天 24:00 为止"的累计注册用户数，放进每日一行的表里
 --     是为了看累计增长趋势。
---   - 今日帖子总得分：指"当天新发布的帖子"，用它们目前累计收到的点赞×1+评论×5 算出来的总分，
+--   - 今日帖子总得分：指"当天新发布的帖子"，用它们截至该天 24:00 为止收到的点赞×1+评论×5 算出来的总分，
 --     衡量的是"这天发的内容质量/热度"，跟「总互动得分」不同——后者统计的是"当天发生的互动"
 --     （不管被互动的帖子是哪天发的）。
+--     注意：截止点是该天 24:00，不是"跑查询的那一刻"，所以同一天的数字不会随着后续互动继续往上涨，
+--     补跑历史日期也能复现同样的结果。
 --
 -- 次日留存：数据库没有登录/打开 App 日志表（真正的登录事件只进 PostHog，不落库，
 --   见 埋点文件/analytics-posthog-tracking.md），所以这份 SQL 不包含次日留存，改去 PostHog 里查。
@@ -140,59 +154,66 @@ engagement_by_day AS (
     GROUP BY rd.report_date
 ),
 post_score_by_day AS (
-    -- 今日帖子总得分：当天新发布的帖子，用它们目前累计（不限时间）的点赞×1+评论×5 求和
+    -- 今日帖子总得分：当天新发布的帖子，用它们截至该天 24:00 为止累计的点赞×1+评论×5 求和
+    -- （截止点跟其他指标一致，不再把该天之后新产生的互动算进来）
     SELECT rd.report_date,
-        COALESCE(SUM(
-            COALESCE(l.like_count, 0)    * 1
-          + COALESCE(c.comment_count, 0) * 5
-        ), 0) AS posts_total_score
+        COALESCE(SUM(s.post_score), 0) AS posts_total_score
     FROM report_days rd
     LEFT JOIN content_posts cp
       ON cp.created_at::date = rd.report_date
      AND cp.status = 'PUBLISHED'
      AND cp.deleted_at IS NULL
-    LEFT JOIN (
-        SELECT post_id, COUNT(*) AS like_count
-        FROM content_likes
-        GROUP BY post_id
-    ) l ON l.post_id = cp.id
-    LEFT JOIN (
-        SELECT post_id, COUNT(*) AS comment_count
-        FROM comments
-        WHERE deleted_at IS NULL
-        GROUP BY post_id
-    ) c ON c.post_id = cp.id
+    LEFT JOIN LATERAL (
+        SELECT
+            (SELECT COUNT(*)
+             FROM content_likes cl
+             WHERE cl.post_id = cp.id
+               AND cl.created_at::date <= rd.report_date) * 1
+          + (SELECT COUNT(*)
+             FROM comments cm
+             WHERE cm.post_id = cp.id
+               AND cm.deleted_at IS NULL
+               AND cm.created_at::date <= rd.report_date) * 5 AS post_score
+    ) s ON TRUE
     GROUP BY rd.report_date
 ),
-all_posts_avg_score AS (
-    -- 全部帖子全量平均分：不分天，统计截至"查询当天00:00"为止的全部公开可见帖子及其历史互动，累计得分取平均——
-    -- 跟其他指标的截止点保持一致，避免同一天内多次运行结果不一样；每天这一列都是同一个数，仅作参考基准
-    SELECT AVG(
-        COALESCE(l.like_count, 0)    * 1
-      + COALESCE(c.comment_count, 0) * 5
-    ) AS avg_score
-    FROM content_posts p
-    LEFT JOIN (
-        SELECT post_id, COUNT(*) AS like_count
-        FROM content_likes
-        WHERE created_at::date < CURRENT_DATE
-        GROUP BY post_id
-    ) l ON l.post_id = p.id
-    LEFT JOIN (
-        SELECT post_id, COUNT(*) AS comment_count
-        FROM comments
-        WHERE deleted_at IS NULL AND created_at::date < CURRENT_DATE
-        GROUP BY post_id
-    ) c ON c.post_id = p.id
-    WHERE p.status = 'PUBLISHED' AND p.deleted_at IS NULL
-      AND p.created_at::date < CURRENT_DATE
+all_posts_avg_score_by_day AS (
+    -- 全部帖子全量平均分：截至该天 24:00 为止已发布的全部公开可见帖子，
+    -- 各自截至该天累计的点赞×1+评论×5，取平均——按天变化，跟其他指标的截止点保持一致。
+    -- 分母是"截至该天的存量帖子总数"，所以这个数会随着存量变大而被摊薄，看趋势而不是看绝对值。
+    SELECT rd.report_date,
+        AVG(s.post_score) FILTER (WHERE p.id IS NOT NULL) AS avg_score
+    FROM report_days rd
+    LEFT JOIN content_posts p
+      ON p.created_at::date <= rd.report_date
+     AND p.status = 'PUBLISHED'
+     AND p.deleted_at IS NULL
+    LEFT JOIN LATERAL (
+        SELECT
+            (SELECT COUNT(*)
+             FROM content_likes cl
+             WHERE cl.post_id = p.id
+               AND cl.created_at::date <= rd.report_date) * 1
+          + (SELECT COUNT(*)
+             FROM comments cm
+             WHERE cm.post_id = p.id
+               AND cm.deleted_at IS NULL
+               AND cm.created_at::date <= rd.report_date) * 5 AS post_score
+    ) s ON TRUE
+    GROUP BY rd.report_date
 ),
-all_time_engagement_score AS (
-    -- 总互动得分_全部历史：不分天，统计截至"查询当天00:00"为止的全部历史点赞×1+评论×5 的总和——
-    -- 跟其他指标的截止点保持一致；每天这一列都是同一个数，仅作参考基准
-    SELECT
-        (SELECT COUNT(*) FROM content_likes WHERE created_at::date < CURRENT_DATE) * 1
-      + (SELECT COUNT(*) FROM comments WHERE deleted_at IS NULL AND created_at::date < CURRENT_DATE) * 5 AS total_engagement_score_all_time
+all_time_engagement_by_day AS (
+    -- 总互动得分_全部历史：截至该天 24:00 为止的全部历史点赞×1+评论×5 的总和，按天累计（逐日递增）——
+    -- 跟「总安装用户数_累计」一样是累计口径，用来看互动总量的增长趋势
+    SELECT rd.report_date,
+        (SELECT COUNT(*)
+         FROM content_likes cl
+         WHERE cl.created_at::date <= rd.report_date) * 1
+      + (SELECT COUNT(*)
+         FROM comments cm
+         WHERE cm.deleted_at IS NULL
+           AND cm.created_at::date <= rd.report_date) * 5 AS total_engagement_score_all_time
+    FROM report_days rd
 ),
 daily_interaction_per_post AS (
     -- 当天有互动的帖子，各自当天新产生的点赞/评论次数（不是帖子的累计总数）
@@ -210,6 +231,65 @@ daily_interaction_avg_by_day AS (
     FROM report_days rd
     LEFT JOIN daily_interaction_per_post dip ON dip.report_date = rd.report_date
     GROUP BY rd.report_date
+),
+real_users AS (
+    SELECT u.id
+    FROM users u
+    WHERE u.role = 'USER'
+      AND COALESCE(u.google_sub, '') NOT LIKE 'admin:%'
+      AND COALESCE(u.google_sub, '') NOT LIKE 'virtual:%'
+      AND COALESCE(u.google_sub, '') NOT LIKE 'seed-tailtopia-%'
+),
+cash_paid AS (
+    -- 付费口径①：真钱到账（见口径 6）
+    SELECT pi.user_id, pi.updated_at::date AS d, pi.purpose
+    FROM payment_intents pi
+    JOIN real_users ru ON ru.id = pi.user_id
+    WHERE pi.status = 'PAID'
+),
+spend_events AS (
+    -- 付费口径②：消费成交（含 PawCoin 扣减）+ 充值（见口径 6）
+    SELECT co.user_id, co.paid_at::date AS d
+    FROM consult_orders co
+    JOIN real_users ru ON ru.id = co.user_id
+    WHERE co.paid_at IS NOT NULL
+    UNION ALL
+    SELECT ao.user_id, ao.paid_at::date
+    FROM ai_consult_orders ao
+    JOIN real_users ru ON ru.id = ao.user_id
+    WHERE ao.status = 'COMPLETED' AND ao.paid_at IS NOT NULL
+    UNION ALL
+    -- 身份证高清：id_card_hd_purchases 是「支付尝试 / 收据」表（QRIS 下单即插行，此时支付单仍 PENDING），
+    -- 只有 PawCoin 行 = 当场成交；QRIS 成交以 ID_HD 支付单 PAID（到账日）为准。（2026-10-02 与看板 #17/#18 对齐）
+    SELECT hd.user_id, hd.purchased_at::date
+    FROM id_card_hd_purchases hd
+    JOIN real_users ru ON ru.id = hd.user_id
+    WHERE hd.pay_channel = 'PAWCOIN'
+    UNION ALL
+    SELECT cp.user_id, cp.d
+    FROM cash_paid cp
+    WHERE cp.purpose = 'ID_HD'
+    UNION ALL
+    SELECT cp.user_id, cp.d
+    FROM cash_paid cp
+    WHERE cp.purpose = 'PAWCOIN_TOPUP'
+    UNION ALL
+    -- V1.3.2 三类一次性解锁（Tailsonality 结果 / 护照快照 / 登机牌）：QRIS 与 PawCoin 两个渠道都从购买记录取，
+    -- 不再从 payment_intents 按三个新 purpose 取一遍（否则 QRIS 成交会数两次）。
+    -- DUPLICATE_PAID / ORPHAN_PAID 也是真实付款（钱已到账，交人工处理），计入。
+    SELECT kp.user_id, kp.paid_at::date
+    FROM keepsake_purchases kp
+    JOIN real_users ru ON ru.id = kp.user_id
+    WHERE kp.status IN ('PAID', 'DUPLICATE_PAID', 'ORPHAN_PAID') AND kp.paid_at IS NOT NULL
+),
+paying_users_by_day AS (
+    -- 付费人数 = 当天有成交的去重用户数；付费次数 = 当天成交笔数（同一人多笔各算一次）。口径见口径 6。
+    SELECT rd.report_date,
+        (SELECT COUNT(DISTINCT cp.user_id) FROM cash_paid cp     WHERE cp.d = rd.report_date) AS paying_users_cash,
+        (SELECT COUNT(*)                   FROM cash_paid cp     WHERE cp.d = rd.report_date) AS payments_cash,
+        (SELECT COUNT(DISTINCT se.user_id) FROM spend_events se  WHERE se.d = rd.report_date) AS paying_users_incl_pawcoin,
+        (SELECT COUNT(*)                   FROM spend_events se  WHERE se.d = rd.report_date) AS payments_incl_pawcoin
+    FROM report_days rd
 )
 SELECT
     rd.report_date                       AS 日期,
@@ -226,7 +306,11 @@ SELECT
     ps.posts_total_score                 AS 今日帖子总得分,
     apa.avg_score                        AS 全部帖子全量平均分,
     dia.interacted_posts_avg_score_today AS 当日互动帖子平均得分,
-    ate.total_engagement_score_all_time  AS 总互动得分_全部历史
+    ate.total_engagement_score_all_time  AS 总互动得分_全部历史,
+    pu.paying_users_cash                 AS 付费人数_现金到账,
+    pu.payments_cash                     AS 付费次数_现金到账,
+    pu.paying_users_incl_pawcoin         AS 付费人数_含PawCoin消费,
+    pu.payments_incl_pawcoin             AS 付费次数_含PawCoin消费
 FROM report_days rd
 JOIN new_users_by_day        nu  ON nu.report_date  = rd.report_date
 JOIN total_installs_by_day   ti  ON ti.report_date  = rd.report_date
@@ -239,6 +323,83 @@ JOIN silent_posts_by_day     sp  ON sp.report_date  = rd.report_date
 JOIN engagement_by_day       eb  ON eb.report_date  = rd.report_date
 JOIN post_score_by_day       ps  ON ps.report_date  = rd.report_date
 JOIN daily_interaction_avg_by_day dia ON dia.report_date = rd.report_date
-CROSS JOIN all_posts_avg_score apa
-CROSS JOIN all_time_engagement_score ate
+JOIN all_time_engagement_by_day ate ON ate.report_date = rd.report_date
+JOIN all_posts_avg_score_by_day apa ON apa.report_date = rd.report_date
+JOIN paying_users_by_day     pu  ON pu.report_date  = rd.report_date
+ORDER BY rd.report_date;
+
+
+-- ============================================================
+-- 【例外·一次性补历史】2026-07-17 起逐日付费人数与付费次数
+-- 上面的日报只出昨天（周一补三天）；这条专门把 2026-07-17 ~ 昨天每天各出一行，用来补齐历史日报，
+-- 是本文件唯一不按日报窗口跑的查询。口径、时间切法与上面的「今日付费用户数」完全一致（见口径 6）。
+-- 没成交的天也出一行 0。想改起点只改 DATE '2026-07-17' 一处。
+-- 只出两组列：付费人数（当天成交的去重用户数）+ 付费次数（当天成交笔数，不去重），
+-- 口径①现金到账 / 口径②含 PawCoin 消费各一组。
+-- ============================================================
+WITH report_days AS (
+    SELECT gs::date AS report_date
+    FROM generate_series(
+        DATE '2026-07-17',
+        CURRENT_DATE - INTERVAL '1 day',
+        INTERVAL '1 day'
+    ) AS gs
+),
+real_users AS (
+    SELECT u.id
+    FROM users u
+    WHERE u.role = 'USER'
+      AND COALESCE(u.google_sub, '') NOT LIKE 'admin:%'
+      AND COALESCE(u.google_sub, '') NOT LIKE 'virtual:%'
+      AND COALESCE(u.google_sub, '') NOT LIKE 'seed-tailtopia-%'
+),
+cash_paid AS (
+    SELECT pi.user_id, pi.updated_at::date AS d, pi.purpose
+    FROM payment_intents pi
+    JOIN real_users ru ON ru.id = pi.user_id
+    WHERE pi.status = 'PAID'
+),
+spend_events AS (
+    SELECT co.user_id, co.paid_at::date AS d
+    FROM consult_orders co
+    JOIN real_users ru ON ru.id = co.user_id
+    WHERE co.paid_at IS NOT NULL
+    UNION ALL
+    SELECT ao.user_id, ao.paid_at::date
+    FROM ai_consult_orders ao
+    JOIN real_users ru ON ru.id = ao.user_id
+    WHERE ao.status = 'COMPLETED' AND ao.paid_at IS NOT NULL
+    UNION ALL
+    -- 身份证高清：id_card_hd_purchases 是「支付尝试 / 收据」表（QRIS 下单即插行，此时支付单仍 PENDING），
+    -- 只有 PawCoin 行 = 当场成交；QRIS 成交以 ID_HD 支付单 PAID（到账日）为准。（2026-10-02 与看板 #17/#18 对齐）
+    SELECT hd.user_id, hd.purchased_at::date
+    FROM id_card_hd_purchases hd
+    JOIN real_users ru ON ru.id = hd.user_id
+    WHERE hd.pay_channel = 'PAWCOIN'
+    UNION ALL
+    SELECT cp.user_id, cp.d
+    FROM cash_paid cp
+    WHERE cp.purpose = 'ID_HD'
+    UNION ALL
+    SELECT cp.user_id, cp.d
+    FROM cash_paid cp
+    WHERE cp.purpose = 'PAWCOIN_TOPUP'
+    UNION ALL
+    -- V1.3.2 三类一次性解锁（Tailsonality 结果 / 护照快照 / 登机牌）：QRIS 与 PawCoin 两个渠道都从购买记录取，
+    -- 不再从 payment_intents 按三个新 purpose 取一遍（否则 QRIS 成交会数两次）。
+    -- DUPLICATE_PAID / ORPHAN_PAID 也是真实付款（钱已到账，交人工处理），计入。
+    SELECT kp.user_id, kp.paid_at::date
+    FROM keepsake_purchases kp
+    JOIN real_users ru ON ru.id = kp.user_id
+    WHERE kp.status IN ('PAID', 'DUPLICATE_PAID', 'ORPHAN_PAID') AND kp.paid_at IS NOT NULL
+)
+SELECT
+    rd.report_date                                                        AS 日期,
+    (SELECT COUNT(DISTINCT cp.user_id) FROM cash_paid cp WHERE cp.d = rd.report_date)
+                                                                          AS 付费人数_现金到账,
+    (SELECT COUNT(*) FROM cash_paid cp WHERE cp.d = rd.report_date)      AS 付费次数_现金到账,
+    (SELECT COUNT(DISTINCT se.user_id) FROM spend_events se WHERE se.d = rd.report_date)
+                                                                          AS 付费人数_含PawCoin消费,
+    (SELECT COUNT(*) FROM spend_events se WHERE se.d = rd.report_date)   AS 付费次数_含PawCoin消费
+FROM report_days rd
 ORDER BY rd.report_date;
