@@ -234,6 +234,25 @@ Imagery (photo placeholders, avatar fills) follows its container's corner radius
 
 ## Components
 
+**Shared widgets come first.** Before drawing any confirmation, sheet, toast or dialog in a mockup, check `petgo_app/lib/shared/widgets/` in the app repo (`/Users/hexsfile/work/petgo-platform`) and the entries below. If a shared widget exists, the mockup copies its spec and names the call (e.g. `showConfirmSheet(danger: true)`); never draw a look-alike. A Material default (centered `AlertDialog`, right-aligned text buttons) in a mockup is a red flag that this step was skipped.
+
+- **Confirm sheet (P-02)** — code: `shared/widgets/confirm_sheet.dart` → `showConfirmSheet()`. **The only two-button confirmation in the app** (logout, deletes, block, discard unsaved input, quota-full notices). It replaced every centered `AlertDialog` confirmation (bug 20260707); a remaining `AlertDialog` in code is leftover debt, not a pattern to copy. Inherits `{components.sheet}`. Spec, top to bottom, all centered: white surface, 24px top corners, padding 12/22/30 (top/sides/bottom) → handle 36×4, `{colors.border-default}`, 18px below → 60×60 circular icon chip, accent at 12% alpha, 28px icon, 14px below → title 16/700 `{colors.text-primary}` → optional body 13px, line-height 1.6, `{colors.text-secondary}`, 6px above → 22px gap → primary button full width, accent fill, white 14/700, 14px vertical padding, radius 14 → 10px gap → cancel button full width, 1.5px `{colors.border-default}` outline, `{colors.text-secondary}` 14/600, 13px vertical padding, radius 14. Accent: neutral = brand purple `#845EC9`; `danger: true` = Pop Art red `#F0425A`; deleting a pet profile alone passes `dangerColor` orange-red `#E5604D`. Options: `leading` (avatar instead of icon), `showCancel: false` (single "Oke"), `onCancel` (cancel is a second destination), `onConfirm` (async, sheet stays open while submitting). Avoid stacking it over another bottom sheet (e.g. an open form sheet): two sheets at once adds development work, so prefer a toast or keep the user where they are (V1.5.0 FR-167 E4). Mockup HTML to copy (add `danger` for the red variant):
+  ```html
+  <style>
+  .cfs{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:24px 24px 0 0;padding:12px 22px 30px;z-index:8;display:flex;flex-direction:column;align-items:center}
+  .cfs .hd{width:36px;height:4px;border-radius:99px;background:#E6E6E6;margin:0 0 18px}
+  .cfs .ic{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:14px;background:rgba(132,94,201,.12);color:#845EC9}
+  .cfs .ic .ms{font-size:28px}
+  .cfs h5{margin:0;font-size:16px;font-weight:700;color:#2E2A45;text-align:center}
+  .cfs p{margin:6px 0 0;font-size:13px;line-height:1.6;color:#544864;text-align:center}
+  .cfs .bp{align-self:stretch;margin-top:22px;padding:14px 0;border-radius:14px;background:#845EC9;color:#fff;font-size:14px;font-weight:700;text-align:center}
+  .cfs .bo{align-self:stretch;margin-top:10px;padding:13px 0;border-radius:14px;border:1.5px solid #E6E6E6;color:#544864;font-size:14px;font-weight:600;text-align:center}
+  .cfs.danger .ic{background:rgba(240,66,90,.12);color:#F0425A} .cfs.danger .bp{background:#F0425A}
+  </style>
+  <div class="scrim"></div>
+  <div class="cfs danger"><div class="hd"></div><div class="ic"><i class="ms">delete_outline</i></div>
+    <h5>Title</h5><p>Body</p><div class="bp">Confirm</div><div class="bo">Cancel</div></div>
+  ```
 - **Primary button** (`{components.button-primary}`) — `{rounded.lg}`, `{colors.brand-primary}` fill, white text, brand-toned shadow. Disabled state drops to `{colors.text-disabled}` fill, no shadow, `cursor:not-allowed`. The countdown-gated variant (used once, on the red AI-result acknowledgment) starts disabled at `opacity:.55` and auto-enables after a fixed dwell timer — see `EXPERIENCE.md` for when this pattern applies.
 - **Secondary button** (`{components.button-secondary}`) — transparent fill, `{rounded.lg}`, brand-colored 1.5px border and text. Used for "View profile"/"Cancel"-tier actions that shouldn't compete with a primary CTA on the same screen.
 - **Card** (`{components.card}`) / **Card, large** (`{components.card-lg}`) — surface-on-canvas pattern, no border, soft shadow does the separation work. Large variant is for hero-tier content (pet passport, consultation entry points); standard variant for feed/list content.
