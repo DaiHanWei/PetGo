@@ -1,0 +1,184 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>TailTopia 更新日志 0929</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* 版式：单栏发布说明，左侧窄栏放标签、右侧放正文；手机宽度收成单列 */
+:root {
+  --bg: #fbfaff;
+  --surface: #ffffff;
+  --fg: #221d2e;
+  --muted: #6b6479;
+  --line: #e7e2f1;
+  --accent: #845ec9;          /* TailTopia 品牌紫 */
+  --accent-soft: #f1ebfb;
+  --ok: #2f7d4f;
+  --ok-soft: #e6f4ec;
+  --warn: #9a6200;
+  --warn-soft: #fdf3df;
+  --font-body: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15121c; --surface: #1d1927; --fg: #ece8f4; --muted: #a79fb6; --line: #2e2839;
+    --accent: #b394ec; --accent-soft: #2a2140; --ok: #7fd3a1; --ok-soft: #1b2e23;
+    --warn: #f0c46b; --warn-soft: #33290f; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15121c; --surface: #1d1927; --fg: #ece8f4; --muted: #a79fb6; --line: #2e2839;
+  --accent: #b394ec; --accent-soft: #2a2140; --ok: #7fd3a1; --ok-soft: #1b2e23;
+  --warn: #f0c46b; --warn-soft: #33290f; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--font-body); font-size: 15px; line-height: 1.7;
+  padding-inline: 16px; padding-block: 40px 64px;
+}
+.wrap { max-width: 760px; margin-inline: auto; display: grid; gap: 36px; }
+header { display: grid; gap: 10px; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px; font-size: 13px; color: var(--muted); }
+.pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 2px 10px; border-radius: 999px; font-size: 12.5px; font-weight: 500;
+  background: var(--accent-soft); color: var(--accent);
+}
+.pill.ok { background: var(--ok-soft); color: var(--ok); }
+h1 { font-size: 28px; line-height: 1.3; margin: 0; font-weight: 700; text-wrap: balance; }
+.lede { margin: 0; color: var(--muted); max-width: 62ch; }
+section { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: 20px; padding-top: 24px; border-top: 1px solid var(--line); }
+section > h2 {
+  margin: 0; font-size: 12.5px; font-weight: 500; letter-spacing: .08em;
+  color: var(--accent); text-transform: uppercase;
+}
+.body { display: grid; gap: 14px; min-width: 0; }
+.body p { margin: 0; max-width: 64ch; }
+ul { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
+li::marker { color: var(--accent); }
+dl { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 8px 18px; }
+dt { color: var(--muted); font-size: 13.5px; padding-top: 1px; }
+dd { margin: 0; }
+.time { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-weight: 500; }
+code { font-family: var(--font-mono); font-size: 13px; background: var(--accent-soft); color: var(--accent); padding: 1px 6px; border-radius: 5px; overflow-wrap: anywhere; }
+.est {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px;
+}
+.est div { display: grid; gap: 2px; }
+.est b { font-family: var(--font-mono); font-size: 22px; font-variant-numeric: tabular-nums; }
+.est span { font-size: 12.5px; color: var(--muted); }
+.note { background: var(--warn-soft); color: var(--fg); border-radius: 10px; padding: 12px 14px; font-size: 14px; }
+.note strong { color: var(--warn); }
+footer { font-size: 12.5px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 16px; }
+@media (max-width: 560px) {
+  body { padding-block: 24px 48px; }
+  h1 { font-size: 23px; }
+  section { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .est { grid-template-columns: minmax(0, 1fr); }
+  dl { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  dd { margin-bottom: 8px; }
+}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="meta">
+      <span class="pill ok">已上线生产</span>
+      <span class="pill">仅后端 · App 无需发版</span>
+      <span>2026-09-29 19:33 WIB</span>
+    </div>
+    <h1>社区帖子自动评论上线</h1>
+    <p class="lede">发帖满 2 小时还没人评论的帖子，系统会让 AI 看图写一句评论，由运营虚拟账号发出，帮新帖“破冰”，引导发帖人回复。今晚 20:30（WIB）跑第一轮。</p>
+  </header>
+
+  <section>
+    <h2>运行时间</h2>
+    <div class="body">
+      <p>每天两轮，按印尼时间（WIB）：</p>
+      <dl>
+        <dt>早场</dt><dd><span class="time">10:30</span></dd>
+        <dt>晚场</dt><dd><span class="time">20:30</span></dd>
+      </dl>
+      <p>只在这两个时间点检查，所以一条帖子从发出到收到自动评论，大约要等 2～15 小时。例如早上 08:00 发的帖，10:30 时还不满 2 小时，会在 20:30 那轮评论。</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>评哪些帖子</h2>
+    <div class="body">
+      <ul>
+        <li>9 月 29 日之后发布、已满 2 小时、公开且已过审的帖子</li>
+        <li>还没有任何评论（审核中的评论也算已有评论）</li>
+        <li>发帖人是真实用户；运营虚拟账号、管理员、兽医发的帖不评</li>
+        <li>有图才评，AI 只看第一张图；纯文字帖不评</li>
+        <li>每个帖子最多被自动评论一次</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>评论什么样</h2>
+    <div class="body">
+      <ul>
+        <li>印尼语口语，一般一句话，像网友随手留言，以一个问题结尾，让发帖人愿意回复</li>
+        <li>只挑图里最打动人的一个细节说，不套用“好可爱！几岁了？”这类万能句式</li>
+        <li>例：<code>senyumnya lebar bgt 😆 abis diajak jalan2 ya?</code></li>
+        <li>从 20 个运营虚拟账号里随机挑一个发出，优先挑和帖子宠物同类（猫 / 狗）的账号；发帖人拉黑过的账号不会用</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>不会评的情况</h2>
+    <div class="body">
+      <ul>
+        <li>图里认不出宠物（风景、截图、人物自拍等）</li>
+        <li>宠物生病、受伤、走失、离世、求助等内容：这时积极的语气不合适，直接跳过</li>
+        <li>暴力、血腥或其他不适宜的图片</li>
+      </ul>
+      <p>评论内容不会包含医疗建议、广告、链接、@ 某人，也不会提到官方或 AI。</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>和普通评论一样</h2>
+    <div class="body">
+      <ul>
+        <li>照常经过敏感词过滤和内容审核</li>
+        <li>发帖人照常收到“有人评论了你”的通知</li>
+        <li>每个帖子的处理结果都有记录：发了什么、用了哪个账号、为什么跳过</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>今晚首轮</h2>
+    <div class="body">
+      <p>按今天 19:30 的数据估算：</p>
+      <div class="est">
+        <div><b>~53</b><span>符合条件的零评论帖</span></div>
+        <div><b>~46</b><span>其中有图</span></div>
+        <div><b>30–45</b><span>预计实际发出的评论</span></div>
+      </div>
+      <p>每轮最多处理 200 个帖子，首轮不会被截断。</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>请大家留意</h2>
+    <div class="body">
+      <ul>
+        <li>如果看到评论语气不对、评错了帖子，或用户反馈“被机器人评论”，请截图发给技术，我们会据此调整</li>
+        <li>发现问题需要紧急停用时联系技术，关掉开关、重启服务后即停</li>
+      </ul>
+      <div class="note"><strong>尚未做：</strong>同一个用户一天内被自动评论的次数暂无上限（一人一天发多帖，可能收到多条）；发帖人回复率的统计也还没有。两项都在评估中。</div>
+    </div>
+  </section>
+
+  <footer>后端版本 <code>ce0002ee</code>（main）· PR #40 · 上线前已备份生产数据库</footer>
+</div>
+
+</body></html>

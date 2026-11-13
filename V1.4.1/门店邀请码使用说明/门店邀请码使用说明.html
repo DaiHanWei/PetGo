@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panduan Kode Toko · 门店邀请码使用说明</title>
+<style>
+  :root{--bg:#F6F4FA;--card:#fff;--ink:#2E2A45;--ink2:#544864;--muted:#8A8399;--rule:#E4DEEE;
+    --accent:#845EC9;--accent-soft:#F3EDFC;--red:#F0425A;--red-soft:#FDECEF;--amber:#8A5A00;--amber-soft:#FEF3DE}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;
+    font:15px/1.65 -apple-system,"Helvetica Neue","PingFang SC",Arial,sans-serif}
+  .page{max-width:880px;margin:0 auto;padding:32px 16px 64px}
+  header{background:var(--accent);color:#fff;border-radius:20px;padding:28px 24px;margin-bottom:24px}
+  header h1{margin:0;font-size:26px;line-height:1.3}
+  header .zh-title{font-size:18px;opacity:.9;margin-top:2px}
+  header .meta{font-size:13px;opacity:.8;margin-top:12px}
+  section{background:var(--card);border:1px solid var(--rule);border-radius:16px;padding:22px 22px 18px;margin-bottom:20px}
+  h2{margin:0 0 2px;font-size:20px}
+  h2 + .zh{font-size:15px;margin-bottom:14px}
+  h3{margin:18px 0 2px;font-size:16px}
+  p{margin:0 0 2px}
+  .zh{color:var(--muted);font-size:14px;margin-bottom:10px}
+  .zh::before{content:"中";display:inline-block;font-size:10.5px;font-weight:700;color:var(--accent);background:var(--accent-soft);
+    border-radius:4px;padding:0 5px;margin-right:6px;vertical-align:1px}
+  ul{margin:6px 0 0;padding-left:20px} li{margin-bottom:8px}
+  .code{font-variant-numeric:tabular-nums;font-weight:700;letter-spacing:2px}
+  .ui{font-weight:700;color:var(--accent)}
+  .callout{border-radius:12px;padding:12px 14px;margin:14px 0 4px}
+  .callout.warn{background:var(--amber-soft);color:var(--amber)} .callout.warn .zh{color:#A07A33}
+  .callout > b{display:block;margin-bottom:2px}
+  .step{display:grid;grid-template-columns:240px 1fr;gap:22px;align-items:start;padding:18px 0;border-top:1px solid var(--rule)}
+  .step:first-of-type{border-top:0}
+  .step img{width:100%;display:block}
+  .num{display:inline-flex;width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;font-weight:700;
+    align-items:center;justify-content:center;font-size:14px;margin-bottom:8px}
+  .shots{display:grid;grid-template-columns:repeat(2,240px);gap:22px;margin-top:12px}
+  .shots img{width:100%;display:block}
+  .cap{font-size:12.5px;color:var(--muted);text-align:center;margin-top:4px}
+  .err{display:grid;grid-template-columns:180px 1fr;gap:18px;padding:16px 0;border-top:1px solid var(--rule);align-items:start}
+  .err:first-of-type{border-top:0}
+  .err img{width:100%;display:block}
+  .msg{display:inline-block;background:var(--red-soft);color:var(--red);font-weight:600;border-radius:8px;padding:3px 9px;margin-bottom:8px}
+  .lbl{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.5px;margin-top:6px}
+  .faq dt{font-weight:700;margin-top:14px}
+  .faq dd{margin:2px 0 0}
+  footer{font-size:12.5px;color:var(--muted);text-align:center;margin-top:8px}
+  @media (max-width:600px){
+    .step,.err{grid-template-columns:1fr}
+    .step img{max-width:260px;margin:0 auto}
+    .err img{max-width:200px}
+    .shots{grid-template-columns:1fr 1fr;gap:12px}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <h1>Panduan Kode Toko TailTopia</h1>
+  <div class="zh-title">TailTopia 门店邀请码使用说明</div>
+  <div class="meta">Berlaku untuk aplikasi TailTopia versi 1.4.1 ke atas · 适用于 TailTopia App 1.4.1 及以上版本</div>
+</header>
+
+<!-- ============ Ringkasan ============ -->
+<section>
+  <h2>Ringkasan</h2>
+  <p class="zh">概述</p>
+  <ul>
+    <li>Setiap pet shop mitra TailTopia punya <b>1 kode undangan 6 digit</b>, contoh <span class="code">000035</span>.
+      <p class="zh">每家 TailTopia 合作宠物店都有一个 6 位数字邀请码，例如 000035。</p></li>
+    <li>Pelanggan memasukkan kode ini di aplikasi TailTopia untuk <b>terhubung</b> dengan toko.
+      <p class="zh">顾客在 TailTopia App 里填写这个码，就与该门店绑定。</p></li>
+    <li>Setelah terhubung, setiap belanja pelanggan di <b>Toko</b> (toko online di aplikasi TailTopia) memberi komisi untuk pet shop.
+      <p class="zh">绑定后，顾客在 App 商城（Toko）的每笔购物都会给门店带来返佣。</p></li>
+    <li>Komisi <b>hanya didapat selama toko bekerja sama dengan TailTopia</b>. Jika toko berhenti bekerja sama atau tutup, pesanan setelah itu tidak memberi komisi lagi. Komisi yang sudah tercatat sebelumnya (menunggu penyelesaian maupun yang bisa ditarik) tetap dibayarkan.
+      <p class="zh">门店只有在与 TailTopia 合作期间才能获得返佣；门店取消合作或关闭后，之后的订单不再产生返佣。合作结束前已经产生的返佣（待结算和可提现）照常支付。</p></li>
+    <li><b>1 akun hanya bisa terhubung ke 1 toko, dan tidak bisa diganti atau diputus.</b>
+      <p class="zh">一个 App 账号只能绑定一家门店，绑定后不能更换、不能解绑。</p></li>
+  </ul>
+</section>
+
+<!-- ============ Pemilik toko ============ -->
+<section>
+  <h2>Untuk Pemilik Toko</h2>
+  <p class="zh">门店（店主）篇</p>
+
+  <h3>Di mana melihat kode toko?</h3>
+  <p class="zh">在哪里看本店邀请码？</p>
+  <ul>
+    <li>Login ke <b>Platform Merchant TailTopia</b> (merchant.tailtopia.id). Kode undangan ada di menu <span class="ui">Komisi</span> dan <span class="ui">Akun</span> di bagian bawah. Ketuk <span class="ui">Salin</span> untuk menyalin. Di situ juga terlihat persentase komisi toko saat ini.
+      <p class="zh">登录 TailTopia 商家平台（merchant.tailtopia.id），底部导航的「Komisi」（返佣）和「Akun」（账户）两页都能看到本店邀请码，点「Salin」（复制）即可复制；同一处还显示本店当前的返佣比例。</p>
+      <div class="shots">
+        <div><img src="img-ops/store-komisi.png" alt="Halaman Komisi"><div class="cap">Komisi · 返佣页</div></div>
+        <div><img src="img-ops/store-akun.png" alt="Halaman Akun"><div class="cap">Akun · 账户页</div></div>
+      </div></li>
+    <li>Kode dibuat otomatis oleh sistem setelah pendaftaran toko <b>disetujui</b>. Selama pendaftaran masih ditinjau atau ditolak, toko belum punya kode. Kode tidak bisa dipilih atau diubah sendiri.
+      <p class="zh">邀请码在门店注册审核通过后由系统自动分配；审核中或被驳回时还没有邀请码。邀请码不能自选，也不能修改。</p></li>
+  </ul>
+
+  <h3>Cara mengajak pelanggan</h3>
+  <p class="zh">怎么引导顾客绑定</p>
+  <ul>
+    <li>Cetak kode toko dan pasang di kasir, atau kirim lewat WhatsApp ke pelanggan tetap.
+      <p class="zh">把邀请码打印出来贴在收银台，或通过 WhatsApp 发给熟客。</p></li>
+    <li>Tunjukkan langkah di bagian <b>“Untuk Pelanggan”</b> di bawah. Hanya butuh kurang dari 1 menit.
+      <p class="zh">按下方「顾客篇」的步骤带顾客操作，不到 1 分钟即可完成。</p></li>
+    <li>Ajak pelanggan memasukkan kode <b>sebelum</b> mereka belanja.
+      <p class="zh">请顾客在购物之前先填码。</p></li>
+  </ul>
+
+  <div class="callout warn">
+    <b>Pesanan yang dihitung komisi</b>
+    <p class="zh">哪些订单算返佣</p>
+    <ul>
+      <li>Hanya pesanan produk di <b>Toko</b> aplikasi TailTopia. Konsultasi dokter hewan, isi ulang PawCoin, dan buka fitur AI tidak dihitung.
+        <p class="zh">只算 App 商城（Toko）的商品订单；问诊、PawCoin 充值、AI 解锁等不算。</p></li>
+      <li>Pesanan yang dibuat <b>sebelum</b> pelanggan terhubung tidak dihitung, walaupun dibayar setelah terhubung.
+        <p class="zh">顾客绑定之前下的单不算，即使是绑定之后才付款。</p></li>
+      <li>Komisi hanya didapat <b>selama toko bekerja sama</b> dengan TailTopia.
+        <p class="zh">只有门店与 TailTopia 合作期间才能获得返佣。</p></li>
+    </ul>
+  </div>
+
+  <h3>Jika toko berhenti bekerja sama atau tutup</h3>
+  <p class="zh">门店取消合作或关闭时</p>
+  <ul>
+    <li>Pesanan pelanggan setelah kerja sama berakhir <b>tidak memberi komisi lagi</b>.
+      <p class="zh">合作结束后的顾客订单，不再给门店返佣。</p></li>
+    <li>Komisi yang sudah tercatat sebelum kerja sama berakhir <b>tetap dibayarkan</b>: yang bisa ditarik dibayar, dan yang masih menunggu penyelesaian dibayar setelah selesai. Karena toko tidak bisa login lagi, hubungi tim operasional TailTopia lewat WhatsApp untuk pencairannya.
+      <p class="zh">合作结束前已经产生的返佣照常支付：可提现的直接给，待结算的等结算后再给。门店此时已无法登录平台，提现请通过 WhatsApp 联系 TailTopia 运营。</p></li>
+    <li>Kode toko tidak bisa dipakai pelanggan baru (muncul pesan “kode tidak valid”). Pelanggan yang sudah terhubung tetap terhubung ke toko ini dan tidak bisa pindah ke toko lain.
+      <p class="zh">新顾客无法再用这个码绑定（会提示码无效）；已绑定的顾客仍绑定在本店，不能改绑到别的门店。</p></li>
+  </ul>
+</section>
+
+<!-- ============ Pelanggan ============ -->
+<section>
+  <h2>Untuk Pelanggan: Cara Memasukkan Kode</h2>
+  <p class="zh">顾客篇：如何填写门店邀请码</p>
+
+  <div class="step">
+    <img src="img/A1-mark.png" alt="Halaman Pengaturan, baris Kode toko">
+    <div>
+      <span class="num">1</span>
+      <p>Buka aplikasi TailTopia, masuk ke tab <span class="ui">Saya</span>, lalu ketuk ikon roda gigi di kanan atas untuk membuka <span class="ui">Pengaturan</span>. Di grup <b>AKUN</b>, ketuk <span class="ui">Kode toko</span>.</p>
+      <p class="zh">打开 TailTopia App，进入「Saya」（我的）Tab，点右上角齿轮图标进入「Pengaturan」（设置）；在 AKUN（账号）分组里点「Kode toko」（门店码）。</p>
+      <p>Jika baris ini belum ada, perbarui aplikasi ke versi 1.4.1 atau lebih baru.</p>
+      <p class="zh">如果没有这一行，请先把 App 更新到 1.4.1 或更高版本。</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <img src="img/B2-mark.png" alt="Halaman Kode toko, kode sudah diisi">
+    <div>
+      <span class="num">2</span>
+      <p>Masukkan <b>6 digit</b> kode dari pet shop, lalu ketuk <span class="ui">Hubungkan</span>. Tombol baru aktif setelah 6 digit lengkap.</p>
+      <p class="zh">输入门店给的 6 位数字码，点「Hubungkan」（绑定）。输满 6 位后按钮才可点。</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <img src="img/B3-mark.png" alt="Konfirmasi hubungkan dengan toko">
+    <div>
+      <span class="num">3</span>
+      <p>Periksa lagi kode di layar konfirmasi. Jika sudah benar, ketuk <span class="ui">Ya, hubungkan</span>. Ketuk <span class="ui">Batal</span> jika ingin memeriksa ulang.</p>
+      <p class="zh">在确认弹窗里再核对一遍邀请码，无误后点「Ya, hubungkan」（是的，绑定）；想再检查就点「Batal」（取消）。</p>
+      <div class="callout warn">
+        <b>Satu akun hanya bisa terhubung ke 1 toko dan tidak bisa diganti.</b>
+        <p class="zh">一个账号只能绑定一家门店，绑定后不能更换。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <img src="img/C2.png" alt="Berhasil terhubung">
+    <div>
+      <span class="num">4</span>
+      <p>Muncul <span class="ui">Berhasil terhubung!</span> beserta kode tokomu. Ketuk <span class="ui">Selesai</span> untuk kembali ke Pengaturan.</p>
+      <p class="zh">页面显示「Berhasil terhubung!」（绑定成功！）和你的门店码，点「Selesai」（完成）回到设置页。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Cek kode ============ -->
+<section>
+  <h2>Melihat Kode yang Sudah Terhubung</h2>
+  <p class="zh">查看已绑定的门店码</p>
+  <p>Setelah terhubung, baris <span class="ui">Kode toko</span> di Pengaturan menampilkan kode toko. Ketuk baris itu untuk melihat kode dan tanggal terhubung. Halaman ini hanya untuk dilihat, tidak ada tombol ganti atau putus.</p>
+  <p class="zh">绑定后，设置页「Kode toko」一行右侧会显示门店码；点进去可看到邀请码和绑定日期。此页只能查看，没有更换或解绑按钮。</p>
+  <div class="shots">
+    <div><img src="img/A2.png" alt="Pengaturan setelah terhubung"><div class="cap">Pengaturan · 设置页</div></div>
+    <div><img src="img/C1-mark.png" alt="Halaman Kode toko setelah terhubung"><div class="cap">Kode toko · 门店码详情</div></div>
+  </div>
+</section>
+
+<!-- ============ Pesan error ============ -->
+<section>
+  <h2>Jika Muncul Pesan Ini</h2>
+  <p class="zh">遇到以下提示怎么办</p>
+
+  <div class="err">
+    <img src="img/B5.png" alt="Kode tidak valid">
+    <div>
+      <span class="msg">Kode tidak valid. Cek lagi kode dari toko.</span>
+      <p class="zh">提示含义：邀请码无效，请再核对门店给的码。</p>
+      <div class="lbl">PENYEBAB · 原因</div>
+      <p>Kode salah ketik, atau toko tersebut sedang tidak aktif.</p>
+      <p class="zh">码输错了，或该门店已停用。</p>
+      <div class="lbl">SOLUSI · 处理</div>
+      <p>Cek ulang kode dengan pihak toko, lalu masukkan lagi.</p>
+      <p class="zh">向门店再确认一次邀请码后重新输入。</p>
+    </div>
+  </div>
+
+  <div class="err">
+    <img src="img/B6.png" alt="Akun sudah terhubung">
+    <div>
+      <span class="msg">Akunmu sudah terhubung dengan toko. Lihat</span>
+      <p class="zh">提示含义：你的账号已经绑定过门店。「Lihat」= 查看</p>
+      <div class="lbl">PENYEBAB · 原因</div>
+      <p>Akun ini sudah pernah terhubung ke sebuah toko, misalnya dari HP lain.</p>
+      <p class="zh">这个账号之前已绑定过门店（比如在另一台手机上绑的）。</p>
+      <div class="lbl">SOLUSI · 处理</div>
+      <p>Ketuk <span class="ui">Lihat</span> untuk melihat kode yang terhubung. Toko tidak bisa diganti.</p>
+      <p class="zh">点「Lihat」查看已绑定的门店码；绑定的门店不能更换。</p>
+    </div>
+  </div>
+
+  <div class="err">
+    <img src="img/B7.png" alt="Terlalu banyak percobaan">
+    <div>
+      <span class="msg">Terlalu banyak percobaan, coba lagi nanti</span>
+      <p class="zh">提示含义：尝试次数过多，请稍后再试。</p>
+      <div class="lbl">PENYEBAB · 原因</div>
+      <p>Kode dicoba lebih dari 10 kali dalam 1 jam.</p>
+      <p class="zh">1 小时内提交超过 10 次。</p>
+      <div class="lbl">SOLUSI · 处理</div>
+      <p>Tunggu sebentar (paling lama 1 jam), pastikan kodenya benar, lalu coba lagi.</p>
+      <p class="zh">等一段时间（最多 1 小时），确认码正确后再试。</p>
+    </div>
+  </div>
+
+  <div class="err">
+    <img src="img/B8.png" alt="Gagal terhubung">
+    <div>
+      <span class="msg">Gagal terhubung, coba lagi</span>
+      <p class="zh">提示含义：绑定失败，请重试。</p>
+      <div class="lbl">PENYEBAB · 原因</div>
+      <p>Koneksi internet bermasalah.</p>
+      <p class="zh">网络连接有问题。</p>
+      <div class="lbl">SOLUSI · 处理</div>
+      <p>Cek koneksi internet, lalu ketuk <span class="ui">Hubungkan</span> lagi. Kode yang sudah diisi tidak hilang.</p>
+      <p class="zh">检查网络后再点「Hubungkan」即可，已填的码不会丢。</p>
+    </div>
+  </div>
+
+  <div class="err">
+    <img src="img/D2.png" alt="Gagal memuat">
+    <div>
+      <span class="msg">Gagal memuat, silakan coba lagi</span>
+      <p class="zh">提示含义：加载失败，请重试。</p>
+      <div class="lbl">PENYEBAB · 原因</div>
+      <p>Halaman Kode toko gagal dimuat karena koneksi internet.</p>
+      <p class="zh">因网络问题，门店码页面没能打开。</p>
+      <div class="lbl">SOLUSI · 处理</div>
+      <p>Cek koneksi internet, lalu ketuk <span class="ui">Coba lagi</span>.</p>
+      <p class="zh">检查网络后点「Coba lagi」（重试）。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section>
+  <h2>Pertanyaan Umum</h2>
+  <p class="zh">常见问题</p>
+  <dl class="faq">
+    <dt>Apakah saya bisa ganti ke toko lain?</dt>
+    <dd>Tidak. Satu akun hanya bisa terhubung ke 1 toko, dan tidak bisa diganti atau diputus.</dd>
+    <dd class="zh">能换绑别的门店吗？——不能。一个账号只能绑一家店，不能更换也不能解绑。</dd>
+
+    <dt>Satu kode toko bisa dipakai berapa orang?</dt>
+    <dd>Tidak terbatas. Semua pelanggan toko bisa memakai kode yang sama.</dd>
+    <dd class="zh">一个门店码能给多少人用？——不限人数，门店的所有顾客都可以用同一个码。</dd>
+
+    <dt>Apakah toko bisa melihat data pribadi saya?</dt>
+    <dd>Tidak. Toko hanya melihat nama yang disamarkan (contoh: <span class="code" style="letter-spacing:0">Si**i</span>), tanggal pesanan, dan nilai pesanan. Nomor HP, alamat, dan data pribadi lain tidak ditampilkan.</dd>
+    <dd class="zh">门店能看到我的个人信息吗？——不能。门店只能看到脱敏昵称（如 Si**i）、下单日期和订单金额，看不到手机号、地址等任何其他个人信息。</dd>
+
+    <dt>Bagaimana jika toko yang saya pilih sudah tidak aktif?</dt>
+    <dd>Akunmu tetap terhubung dengan toko tersebut, dan halaman Kode toko tetap menampilkan kodenya.</dd>
+    <dd class="zh">我绑定的门店停用了怎么办？——绑定关系不变，门店码页面照常显示。</dd>
+
+    <dt>Saya pemilik toko dan lupa password Platform Merchant.</dt>
+    <dd>Hubungi tim operasional TailTopia untuk reset password.</dd>
+    <dd class="zh">店主忘记商家平台密码怎么办？——联系 TailTopia 运营重置密码。</dd>
+  </dl>
+</section>
+
+<footer>
+  Gambar aplikasi diambil dari desain final; gambar Platform Merchant diambil dari staging (data uji). Tampilan di HP bisa sedikit berbeda.<br>
+  App 截图取自定稿 UI 稿，界面文案已与线上 App 核对一致；商家平台截图取自测试环境（测试数据）。实际手机显示可能略有差异。
+</footer>
+
+</div>
+</body>
+</html>
