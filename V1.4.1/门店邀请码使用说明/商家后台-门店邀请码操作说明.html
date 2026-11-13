@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panduan Admin Kode Undangan · 商家后台门店邀请码操作说明</title>
+<style>
+  :root{--bg:#F6F4FA;--card:#fff;--ink:#2E2A45;--ink2:#544864;--muted:#8A8399;--rule:#E4DEEE;
+    --accent:#845EC9;--accent-soft:#F3EDFC;--red:#C8283E;--amber:#8A5A00;--amber-soft:#FEF3DE}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;
+    font:15px/1.7 -apple-system,"Helvetica Neue","PingFang SC",Arial,sans-serif}
+  .page{max-width:960px;margin:0 auto;padding:32px 16px 64px}
+  header{background:var(--accent);color:#fff;border-radius:20px;padding:28px 24px;margin-bottom:24px}
+  header h1{margin:0;font-size:26px;line-height:1.3}
+  header .zh-title{font-size:18px;opacity:.9;margin-top:2px}
+  header .meta{font-size:13px;opacity:.85;margin-top:12px}
+  nav.toc,section{background:var(--card);border:1px solid var(--rule);border-radius:16px;padding:20px 22px 12px;margin-bottom:20px}
+  nav.toc ol{margin:6px 0 8px;padding-left:20px} nav.toc a{color:var(--accent);text-decoration:none}
+  nav.toc li{margin-bottom:4px}
+  h2{margin:0 0 2px;font-size:20px}
+  h3{margin:22px 0 2px;font-size:16px}
+  p{margin:0 0 2px}
+  .zh{color:var(--muted);font-size:14px;margin-bottom:12px}
+  .zh::before{content:"中";display:inline-block;font-size:10.5px;font-weight:700;color:var(--accent);background:var(--accent-soft);
+    border-radius:4px;padding:0 5px;margin-right:6px;vertical-align:1px}
+  td .zh,li .zh,dd.zh,figcaption .zh{margin-bottom:0}
+  ul{margin:4px 0 12px;padding-left:22px} li{margin-bottom:8px}
+  table{border-collapse:collapse;width:100%;font-size:14px;margin:8px 0 16px}
+  th,td{border:1px solid var(--rule);padding:7px 10px;text-align:left;vertical-align:top}
+  th{background:var(--accent-soft);font-weight:600}
+  th .zh{font-weight:400}
+  .ui{font-weight:700;color:var(--accent)}
+  .ui-id{color:var(--ink2);font-style:italic}
+  .code{font-family:ui-monospace,Menlo,monospace;font-weight:700}
+  figure{margin:10px 0 18px}
+  figure img{display:block;max-width:100%;border:1px solid var(--rule);border-radius:10px}
+  figure.narrow img{max-width:420px}
+  figure.phone img{max-width:300px}
+  figcaption{font-size:12.5px;color:var(--muted);margin-top:6px}
+  figcaption .zh{font-size:12.5px}
+  .pair{display:flex;flex-wrap:wrap;gap:18px}
+  .pair figure{flex:1 1 280px;margin:10px 0}
+  .callout{border-radius:12px;padding:12px 16px;margin:12px 0 16px;background:var(--amber-soft);color:var(--amber)}
+  .callout .zh{color:#A07A33}
+  .callout.red{background:#FDECEF;color:var(--red)} .callout.red .zh{color:#C2586A}
+  .callout > b{display:block;margin-bottom:2px}
+  .step{display:inline-flex;width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-size:13px;font-weight:700;
+    align-items:center;justify-content:center;margin-right:6px;vertical-align:1px}
+  .gloss{columns:2;column-gap:28px;font-size:14px;margin:8px 0 10px}
+  .gloss div{break-inside:avoid;padding:3px 0;border-bottom:1px dashed var(--rule)}
+  dt{font-weight:700;margin-top:14px} dd{margin:2px 0 0}
+  footer{font-size:12.5px;color:var(--muted);text-align:center;margin-top:8px}
+  @media (max-width:600px){.gloss{columns:1}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <h1>Panduan Admin: Kode Undangan Toko</h1>
+  <div class="zh-title">商家后台 · 门店邀请码操作说明</div>
+  <div class="meta">Platform Merchant V1.4.1 · Untuk tim operasional &amp; keuangan merchant ops · Diperbarui 10 Nov 2026<br>
+  适用 V1.4.1 商家平台 · 读者：商家 ops 运营、财务 · 更新：2026-11-10</div>
+</header>
+
+<!-- ============ Bahasa tampilan ============ -->
+<nav class="toc">
+  <p><b>Catatan bahasa:</b> tampilan admin (merchant ops) saat ini <b>hanya dalam bahasa Mandarin</b>. Di panduan ini, nama menu dan tombol ditulis persis seperti di layar (Mandarin), lalu artinya dalam bahasa Indonesia di dalam kurung, contoh: <span class="ui">通过</span> <span class="ui-id">(Setujui)</span>.</p>
+  <p class="zh">语言说明：商家后台界面目前只有中文。本文的菜单、按钮名照屏幕原样写中文，括号里是印尼语意思。</p>
+  <p><b>Daftar istilah di layar · 界面用词对照</b></p>
+  <div class="gloss">
+    <div><span class="ui">门店</span> — Toko</div>
+    <div><span class="ui">注册审核</span> — Tinjau pendaftaran</div>
+    <div><span class="ui">待审核</span> — Menunggu tinjauan</div>
+    <div><span class="ui">已处理</span> — Sudah diproses</div>
+    <div><span class="ui">查看</span> — Lihat</div>
+    <div><span class="ui">通过</span> — Setujui</div>
+    <div><span class="ui">驳回</span> — Tolak</div>
+    <div><span class="ui">驳回原因</span> — Alasan penolakan</div>
+    <div><span class="ui">新建门店</span> — Buat toko baru</div>
+    <div><span class="ui">创建</span> — Buat</div>
+    <div><span class="ui">取消</span> — Batal</div>
+    <div><span class="ui">复制</span> — Salin</div>
+    <div><span class="ui">搜索</span> — Cari</div>
+    <div><span class="ui">邀请码</span> — Kode undangan</div>
+    <div><span class="ui">登录手机号</span> — Nomor HP untuk login</div>
+    <div><span class="ui">初始密码</span> — Kata sandi awal</div>
+    <div><span class="ui">重置密码</span> — Reset kata sandi</div>
+    <div><span class="ui">停用</span> / <span class="ui">已停用</span> — Nonaktifkan / Nonaktif</div>
+    <div><span class="ui">启用</span> — Aktifkan / Aktif</div>
+    <div><span class="ui">绑定用户</span> — Pengguna terhubung</div>
+    <div><span class="ui">返佣比例</span> — Persentase komisi</div>
+    <div><span class="ui">返佣流水</span> — Riwayat komisi</div>
+    <div><span class="ui">打款记录</span> — Catatan pembayaran</div>
+    <div><span class="ui">下单日期</span> — Tanggal pesanan</div>
+    <div><span class="ui">待结算</span> — Menunggu penyelesaian</div>
+    <div><span class="ui">可提现</span> — Bisa ditarik</div>
+    <div><span class="ui">扣回</span> — Potongan (angka negatif)</div>
+    <div><span class="ui">自助注册</span> / <span class="ui">运营创建</span> — Daftar sendiri / Dibuat tim ops</div>
+  </div>
+</nav>
+
+<nav class="toc">
+  <p><b>Daftar isi</b></p>
+  <p class="zh">目录</p>
+  <ol>
+    <li><a href="#s0">Apa itu kode undangan &amp; aturannya</a> · 邀请码是什么、规则</li>
+    <li><a href="#s1">Dua cara toko mendapat kode</a> · 门店拿到邀请码的两种方式</li>
+    <li><a href="#s2">Mencari kode undangan toko</a> · 查找门店邀请码</li>
+    <li><a href="#s3">Melihat pengguna terhubung</a> · 查看绑定用户</li>
+    <li><a href="#s4">Toko berhenti bekerja sama atau tutup</a> · 门店取消合作或关闭</li>
+    <li><a href="#s5">Yang dilihat pemilik toko</a> · 店主在门店端看到什么</li>
+    <li><a href="#s6">Pertanyaan umum</a> · 常见问题</li>
+  </ol>
+</nav>
+
+<!-- ============ 1 ============ -->
+<section id="s0">
+  <h2>1. Apa itu kode undangan &amp; aturannya</h2>
+  <p class="zh">邀请码是什么、规则</p>
+  <p>Setiap toko punya 1 kode undangan 6 digit. Pelanggan memasukkan kode ini di aplikasi TailTopia (Pengaturan → Kode toko) dan langsung terhubung permanen dengan toko. Setelah itu, setiap belanja produk pelanggan di Toko (toko online aplikasi) memberi komisi untuk toko sesuai persentase komisinya.</p>
+  <p class="zh">每家门店有一个 6 位数字邀请码。顾客在 TailTopia App 的「设置 → Kode toko（门店码）」里填这个码，就和门店永久绑定；之后顾客在 App 商城（Toko）买商品，门店按返佣比例拿返佣。</p>
+  <table>
+    <tr><th style="width:26%">Hal<div class="zh">项目</div></th><th>Aturan<div class="zh">规则</div></th></tr>
+    <tr><td>Kapan kode dibuat<div class="zh">什么时候生成</div></td>
+      <td>Otomatis oleh sistem saat pendaftaran toko <b>disetujui</b> atau saat toko <b>dibuat langsung oleh tim ops</b>. Pendaftaran yang masih ditinjau atau ditolak belum punya kode.
+      <div class="zh">门店审核通过或运营直接新建时，系统自动分配。审核中、已驳回的申请没有邀请码。</div></td></tr>
+    <tr><td>Nomor kode<div class="zh">号码怎么来</div></td>
+      <td>Berurutan: toko pertama <span class="code">000035</span>, berikutnya +1. <b>Tim ops tidak bisa memilih atau mengubah kode.</b> Jika pembuatan toko gagal, nomor bisa terlewat dan tidak dipakai ulang.
+      <div class="zh">按顺序分配：第一家 000035，之后每家加 1。运营不能自定义，也不能修改。建店失败时号码可能被跳过，不回收。</div></td></tr>
+    <tr><td>1 kode untuk berapa orang<div class="zh">一个码能绑多少人</div></td>
+      <td>Tidak terbatas.<div class="zh">不限人数。</div></td></tr>
+    <tr><td>1 pelanggan ke berapa toko<div class="zh">一个顾客能绑几家店</div></td>
+      <td>Hanya 1 toko, <b>tidak bisa diganti atau diputus</b>. Di admin juga tidak ada menu untuk mengganti.
+      <div class="zh">只能绑 1 家，绑定后不能更换、不能解绑，后台也没有改绑入口。</div></td></tr>
+    <tr><td>Pesanan yang dapat komisi<div class="zh">什么订单算返佣</div></td>
+      <td>Hanya pesanan produk di Toko aplikasi yang dibuat <b>setelah</b> pelanggan terhubung. Konsultasi dokter hewan, isi ulang PawCoin, dan buka fitur AI tidak dihitung.
+      <div class="zh">只算绑定之后下单的 App 商城（Toko）商品订单；问诊、PawCoin 充值、AI 解锁不算。</div></td></tr>
+    <tr><td>Masa kerja sama<div class="zh">合作期间</div></td>
+      <td>Komisi <b>hanya didapat selama toko bekerja sama</b> dengan TailTopia. Pesanan setelah toko berhenti bekerja sama atau tutup <b>tidak memberi komisi</b>. Komisi yang sudah tercatat sebelumnya (menunggu penyelesaian dan bisa ditarik) <b>tetap dibayarkan</b>.
+      <div class="zh">门店只有在与 TailTopia 合作期间才能获得返佣。门店取消合作或关闭后的订单不计返佣；合作结束前已产生的「待结算」「可提现」照常支付。</div></td></tr>
+  </table>
+  <p><b>Alamat admin:</b> production <span class="code">https://mops.tailtopia.id/ops/login</span> (staging <span class="code">mops-stag.tailtopia.id</span>). Login dengan username dan kata sandi yang dibuat oleh super admin.</p>
+  <p class="zh">后台地址：正式环境 https://mops.tailtopia.id/ops/login（测试环境 mops-stag.tailtopia.id），用超级管理员开给你的用户名 + 密码登录。</p>
+  <p><b>Hak akses:</b> meninjau pendaftaran butuh izin 「审核门店注册」 <span class="ui-id">(Tinjau pendaftaran toko)</span>; membuat / menonaktifkan toko butuh 「管理门店」 <span class="ui-id">(Kelola toko)</span>; hanya melihat toko dan kode butuh 「查看门店」 <span class="ui-id">(Lihat toko)</span>. Template 「运营」 <span class="ui-id">(Operasional)</span> sudah punya semuanya. Jika tidak punya izin, halaman akan menolak; minta super admin untuk menambahkan.</p>
+  <p class="zh">需要的权限：审核申请要「审核门店注册」，新建 / 停用门店要「管理门店」，只看门店和邀请码要「查看门店」。「运营」模板默认都有；没权限时页面会拒绝操作，找超级管理员加。</p>
+</section>
+
+<!-- ============ 2 ============ -->
+<section id="s1">
+  <h2>2. Dua cara toko mendapat kode</h2>
+  <p class="zh">门店拿到邀请码的两种方式</p>
+
+  <h3>Cara A: Meninjau pendaftaran toko (toko daftar sendiri)</h3>
+  <p class="zh">方式 A：审核门店的注册申请（门店自助注册）</p>
+  <p>Toko mendaftar di aplikasi web toko (<span class="code">merchant.tailtopia.id</span>) lewat tombol “Daftar toko”. Setelah dikirim, toko hanya melihat halaman status “Sedang ditinjau”; toko belum bisa belanja stok dan belum punya kode.</p>
+  <p class="zh">门店在门店端（merchant.tailtopia.id）点「Daftar toko」（注册门店）提交资料后，看到的是「审核中」状态页，此时还不能进货，也没有邀请码。</p>
+  <figure class="phone"><img src="img-ops/store-pending.png" alt="Status pendaftaran di aplikasi toko"><figcaption>Tampilan toko: “Sedang ditinjau”, “Tim TailTopia akan menghubungi Anda”.<div class="zh">门店端：显示「审核中」，提示「TailTopia 团队会联系您」。</div></figcaption></figure>
+
+  <p><span class="step">1</span>Di menu kiri, klik <span class="ui">注册审核</span> <span class="ui-id">(Tinjau pendaftaran)</span>. Di tab <span class="ui">待审核</span> <span class="ui-id">(Menunggu tinjauan)</span>, cari pendaftarannya lalu klik <span class="ui">查看</span> <span class="ui-id">(Lihat)</span>.</p>
+  <p class="zh">左侧菜单点「注册审核」，在「待审核」页签找到申请，点「查看」。</p>
+  <figure><img src="img-ops/ops-06-apps.png" alt="Daftar pendaftaran"><figcaption>Angka di tab = jumlah pendaftaran yang menunggu.<div class="zh">待审核页签的数字 = 待处理的申请数。</div></figcaption></figure>
+
+  <p><span class="step">2</span>Periksa data dan foto (1 foto depan toko, 1–8 foto dalam toko; klik foto untuk memperbesar). Sebaiknya <b>telepon nomor HP pendaftar</b> untuk memastikan ini pet shop yang nyata. V1 tidak memakai kode OTP SMS, jadi nomor HP hanya diverifikasi lewat langkah ini.</p>
+  <p class="zh">核对申请资料和照片（门头照 1 张、店内照 1～8 张，点击可看大图）。建议打电话核实登录手机号，确认是真实宠物店；v1 没有短信验证码，手机号只能靠这一步核实。</p>
+  <figure><img src="img-ops/ops-07-app-detail.png" alt="Detail pendaftaran"><figcaption>Kanan atas: tombol <span class="ui">驳回</span> (Tolak) dan <span class="ui">通过</span> (Setujui).<div class="zh">右上角是「驳回」「通过」两个按钮。</div></figcaption></figure>
+
+  <p><span class="step">3</span>Jika data sudah benar, klik <span class="ui">通过</span> <span class="ui-id">(Setujui)</span>, lalu klik <span class="ui">通过</span> sekali lagi di jendela konfirmasi.</p>
+  <p class="zh">资料没问题，点「通过」，在弹窗里再点一次「通过」。</p>
+  <figure class="narrow"><img src="img-ops/ops-08-approve.png" alt="Konfirmasi setujui"><figcaption>Setelah disetujui, toko dibuat dan diberi kode. Pemilik login dengan kata sandi yang ia buat saat daftar, tidak perlu ganti kata sandi.<div class="zh">通过后生成门店并分配邀请码；店主用自己注册时设的密码登录，不需要改密码。</div></figcaption></figure>
+
+  <p><span class="step">4</span>Halaman otomatis pindah ke detail toko baru, dengan pesan “已通过，邀请码 xxxxxx” <span class="ui-id">(Disetujui, kode undangan xxxxxx)</span> di atas. Saat pemilik membuka aplikasi web toko lagi, ia langsung masuk ke halaman utama dan bisa melihat kodenya sendiri (lihat bagian 6). Biasanya <b>tim ops tidak perlu mengirim kode secara terpisah</b>.</p>
+  <p class="zh">页面自动跳到新门店的详情，顶部显示「已通过，邀请码 xxxxxx」。店主下次打开门店端就能直接进入正式页面，在里面看到自己的邀请码（见第 6 节），一般不需要运营另外发码。</p>
+  <figure><img src="img-ops/ops-10-approved.png" alt="Detail toko setelah disetujui"><figcaption>Sumber toko tertulis <span class="ui">自助注册</span> (Daftar sendiri).<div class="zh">来源显示「自助注册」。</div></figcaption></figure>
+
+  <p><b>Jika data bermasalah:</b> klik <span class="ui">驳回</span> <span class="ui-id">(Tolak)</span> dan <b>wajib isi alasan</b> (maks. 500 karakter). Alasan ini bisa dibaca pemilik toko saat login, jadi tulis dengan jelas apa yang harus diperbaiki, misalnya “Nama toko di foto depan tidak terbaca, mohon foto ulang.” Setelah ditolak, pemilik bisa memperbaiki data dan mengirim ulang, dan pendaftarannya kembali menunggu tinjauan.</p>
+  <p class="zh">资料有问题时：点「驳回」，必须填驳回原因（最多 500 字）。原因店主登录后能看到，所以要写清楚哪里要改，比如「门头照看不清店名，请重新拍一张」。驳回后店主可以改资料重新提交，申请会回到待审核。</p>
+  <figure class="narrow"><img src="img-ops/ops-09-reject.png" alt="Konfirmasi tolak"><figcaption>Satu pendaftaran hanya bisa diproses sekali; jika dua orang memproses bersamaan, hanya satu yang berlaku.<div class="zh">同一份申请只能处理一次；两个人同时处理时只有一个生效。</div></figcaption></figure>
+
+  <h3>Cara B: Tim ops membuat toko langsung (toko hasil kesepakatan offline)</h3>
+  <p class="zh">方式 B：运营直接新建门店（线下谈好的店）</p>
+  <p><span class="step">1</span>Di daftar <span class="ui">门店</span> <span class="ui">(Toko)</span>, klik <span class="ui">新建门店</span> <span class="ui-id">(Buat toko baru)</span> di kanan atas. Isi nama toko, alamat (provinsi / kota-kabupaten / kecamatan / alamat lengkap / kode pos 5 digit), nomor HP untuk login, dan kata sandi awal. Nama kontak dan foto boleh dikosongkan.</p>
+  <p class="zh">在「门店」列表右上角点「新建门店」，填写店名、地址（省 / 市县 / 区 / 详细地址 / 5 位邮编）、登录手机号、初始密码；联系人和照片选填。</p>
+  <ul>
+    <li>Nomor HP boleh ditulis <span class="code">08…</span> atau <span class="code">+628…</span>. Nomor yang sudah dipakai toko lain tidak bisa dipakai lagi.
+      <p class="zh">登录手机号写 08… 或 +628… 都可以；已经被别的门店用过的手机号不能再用。</p></li>
+    <li>Kata sandi awal minimal 8 karakter, berisi huruf dan angka.
+      <p class="zh">初始密码至少 8 位，同时含字母和数字。</p></li>
+  </ul>
+  <figure class="narrow"><img src="img-ops/ops-04-new.png" alt="Form buat toko baru"><figcaption>Form buat toko baru (data contoh).<div class="zh">新建门店表单（示例数据）。</div></figcaption></figure>
+
+  <p><span class="step">2</span>Klik <span class="ui">创建</span> <span class="ui-id">(Buat)</span>. Setelah berhasil, bagian atas halaman menampilkan 3 data: <b>nomor HP login, kata sandi awal, dan kode undangan</b>, masing-masing dengan tombol <span class="ui">复制</span> <span class="ui-id">(Salin)</span>.</p>
+  <p class="zh">点「创建」。成功后页面顶部显示三项：登录手机号、初始密码、邀请码，每项都有「复制」按钮。</p>
+  <figure><img src="img-ops/ops-05-created.png" alt="Toko berhasil dibuat"><figcaption>“刷新或离开本页后不再显示初始密码” = kata sandi awal tidak tampil lagi setelah halaman dimuat ulang atau ditinggalkan.<div class="zh">「刷新或离开本页后不再显示初始密码」。</div></figcaption></figure>
+  <div class="callout red">
+    <b>Kata sandi awal hanya tampil sekali</b>
+    <p>Sebelum meninggalkan atau memuat ulang halaman, salin atau screenshot ketiga data ini lalu kirim ke pemilik toko. Jika terlewat, satu-satunya cara adalah klik <span class="ui">重置密码</span> (Reset kata sandi) dan buat kata sandi baru. Pemilik wajib mengganti kata sandi saat login pertama; sebelum diganti, detail toko menampilkan “待改密：店主尚未修改初始密码” (Menunggu ganti kata sandi).</p>
+    <p class="zh">初始密码只显示这一次。离开或刷新页面前，把这三项复制或截图发给店主。漏发了只能点「重置密码」重新设一个。店主首次登录必须先改密码；改之前，门店详情的基本信息里会显示「待改密：店主尚未修改初始密码」。</p>
+  </div>
+</section>
+
+<!-- ============ 3 ============ -->
+<section id="s2">
+  <h2>3. Mencari kode undangan toko</h2>
+  <p class="zh">查找门店邀请码</p>
+  <p>Saat pemilik toko atau pelanggan menanyakan kode sebuah toko, atau memberi sebuah kode dan bertanya toko mana:</p>
+  <p class="zh">店主或顾客来问某家店的邀请码，或者给你一个码问是哪家店：</p>
+  <p><span class="step">1</span>Buka daftar <span class="ui">门店</span> <span class="ui-id">(Toko)</span>. Kolom <span class="ui">搜索</span> <span class="ui-id">(Cari)</span> bisa mencari <b>nama toko, kode undangan, atau 4 digit terakhir nomor HP</b>. Daftar toko langsung menampilkan kolom <span class="ui">邀请码</span> <span class="ui-id">(Kode undangan)</span>.</p>
+  <p class="zh">进入「门店」列表，搜索框可以搜店名、邀请码或手机号后 4 位；列表里直接有「邀请码」一列。</p>
+  <figure><img src="img-ops/ops-01-list.png" alt="Daftar toko"><figcaption>Pilihan 状态 (Status) bisa menyaring toko aktif / nonaktif; kolom 生效比例 menampilkan persentase komisi toko saat ini.<div class="zh">状态下拉可筛选启用 / 停用；「生效比例」列显示该店当前的返佣比例。</div></figcaption></figure>
+  <p><span class="step">2</span>Klik nama toko untuk membuka detail. Di bagian 基本信息 <span class="ui-id">(Info dasar)</span>, ada tombol <span class="ui">复制</span> <span class="ui-id">(Salin)</span> di samping kode undangan.</p>
+  <p class="zh">点店名进入详情，基本信息里的邀请码旁有「复制」按钮。</p>
+  <figure><img src="img-ops/ops-02-detail.png" alt="Detail toko"><figcaption>Detail toko: info usaha, info dasar (termasuk kode undangan), foto toko.<div class="zh">门店详情：经营信息、基本信息（含邀请码）、门店照片。</div></figcaption></figure>
+</section>
+
+<!-- ============ 4 ============ -->
+<section id="s3">
+  <h2>4. Melihat pengguna terhubung</h2>
+  <p class="zh">查看绑定用户</p>
+  <p>Di bagian bawah detail toko, pilih tab <span class="ui">绑定用户</span> <span class="ui-id">(Pengguna terhubung)</span>. Di sini terlihat pengguna aplikasi yang terhubung dengan kode toko ini: nama yang disamarkan, tanggal terhubung, dan jumlah pesanan untuk toko ini.</p>
+  <p class="zh">门店详情下方切到「绑定用户」页签，能看到用这家店邀请码绑定的 App 用户：脱敏昵称、绑定时间、归属本店的订单数。</p>
+  <figure><img src="img-ops/ops-03-bound.png" alt="Pengguna terhubung"><figcaption>Total termasuk pengguna yang sudah menghapus akun; mereka tampil sebagai “已注销用户” (Pengguna sudah dihapus).<div class="zh">总数含已注销用户；注销用户显示为「已注销用户」。</div></figcaption></figure>
+  <ul>
+    <li>Nama hanya menampilkan huruf pertama dan terakhir, tengahnya diganti ** (contoh: E**5). Admin dan aplikasi toko <b>tidak menampilkan nomor HP, alamat, atau data pribadi pelanggan lainnya</b>. Jika ditanya, jangan berikan data tersebut.
+      <p class="zh">昵称只保留首尾各一个字，中间用 ** 代替（如 E**5）。后台和门店端都看不到顾客的手机号、地址等个人信息，被问到时不要另外提供。</p></li>
+    <li>Di halaman yang sama ada tab 返佣比例 (Persentase komisi), 进货单 (Pesanan stok), dan 打款记录 (Catatan pembayaran). Nilai komisi terlihat di 经营信息 (Info usaha) di atas, atau klik 查看该店返佣流水 (Lihat riwayat komisi toko).
+      <p class="zh">同一页还有「返佣比例」「进货单」「打款记录」页签；返佣金额看详情顶部的「经营信息」，或点「查看该店返佣流水」。</p></li>
+  </ul>
+</section>
+
+<!-- ============ 5 ============ -->
+<section id="s4">
+  <h2>5. Toko berhenti bekerja sama atau tutup</h2>
+  <p class="zh">门店取消合作或关闭</p>
+  <p>Jika toko berhenti bekerja sama dengan TailTopia atau tutup, nonaktifkan toko di admin: di kanan atas detail toko, klik <span class="ui">停用</span> <span class="ui-id">(Nonaktifkan)</span>, lalu konfirmasi.</p>
+  <p class="zh">门店取消合作或关闭时，在后台停用该门店：门店详情右上角点「停用」，在弹窗里确认。</p>
+  <figure class="narrow"><img src="img-ops/ops-11-disable.png" alt="Konfirmasi nonaktifkan"></figure>
+  <div class="callout red">
+    <b>Aturan kerja sama vs. perilaku sistem saat ini</b>
+    <p>Jendela konfirmasi dan pesan di halaman toko menulis “已绑定用户保留，返佣照常生成和结算” (komisi pelanggan terhubung tetap dibuat dan diselesaikan). Artinya, saat ini sistem <b>masih membuat komisi untuk pesanan baru</b> setelah toko dinonaktifkan. Menurut aturan kerja sama, pesanan setelah kerja sama berakhir <b>tidak memberi komisi</b>; hanya komisi yang tercatat sebelum toko dinonaktifkan yang dibayarkan.</p>
+    <p class="zh">弹窗和门店页提示条写着「已绑定用户保留，返佣照常生成和结算」，也就是系统目前在停用后仍会为新订单生成返佣。按合作规则，合作结束后的订单不计返佣，只支付停用前已产生的部分。</p>
+  </div>
+  <table>
+    <tr><th style="width:30%">Untuk<div class="zh">对象</div></th><th>Setelah toko berhenti bekerja sama / tutup<div class="zh">门店取消合作 / 关闭后</div></th></tr>
+    <tr><td>Komisi baru<div class="zh">新返佣</div></td>
+      <td>Pesanan setelah kerja sama berakhir tidak memberi komisi.
+      <div class="zh">合作结束后的订单不计返佣。</div></td></tr>
+    <tr><td>Saldo yang sudah ada<div class="zh">已有余额</div></td>
+      <td>Komisi yang tercatat sebelum toko dinonaktifkan tetap dibayarkan. Yang <b>bisa ditarik</b> dibayar langsung; yang <b>menunggu penyelesaian</b> dibayar setelah berubah menjadi bisa ditarik. Toko nonaktif tetap bisa dicatat pembayarannya oleh tim ops. Karena pemilik tidak bisa login, ia akan menghubungi tim ops lewat WhatsApp.
+      <div class="zh">停用前已产生的返佣照常支付：「可提现」直接打款；「待结算」等变成「可提现」后再打款。停用门店照常可以登记打款。店主已无法登录，会通过 WhatsApp 联系运营。</div></td></tr>
+    <tr><td>Kode undangan<div class="zh">邀请码</div></td>
+      <td>Tidak bisa dipakai untuk koneksi baru. Di aplikasi, pelanggan akan melihat “Kode tidak valid”, sama seperti salah ketik kode.
+      <div class="zh">不能再用于新绑定，顾客在 App 填码会提示「码无效」，和填错码的提示一样。</div></td></tr>
+    <tr><td>Pelanggan yang sudah terhubung<div class="zh">已经绑定的顾客</div></td>
+      <td>Tetap terhubung ke toko ini dan tidak bisa pindah ke toko lain.
+      <div class="zh">仍绑定在本店，不能改绑到别的门店。</div></td></tr>
+    <tr><td>Pemilik toko<div class="zh">店主</div></td>
+      <td>Langsung keluar, tidak bisa login dan tidak bisa memesan.
+      <div class="zh">立即被退出，不能登录、不能下单。</div></td></tr>
+  </table>
+  <h3>Membayar saldo setelah kerja sama berakhir</h3>
+  <p class="zh">合作结束后怎么打款</p>
+  <p>Karena sistem masih mencatat komisi untuk pesanan setelah toko dinonaktifkan, angka “可提现” (bisa ditarik) di detail toko <b>bisa lebih besar</b> dari yang harus dibayar. Saat pemilik meminta pencairan, hitung dulu di <span class="ui">返佣流水</span> <span class="ui-id">(Riwayat komisi)</span>:</p>
+  <p class="zh">因为系统停用后仍会给新订单记返佣，门店详情里的「可提现」可能比应付的多。店主来要提现时，先在「返佣流水」里算清楚：</p>
+  <ul>
+    <li>Pilih toko di <span class="ui">门店</span>; di <span class="ui">下单日期</span> <span class="ui-id">(Tanggal pesanan)</span>, isi tanggal akhir = tanggal toko dinonaktifkan.
+      <p class="zh">「门店」选这家店；「下单日期」的结束日期选停用当天。</p></li>
+    <li>Yang dibayar = jumlah “返佣金额” berstatus <span class="ui">可提现</span> (bisa ditarik) + baris <span class="ui">扣回</span> (potongan, angka negatif) − pembayaran yang sudah dicatat di tab 打款记录. Daftar ini tidak menampilkan total, jadi jumlahkan sendiri.
+      <p class="zh">应付 = 状态为「可提现」的返佣金额 + 「扣回」行（负数）− 门店详情「打款记录」里已打的钱。列表不显示合计，需要自己加总。</p></li>
+    <li>Baris <span class="ui">待结算</span> (menunggu penyelesaian) dalam rentang tanggal ini dibayar nanti setelah statusnya berubah menjadi 可提现.
+      <p class="zh">这个日期范围内「待结算」的行，等变成「可提现」后再付。</p></li>
+    <li>Daftar hanya menampilkan tanggal, bukan jam. Jika ada pesanan pada hari toko dinonaktifkan, cek dulu apakah pesanan itu dibuat sebelum toko dinonaktifkan.
+      <p class="zh">列表只显示日期、不显示时间；停用当天如果有订单，要先确认它是否在停用之前下的。</p></li>
+  </ul>
+  <figure><img src="img-ops/ops-13-commissions.png" alt="Riwayat komisi"><figcaption>返佣流水: filter toko, tanggal pesanan, dan status.<div class="zh">返佣流水：可按门店、下单日期、状态筛选。</div></figcaption></figure>
+
+  <p>Setelah dinonaktifkan, detail toko selalu menampilkan pesan peringatan di atas, dan tombol kanan atas berubah menjadi <span class="ui">启用</span> <span class="ui-id">(Aktifkan)</span>. Setelah diaktifkan lagi, semuanya langsung pulih, kode undangan tetap sama, dan tidak perlu ditinjau ulang.</p>
+  <p class="zh">停用后详情页顶部会一直显示提示条，右上角按钮变成「启用」。重新启用后立即恢复，邀请码不变，也不需要重新审核。</p>
+  <figure><img src="img-ops/ops-12-disabled.png" alt="Toko nonaktif"></figure>
+</section>
+
+<!-- ============ 6 ============ -->
+<section id="s5">
+  <h2>6. Yang dilihat pemilik toko</h2>
+  <p class="zh">店主在门店端看到什么</p>
+  <p>Setelah login di aplikasi web toko, pemilik bisa melihat kode undangannya di menu bawah <b>Komisi</b> dan <b>Akun</b>, dengan tombol “Salin” untuk menyalin. Jika pemilik bilang tidak menemukan kodenya, arahkan ke dua halaman ini.</p>
+  <p class="zh">店主登录门店端后，在底部导航的「Komisi」（返佣）和「Akun」（账户）两页都能看到自己的邀请码，旁边有「Salin」（复制）按钮。店主说找不到码时，按这个指引他们。</p>
+  <div class="pair">
+    <figure class="phone"><img src="img-ops/store-komisi.png" alt="Halaman Komisi"><figcaption>Komisi: kode undangan, komisi saat ini, jumlah pelanggan terhubung; “Cara hitung komisi” menjelaskan cara hitungnya.<div class="zh">返佣页：邀请码、当前返佣比例、已绑定顾客数；「Cara hitung komisi」= 返佣怎么算。</div></figcaption></figure>
+    <figure class="phone"><img src="img-ops/store-akun.png" alt="Halaman Akun"><figcaption>Akun: nama, alamat, nomor HP, kode undangan, komisi saat ini.<div class="zh">账户页：店名、地址、手机号、邀请码、当前返佣比例。</div></figcaption></figure>
+  </div>
+  <p>Cara pelanggan memasukkan kode di aplikasi ada di dokumen “Panduan Kode Toko” di folder yang sama (bisa langsung dikirim ke toko).</p>
+  <p class="zh">顾客在 App 里怎么填码，见同目录的《门店邀请码使用说明》（印尼语 + 中文，可直接发给门店）。</p>
+</section>
+
+<!-- ============ 7 ============ -->
+<section id="s6">
+  <h2>7. Pertanyaan umum</h2>
+  <p class="zh">常见问题</p>
+  <dl>
+    <dt>Pelanggan salah memilih toko. Bisa dipindahkan?</dt>
+    <dd>Tidak bisa. Satu akun aplikasi hanya bisa terhubung ke 1 toko; sistem tidak mendukung ganti atau putus koneksi, dan admin juga tidak punya menu untuk itu.</dd>
+    <dd class="zh">顾客绑错了门店，能帮他改吗？——不能。一个 App 账号只能绑一家店，系统不支持更换或解绑，后台也没有改绑入口。</dd>
+
+    <dt>Pelanggan bilang kodenya “tidak valid”</dt>
+    <dd>Cari kode tersebut di daftar toko. Jika tidak ketemu, kodenya salah ketik. Jika ketemu tapi statusnya 已停用 (Nonaktif), kode toko nonaktif tidak bisa dipakai untuk koneksi baru. Selain itu, satu orang maksimal mencoba 10 kali per jam; lebih dari itu muncul “Terlalu banyak percobaan”, cukup tunggu lalu coba lagi.</dd>
+    <dd class="zh">顾客说填码提示无效——先用码在门店列表里搜：搜不到就是码填错了；搜到但状态是「已停用」，停用门店的码不能新绑定。另外 App 里同一个人 1 小时最多尝试 10 次，超过会提示「尝试太频繁」，等一会儿再试即可。</dd>
+
+    <dt>Pelanggan sudah terhubung, tapi pemilik toko tidak melihat pesanannya di komisi</dt>
+    <dd>Yang dihitung hanya pesanan produk di Toko aplikasi yang dibuat <b>setelah</b> terhubung. Pesanan yang dibuat sebelum terhubung tidak dihitung, walaupun dibayar setelahnya. Konsultasi dokter hewan, isi ulang PawCoin, dan buka fitur AI juga tidak dihitung. Komisi muncul paling lambat 1 jam setelah pembayaran.</dd>
+    <dd class="zh">顾客说已经绑了，店主却说返佣里看不到他的订单——只算绑定之后下单的 App 商城商品订单，绑定前下的单（即使绑定后才付款）不算；问诊、PawCoin 充值、AI 解锁也不算。付款后最多 1 小时才会出现在返佣里。</dd>
+
+    <dt>Toko sudah berhenti bekerja sama atau tutup. Apakah masih dapat komisi?</dt>
+    <dd>Pesanan setelah kerja sama berakhir tidak memberi komisi. Komisi yang tercatat sebelumnya (menunggu penyelesaian dan bisa ditarik) tetap dibayarkan; cara menghitungnya ada di bagian 5.</dd>
+    <dd class="zh">门店已经取消合作或关闭，还能拿返佣吗？——合作结束后的订单不计返佣；结束前已产生的「待结算」「可提现」照常支付，算法见第 5 节。</dd>
+
+    <dt>Bisa ganti kode toko jadi nomor yang mudah diingat?</dt>
+    <dd>Tidak bisa. Kode dibuat berurutan oleh sistem; tim ops tidak bisa memilih atau mengubahnya.</dd>
+    <dd class="zh">能给门店换一个好记的邀请码吗？——不能。邀请码由系统按顺序分配，运营不能自定义或修改。</dd>
+
+    <dt>Pemilik toko lupa kata sandi aplikasi toko</dt>
+    <dd>Di detail toko, klik <span class="ui">重置密码</span> <span class="ui-id">(Reset kata sandi)</span>, isi kata sandi baru (minimal 8 karakter, berisi huruf dan angka), lalu kirim ke pemilik secara langsung. Pemilik wajib ganti kata sandi saat login berikutnya. Reset juga membuka kunci login jika akun sedang terkunci.</dd>
+    <dd class="zh">店主忘了门店端密码——在门店详情点「重置密码」，填一个新密码（至少 8 位，含字母和数字），线下发给店主。店主下次登录要先改密码；重置也会解除登录锁定。</dd>
+
+    <dt>Pemilik atau karyawan toko memakai kode tokonya sendiri di akun aplikasinya</dt>
+    <dd>Di V1 tidak diblokir; komisinya tetap dihitung seperti biasa.</dd>
+    <dd class="zh">店主自己或店员用本店的码绑定自己的 App 账号——v1 不拦截，照常计返佣。</dd>
+  </dl>
+</section>
+
+<footer>
+  Gambar diambil dari staging mops-stag / merchant-stag (10 Nov 2026); nama toko dan nomor HP adalah data uji. Tampilan production sama.<br>
+  截图取自测试环境 mops-stag / merchant-stag（2026-11-10），店名、手机号均为测试数据；正式环境界面相同。
+</footer>
+
+</div>
+</body>
+</html>
