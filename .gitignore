@@ -11,3 +11,7 @@ db-schema-reference.md
 .decision-log.md
 .decision-log-*.md
 .memlog.md
+
+# 设计师给的动效开发资料（rive / PDF / 素材），不入库
+V1.5.0/ui-gift-optimization/Gift_dev_docs/
+V1.5.2/动效替换/Like_dev_docs/

@@ -1335,6 +1335,16 @@ table.ck td:first-child{white-space:nowrap;font-weight:600;color:var(--page-ink)
 <div class="checks one"><div><h3>本轮自查</h3><ul>
 <li><b>逐屏截图已看</b>（第三步）：见交付说明</li>
 <li><b>token 核对</b>（<code>token_audit.py</code>）：48 种值不在 token 表。背景区 <code>lA-*</code> 取自线上代码（1.4.2 稿已逐项核过）；支付区、礼物格的 11 / 11.5 / 13.5 / 14.5 等取自 <code>gift_panel_sheet.dart</code>；全屏仪式页、礼物详情抽屉是新页面，数值第三步统一收到 token</li></ul></div></div>
+<div class="checks one"><div><h3>待补素材（不阻塞开发，11-13）</h3>
+<p style="margin:4px 0 8px">设计师在改两份 Rive 和礼盒 PNG，交回后由产品直接转给研发<b>替换文件</b>。下面的名字、路径、尺寸现在就定死，研发按它写代码、先用现有文件和临时素材跑通，到时只换文件不改代码。设计师若改了名字，产品转交时会一并说明。</p>
+<table class="copy"><tr><th>素材</th><th>放哪</th><th>现在能用的</th><th>设计师补什么</th><th>研发先怎么做</th></tr>
+<tr><td>送出动画</td><td><code>assets/rive/send_gift.riv</code>（同 <code>tailtopia_stamp.riv</code> 的目录，pubspec 已声明 <code>assets/rive/</code>）</td><td><code>Send gift/send_gift.riv</code>：画板 <code>GiftSend</code>、状态机 <code>SendSM</code>、礼物图可换（已验证）</td><td>结束事件 <code>sendDone</code></td><td>监听 <code>sendDone</code> 进 E3；<b>同时设 5.5 秒兜底</b>（现文件约 5 秒播完）——收到事件或到时间，先到先走。兜底保留到正式上线，防止动画卡住</td></tr>
+<tr><td>拆礼物动画</td><td><code>assets/rive/receive_gift.riv</code></td><td><code>Open gift/receive_gift.riv</code>：画板 <code>GiftReveal</code>、状态机 <code>GiftSM</code>、触发器 <code>GiftVM.open</code> 可用</td><td>礼物图属性 <code>GiftVM.giftImage</code>（现在礼物写死成小熊）；结束事件 <code>revealDone</code>；确认 <code>TapBox</code> 会不会自己触发 <code>open</code></td><td>照常传礼物图（现文件里没这个属性，传了不生效，开发期会一直显示小熊，属预期）；点礼盒由 App 触发 <code>open</code>；监听 <code>revealDone</code> 淡入文字按钮，<b>同时设 2.5 秒兜底</b>（现文件开盒约 2.2 秒）</td></tr>
+<tr><td>礼物图（两个动画共用）</td><td>后台上传的礼物图标 URL</td><td>—</td><td>—</td><td>两个动画都走数据绑定的图片属性 <code>giftImage</code>；送出动画的属性在 <code>Gift</code> 上，如运行时设置不生效，退回 <code>assetLoader</code> 按资源名 <code>plushy-image</code> 替换（已验证可行）。<b>图要 1000×1000</b>，运营上线前重传（后台稿页头 ⑤）</td></tr>
+<tr><td>礼盒（合盖）</td><td><code>assets/gift/gift_box_closed.webp</code>（新目录，pubspec 加 <code>assets/gift/</code>）</td><td>临时图 <code>临时素材/gift_box_closed.png</code>（从设计稿截图抠的，258×312）</td><td>透明 PNG 正式图</td><td>先用临时图，<b>按文件名引用</b>；用在 F1 礼物行、F2 / F4 未拆格、E3、H1–H4 详情抽屉。正式图到了直接覆盖同名文件</td></tr>
+<tr><td>礼盒（开盖）</td><td><code>assets/gift/gift_box_open.webp</code></td><td>—</td><td>透明 PNG</td><td>本版画面没用到，先不接；收到后存档备用</td></tr>
+</table>
+<p style="margin:8px 0 0"><b>受影响的只有两处 QA</b>：G1–G6 礼物显示成小熊、E / G 结束靠兜底时间——等新文件到了再测这两项，其余流程不用等。减弱动态效果 / 动画加载失败时直接显示 E3 / G2 终态（见实现提示）。</p></div></div>
 <div class="checks one"><div><h3>实现提示（不需拍板，研发注意）</h3><ul>
 <li><b>送出动画</b> <code>Send gift/send_gift.riv</code>：画板 <code>GiftSend</code>、状态机 <code>SendSM</code>；用 <code>assetLoader</code> 把图片资源 <code>plushy-image</code> 换成所送礼物的图（或数据绑定 <code>Gift.giftImage</code>），<b>礼物图必须 1000×1000</b>，Rive 按像素尺寸画、小图会变小；收到 <code>sendDone</code> 事件（设计师补）进 E3，点「Lewati」直接进 E3</li>
 <li><b>拆礼物动画</b> <code>Open gift/receive_gift.riv</code>：画板 <code>GiftReveal</code>、状态机 <code>GiftSM</code>；点礼盒触发 <code>GiftVM.open</code>；礼物图走 <code>GiftVM.giftImage</code>（设计师补，现版本礼物写死为小熊）；收到 <code>revealDone</code>（设计师补）后淡入文字和按钮。全屏铺满用 <code>Fit.cover</code></li>
