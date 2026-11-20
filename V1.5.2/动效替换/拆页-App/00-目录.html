@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>拆页目录 · 动效替换 App V1.5.2</title>
+<link rel="stylesheet" href="_fonts.css">
+<style>
+:root{--page-bg:#FAF9FC;--page-bg-2:#F1EEF7;--page-ink:#211F2E;--page-ink-2:#57536B;--page-muted:#8E89A3;--page-rule:#E4E0EE;--page-accent:#7D45F6;--page-accent-soft:#EFE6FF;}
+*{box-sizing:border-box}html,body{margin:0;padding:0;background:var(--page-bg)}
+body{color:var(--page-ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:"Iowan Old Style",Palatino,Georgia,"Songti SC",serif;font-weight:600;margin:0}
+.deck{max-width:1360px;margin:0 auto;padding:0 28px 140px}
+.doc-header{padding:56px 0 28px;border-bottom:1px solid var(--page-rule);margin-bottom:28px}
+.doc-header h1{font-size:30px;margin:0 0 10px}
+.sub{color:var(--page-ink-2);font-size:13px;margin:0 0 20px}
+.doc-header h3{font-size:16px;margin:22px 0 8px}
+.doc-header ul,.doc-header ol{margin:0;padding-left:20px;font-size:13px;color:var(--page-ink-2);line-height:1.85;max-width:110ch}
+.doc-header b{color:var(--page-ink)}
+.ask{background:#fff;border:1px solid var(--page-accent);border-radius:12px;padding:14px 18px;font-size:13.5px;color:var(--page-ink);max-width:110ch}
+code{background:var(--page-bg-2);padding:1px 5px;border-radius:4px;font-size:12px}
+table.tb{border-collapse:collapse;font-size:12.5px;max-width:1100px;width:100%;background:#fff}
+.tb th,.tb td{border:1px solid var(--page-rule);padding:7px 10px;text-align:left;vertical-align:top;color:var(--page-ink-2)}.tb th{color:var(--page-ink);background:var(--page-bg-2)}
+.lane{margin:48px 0 8px}.lane-title{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.lane-dot{width:9px;height:9px;border-radius:50%}.lane-title h2{font-size:20px}
+.lane-n{font-size:12px;color:var(--page-muted)}
+.lane-desc{color:var(--page-ink-2);font-size:13px;margin:4px 0 16px;max-width:110ch}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:7px;font-size:12.5px;color:var(--page-ink-2);line-height:1.9;margin:0 0 22px;padding:12px 16px;background:#fff;border:1px solid var(--page-rule);border-radius:10px}
+.flow s{text-decoration:none;font-weight:600;color:var(--page-accent);background:var(--page-accent-soft);border-radius:6px;padding:2px 8px}
+.flow i{font-style:normal;color:var(--page-muted)}.flow em{font-style:normal;color:var(--page-ink);font-weight:600}.flow .nl{flex-basis:100%;height:0}
+.frames{display:grid;grid-template-columns:repeat(3,384px);gap:40px 34px;justify-content:start;padding:8px 4px 26px}
+.frame-card{display:flex;flex-direction:column;align-items:center;gap:10px;width:384px}
+.frame-tag{display:inline-block;font-family:"Iowan Old Style",Palatino,Georgia,"Songti SC",serif;font-size:12.5px;font-weight:600;color:var(--page-accent);border:1px solid var(--page-accent);border-radius:999px;padding:3px 12px}
+.frame-cap{font-size:12px;color:var(--page-ink-2);align-self:stretch;line-height:1.75}
+.phone-shell{width:384px;height:812px;border-radius:42px;background:#FEFEFE;border:1px solid var(--page-rule);box-shadow:0 8px 28px rgba(40,30,70,.08);overflow:hidden;position:relative}
+.ph .ph-in{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--page-muted);text-align:center;padding:0 40px}
+.ph .ph-in b{font-family:"Iowan Old Style",Palatino,Georgia,serif;font-size:34px;color:var(--page-rule)}
+.ph .ph-in span{font-size:13px}
+
+.spec-shell{width:384px;height:812px;border-radius:16px;background:#fff;border:1.5px dashed var(--page-muted);position:relative;padding:18px 18px;overflow:hidden;font-size:12.5px;color:var(--page-ink-2)}
+.spec-shell h4{margin:0 0 12px;font-size:14px;color:var(--page-ink)}.spec-shell .mk{color:var(--page-accent);margin-right:6px}
+.spec-shell table{border-collapse:collapse;width:100%;font-size:11.5px;margin:0 0 14px}.spec-shell td,.spec-shell th{border-bottom:1px solid var(--page-rule);padding:5px 4px;text-align:left;vertical-align:top}
+.spec-shell th{color:var(--page-ink)}
+.msi{font-family:"Material Symbols Rounded";font-weight:400;font-style:normal;line-height:1;display:inline-block;white-space:nowrap;font-size:22px}
+.pv-card{position:relative;width:300px;margin:6px auto 0;background:#fff;border-radius:14px;box-shadow:0 2px 10px rgba(40,30,70,.12);overflow:hidden;font-family:Poppins,sans-serif}
+.pv-img{height:300px;background:linear-gradient(160deg,#F6D7B8,#C98F5E);display:flex;align-items:center;justify-content:center;font-size:72px;user-select:none;touch-action:manipulation;cursor:pointer}
+.pv-acts{display:flex;align-items:center;gap:6px;padding:10px 12px;color:#544864;font-size:13px}
+.pv-like{display:inline-block;transition:transform .1s}
+.pv-like.on{color:#F0425A;font-variation-settings:'FILL' 1}
+.pv-cv{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.pv-ctl{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;margin:14px 0 8px;font-size:12.5px}
+.pv-ctl button{font:inherit;border:1px solid var(--page-accent);color:var(--page-accent);background:#fff;border-radius:8px;padding:3px 10px;cursor:pointer}
+.pv-log{font-size:12px;color:var(--page-ink);background:var(--page-bg-2);border-radius:8px;padding:8px 10px;min-height:52px;line-height:1.6}
+.splitpg{max-width:1240px;margin:0 auto;padding:24px 32px 64px}.pgnav{display:flex;gap:16px;margin-bottom:8px;font-size:13px}.pgnav a{color:var(--page-accent);text-decoration:none}.splitpg .frames{grid-template-columns:384px}.idx ul{list-style:none;padding:0;margin:4px 0 20px;display:grid;grid-template-columns:repeat(3,1fr);gap:6px 24px}.idx li a{color:var(--page-ink);text-decoration:none;font-size:13.5px}.idx li b{color:var(--page-accent);margin-right:8px}.idx h3{margin-top:24px}.idx .desc{font-size:13px;color:var(--page-ink-2);line-height:1.7}</style>
+</head>
+<body>
+<div class="splitpg idx"><h1>V1.5.2 · 动效替换 · App · 拆页目录</h1><p class="desc">由整合稿 <code>ui-1-5-2-motion-icons-integrated-v1.html</code>（2026-11-20 定稿）拆出，一屏一个文件，共 35 屏（含 4 个规格框）。每页保留所在泳道的说明和流程条；屏内容与整合稿逐字相同。</p><p class="desc">研发执行要求、QA 场景、核对结论只写在整合稿页头里，开发前先看：<a href="../ui-1-5-2-motion-icons-integrated-v1.html">整合稿</a>。本需求只有 App 端，后台不出稿。</p><h3>P · 物种配色规格</h3><ul><li><a href="P1-15-色色板.html"><b>P1</b>15 色色板</a></li><li><a href="P2-尺寸与选中态.html"><b>P2</b>尺寸与选中态</a></li></ul><h3>A · 选物种（建档 / 编辑 / 身份证建卡）</h3><ul><li><a href="A1-建档页-未选物种.html"><b>A1</b>建档页·未选物种</a></li><li><a href="A2-类型抽屉-未选.html"><b>A2</b>类型抽屉·未选</a></li><li><a href="A3-类型抽屉-已选.html"><b>A3</b>类型抽屉·已选</a></li><li><a href="A4-类型抽屉-搜索结果.html"><b>A4</b>类型抽屉·搜索结果</a></li><li><a href="A5-类型抽屉-搜索无结果.html"><b>A5</b>类型抽屉·搜索无结果</a></li><li><a href="A6-建档页-已选物种.html"><b>A6</b>建档页·已选物种</a></li><li><a href="A7-编辑页-没有照片.html"><b>A7</b>编辑页·没有照片</a></li><li><a href="A8-身份证建卡-选物种.html"><b>A8</b>身份证建卡·选物种</a></li></ul><h3>B · 宠物没有照片时的头像</h3><ul><li><a href="B1-我的页-我的宠物.html"><b>B1</b>我的页·我的宠物</a></li><li><a href="B2-他人主页-宠物.html"><b>B2</b>他人主页·宠物</a></li><li><a href="B3-Diary-页头.html"><b>B3</b>Diary 页头</a></li><li><a href="B4-选宠物抽屉.html"><b>B4</b>选宠物抽屉</a></li><li><a href="B5-宠物名额页.html"><b>B5</b>宠物名额页</a></li><li><a href="B6-当前宠物选择抽屉.html"><b>B6</b>当前宠物选择抽屉</a></li><li><a href="B7-里程碑庆祝-多只宠物.html"><b>B7</b>里程碑庆祝·多只宠物</a></li><li><a href="B8-里程碑分享卡.html"><b>B8</b>里程碑分享卡</a></li><li><a href="B9-关注列表-宠物.html"><b>B9</b>关注列表·宠物</a></li><li><a href="B10-送礼-送达页.html"><b>B10</b>送礼·送达页</a></li></ul><h3>C · Feed 双击喜欢</h3><ul><li><a href="C1-双击-涟漪-1.html"><b>C1</b>双击·涟漪 1</a></li><li><a href="C2-涟漪-2-红心冒出.html"><b>C2</b>涟漪 2 + 红心冒出</a></li><li><a href="C3-红心飞向点赞按钮.html"><b>C3</b>红心飞向点赞按钮</a></li><li><a href="C4-落地-按钮弹跳.html"><b>C4</b>落地·按钮弹跳</a></li><li><a href="C5-已赞时再双击.html"><b>C5</b>已赞时再双击</a></li><li><a href="C6-点赞按钮不在屏内.html"><b>C6</b>点赞按钮不在屏内</a></li><li><a href="C7-减弱动态效果.html"><b>C7</b>减弱动态效果</a></li><li><a href="C8-游客双击-登录窗.html"><b>C8</b>游客双击·登录窗</a></li></ul><h3>D · Diary 卡片双击喜欢</h3><ul><li><a href="D1-Diary-卡片-涟漪-1.html"><b>D1</b>Diary 卡片·涟漪 1</a></li><li><a href="D2-红心冒出.html"><b>D2</b>红心冒出</a></li><li><a href="D3-飞向卡片爱心.html"><b>D3</b>飞向卡片爱心</a></li><li><a href="D4-落地-弹跳.html"><b>D4</b>落地·弹跳</a></li><li><a href="D5-游客示例双击-登录窗.html"><b>D5</b>游客示例双击·登录窗</a></li></ul><h3>E · 动效规格（给研发）</h3><ul><li><a href="E1-Like.riv-实时预览.html"><b>E1</b>Like.riv 实时预览</a></li><li><a href="E2-Rive-接口与时序.html"><b>E2</b>Rive 接口与时序</a></li></ul></div>
+
+</body>
+</html>
