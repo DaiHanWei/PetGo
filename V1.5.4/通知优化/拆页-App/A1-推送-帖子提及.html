@@ -1,0 +1,33 @@
+<!doctype html><html lang="zh-CN" data-lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>A1 推送 · 帖子提及 · 1.5.4 通知优化</title><link rel="stylesheet" href="_fonts.css"><link rel="stylesheet" href="_deck.css"><style>.pgnav{display:flex;gap:16px;align-items:center;font-size:13px;margin:0 0 18px}.pgnav a{color:var(--page-accent);text-decoration:none;font-weight:600}.pgnav .sp{flex:1}.toc{margin:0 0 8px;padding-left:20px;line-height:2}.toc a{color:var(--page-accent);text-decoration:none}</style></head><body>
+<div class="lang-switch" role="group" aria-label="Annotation language"><button type="button" data-l="zh" aria-pressed="true">中文</button><button type="button" data-l="en" aria-pressed="false">English</button><button type="button" data-l="both" aria-pressed="false">双语 / Both</button></div>
+<script>
+(function(){
+  var root=document.documentElement, btns=document.querySelectorAll('.lang-switch button');
+  function set(l){root.setAttribute('data-lang',l);root.lang=l==='en'?'en':'zh-CN';btns.forEach(function(b){b.setAttribute('aria-pressed',b.dataset.l===l?'true':'false');});try{localStorage.setItem('deckLang',l);}catch(e){}}
+  btns.forEach(function(b){b.addEventListener('click',function(){set(b.dataset.l);});});
+  try{var saved=localStorage.getItem('deckLang');if(saved)set(saved);}catch(e){}
+})();
+</script>
+<div class="page"><div class="pgnav"><a href="00-目录.html">← 目录</a><a href="A2-推送-评论提及.html">A2 ›</a><span class="sp"></span><span style="color:var(--page-muted)">1.5.4 通知优化 · App · 已定稿 · 执行说明见整合稿页头</span></div><section class="lane"><h2><span class="zh">A · 推送（系统通知）</span><span class="en">A · Push (system notification)</span></h2>
+<p class="desc zh">标题「{nickname} menyebutmu 📣」，正文分帖子 / 评论（回复也算评论）。语言跟收件人账号语言（EN：「{nickname} mentioned you 📣」）。昵称用发送那一刻的。</p><p class="desc en">Title "{nickname} menyebutmu 📣"; body differs for post / comment (replies count as comments). Language follows the recipient's account (EN: "{nickname} mentioned you 📣"). Nickname as at send time.</p>
+<div class="flow zh"><em>主路径：</em><s>A1</s> <i>帖子提及，点推送 → 帖子详情（现有，1.5.2 FR-244 直达）</i>
+<span class="nl"></span><em>主路径：</em><s>A2</s> <i>评论 / 回复提及，点推送 →</i> <s>C1</s> <i>／ 评论已删 →</i> <s>C2</s> <i>／ 帖子已删 →</i> <s>C4</s>
+<span class="nl"></span><em>其他：</em><i>A1 的帖子已删 →</i> <s>C4</s> <i>／ 点赞推送 → 现有落点（帖子详情），本次不变，不画</i></div>
+<div class="flow en"><em>Main path:</em><s>A1</s> <i>post mention, tap the push → post detail (existing; 1.5.2 FR-244 opens it directly)</i>
+<span class="nl"></span><em>Main path:</em><s>A2</s> <i>comment / reply mention, tap the push →</i> <s>C1</s> <i>/ comment deleted →</i> <s>C2</s> <i>/ post deleted →</i> <s>C4</s>
+<span class="nl"></span><em>Other:</em><i>A1 with the post deleted →</i> <s>C4</s> <i>/ like push → its existing destination (post detail), unchanged, not drawn</i></div>
+<div class="frames"><div class="frame"><span class="frame-tag"><b>A1</b><span class="zh">推送 · 帖子提及</span><span class="en">Push · post mention</span><span class="tg tg-c"><span class="zh">改</span><span class="en">Changed</span></span></span>
+    <div class="phone-shell"><div class="phone-screen ps-scr">
+      <div class="ps-wall img-oyen"></div><div class="ps-shade"></div>
+      <div class="ps-sb"><span>Telkomsel</span><span><i class="ms f">signal_cellular_alt</i><i class="ms f">wifi</i><i class="ms f">battery_full</i><span class="bt">100%</span></span></div>
+      <div class="ps-clk">9:33</div>
+      <div class="ps-dt">Senin, 23 November</div>
+      <div class="ps-stk">
+        <div class="ps-n"><span class="ps-ic img-icon"></span><div class="ps-tx"><div class="ps-hd"><span class="ap">TailTopia</span><span class="dt">•</span><span>sekarang</span></div><div class="ps-t">Dimas menyebutmu <span class="ps-em">📣️</span></div><div class="ps-b">Di sebuah postingan. Ketuk untuk lihat!</div></div><span class="ps-ex"><i class="ms">expand_less</i></span></div>
+        <div class="ps-n cl"><span class="ps-ic img-icon"></span><div class="ps-tx"><div class="ps-t"><span class="tt">Ayu menyukai postinganmu</span><span class="tm">· 17 mnt</span></div></div><span class="ps-ex"><i class="ms">expand_more</i></span></div>
+      </div>
+      <div class="ps-lk"><i class="ms f">lock</i></div>
+      <span class="ps-sc l"><i class="ms">flashlight_on</i></span><span class="ps-sc r"><i class="ms">photo_camera</i></span>
+      <span class="ps-gb"></span>
+    </div></div>
+    <p class="frame-cap zh">系统锁屏通知（Android 14 样式），只改文案，样式不归我们。标题 / 正文来自后端 <code>messages_id.properties</code> 的新 key（PRD 附录 A），旧版 App 也会收到新文案（AC10）。EN：「Dimas mentioned you 📣 / In a post. Tap to view!」。替换掉今天的「Kamu disebut / Seseorang menyebutmu di sebuah postingan」。这是 9:33 Dimas 在自己的猫咪帖里 @ 了 Rina 的那一刻（A2 / B1 里同一条显示「8 mnt / 8 menit lalu」）。下面那条是今天真实的点赞推送（<code>notify.tpl.liked.one</code>，正文为空），作对照。图标 = 启动图标 <code>ic_launcher</code>（没有专用通知图标和颜色），应用名 TailTopia。点开 → 帖子详情。</p><p class="frame-cap en">OS lock-screen notification (Android 14 look); only the copy is ours. Title / body come from new backend keys in <code>messages_id.properties</code> (PRD Appendix A), so older apps get the new copy too (AC10). EN: "Dimas mentioned you 📣 / In a post. Tap to view!". Replaces today's "Kamu disebut / Seseorang menyebutmu di sebuah postingan". This is 9:33, the moment Dimas @-mentions Rina in his cat post (the same mention shows as "8 mnt / 8 menit lalu" in A2 / B1). The card below is today's real like push (<code>notify.tpl.liked.one</code>, empty body), for comparison. Icon = launcher icon <code>ic_launcher</code> (no dedicated notification icon or colour); app name TailTopia. Tap → post detail.</p></div></div></section></div></body></html>
