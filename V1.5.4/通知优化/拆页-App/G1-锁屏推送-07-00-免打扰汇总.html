@@ -1,0 +1,24 @@
+<!doctype html><html lang="zh-CN" data-lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>G1 锁屏推送 · 07:00 免打扰汇总 · 1.5.4 通知优化</title><link rel="stylesheet" href="_fonts.css"><link rel="stylesheet" href="_deck.css"><style>.pgnav{display:flex;gap:16px;align-items:center;font-size:13px;margin:0 0 18px}.pgnav a{color:var(--page-accent);text-decoration:none;font-weight:600}.pgnav .sp{flex:1}.toc{margin:0 0 8px;padding-left:20px;line-height:2}.toc a{color:var(--page-accent);text-decoration:none}</style></head><body>
+<div class="lang-switch" role="group" aria-label="Annotation language"><button type="button" data-l="zh" aria-pressed="true">中文</button><button type="button" data-l="en" aria-pressed="false">English</button><button type="button" data-l="both" aria-pressed="false">双语 / Both</button></div>
+<script>
+(function(){
+  var root=document.documentElement, btns=document.querySelectorAll('.lang-switch button');
+  function set(l){root.setAttribute('data-lang',l);root.lang=l==='en'?'en':'zh-CN';btns.forEach(function(b){b.setAttribute('aria-pressed',b.dataset.l===l?'true':'false');});try{localStorage.setItem('deckLang',l);}catch(e){}}
+  btns.forEach(function(b){b.addEventListener('click',function(){set(b.dataset.l);});});
+  try{var saved=localStorage.getItem('deckLang');if(saved)set(saved);}catch(e){}
+})();
+</script>
+<div class="page"><div class="pgnav"><a href="00-目录.html">← 目录</a><a href="F3-通知中心-宠物新粉丝合并行.html">‹ F3</a><a href="G2-锁屏推送-工单解决-评价.html">G2 ›</a><span class="sp"></span><span style="color:var(--page-muted)">1.5.4 通知优化 · App · 已定稿 · 执行说明见整合稿页头</span></div><section class="lane"><h2><span class="zh">G · 免打扰汇总、工单合一（Part 3 · FR-329、FR-331）</span><span class="en">G · Quiet-hours summary, one ticket notification (Part 3 · FR-329, FR-331)</span></h2>
+<p class="desc zh">00:00 ~ 07:00 的推送攒到 07:00：多条合成一条汇总推送，点开 → 通知中心（B1 那页）。工单解决和满意度调查合成一条推送、一行通知。每天 8 条上限、运营每天 2 条、礼物去重都没有界面，不画。</p><p class="desc en">Pushes from 00:00 to 07:00 are held until 07:00; several become one summary push that opens the notification centre (B1). A resolved ticket and its rating request become one push and one row. The 8/day cap, 2 ops/day and gift debounce have no UI; not drawn.</p>
+<div class="flow zh"><em>主路径：</em><s>G1</s> 07:00 汇总推送 <i>→ 点 → 通知中心（同 B1）</i><span class="nl"></span><em>主路径：</em><s>G2</s> 工单解决推送 <i>／ 通知中心</i> <s>G3</s> 工单合一行 <i>→ 点 → 工单详情 + 评分（现有页）</i><span class="nl"></span><em>待第二步确认：</em><i>运营推送发送结果里显示「超限没推的人数」要不要出后台稿，看现有后台活动详情页有没有统计位</i></div>
+<div class="flow en"><em>Main path:</em><s>G1</s> 07:00 summary push <i>→ tap → notification centre (as B1)</i><span class="nl"></span><em>Main path:</em><s>G2</s> ticket resolved push <i>/ center</i> <s>G3</s> one ticket row <i>→ tap → ticket + rating (existing page)</i><span class="nl"></span><em>To confirm in step 2:</em><i>whether the "skipped by limit" count in ops campaign results needs an admin screen, depending on the existing campaign detail page</i></div>
+<div class="frames"><div class="frame"><span class="frame-tag"><b>G1</b><span class="zh">锁屏推送 · 07:00 免打扰汇总</span><span class="en">Lock screen · 07:00 quiet-hours summary</span><span class="tg tg-n"><span class="zh">新增</span><span class="en">New</span></span></span>
+    <div class="phone-shell"><div class="phone-screen ps-scr">
+      <div class="ps-wall img-oyen"></div><div class="ps-shade"></div>
+      <div class="ps-sb"><span>Telkomsel</span><span><i class="ms f">signal_cellular_alt</i><i class="ms f">wifi</i><i class="ms f">battery_full</i><span class="bt">100%</span></span></div>
+      <div class="ps-clk">7:00</div><div class="ps-dt">Selasa, 24 November</div>
+      <div class="ps-stk"><div class="ps-n"><span class="ps-ic img-icon"></span><div class="ps-tx"><div class="ps-hd"><span class="ap">TailTopia</span><span class="dt">•</span><span>sekarang</span></div><div class="ps-t">Ada 5 notifikasi baru untukmu <span class="ps-em">🐾</span></div></div><span class="ps-ex"><i class="ms">expand_less</i></span></div><div class="ps-n cl"><span class="ps-ic img-icon"></span><div class="ps-tx"><div class="ps-t"><span class="tt">Promo akhir bulan di Toko 🛍️</span><span class="tm">· 16 jam</span></div></div><span class="ps-ex"><i class="ms">expand_more</i></span></div></div>
+      <div class="ps-lk"><i class="ms f">lock</i></div>
+      <span class="ps-sc l"><i class="ms">flashlight_on</i></span><span class="ps-sc r"><i class="ms">photo_camera</i></span><span class="ps-gb"></span>
+    </div></div>
+    <p class="frame-cap zh">00:00 ~ 07:00 攒了 5 条（赞、评论、关注等），07:00 合成一条汇总，没有正文。点 → 通知中心（同 B1）。只攒了 1 条时原样发那条，不出这条。下面一条是前一天的运营推送作对照。</p><p class="frame-cap en">5 pushes held 00:00–07:00 become one summary at 07:00, no body. Tap → notification centre (as B1). With one held, that push goes out as is. Below: yesterday's ops push for comparison.</p></div></div></section></div></body></html>

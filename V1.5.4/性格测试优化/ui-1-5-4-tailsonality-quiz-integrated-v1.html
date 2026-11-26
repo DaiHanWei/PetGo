@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1.5.4 性格测试答题优化 · App UI 整合稿</title>
+<style>
+:root{--page-bg:#FAF9FC;--page-bg-2:#F1EEF7;--page-ink:#211F2E;--page-ink-2:#57536B;--page-muted:#8E89A3;--page-rule:#E4E0EE;--page-accent:#7D45F6;--page-accent-soft:#EFE6FF;}
+*{box-sizing:border-box}html,body{margin:0;padding:0;background:var(--page-bg)}
+body{color:var(--page-ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+.deck h1,.deck h2,.deck h3{font-family:"Iowan Old Style",Palatino,Georgia,serif;font-weight:600;margin:0}
+.deck{max-width:1360px;margin:0 auto;padding:0 28px 140px}
+.doc-header{padding:48px 0 28px;border-bottom:1px solid var(--page-rule);margin-bottom:20px}
+.doc-header h1{font-size:30px;margin:0 0 10px}.doc-header h3{font-size:15px;margin:22px 0 8px}
+.sub{color:var(--page-ink-2);font-size:13px;margin:0}
+.ask{background:#fff;border:1px solid var(--page-accent);border-radius:10px;padding:12px 16px;font-size:13px;color:var(--page-ink-2);line-height:1.8}
+.doc-header ul{margin:0;padding-left:20px;font-size:13px;color:var(--page-ink-2);line-height:1.8}
+.deck code{background:var(--page-bg-2);padding:1px 5px;border-radius:4px;font-size:12px}
+.lane{margin:44px 0 8px}.lane h2{font-size:19px;margin:0 0 4px}
+.lane .desc{color:var(--page-ink-2);font-size:13px;margin:4px 0 16px;max-width:96ch}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:7px;font-size:12.5px;color:var(--page-ink-2);line-height:1.9;margin:0 0 22px;padding:12px 16px;background:#fff;border:1px solid var(--page-rule);border-radius:10px}
+.flow s{text-decoration:none;font-weight:600;color:var(--page-accent);background:var(--page-accent-soft);border-radius:6px;padding:2px 8px}
+.flow i{font-style:normal;color:var(--page-muted)}.flow em{font-style:normal;color:var(--page-ink);font-weight:600}.flow .nl{flex-basis:100%;height:0}
+.frames{display:grid;grid-template-columns:repeat(3,384px);gap:40px 34px;justify-content:start;padding:8px 4px 26px}
+.frame-card{display:flex;flex-direction:column;align-items:center;gap:10px}
+.frame-tag{display:inline-block;font-family:"Iowan Old Style",Palatino,Georgia,serif;font-size:12.5px;font-weight:600;color:var(--page-accent);border:1px solid var(--page-accent);border-radius:999px;padding:3px 12px}
+.frame-cap{font-size:12px;color:var(--page-ink-2);align-self:stretch;line-height:1.75;margin:0}.frame-cap b{color:var(--page-ink)}
+.k{font-size:11px;font-weight:600;border-radius:5px;padding:0 6px;margin-left:6px}
+.k.new{color:#1B7F8C;background:#E6F5F7}.k.mod{color:#9A6A00;background:#FFF4D6}.k.reuse{color:#57536B;background:#EEECF3}
+.phone-shell{width:384px;height:812px;border-radius:42px;background:#FEFEFE;border:1px solid var(--page-rule);box-shadow:0 8px 28px rgba(40,30,70,.08);position:relative;overflow:hidden}
+.phone-shell.narrow{width:360px;height:740px}
+.ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--page-muted);font-size:13px}
+.ph b{font-size:22px;color:var(--page-rule);font-family:"Iowan Old Style",Palatino,Georgia,serif}
+.tbl{border-collapse:collapse;font-size:12.5px;width:100%;background:#fff}.tbl th,.tbl td{border:1px solid var(--page-rule);padding:6px 10px;text-align:left;vertical-align:top;color:var(--page-ink-2)}.tbl th{color:var(--page-ink);background:var(--page-bg-2)}
+</style></head>
+<body><div class="deck">
+
+<div class="doc-header">
+<h1>1.5.4 性格测试答题优化 · App UI 整合稿</h1>
+<p class="sub">2026-11-23 · <b>第一步：清单稿</b>（只列屏和跳转，框内空白）· PRD <code>V1.5.4/性格测试优化/1-5-4性格测试优化prd.md</code>（FR-292 ~ FR-297）· 只有 App 端，无后台</p>
+
+<h3>改什么、不改什么</h3>
+<ul>
+<li><b>改</b>：入口卡副标题（FR-295）；答题页从「3 页 × 6 题」改成「一屏一题、点选项自动跳」（FR-292）；题目 18 → 10、文案缩短加 emoji（FR-293 / FR-294）。</li>
+<li><b>不画</b>：后端兼容 18 / 10 题（FR-296）和埋点（FR-297）是后端 / 数据改动，没有界面。结果页、配型页、解锁、分享、结果列表都不改，不出屏。</li>
+<li><b>沿用不改、但列出来</b>：生成中、宠物信息加载失败、退出确认抽屉——答题页结构变了，这几个状态要在新结构里出现，所以列屏核对。</li>
+</ul>
+
+<h3>页面清单</h3>
+<table class="tbl">
+<tr><th>屏号</th><th>屏名</th><th>类型</th><th>说明</th></tr>
+<tr><td>A1</td><td>宠物「了解更多」聚合页 · Tailsonality 卡</td><td>改动</td><td>只改卡片副标题，写上「1 分钟」</td></tr>
+<tr><td>B1</td><td>第 1 题 · 图片题 · 未选</td><td>改动</td><td>进答题页第一屏；第 1 题是图片题（能量 P3），四张大图</td></tr>
+<tr><td>B2</td><td>第 1 题 · 点选后高亮</td><td>新增状态</td><td>选中的选项高亮约 0.3 秒，然后自动滑到第 2 题</td></tr>
+<tr><td>B3</td><td>第 2 题 · 文字题 · 未选</td><td>改动</td><td>文字题标准样式：短题干 + 4 个带 emoji 的大选项</td></tr>
+<tr><td>B4</td><td>第 10 题 · 最后一题 · 未选</td><td>改动</td><td>进度条走满前一格；点选项后直接提交</td></tr>
+<tr><td>C1</td><td>返回上一题 · 保留已选</td><td>新增状态</td><td>从第 5 题点返回到第 4 题，第 4 题显示上次选的选项</td></tr>
+<tr><td>C2</td><td>退出确认抽屉</td><td>沿用</td><td>答过题后在第 1 题点返回 / 系统返回时弹出；公共确认抽屉</td></tr>
+<tr><td>D1</td><td>生成中</td><td>沿用</td><td>第 10 题点选后进入，至少 2.5 秒</td></tr>
+<tr><td>D2</td><td>提交失败 · 停在第 10 题</td><td>改动</td><td>底部出失败提示 + 重试按钮（原来在「查看结果」按钮的位置）</td></tr>
+<tr><td>D3</td><td>宠物信息加载失败</td><td>沿用</td><td>进答题页取不到宠物信息时，显示重试；没有题目、没有进度条</td></tr>
+<tr><td>E1</td><td>小屏 · 最长的一道题</td><td>核对用</td><td>360 宽安卓屏，放印尼语最长的题干和选项，验证不用滚动、题干不超过 2 行、选项各 1 行（PRD FR-292 / FR-294 验收）</td></tr>
+</table>
+
+<h3>请核对</h3>
+<div class="ask">这是第一步清单稿，框里是空的。请核对：① 有没有缺屏（比如还想看狗 / 其他宠物题套的样子、中间某道图片题的样子）；② 下面每条泳道的跳转关系对不对。确认后我进第二步，按真实代码把每屏填满。</div>
+</div>
+
+<section class="lane"><h2>A · 入口（FR-295）</h2>
+<p class="desc">代码：<code>features/profile/presentation/pet_insights_page.dart</code>。点 Tailsonality 卡直接进答题页，不加说明抽屉（PRD 定）。</p>
+<div class="flow"><em>主路径：</em><i>宠物档案 → 「了解更多」→</i> <s>A1</s> 聚合页 <i>→ 点 Tailsonality 卡 →</i> <s>B1</s> 第 1 题</div>
+<div class="frames">
+<div class="frame-card"><span class="frame-tag">A1 聚合页 · Tailsonality 卡<span class="k mod">改动</span></span><div class="phone-shell"><div class="ph"><b>A1</b>聚合页 · Tailsonality 卡</div></div><p class="frame-cap">只改副标题。</p></div>
+</div></section>
+
+<section class="lane"><h2>B · 答题主流程（FR-292 / FR-293 / FR-294）</h2>
+<p class="desc">代码：<code>features/tailsonality/presentation/tailsonality_quiz_page.dart</code>。一屏一题，没有「下一题」按钮。10 题顺序：P3（图）· Q1 · Q4 · Q8 · Q11 · P1（图）· Q5 · P2（图）· Q13 · Q14。</p>
+<div class="flow"><em>主路径：</em><s>B1</s> 第 1 题（图） <i>→ 点选 →</i> <s>B2</s> 高亮 0.3 秒 <i>→ 自动滑到 →</i> <s>B3</s> 第 2 题（文字） <i>→ … 第 3 ~ 9 题同样式（第 6、8 题是图片题，同 B1）→</i> <s>B4</s> 第 10 题 <i>→ 点选 →</i> <s>D1</s> 生成中 <i>→ 结果页（不改）</i>
+<span class="nl"></span><em>说明：</em>B2 是 B1 的点选瞬间，不是单独一页；每道题点选后都有这一下</div>
+<div class="frames">
+<div class="frame-card"><span class="frame-tag">B1 第 1 题 · 图片题 · 未选<span class="k mod">改动</span></span><div class="phone-shell"><div class="ph"><b>B1</b>第 1 题 · 图片题 · 未选</div></div><p class="frame-cap">进答题页第一屏。</p></div>
+<div class="frame-card"><span class="frame-tag">B2 第 1 题 · 点选后高亮<span class="k new">新增状态</span></span><div class="phone-shell"><div class="ph"><b>B2</b>第 1 题 · 点选后高亮</div></div><p class="frame-cap">0.3 秒后自动跳下一题。</p></div>
+<div class="frame-card"><span class="frame-tag">B3 第 2 题 · 文字题 · 未选<span class="k mod">改动</span></span><div class="phone-shell"><div class="ph"><b>B3</b>第 2 题 · 文字题 · 未选</div></div><p class="frame-cap">文字题标准样式。</p></div>
+<div class="frame-card"><span class="frame-tag">B4 第 10 题 · 最后一题<span class="k mod">改动</span></span><div class="phone-shell"><div class="ph"><b>B4</b>第 10 题 · 最后一题</div></div><p class="frame-cap">点选项后直接提交，没有「查看结果」按钮。</p></div>
+</div></section>
+
+<section class="lane"><h2>C · 返回与退出</h2>
+<p class="desc">返回箭头和系统返回手势走同一套规则。</p>
+<div class="flow"><em>返回上一题：</em><i>第 5 题点返回 →</i> <s>C1</s> 第 4 题（保留已选） <i>→ 改选 → 自动跳到第 5 题 ／ 点已选中的那个 → 继续到第 5 题</i>
+<span class="nl"></span><em>退出：</em><i>在第 1 题点返回：一题没答 → 直接退回聚合页 ／ 答过题 →</i> <s>C2</s> 退出确认抽屉 <i>→「Keluar」退回聚合页（答案不保存）／「Batal」留在第 1 题</i>
+<span class="nl"></span><em>不能返回：</em><s>D1</s> 生成中时返回键不可点（沿用）</div>
+<div class="frames">
+<div class="frame-card"><span class="frame-tag">C1 返回上一题 · 保留已选<span class="k new">新增状态</span></span><div class="phone-shell"><div class="ph"><b>C1</b>返回上一题 · 保留已选</div></div><p class="frame-cap">第 4 题显示上次选的选项。</p></div>
+<div class="frame-card"><span class="frame-tag">C2 退出确认抽屉<span class="k reuse">沿用</span></span><div class="phone-shell"><div class="ph"><b>C2</b>退出确认抽屉</div></div><p class="frame-cap">公共确认抽屉，压在第 1 题上。</p></div>
+</div></section>
+
+<section class="lane"><h2>D · 提交与异常</h2>
+<div class="flow"><em>主路径：</em><s>B4</s> <i>点选 →</i> <s>D1</s> 生成中 <i>→ 成功：结果页 ／ 失败 →</i> <s>D2</s> 停在第 10 题带重试 <i>→ 点重试 →</i> <s>D1</s>
+<span class="nl"></span><em>进页异常：</em><i>由 A1 进入，取不到宠物信息 →</i> <s>D3</s> 加载失败 <i>→ 点重试 →</i> <s>B1</s></div>
+<div class="frames">
+<div class="frame-card"><span class="frame-tag">D1 生成中<span class="k reuse">沿用</span></span><div class="phone-shell"><div class="ph"><b>D1</b>生成中</div></div><p class="frame-cap">沿用 <code>TsGeneratingView</code>。</p></div>
+<div class="frame-card"><span class="frame-tag">D2 提交失败 · 停在第 10 题<span class="k mod">改动</span></span><div class="phone-shell"><div class="ph"><b>D2</b>提交失败 · 停在第 10 题</div></div><p class="frame-cap">底部失败提示 + 重试。</p></div>
+<div class="frame-card"><span class="frame-tag">D3 宠物信息加载失败<span class="k reuse">沿用</span></span><div class="phone-shell"><div class="ph"><b>D3</b>宠物信息加载失败</div></div><p class="frame-cap">沿用，只是顶栏没有进度条。</p></div>
+</div></section>
+
+<section class="lane"><h2>E · 小屏核对</h2>
+<p class="desc">不是新页面，是用 360 宽的小屏放最长的一道题，验证 PRD 的「不用滚动、题干 ≤ 2 行、选项各 1 行」。</p>
+<div class="frames">
+<div class="frame-card"><span class="frame-tag">E1 小屏 · 最长的一道题<span class="k reuse">核对用</span></span><div class="phone-shell narrow"><div class="ph"><b>E1</b>小屏 · 最长的一道题</div></div><p class="frame-cap">360 × 740。</p></div>
+</div></section>
+
+</div></body></html>

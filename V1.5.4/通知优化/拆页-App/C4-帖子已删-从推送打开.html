@@ -1,0 +1,27 @@
+<!doctype html><html lang="zh-CN" data-lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>C4 帖子已删 · 从推送打开 · 1.5.4 通知优化</title><link rel="stylesheet" href="_fonts.css"><link rel="stylesheet" href="_deck.css"><style>.pgnav{display:flex;gap:16px;align-items:center;font-size:13px;margin:0 0 18px}.pgnav a{color:var(--page-accent);text-decoration:none;font-weight:600}.pgnav .sp{flex:1}.toc{margin:0 0 8px;padding-left:20px;line-height:2}.toc a{color:var(--page-accent);text-decoration:none}</style></head><body>
+<div class="lang-switch" role="group" aria-label="Annotation language"><button type="button" data-l="zh" aria-pressed="true">中文</button><button type="button" data-l="en" aria-pressed="false">English</button><button type="button" data-l="both" aria-pressed="false">双语 / Both</button></div>
+<script>
+(function(){
+  var root=document.documentElement, btns=document.querySelectorAll('.lang-switch button');
+  function set(l){root.setAttribute('data-lang',l);root.lang=l==='en'?'en':'zh-CN';btns.forEach(function(b){b.setAttribute('aria-pressed',b.dataset.l===l?'true':'false');});try{localStorage.setItem('deckLang',l);}catch(e){}}
+  btns.forEach(function(b){b.addEventListener('click',function(){set(b.dataset.l);});});
+  try{var saved=localStorage.getItem('deckLang');if(saved)set(saved);}catch(e){}
+})();
+</script>
+<div class="page"><div class="pgnav"><a href="00-目录.html">← 目录</a><a href="C3-帖子已删-通知中心-Toast.html">‹ C3</a><a href="D1-锁屏推送-关注的人发了多条.html">D1 ›</a><span class="sp"></span><span style="color:var(--page-muted)">1.5.4 通知优化 · App · 已定稿 · 执行说明见整合稿页头</span></div><section class="lane"><h2><span class="zh">C · 点开以后（现有页面 / 1.5.2 已定行为）</span><span class="en">C · After the tap (existing pages / behaviour set by 1.5.2)</span></h2>
+<p class="desc zh">1.5.4 只是把评论 ID 存进提及通知，复用现有的评论定位高亮（评论点赞通知已经在用）。删了的情况沿用 1.5.2 FR-244。</p><p class="desc en">1.5.4 only stores the comment ID with the mention and reuses the existing comment anchor highlight (already used by comment-like notifications). Deleted cases follow 1.5.2 FR-244.</p>
+<div class="flow zh"><em>评论提及：</em><i>由 A2 或 B1 →</i> <s>C1</s> <i>帖子详情滚到那条评论并高亮（回复、回复的回复同样）</i>
+<span class="nl"></span><em>评论已删：</em><i>由 A2 或 B1 →</i> <s>C2</s> <i>帖子详情，无高亮（落点见不一致 6）</i>
+<span class="nl"></span><em>帖子已删：</em><i>由 B1 点行 →</i> <s>C3</s> <i>现有 Toast，不打开 ／ 由 A1 / A2 点推送 →</i> <s>C4</s> <i>帖子页「内容不存在」</i>
+<span class="nl"></span><em>其他不可见（审核中、私密、拉黑了作者）：</em><i>帖子页现有的「不可用」状态，同 1.5.2，不画</i></div>
+<div class="flow en"><em>Comment mention:</em><i>from A2 or B1 →</i> <s>C1</s> <i>post detail scrolled to that comment, highlighted (also replies and replies to replies)</i>
+<span class="nl"></span><em>Comment deleted:</em><i>from A2 or B1 →</i> <s>C2</s> <i>post detail, no highlight (landing: see difference 6)</i>
+<span class="nl"></span><em>Post deleted:</em><i>tap the row in B1 →</i> <s>C3</s> <i>existing toast, nothing opens / tap the push A1 / A2 →</i> <s>C4</s> <i>post page "content no longer exists"</i>
+<span class="nl"></span><em>Otherwise not visible (under review, private, author blocked):</em><i>the post page's existing "not available" state, as in 1.5.2; not drawn</i></div>
+<div class="frames"><div class="frame"><span class="frame-tag"><b>C4</b><span class="zh">帖子已删 · 从推送打开</span><span class="en">Post deleted · opened from push</span><span class="tg tg-r"><span class="zh">参考</span><span class="en">Reference</span></span></span>
+    <div class="phone-shell"><div class="phone-screen">
+      <div class="sb"><span>9:41</span><span><i class="ms f">signal_cellular_alt</i><i class="ms f">wifi</i><i class="ms f">battery_full</i></span></div>
+      <div class="pd-ab"><span class="bk ms">chevron_left</span></div>
+      <div class="pd-gone"><i class="ms">search_off</i><b>Konten ini sudah tidak ada</b><span class="fb">Kembali ke Sosial</span></div>
+    </div></div>
+    <p class="frame-cap zh">从 A1 / A2 推送点开、帖子已删：帖子页现有失效态（<code>content_detail_page.dart</code> 的 <code>_errorBody</code> → <code>EmptyState</code>：<code>search_off_rounded</code> 48 灰、标题 18/w600、按钮「Kembali ke Sosial」主题样式 46 高 / 圆角 12 / 14.5 w700，点了返回）。版式同 V1.5.0 稿 <code>A4-推送直达-帖子已删除.html</code>（那份稿按钮写 16/600，和代码不符，这里按代码）。顶栏只有返回，没有 •••。<b>原有模块 3 项已全部保留</b>（顶栏、图标 + 标题、按钮），没有新元素。</p><p class="frame-cap en">Opened from the A1 / A2 push, post deleted: the post page's existing gone state (<code>_errorBody</code> → <code>EmptyState</code> in <code>content_detail_page.dart</code>: <code>search_off_rounded</code> 48 grey, title 18/w600, button "Kembali ke Sosial" in theme style 46 tall / radius 12 / 14.5 w700, pops back). Layout as the V1.5.0 deck <code>A4-推送直达-帖子已删除.html</code> (that deck's 16/600 button label doesn't match the code; this follows the code). AppBar has back only, no •••. <b>All 3 existing modules kept</b> (AppBar, icon + title, button); nothing new.</p></div></div></section></div></body></html>

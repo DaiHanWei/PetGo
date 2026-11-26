@@ -1,0 +1,55 @@
+<!doctype html><html lang="zh-CN" data-lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>C2 评论已删 · 停在评论区 · 1.5.4 通知优化</title><link rel="stylesheet" href="_fonts.css"><link rel="stylesheet" href="_deck.css"><style>.pgnav{display:flex;gap:16px;align-items:center;font-size:13px;margin:0 0 18px}.pgnav a{color:var(--page-accent);text-decoration:none;font-weight:600}.pgnav .sp{flex:1}.toc{margin:0 0 8px;padding-left:20px;line-height:2}.toc a{color:var(--page-accent);text-decoration:none}</style></head><body>
+<div class="lang-switch" role="group" aria-label="Annotation language"><button type="button" data-l="zh" aria-pressed="true">中文</button><button type="button" data-l="en" aria-pressed="false">English</button><button type="button" data-l="both" aria-pressed="false">双语 / Both</button></div>
+<script>
+(function(){
+  var root=document.documentElement, btns=document.querySelectorAll('.lang-switch button');
+  function set(l){root.setAttribute('data-lang',l);root.lang=l==='en'?'en':'zh-CN';btns.forEach(function(b){b.setAttribute('aria-pressed',b.dataset.l===l?'true':'false');});try{localStorage.setItem('deckLang',l);}catch(e){}}
+  btns.forEach(function(b){b.addEventListener('click',function(){set(b.dataset.l);});});
+  try{var saved=localStorage.getItem('deckLang');if(saved)set(saved);}catch(e){}
+})();
+</script>
+<div class="page"><div class="pgnav"><a href="00-目录.html">← 目录</a><a href="C1-帖子详情-定位并高亮评论.html">‹ C1</a><a href="C3-帖子已删-通知中心-Toast.html">C3 ›</a><span class="sp"></span><span style="color:var(--page-muted)">1.5.4 通知优化 · App · 已定稿 · 执行说明见整合稿页头</span></div><section class="lane"><h2><span class="zh">C · 点开以后（现有页面 / 1.5.2 已定行为）</span><span class="en">C · After the tap (existing pages / behaviour set by 1.5.2)</span></h2>
+<p class="desc zh">1.5.4 只是把评论 ID 存进提及通知，复用现有的评论定位高亮（评论点赞通知已经在用）。删了的情况沿用 1.5.2 FR-244。</p><p class="desc en">1.5.4 only stores the comment ID with the mention and reuses the existing comment anchor highlight (already used by comment-like notifications). Deleted cases follow 1.5.2 FR-244.</p>
+<div class="flow zh"><em>评论提及：</em><i>由 A2 或 B1 →</i> <s>C1</s> <i>帖子详情滚到那条评论并高亮（回复、回复的回复同样）</i>
+<span class="nl"></span><em>评论已删：</em><i>由 A2 或 B1 →</i> <s>C2</s> <i>帖子详情，无高亮（落点见不一致 6）</i>
+<span class="nl"></span><em>帖子已删：</em><i>由 B1 点行 →</i> <s>C3</s> <i>现有 Toast，不打开 ／ 由 A1 / A2 点推送 →</i> <s>C4</s> <i>帖子页「内容不存在」</i>
+<span class="nl"></span><em>其他不可见（审核中、私密、拉黑了作者）：</em><i>帖子页现有的「不可用」状态，同 1.5.2，不画</i></div>
+<div class="flow en"><em>Comment mention:</em><i>from A2 or B1 →</i> <s>C1</s> <i>post detail scrolled to that comment, highlighted (also replies and replies to replies)</i>
+<span class="nl"></span><em>Comment deleted:</em><i>from A2 or B1 →</i> <s>C2</s> <i>post detail, no highlight (landing: see difference 6)</i>
+<span class="nl"></span><em>Post deleted:</em><i>tap the row in B1 →</i> <s>C3</s> <i>existing toast, nothing opens / tap the push A1 / A2 →</i> <s>C4</s> <i>post page "content no longer exists"</i>
+<span class="nl"></span><em>Otherwise not visible (under review, private, author blocked):</em><i>the post page's existing "not available" state, as in 1.5.2; not drawn</i></div>
+<div class="frames"><div class="frame"><span class="frame-tag"><b>C2</b><span class="zh">评论已删 · 停在评论区</span><span class="en">Comment deleted · comment section</span><span class="tg tg-c"><span class="zh">改</span><span class="en">Changed</span></span></span>
+    <div class="phone-shell"><div class="phone-screen">
+      <div class="sb"><span>9:41</span><span><i class="ms f">signal_cellular_alt</i><i class="ms f">wifi</i><i class="ms f">battery_full</i></span></div>
+      <div class="pd-ab"><span class="bk ms">chevron_left</span><span class="mr ms">more_horiz</span></div>
+      <div class="pd-sc"><div class="pd-in" style="margin-top:-372px">
+        <div class="pd-au"><span class="pd-av s36 img-oyen"></span><div class="pd-id"><div class="pd-nm">Dimas</div><div class="pd-mt"><span class="t">8 mnt lalu</span><span class="pd-bg">Momen</span></div></div><span class="pd-fl"><b>+</b><span>Ikuti</span></span></div>
+        <div class="pd-img img-mochi"></div>
+        <div class="pd-tx">Mochi lagi ngumpet di lemari lagi 🙈 Ada yang kucingnya suka begini juga? <span class="pd-mn">@Rina</span> <span class="pd-mn">#KucingLucu</span></div>
+        <div class="pd-cs">
+          <div class="pd-dv"></div>
+          <div class="pd-ct">KOMENTAR (7)</div>
+          <div class="pd-ls">
+            <div class="pd-blk">
+              <div class="pd-ti"><span class="pd-av s30" style="background-color:#F0425A">S</span><div class="pd-tc"><div class="pd-tr"><b>Sari</b><span class="tm">6 mnt lalu</span></div><div class="pd-tb">Mochi gemes banget 😍 Matanya bulat kayak kelereng</div><div class="pd-ta"><i class="ms">favorite</i><span class="n">3</span><span class="rp">Balas</span></div></div></div>
+              <div class="pd-rps">
+                <div class="pd-ti"><span class="pd-av s24 img-oyen"></span><div class="pd-tc"><div class="pd-tr"><b>Dimas</b><span class="au">Penulis</span><span class="tm">3 mnt lalu</span></div><div class="pd-tb">Hehe makasih, Sari!</div><div class="pd-ta"><i class="ms">favorite</i><span class="n">1</span><span class="rp">Balas</span></div></div></div>
+                
+              </div>
+            </div>
+            <div class="pd-blk">
+              <div class="pd-ti"><span class="pd-av s30" style="background-color:#9E83DA">T</span><div class="pd-tc"><div class="pd-tr"><b>Tono</b><span class="tm">5 mnt lalu</span></div><div class="pd-tb">Kucingku juga suka ngumpet di lemari, katanya adem 😂</div><div class="pd-ta"><i class="ms">favorite</i><span class="n">5</span><span class="rp">Balas</span></div></div></div>
+              <div class="pd-rps">
+                <div class="pd-ti"><span class="pd-av s24" style="background-color:#1F9E6A">N</span><div class="pd-tc"><div class="pd-tr"><b>Nadia</b><span class="tm">4 mnt lalu</span></div><div class="pd-tb">Sama! Tiap pagi harus dicari dulu</div><div class="pd-ta"><i class="ms">favorite</i><span class="rp">Balas</span></div></div></div>
+              </div>
+              <div class="pd-va">Lihat semua 2 balasan</div>
+            </div>
+            <div class="pd-blk">
+              <div class="pd-ti"><span class="pd-av s30" style="background-color:#F6A609">A</span><div class="pd-tc"><div class="pd-tr"><b>Ayu</b><span class="tm">7 mnt lalu</span></div><div class="pd-tb">Lucu banget 🥺</div><div class="pd-ta"><i class="ms">favorite</i><span class="n">2</span><span class="rp">Balas</span></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div></div>
+      <div class="pd-cb"><div class="pd-fd">Tulis komentar...</div><div class="pd-acts"><span class="pd-bx"><i class="ms hz">favorite</i><span class="c">12</span></span><span class="pd-bx"><i class="ms">ios_share</i></span><span class="pd-bx"><i class="ms">bookmark</i></span></div></div>
+    </div></div>
+    <p class="frame-cap zh">同一帖子，Budi 那条回复已删：拿锚点 404 → 静默退回「滚到评论区」，无高亮、无提示（<code>_fetchAnchor</code>）。<b>原有模块 7 项已全部保留</b>，没有新元素；计数 8 → 7。<b>画的是修好后的样子</b>（Hex 11-24）：评论加载完后再对「KOMENTAR (n)」做一次 <code>ensureVisible</code>，评论区标题滚到顶部，无高亮。今天的代码在页面挂载当帧滚动、评论还没加载，短帖子会停在帖子顶部——这是要修的问题，不要照它做（不一致 6；开发备注见「定稿时写进 PRD」3）。</p><p class="frame-cap en">Same post; Budi's reply is deleted: the anchor fetch 404s → silently falls back to "scroll to comments", no highlight, no message (<code>_fetchAnchor</code>). <b>All 7 existing modules kept</b>, nothing new; count 8 → 7. <b>Drawn as it should work once fixed</b> (Hex 11-24): after the comments load, run <code>ensureVisible</code> on "KOMENTAR (n)" so the comment header sits at the top, with no highlight. Today the scroll runs when the page mounts, before comments load, so a short post stays at the top; that is the bug to fix, not the target (difference 6; dev note in "PRD changes at sign-off" 3).</p></div></div></section></div></body></html>

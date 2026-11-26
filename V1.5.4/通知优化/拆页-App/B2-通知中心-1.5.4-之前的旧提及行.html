@@ -1,0 +1,34 @@
+<!doctype html><html lang="zh-CN" data-lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>B2 通知中心 · 1.5.4 之前的旧提及行 · 1.5.4 通知优化</title><link rel="stylesheet" href="_fonts.css"><link rel="stylesheet" href="_deck.css"><style>.pgnav{display:flex;gap:16px;align-items:center;font-size:13px;margin:0 0 18px}.pgnav a{color:var(--page-accent);text-decoration:none;font-weight:600}.pgnav .sp{flex:1}.toc{margin:0 0 8px;padding-left:20px;line-height:2}.toc a{color:var(--page-accent);text-decoration:none}</style></head><body>
+<div class="lang-switch" role="group" aria-label="Annotation language"><button type="button" data-l="zh" aria-pressed="true">中文</button><button type="button" data-l="en" aria-pressed="false">English</button><button type="button" data-l="both" aria-pressed="false">双语 / Both</button></div>
+<script>
+(function(){
+  var root=document.documentElement, btns=document.querySelectorAll('.lang-switch button');
+  function set(l){root.setAttribute('data-lang',l);root.lang=l==='en'?'en':'zh-CN';btns.forEach(function(b){b.setAttribute('aria-pressed',b.dataset.l===l?'true':'false');});try{localStorage.setItem('deckLang',l);}catch(e){}}
+  btns.forEach(function(b){b.addEventListener('click',function(){set(b.dataset.l);});});
+  try{var saved=localStorage.getItem('deckLang');if(saved)set(saved);}catch(e){}
+})();
+</script>
+<div class="page"><div class="pgnav"><a href="00-目录.html">← 目录</a><a href="B1-通知中心-新提及行.html">‹ B1</a><a href="C1-帖子详情-定位并高亮评论.html">C1 ›</a><span class="sp"></span><span style="color:var(--page-muted)">1.5.4 通知优化 · App · 已定稿 · 执行说明见整合稿页头</span></div><section class="lane"><h2><span class="zh">B · 通知中心（原有页面）</span><span class="en">B · Notification centre (existing page)</span></h2>
+<p class="desc zh">提及行改成一行：「<b>{nickname}</b> menyebutmu di sebuah postingan / di komentar」，昵称加粗、用提及人现在的昵称；左边仍是现有 @ 图标，没有头像、没有第二行；整行一个点击区（FR-269）。</p><p class="desc en">The mention row becomes one line: "<b>{nickname}</b> menyebutmu di sebuah postingan / di komentar", nickname bold and current; the left icon stays the existing @ icon, no avatar, no second line; the whole row is one tap target (FR-269).</p>
+<div class="flow zh"><em>主路径：</em><s>B1</s> <i>点帖子提及行 → 帖子详情（现有）／ 点评论提及行 →</i> <s>C1</s> <i>／ 评论已删 →</i> <s>C2</s> <i>／ 帖子已删 →</i> <s>C3</s>
+<span class="nl"></span><em>变体：</em><s>B2</s> <i>1.5.4 之前收到的提及行：保留旧的通用文案，点开同以前（替代 B1 里的新行）</i>
+<span class="nl"></span><em>其他：</em><i>点赞 / 评论 / 关注行、回关按钮、全部已读 → 现有行为，本次不变，不画</i></div>
+<div class="flow en"><em>Main path:</em><s>B1</s> <i>tap a post-mention row → post detail (existing) / tap a comment-mention row →</i> <s>C1</s> <i>/ comment deleted →</i> <s>C2</s> <i>/ post deleted →</i> <s>C3</s>
+<span class="nl"></span><em>Variant:</em><s>B2</s> <i>a mention received before 1.5.4 keeps the old generic copy and opens as before (replaces the new row in B1)</i>
+<span class="nl"></span><em>Other:</em><i>like / comment / follow rows, follow-back button, mark all read → existing behaviour, unchanged, not drawn</i></div>
+<div class="frames"><div class="frame"><span class="frame-tag"><b>B2</b><span class="zh">通知中心 · 1.5.4 之前的旧提及行</span><span class="en">Notification centre · pre-1.5.4 mention row</span><span class="tg tg-r"><span class="zh">参考</span><span class="en">Reference</span></span></span>
+    <div class="phone-shell"><div class="phone-screen">
+      <div class="sb"><span>9:41</span><span><i class="ms f">signal_cellular_alt</i><i class="ms f">wifi</i><i class="ms f">battery_full</i></span></div>
+      <div class="nc-ab"><span class="bk ms">chevron_left</span><h4>Notifikasi</h4><span class="ac ms">done_all</span></div>
+      <div class="nc-bd"><div class="nc-in" style="margin-top:-30px">
+        <div class="nc-ni"><span class="nc-ib cm"><i class="ms f">mode_comment</i></span><div class="nc-nt"><span class="nc-h"><b>Sari</b> membalas komentarmu</span><span class="nc-tx">Iya, nanti aku kirim fotonya ya</span><span class="nc-tm">22 Nov, 18:02</span></div></div>
+        <div class="nc-ni"><span class="nc-ib lk"><i class="ms f">favorite</i></span><div class="nc-nt"><span class="nc-h"><b>Wulan</b> menyukai postinganmu</span><span class="nc-tm">20 Nov, 09:12</span></div></div>
+        <div class="nc-ni"><span class="nc-ib at"><i class="ms">alternate_email</i></span><div class="nc-nt"><span class="nc-h w">Ada yang menyebutmu</span><span class="nc-tx l2">Seseorang menyebutmu di sebuah postingan</span><span class="nc-tm">19 Nov, 21:40</span></div></div>
+        <div class="nc-ni"><span class="nc-ib fo"><i class="ms f">person_add</i></span><div class="nc-nt"><span class="nc-h"><b>Fajar</b> mulai mengikutimu</span><span class="nc-tm">18 Nov, 16:57</span></div><span class="nc-fb">Ikuti Balik</span></div>
+        <div class="nc-ni"><span class="nc-ib at"><i class="ms">alternate_email</i></span><div class="nc-nt"><span class="nc-h w">Ada yang menyebutmu</span><span class="nc-tx l2">Seseorang menyebutmu di sebuah komentar</span><span class="nc-tm">17 Nov, 14:05</span></div></div>
+        <div class="nc-ni"><span class="nc-ib cm"><i class="ms f">mode_comment</i></span><div class="nc-nt"><span class="nc-h"><b>Nadia</b> mengomentari postinganmu</span><span class="nc-tx">Lucu banget! Boleh tahu makanannya apa?</span><span class="nc-tm">9 Nov, 19:20</span></div></div>
+        <div class="nc-ni"><span class="nc-ib lk"><i class="ms f">favorite</i></span><div class="nc-nt"><span class="nc-h w">Suka baru</span><span class="nc-tx l2">Seseorang menyukai postingan Anda</span><span class="nc-tm">2 Nov, 08:31</span></div></div>
+        <div class="nc-ni"><span class="nc-ib fo"><i class="ms f">person_add</i></span><div class="nc-nt"><span class="nc-h"><b>Tono</b> mulai mengikutimu</span><span class="nc-tm">28 Okt, 12:44</span></div></div>
+      </div></div>
+    </div></div>
+    <p class="frame-cap zh">同一页往下滚到几天前的行（没有分组标题，看每行的时间）。1.5.4 之前收到的提及没有提及人记录，保留今天的 3 行通用样式（本地文案 <code>notifyTypeContentMentioned</code> + <code>notifyBodyContentMentionedPost</code> / <code>…Comment</code>），不回填（FR-272）；点开同今天：帖子，或评论区（无高亮）。<b>原有模块 6 项已全部保留</b>，本屏没有新元素。顶栏「全部已读」还在，因为上面已加载的行里还有未读。</p><p class="frame-cap en">Same page scrolled to rows from a few days ago (no group headers; see each row's time). Mentions received before 1.5.4 have no mentioner on record and keep today's 3-line generic look (local copy <code>notifyTypeContentMentioned</code> + <code>notifyBodyContentMentionedPost</code> / <code>…Comment</code>), no backfill (FR-272); they open as today: the post, or its comment section (no highlight). <b>All 6 existing modules kept</b>; nothing new on this screen. Mark-all-read still shows because loaded rows above are unread.</p></div></div></section></div></body></html>
