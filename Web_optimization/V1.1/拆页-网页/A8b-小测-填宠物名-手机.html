@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A8b 小测·填宠物名·手机 · 官网与网页商城</title>
+<link rel="stylesheet" href="_fonts.css">
+<link rel="stylesheet" href="_style.css">
+<style>.splitpg{max-width:1240px;margin:0 auto;padding:20px 24px 60px}.pgnav{display:flex;gap:16px;align-items:center;font-size:13px;margin-bottom:14px;flex-wrap:wrap}.pgnav a{color:var(--page-accent);text-decoration:none;font-weight:600}.pgnav .cur{color:var(--page-ink-2)}.splitpg .lane{margin-top:8px}
+
+.dd-up{display:inline-flex;align-items:center;gap:4px;white-space:nowrap}.dd-up .ms{font-size:16px}
+/* ===== A1 首页 · 方向 D（前缀 dH-）：白底 + 每站一块饱和主色形状，宠物照片整只站在形状上沿 ===== */
+.dH-hero{padding:24px 16px 40px}
+.dH-btns{display:flex;gap:8px;margin-top:24px}.dH-btns .btn{flex:1;padding:0 8px}
+.scr .dH-q{display:flex;align-items:center;gap:8px;margin:32px 0 12px;font-size:13px;line-height:1.4;font-weight:600}.dH-q .ms{font-size:20px;color:var(--dd-p)}
+.dH-stop{padding:40px 16px 48px}
+.dH-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.dH-stop .dd-d{margin-top:12px}.dH-stop .dd-p{margin-top:8px}
+.dH-stop .dd-stage{margin-top:24px;--sz:260px;--pet:112px}
+.dH-disc{display:flex;gap:8px;align-items:flex-start;margin-top:12px;padding:12px;border-radius:16px;background:var(--dd-t);font-size:13px;line-height:1.4;color:var(--dd-ink)}.dH-disc .ms{font-size:20px;color:var(--dd-c)}
+/* 示意物件 */
+.dH-card{background:#fff;border-radius:24px;color:var(--dd-ink);box-shadow:0 16px 32px rgba(46,42,69,.08)}
+.dH-ktp{width:232px;padding:16px;transform:rotate(-4deg)}
+.dH-ktp .kh{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--dd-ink2)}.dH-ktp .kh b{font:800 24px/1 var(--dsp);color:var(--dd-p);margin-right:auto}.dH-ktp .kh .ms{font-size:20px;color:var(--dd-p)}
+.dH-ktp .kb{display:flex;gap:12px;margin-top:12px}.dH-ktp .pf{width:72px;height:88px;border-radius:16px;background:#FFEEF5;display:flex;align-items:flex-end;justify-content:center;flex:none;overflow:hidden}
+.dH-ln{flex:1;display:flex;flex-direction:column;gap:8px;padding-top:8px}.dH-ln i{display:block;height:8px;border-radius:4px;background:var(--dd-l2)}.dH-ln i:first-child{background:var(--dd-ink);width:70%}.dH-ln i:nth-child(3){width:80%}.dH-ln i:nth-child(4){width:50%}
+.dH-dia{width:232px;padding:12px;display:flex;flex-direction:column;gap:8px;transform:rotate(3deg)}
+.dH-dia .en{display:flex;align-items:center;gap:12px}.dH-dia .im{width:64px;height:64px;border-radius:16px;background:#E8F3FE;color:#1F72B8;display:flex;align-items:center;justify-content:center;flex:none}.dH-dia .im .ms{font-size:32px}
+.dH-post{width:168px;padding:8px;transform:rotate(-3deg)}
+.dH-post .im{aspect-ratio:4/3;border-radius:16px;background:#FFF8D9;color:#9C7400;display:flex;align-items:center;justify-content:center}.dH-post .im .ms{font-size:48px}
+.dH-post .ac{display:flex;align-items:center;gap:12px;padding:8px 4px 4px;font-size:13px;font-weight:600}.dH-post .ac span{display:inline-flex;align-items:center;gap:4px}.dH-post .ac .ms{font-size:20px}
+.dH-ntf{width:248px;padding:12px 16px;display:flex;align-items:center;gap:12px;transform:rotate(2deg)}
+.dH-ntf .ic{width:44px;height:44px;border-radius:12px;background:var(--dd-l1);color:var(--dd-p);display:flex;align-items:center;justify-content:center;flex:none}.dH-ntf .ic .ms{font-size:24px}
+.dH-ntf .a{display:block;font-size:12px;color:var(--dd-ink2)}.dH-ntf b{display:block;font-size:16px;line-height:1.3;font-weight:600}
+.dH-sym{width:232px;padding:16px;transform:rotate(-2deg)}
+.dH-sym .sh{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:600}.dH-sym .sh .ic{width:40px;height:40px;border-radius:12px;background:#E2F7F9;color:#0B7F8C;display:flex;align-items:center;justify-content:center}.dH-sym .sh .ic .ms{font-size:24px}
+.dH-sym ul{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.dH-sym li{display:flex;align-items:center;gap:12px;height:44px;padding:0 12px;border-radius:12px;background:var(--dd-l1)}.dH-sym li>.ms{font-size:20px;color:var(--dd-ink2)}
+.dH-sym li i{flex:1;height:8px;border-radius:4px;background:var(--dd-l2);max-width:96px}.dH-sym li .ck{margin-left:auto;width:20px;height:20px;border-radius:50%;box-shadow:inset 0 0 0 2px var(--dd-l2);display:flex;align-items:center;justify-content:center}
+.dH-sym li.on .ck{background:var(--dd-p);box-shadow:none;color:#fff}.dH-sym li.on .ck .ms{font-size:16px}
+/* 小测（第 1 天，选物种这一步） */
+.dH-qz{background:#fff;border-radius:24px;padding:20px 16px;width:100%}
+.dH-opts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+.dH-opt{display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 4px;border-radius:20px;background:var(--dd-l1);font-size:16px;font-weight:600}
+.dH-opt .bx{height:56px;display:flex;align-items:flex-end}
+/* 商城站：商品在猫色实色台上（白卡），手机一屏两张、横滑分页 */
+.dH-hs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.dH-pg{display:flex;justify-content:center;gap:4px;margin-top:12px}.dH-pg i{width:8px;height:8px;border-radius:4px;background:rgba(255,255,255,.5)}.dH-pg i.on{width:20px;background:#fff}
+.dH-more{display:inline-flex;align-items:center;gap:4px;margin-top:16px;font-size:16px;font-weight:600;color:var(--dd-p);min-height:44px}.dH-more .ms{font-size:20px}
+/* 生日站 */
+.dH-bday{text-align:center}
+.dH-party{display:grid;grid-template-columns:repeat(3,64px);gap:16px 24px;justify-items:center;align-items:end}
+.dH-party .cell{width:64px;height:60px;display:flex;align-items:flex-end;justify-content:center;overflow:visible}
+.dH-party img{width:56px;height:56px;border-radius:16px;box-shadow:0 0 0 3px #fff}
+.dH-bday .dd-stage{--sz:auto}
+.dH-bday .dd-plat{width:auto;height:auto;padding:24px}
+.dH-stores{display:flex;gap:8px;margin-top:24px}.dH-stores .store{flex:1;justify-content:center;height:48px;font-size:16px}
+/* ---------- 电脑 ---------- */
+.desk-shell .dH-hero{padding:96px 120px 48px;text-align:center}
+.desk-shell .dH-hero .dd-p{font-size:18px;max-width:52ch;margin:20px auto 0}
+.desk-shell .dH-btns{justify-content:center;gap:12px;margin-top:32px}.desk-shell .dH-btns .btn{flex:none;padding:0 28px}
+.desk-shell .scr .dH-q{justify-content:center;font-size:16px;margin:56px 0 16px}
+.desk-shell .dH-stop{padding:72px 120px}
+.desk-shell .dH-row{display:grid;grid-template-columns:5fr 6fr;gap:72px;align-items:center}
+.desk-shell .dH-row.rev{grid-template-columns:6fr 5fr}.desk-shell .dH-row.rev>:first-child{order:2}
+.desk-shell .dH-stop .dd-d{margin-top:20px}.desk-shell .dH-stop .dd-p{font-size:18px;margin-top:16px}
+.desk-shell .dH-stop .dd-stage{margin-top:0;--sz:440px;--pet:150px}
+.desk-shell .dH-ktp{width:360px;padding:24px}.desk-shell .dH-ktp .kh b{font-size:30px}.desk-shell .dH-ktp .pf{width:112px;height:136px}.desk-shell .dH-ln i{height:12px}
+.desk-shell .dH-dia{width:340px;padding:20px;gap:12px}.desk-shell .dH-dia .im{width:96px;height:96px;border-radius:24px}.desk-shell .dH-dia .im .ms{font-size:48px}.desk-shell .dH-dia .dH-ln i{height:12px}
+.desk-shell .dH-post{width:248px;padding:12px}.desk-shell .dH-post .im .ms{font-size:72px}.desk-shell .dH-post .ac{font-size:16px}.desk-shell .dH-post .ac .ms{font-size:24px}
+.desk-shell .dH-ntf{width:380px;padding:20px;gap:16px}.desk-shell .dH-ntf .ic{width:56px;height:56px;border-radius:16px}.desk-shell .dH-ntf .ic .ms{font-size:30px}.desk-shell .dH-ntf .a{font-size:13px}.desk-shell .dH-ntf b{font-size:24px}
+.desk-shell .dH-sym{width:340px;padding:24px}.desk-shell .dH-sym .sh{font-size:18px}.desk-shell .dH-sym li{height:56px}
+.desk-shell .dH-qz{padding:32px}.desk-shell .dH-opts{gap:16px;margin-top:24px}.desk-shell .dH-opt{padding:24px 8px}.desk-shell .dH-opt .bx{height:88px}
+.desk-shell .dH-hs{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+/* S4：电脑商城站价格不折行（Rp / 125.000 曾断成两行）：本站右栏加宽、价格不换行 */
+.desk-shell .dH-stop.c-cat .dH-row{grid-template-columns:4fr 7fr;gap:48px}
+.dH-hs .pc .pp{white-space:nowrap}
+/* S4：固定高电脑框（A6 / A9 / A10）里顶栏是 flex 子项，内容高时会被压扁到 32px；顶栏不许收缩 */
+.desk-shell .scr>.wd{flex:none}
+/* S4：关于页年历图例单词独占一行（「hari」） */
+.dA-lg .tx{text-wrap:balance}
+.desk-shell .dH-bday{padding-bottom:120px}
+.desk-shell .dH-party{grid-template-columns:repeat(9,88px);gap:0 24px}.desk-shell .dH-party .cell{width:88px;height:88px}.desk-shell .dH-party img{width:80px;height:80px;border-radius:20px}
+.desk-shell .dH-bday .dd-plat{padding:32px 48px}
+.desk-shell .dH-stores{justify-content:center;gap:12px;margin-top:32px}.desk-shell .dH-stores .store{flex:none;height:52px;padding:0 24px}
+
+/* ===== A4 关于 · 方向 D（前缀 dA-） ===== */
+.dA-sec{padding:40px 16px}
+.dA-hero{padding:24px 16px 40px}
+.dA-hero .dd-plat{margin-top:24px}
+.dA-pets{display:flex;align-items:flex-end;justify-content:center;gap:16px}
+/* 365 天年历条：浅紫卡里一条路；路中鸟蓝虚线 = 每天分享；鱼青小点 = 约 14 天买粮；上方龟绿实心 = 驱虫；下方龟绿空心 = 看病；下方兔粉星 = 第一次 */
+.dA-year{background:var(--dd-l1);border-radius:24px;padding:20px 16px 16px;margin-top:20px}
+.dA-ilu{display:inline-flex;height:24px;align-items:center;padding:0 10px;border-radius:999px;background:#fff;font-size:12px;font-weight:600;color:var(--dd-ink2)}
+.dA-road{position:relative;height:88px;margin:8px 8px 0}
+.dA-road .tr{position:absolute;left:0;right:0;top:40px;height:8px;border-radius:4px;background:#fff}
+.dA-road .sh{position:absolute;left:4px;right:4px;top:43px;height:0;border-top:2px dashed #1F72B8}
+.dA-road .fd{position:absolute;left:0;right:0;top:41px;height:6px;background:radial-gradient(circle 3px at 3px 3px,#0B7F8C 98%,transparent) 0 0/calc(100% / 26) 6px repeat-x}
+.dA-pin{position:absolute;width:24px;height:24px;margin-left:-12px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.dA-pin .ms{font-size:16px}
+.dA-pin.up{top:8px;background:#23805A;color:#fff}
+.dA-pin.dn{top:56px}
+.dA-pin.ring{box-shadow:inset 0 0 0 2px #23805A;background:#fff;color:#23805A}
+.dA-pin.star{color:#C23E73}.dA-pin.star .ms{font-size:20px}
+.dA-yrl{display:flex;justify-content:space-between;font-size:12px;color:var(--dd-ink2);margin-top:4px}
+.dA-lg{display:grid;grid-template-columns:32px 1fr;column-gap:12px;row-gap:4px;align-items:center;padding:12px 0;border-top:1px solid var(--dd-l2)}
+.dA-lg .to{grid-column:2}
+.dA-lg:first-of-type{border-top:0}
+.dA-lg .ic{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none}
+.dA-lg .ic .ms{font-size:18px}
+.dA-lg .tx{flex:1;font-size:13px;line-height:1.4}
+.dA-lg .to{display:flex;align-items:center;font-size:13px;font-weight:600;white-space:nowrap}.dA-lg .to .ms{font-size:16px}
+/* 使命四块：每块一个实色圆 + 图标 */
+.dA-mis{display:flex;flex-direction:column;gap:24px;margin-top:24px}
+.dA-mi{display:flex;gap:16px;align-items:flex-start}
+.dA-mi .dd-shape{width:56px;height:56px;display:flex;align-items:center;justify-content:center;color:var(--dd-on)}.dA-mi .dd-shape .ms{font-size:28px}
+/* 产品四卡 */
+.dA-pcs{display:flex;flex-direction:column;gap:16px;margin-top:24px}
+.dA-pc{border-radius:24px;padding:20px;background:var(--dd-t);overflow:hidden}
+.dA-pc .s-dev{width:160px;height:120px;margin:20px auto 0;border-radius:24px;display:flex;align-items:center;justify-content:center;color:var(--dd-c)}
+.dA-pc .s-dev .ms{font-size:40px}
+.dA-disc{display:flex;gap:8px;align-items:flex-start;margin-top:12px;font-size:12px;line-height:1.4;color:var(--dd-ink)}.dA-disc .ms{font-size:16px;color:var(--dd-c)}
+.dA-end{padding:40px 16px 48px;text-align:center}
+.dA-end .dd-plat{margin:0 auto}
+.dA-end .bt{display:flex;flex-direction:column;gap:12px;margin-top:24px}
+/* ---------- 电脑 ---------- */
+.desk-shell .dA-sec{padding:96px 120px}
+.desk-shell .dA-hero{padding:96px 120px;display:grid;grid-template-columns:1.1fr 1fr;gap:72px;align-items:center}
+.desk-shell .dA-hero .dd-plat{margin-top:0}
+.desk-shell .dA-year{padding:32px 40px 24px;margin-top:32px}
+.desk-shell .dA-road{height:104px}.desk-shell .dA-road .tr{top:48px;height:12px;border-radius:6px}.desk-shell .dA-road .sh{top:53px}.desk-shell .dA-road .fd{top:51px;background-size:calc(100% / 26) 6px}
+.desk-shell .dA-pin{width:32px;height:32px;margin-left:-16px}.desk-shell .dA-pin .ms{font-size:20px}.desk-shell .dA-pin.dn{top:68px}
+.desk-shell .dA-lgs{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:24px}
+.desk-shell .dA-lg{grid-template-columns:1fr;align-items:start;row-gap:8px;padding:16px;border:0;background:#fff;border-radius:20px}
+.desk-shell .dA-lg .to{grid-column:1}
+.desk-shell .dA-mis{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;margin-top:40px}
+.desk-shell .dA-mi{flex-direction:column}
+.desk-shell .dA-mi .dd-shape{width:72px;height:72px}.desk-shell .dA-mi .dd-shape .ms{font-size:40px}
+.desk-shell .dA-pcs{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:40px}
+.desk-shell .dA-pc{padding:28px;display:flex;flex-direction:column}
+.desk-shell .dA-pc .s-dev{width:180px;height:148px;margin:auto auto 0;flex:none}
+.desk-shell .dA-pc .tx{padding-bottom:24px}
+.desk-shell .dA-pc .dd-p{font-size:16px}
+.desk-shell .dA-end{padding:96px 120px 120px}
+.desk-shell .dA-end .bt{flex-direction:row;justify-content:center;gap:16px;margin-top:32px}
+
+
+/* ===== 泳道 A · 方向 D（11-25）：A1 / A2 / A3 / A7 / A13 / A8 用首页样板的 dH-，A4 用关于样板的 dA-，其余新增 cA- ===== */
+/* 首屏提示句均衡换行，避免「detik.」单独成行（A1 / A2 / A3 / A7 / A13） */
+.scr .dH-q{text-wrap:balance}
+/* 菜单（A3） */
+.cA-mwrap{position:relative;flex:1}
+.cA-menu{position:absolute;left:0;right:0;top:0;z-index:6;background:#fff;border-radius:0 0 28px 28px;padding:0 0 24px}
+.scr .cA-menu .row{font-size:16px;font-weight:600;padding:16px;border-bottom:1px solid var(--dd-l2);color:var(--dd-ink)}
+.cA-menu .row>.ms:first-child{color:var(--dd-p)}
+.cA-menu .seg2{background:var(--dd-l1)}
+/* 迷你页脚（404、购物指南）：浅紫底、墨色字 */
+.cA-ftmini{background:var(--dd-l1);color:var(--dd-ink2);padding:32px 16px;font-size:13px;line-height:1.4;flex:none}
+.cA-ftmini .fl{display:flex}
+.cA-ftmini p{text-wrap:balance}
+.cA-ftrow{display:flex;align-items:center;gap:24px}.cA-ftrow .lk{margin-left:auto}
+.desk-shell .cA-ftmini{padding:40px 120px;font-size:16px}
+/* 404（A6）：空态结构不变，图标圆换成紫色圆 + 白色图标，宠物站在圆的上沿 */
+.cA-404{padding:16px 16px 24px;flex:1}
+.cA-404 .ei.cA-404s{width:auto;height:auto;background:none;border-radius:0}
+.cA-404s .dd-plat{--sz:104px}
+.cA-404s .dd-plat>.ms{font-size:48px;color:#fff}
+.scr .cA-404 b{font-family:var(--dsp);font-weight:800;font-size:30px;line-height:1.1;letter-spacing:-.02em;margin-top:20px;text-wrap:balance}
+.scr .cA-404 p{font-size:16px;line-height:1.5;color:var(--dd-ink2);margin-top:12px}
+.cA-404 .bt{display:flex;flex-direction:column;gap:12px;width:100%;margin-top:24px}
+.cA-404 .bt .btn{margin:0}
+.cA-404 .btn.cA-rep{margin-top:8px;height:40px}
+.desk-shell .cA-404 .btn.cA-rep{margin-top:16px}
+.desk-shell .cA-404{padding:48px 0 56px}
+.desk-shell .cA-404s .dd-plat{--sz:200px}.desk-shell .cA-404s .dd-plat>.ms{font-size:88px}
+.desk-shell .scr .cA-404 b{font-size:48px;line-height:1.05;margin-top:32px}
+.desk-shell .scr .cA-404 p{font-size:18px;margin-top:16px}
+.desk-shell .cA-404 .bt{flex-direction:row;justify-content:center;gap:16px;width:auto;margin-top:32px}
+/* A8：页面滚到第 1 天，收紧上下留白，露出下一站的日期胶囊 */
+.scr .cA-a8 .dH-stop{padding-top:24px;padding-bottom:24px}
+/* 小测（A8b / A9 / A10）：品牌紫圆角台托白卡，猫照片站在台面上沿 */
+.cA-qz{padding:24px 16px 40px}
+.desk-shell .cA-qz{padding:56px 120px;flex:1}
+.cA-qtag{gap:4px}.cA-qtag .spc{margin-left:4px}
+.cA-qh{display:flex;align-items:center;gap:12px}
+.cA-cnt{margin-left:auto;font-size:13px;font-weight:700;color:var(--dd-p);font-variant-numeric:tabular-nums}
+.cA-ans{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+.cA-ans span{display:block;background:var(--dd-l1);border-radius:16px;padding:12px 16px;font-size:16px;line-height:1.4;color:var(--dd-ink)}
+.cA-ans span.on{background:var(--dd-l2);box-shadow:inset 0 0 0 2px var(--dd-p);color:var(--dd-p6);font-weight:600}
+.cA-qd{display:grid;grid-template-columns:5fr 6fr;gap:72px;align-items:center}
+.desk-shell .cA-qd .dH-qz{padding:40px}
+.desk-shell .cA-ans{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:24px}
+/* 结果卡（A10）：白卡 + 紫色大号四字母，物种照片完整放在卡内 */
+.cA-role{width:96px;height:128px;border-radius:20px;margin:0 auto;background:var(--dd-l1);display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px}
+.desk-shell .cA-res .cA-lead{font-size:16px}
+.cA-big{font:800 40px/1.05 var(--dsp);letter-spacing:-.02em;color:var(--dd-p);font-variant-numeric:tabular-nums}
+.cA-res{text-align:center}
+.cA-res .note{text-align:left}
+.cA-res .bt{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.desk-shell .cA-res{display:grid;grid-template-columns:auto 1fr;gap:56px;align-items:center;text-align:left}
+.desk-shell .cA-role{width:300px;height:400px;border-radius:24px;padding-bottom:32px}
+.desk-shell .cA-big{font-size:72px;line-height:1}
+.desk-shell .cA-res .bt{flex-direction:row;flex-wrap:wrap;gap:12px;margin-top:32px}
+/* 购物指南（A14 / A15）：品牌紫胶囊 + 柯基照片，问题列表白卡 */
+.cA-gh{padding:24px 16px 32px}
+.cA-faqw{padding:0 16px 48px}
+.cA-faqc{padding:4px 20px}
+.cA-faq{border-bottom:1px solid var(--dd-l2)}
+.cA-faq:last-child{border-bottom:0}
+.cA-faq .q{display:flex;align-items:center;gap:12px;min-height:56px;padding:12px 0;font-size:16px;font-weight:600;line-height:1.4;color:var(--dd-ink)}
+.cA-faq .q .ms{margin-left:auto;color:var(--dd-ink2)}
+.cA-faq.on .q,.cA-faq.on .q .ms{color:var(--dd-p)}
+.cA-faq .a{padding:0 0 16px;font-size:13px;line-height:1.5;color:var(--dd-ink2)}
+.scr .cA-faq .a p+p{margin-top:8px}
+.cA-steps{margin-top:12px;background:var(--dd-l1);border-radius:16px;padding:16px}
+.cA-steps b{font-size:13px;color:var(--dd-ink)}
+.cA-steps div{display:flex;gap:8px;align-items:flex-start;margin-top:8px}
+.cA-num{width:20px;height:20px;border-radius:50%;background:var(--dd-p);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none}
+.desk-shell .cA-gh{display:grid;grid-template-columns:1fr auto;gap:72px;align-items:center;width:1040px;margin:0 auto;padding:72px 0 56px}
+.desk-shell .cA-gh .dd-p{font-size:18px}
+.desk-shell .cA-faqw{padding:0 0 96px}
+.desk-shell .cA-faqc{width:800px;margin:0 auto;padding:16px 40px}
+.desk-shell .cA-faq .a{font-size:16px}
+.desk-shell .cA-steps b{font-size:16px}
+
+/* 11-26 功能小场景（取代截图位 / 骨架线卡片；场景样式在 d-style .dd-sc-*） */
+.dA-scene{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:20px}
+.dA-rem{position:relative;padding-top:48px}.dA-cat{position:absolute;right:8px;top:0}
+.desk-shell .dA-pcs{grid-template-columns:repeat(2,1fr)!important;align-items:stretch}
+.desk-shell .dA-pc{display:flex;flex-direction:column}
+.desk-shell .dA-scene{margin-top:auto;flex-direction:column;align-items:center;justify-content:flex-end;padding-top:24px}
+
+/* 11-26 调平：Toko、健康两张卡各占整行（左文字、右场景并排），上排 KTP + Diary / 社区两列 */
+.desk-shell .dA-pcs{grid-template-columns:repeat(2,minmax(0,1fr))!important;align-items:stretch}
+.desk-shell .dA-pc.c-fish,.desk-shell .dA-pc.c-turtle{grid-column:1/-1;display:grid!important;grid-template-columns:300px minmax(0,1fr);gap:40px;align-items:center}
+.desk-shell .dA-pc.c-fish .dA-scene,.desk-shell .dA-pc.c-turtle .dA-scene{margin:0;padding:0;flex-direction:row;flex-wrap:nowrap;align-items:flex-end;justify-content:center;gap:24px}
+.desk-shell .dA-pc.c-fish .dA-scene{flex-direction:column;align-items:center;gap:16px}
+.desk-shell .dA-pc.c-fish .dd-sc-ship{width:100%;max-width:640px}
+.desk-shell .dA-pc.c-turtle .dA-scene{align-items:stretch}
+.desk-shell .dA-pc.c-turtle .dA-rem,.desk-shell .dA-pc.c-turtle .dd-sc-tri{align-self:flex-end}
+</style>
+</head>
+<body>
+<div class="splitpg"><div class="pgnav"><a href="00-目录.html">← 目录</a><a href="A8-性格小测-选物种-手机.html">‹ A8 性格小测·选物种·手机</a><a href="A9-性格小测-答题-手机.html">A9 性格小测·答题·手机 ›</a><span class="cur">泳道 A 官网公共页 · 研发先看整合稿页头 <a href="../ui-web-store-integrated-v1.html">ui-web-store-integrated-v1.html</a></span></div><section class="lane">
+  <h2>A · 官网公共页</h2>
+  <p class="desc">FR-298 语言、FR-299 投诉区块、FR-300 首页、FR-301 关于 TailTopia 与购物指南、FR-302 联系方式、FR-315 404、FR-318 视觉、FR-319 首页动效（「宠物的一年」时间线 8 站：第 1 天性格小测 → 第 7 / 30 / 100 天身份与记录、社区 → 第 180 天商城 → 第 200 / 300 天健康 → 第 365 天生日与下载）</p>
+  <div class="flow">
+    <em>主路径：</em><s>A1</s> 首页（首屏 → 时间线 8 站 Hari 1 → Hari 365，每站一屏吸附翻页） <i>→ 顶栏「商城」、首屏 / 第 365 天 / 常驻转化栏「去商城」或第 180 天「在商城看全部」→</i> <s>C1</s> <i>／ 第 180 天商品卡 →</i> <s>D1</s> <i>／ 顶栏「关于」→</i> <s>A4</s> <i>／ 页脚「购物指南」→</i> <s>A14</s> <i>／「登录」→</i> <s>B1</s> <i>／ 购物车 →</i> <s>E1</s> 或 <s>E6</s> <i>／ 首屏「下载 App」→ 滚到第 365 天 → 商店按钮 ／ 常驻转化栏「下载 App」→ 商店</i>
+    <span class="nl"></span>
+    <em>变体：</em><s>A2</s> 已登录的首页（替代 A1：顶栏显示头像和购物车件数） <i>／</i> <s>A7</s> 切到英文后的首页（替代 A1，用来核对英文文案长度）
+    <span class="nl"></span>
+    <em>手机专有：</em><s>A3</s> 点汉堡菜单展开（由 A1 / A2 / 任意页进入）
+    <span class="nl"></span>
+    <em>全站共用：</em><s>A5</s> 页脚（每一页底部都有） <i>／</i> <s>A6</s> 404（任何不存在的网址；「报告问题」→ toast「谢谢，我们收到了」）
+    <span class="nl"></span>
+    <em>首页性格小测（时间线第 1 天）：</em><s>A8</s> 选猫 / 狗 / 其他 <i>→</i> <s>A8b</s> 填宠物名（可跳过） <i>→</i> <s>A9</s> 答题（4 题，点选项自动下一题） <i>→ 生成中（约 1.5 秒）→</i> <s>A10</s> 结果卡 <i>→「下载 App 测完整版」→ 商店 ／「保存性格卡」→ 存图 ／「再测一次」→</i> <s>A8</s>
+    <span class="nl"></span>
+    <em>首屏 15 种宠物：</em><i>点任一只 → 滚到第 1 天 →</i> <s>A8b</s> <i>（跳过 A8，物种已选）</i>
+    <span class="nl"></span>
+    <em>购物指南：</em><s>A14</s> 问题列表 <i>→ 点开一条 →</i> <s>A15</s> <i>（入口只有三处：页脚、商城首页、结算页退货同意框旁；顶栏和手机菜单不放）</i>
+    <span class="nl"></span>
+    <em>变体：</em><s>A13</s> 系统开了「减少动态效果」时的首页（首屏 15 种宠物照片不变；时间线不做吸附动画和进场动作，「你的宠物」角色直接静止站好，内容照常显示）
+  </div>
+  <div class="frames"><div class="frame-card">
+  <p class="frame-tag"><b>A8b</b>小测·填宠物名·手机<span class="k new">网站新页</span></p>
+  <div class="phone-shell"><div class="scr"><div class="sb"><span>9:41</span><span><span class="ms f">signal_cellular_alt</span> <span class="ms f">wifi</span> <span class="ms f">battery_full</span></span></div><div class="url"><div><span class="ms">lock</span>tailtopia.id/#tes-kepribadian</div></div><div class="body" style="background:#fff">
+<div class="wh"><span class="logo"></span><span class="ib"><span class="ms">shopping_cart</span></span><span class="ib"><span class="ms">menu</span></span></div><div class="cA-qz"><div class="dd-stage" style="--pet:116px"><div class="dd-plat wide" style="--px:76%"><span class="dd-shape rect"></span><div class="dH-qz"><span class="dd-tag cA-qtag"><span class="ms">psychology</span>Tailsonality · <span class="spc sp-cat" style="width:20px;height:20px"><span class="spi" style="width:14px;height:14px"></span></span>Kucing</span><p class="dd-h1" style="margin-top:20px">Siapa nama anabulmu?</p><p class="dd-s" style="margin-top:8px">Namanya cuma dipakai di tes ini, nggak disimpan.</p><div class="fld" style="margin-top:16px"><div class="inp on">Mochi</div><p class="hint" style="text-align:right;color:var(--dd-ink2)">5/20</p></div><div style="display:flex;flex-direction:column;gap:8px;margin-top:16px"><span class="btn pri blk">Lanjut</span><span class="btn txt blk">Lewati</span></div></div><span class="dd-pet"><span class="dd-ph dd-ph-cat-1" style="--h:112px"></span><span class="dd-prop" style="right:-40px;top:8px"><span class="ms f">edit</span></span></span></div></div></div>
+</div></div></div>
+  <p class="frame-cap"><b>App 没有这一屏</b>（App 题干里的宠物名取自宠物档案，网站没有档案，11-24 操作者定先让用户填）。A8 选完物种进这一屏：物种胶囊「Tailsonality · 猫图标 Kucing」→ 标题「你家宠物叫什么？」Siapa nama anabulmu? → 一句「名字只在这次小测里用，不保存」→ 输入框（空时占位「例如：Mochi」Contoh: Mochi，最多 20 字，到 20 字不能再输，右下字数 5/20；图中已填 Mochi）→ 主按钮「继续」Lanjut（没填时置灰）→ 文字按钮「跳过」Lewati。<b>名字的用处：</b>A9 题干、A10 结果卡里用这个名字（如 Mochi）；跳过则这两处用「你家宠物」anabulmu。<b>名字只存在浏览器内存里，</b>不上传、不写本地存储，刷新或离开页面就没了；「再测一次」回 A8 后要重新填。只出手机，电脑同组件（在 A9 电脑右侧白卡的位置）。 <b>视觉：</b>白底；和第 1 天同一块品牌紫圆角台，托白色小测卡（圆角 24），小猫照片（cat-1）站在台面上沿 + 笔形道具小圆。物种胶囊浅紫底，🐱 换 App 猫物种图标；标题 Bricolage 24；输入框聚焦描边品牌紫；按钮胶囊（主紫 / 文字按钮）。</p>
+</div></div></section></div>
+</body>
+</html>

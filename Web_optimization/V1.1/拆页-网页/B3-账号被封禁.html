@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>B3 账号被封禁 · 官网与网页商城</title>
+<link rel="stylesheet" href="_fonts.css">
+<link rel="stylesheet" href="_style.css">
+<style>.splitpg{max-width:1240px;margin:0 auto;padding:20px 24px 60px}.pgnav{display:flex;gap:16px;align-items:center;font-size:13px;margin-bottom:14px;flex-wrap:wrap}.pgnav a{color:var(--page-accent);text-decoration:none;font-weight:600}.pgnav .cur{color:var(--page-ink-2)}.splitpg .lane{margin-top:8px}
+
+.scr .cB-g8>*+*{margin-top:8px}.scr .cB-g12>*+*{margin-top:12px}.scr .cB-g16>*+*{margin-top:16px}
+/* 登录 · 方向 D：内页不放主形状；登录区点缀 = 品牌紫小色块（56）+ 浅紫块；白抽屉 / 白弹窗 */
+.cB-sso{height:48px;border-radius:999px;font-size:16px;font-weight:600;line-height:1.2;display:flex;align-items:center;justify-content:center;gap:12px;width:100%;white-space:nowrap}
+.cB-sso.g{background:#fff;color:var(--dd-ink);box-shadow:inset 0 0 0 1.5px var(--dd-l2)}
+.cB-sso.a{background:#000;color:#fff}
+.cB-sso .gl{font-size:18px;font-weight:700;color:#4285F4;line-height:1}
+.desk-shell .cB-sso{height:52px}
+.cB-auto{background:var(--dd-l1);border-radius:16px;padding:12px 16px;font-size:13px;line-height:1.4;color:var(--dd-ink2);display:flex;gap:8px;align-items:flex-start}
+.cB-auto .ms{font-size:18px;color:var(--dd-p)}
+.cB-auto b{color:var(--dd-ink);font-weight:600}
+.cB-agr{font-size:12px;line-height:1.4;color:var(--dd-ink2);text-align:center;text-wrap:pretty}
+.cB-agr a{color:var(--dd-p);font-weight:600;white-space:nowrap}
+.cB-close{font-size:16px;line-height:1.5;font-weight:600;color:var(--dd-ink2);text-align:center;padding:8px 0 0}
+.cB-sh{padding:12px 20px 34px}
+.cB-mk{display:flex;align-items:center;justify-content:center;color:var(--dd-on);margin:0 auto 12px}
+.cB-mk .ms{font-size:30px}
+.scr .cB-ttl{text-align:center}
+.cB-sub{font-size:13px;line-height:1.4;color:var(--dd-ink2);text-align:center;margin-top:4px;text-wrap:pretty}
+.scr .cB-sub{margin-top:4px}
+.cB-x{position:absolute;right:16px;top:16px;width:40px;height:40px;border-radius:50%;background:var(--dd-l1);color:var(--dd-ink);display:flex;align-items:center;justify-content:center}
+.cB-x .ms{font-size:24px}
+/* 底下的商品详情（照 D1 方向 D 样板缩略：白底、猫色浅底大图、价格 Bricolage、白胶囊吸底栏） */
+.cB-gal{border-radius:32px;height:280px;margin:4px 16px 0;background:var(--st);color:var(--sl);display:flex;align-items:center;justify-content:center}
+.cB-gal .ms{font-size:72px}
+.cB-buy{padding:20px 16px 0}
+.cB-pr{font:800 40px/1.05 var(--dsp);letter-spacing:-.02em;color:var(--dd-ink);font-variant-numeric:tabular-nums}
+.scr .cB-pr{margin-top:8px}
+.cB-meta{display:flex;align-items:center;gap:4px;font-size:13px;line-height:1.4;color:var(--dd-ink2);white-space:nowrap}
+.scr .cB-meta{margin-top:8px}
+.cB-meta .ms{font-size:16px;color:var(--dd-gold)}
+.cB-dock{position:absolute;left:12px;right:12px;bottom:20px;background:#fff;border-radius:999px;padding:4px;display:flex;gap:8px;box-shadow:0 0 0 1px var(--dd-l2),0 12px 32px rgba(46,42,69,.12);z-index:3}
+.cB-dock .ad{width:48px;height:48px;border-radius:50%;background:var(--dd-l2);color:var(--dd-ink);display:flex;align-items:center;justify-content:center;flex:none}
+.cB-dock .btn{flex:1;justify-content:space-between;padding:0 20px}
+.cB-dmain{display:grid;grid-template-columns:560px 1fr;gap:64px;padding:32px 120px 0;align-items:start}
+.cB-bc{display:flex;align-items:center;gap:8px;font-size:16px;color:var(--dd-ink2);padding:24px 120px 0}
+.cB-bc .t{display:inline-flex;align-items:center;gap:4px;height:32px;padding:0 12px;border-radius:999px;background:var(--dd-l1);color:var(--dd-ink);font-weight:600}.cB-bc .t .ms{font-size:18px;color:var(--dd-p)}
+.cB-dgal{border-radius:48px;height:560px;background:var(--st);color:var(--sl);display:flex;align-items:center;justify-content:center}
+.cB-dgal .ms{font-size:120px}
+.desk-shell .cB-pr{font-size:48px}
+.desk-shell .scr .cB-pr{margin-top:12px}
+</style>
+</head>
+<body>
+<div class="splitpg"><div class="pgnav"><a href="00-目录.html">← 目录</a><a href="B2-登录失败.html">‹ B2 登录失败</a><a href="B1-登录-电脑居中弹窗.html">B1 登录·电脑居中弹窗 ›</a><span class="cur">泳道 B 登录 · 研发先看整合稿页头 <a href="../ui-web-store-integrated-v1.html">ui-web-store-integrated-v1.html</a></span></div><section class="lane">
+  <h2>B · 登录</h2>
+  <p class="desc">FR-303。触发：顶栏「登录」、加购、立即购买、领券、打开购物车 / 我的订单 / 我的、提交工单</p>
+  <div class="flow">
+    <em>主路径：</em><i>由 A1 / C3 / D2 / E6 / 任意需登录操作进入 →</i> <s>B1</s> 登录弹窗 <i>→ Google / Apple 第三方页面（不出稿）→ 回到原页面并自动完成刚才的操作</i>
+    <span class="nl"></span>
+    <em>失败：</em><s>B2</s> 登录失败提示（取消授权 / 网络错误，弹窗保持） <i>／</i> <s>B3</s> 账号被封禁（登录接口返回 403）
+  </div>
+  <div class="frames"><div class="frame-card">
+  <p class="frame-tag"><b>B3</b>账号被封禁<span class="k new">网站新页</span></p>
+  <div class="phone-shell"><div class="scr"><div class="sb"><span>9:41</span><span><span class="ms f">signal_cellular_alt</span> <span class="ms f">wifi</span> <span class="ms f">battery_full</span></span></div><div class="url"><div><span class="ms">lock</span>tailtopia.id/toko/p/royal-canin-kitten</div></div><div class="body" style="background:#fff"><div class="tb"><span class="bk"><span class="ms">chevron_left</span></span><h1></h1><span class="ib"><span class="ms">shopping_cart</span></span></div><div class="cB-gal st-cat"><span class="ms">rice_bowl</span></div><div class="cB-buy" style="flex:1"><p class="dd-h2">Royal Canin Kitten Dry Food 2 kg</p><p class="cB-pr">Rp 125.000</p><p class="cB-meta"><span class="ms f">star</span>4.8 · 23 ulasan · Sisa 5</p></div><div class="cB-dock"><span class="ad"><span class="ms">add_shopping_cart</span></span><span class="btn pri"><span>Beli Sekarang</span><span class="tnum">Rp 125.000</span></span></div><div class="scrim"></div><div class="cfs danger"><div class="grab"></div><div class="ic"><span class="ms f">block</span></div><h4>Akun dinonaktifkan</h4><p>Akunmu dinonaktifkan karena melanggar Pedoman Komunitas TailTopia. Kalau kamu ingin mengajukan keberatan, hubungi tim layanan pelanggan kami lewat email:</p><p style="margin-top:8px"><a style="color:var(--dd-p);font-weight:600">cs@tailtopia.id</a></p><div class="b1" style="background:var(--dd-p)">Kirim Email</div><div class="b2">Tutup</div></div></div></div></div>
+  <p class="frame-cap"><b>照 App：</b>底部确认抽屉 <code>confirm_sheet.dart</code> 的结构（拖拽条 → 圆形图标 → 标题 → 说明 → 主按钮 → 次按钮），图标位用红色。标题「账号已停用 Akun dinonaktifkan」取后端推送 <code>notify.ACCOUNT_SUSPENDED.title</code>；正文按 <code>notify.ACCOUNT_SUSPENDED.body</code> 改成 kamu 口吻（原文用 Anda）。<b>网站改：</b>App 被封用户只看到「登录失败」，没有专用提示，网站新做这一屏；后端 403 返回的是写死中文且带 WhatsApp（<code>AuthService.java:78-82</code>），网页不能照显示，前端按「登录接口 403 = 封禁」写死印尼语 / 英文，见待定；联系方式只放邮箱 cs@tailtopia.id，主按钮「发邮件 Kirim Email」打开 mailto，次按钮「关闭 Tutup」回到原页面（仍是游客）。<b>App 有、网站去掉：</b>后端提示里的 WhatsApp（FR-302 网页只用邮箱）。<b>视觉：</b>确认抽屉 .cfs 结构照 App 不动，白底、上圆角 28、贴底；红色危险态图标圈改为珊瑚浅底 + 深红图标；标题 Bricolage 18；主按钮「Kirim Email」紫色胶囊、次按钮「Tutup」浅紫胶囊，邮箱链接紫色。不放紫色小色块，和 B1 / B2 的登录抽屉区分开（这是告知不是登录）。底下的商品详情同 B1。</p>
+</div></div></section></div>
+</body>
+</html>

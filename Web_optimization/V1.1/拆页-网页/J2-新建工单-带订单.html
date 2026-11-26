@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>J2 新建工单·带订单 · 官网与网页商城</title>
+<link rel="stylesheet" href="_fonts.css">
+<link rel="stylesheet" href="_style.css">
+<style>.splitpg{max-width:1240px;margin:0 auto;padding:20px 24px 60px}.pgnav{display:flex;gap:16px;align-items:center;font-size:13px;margin-bottom:14px;flex-wrap:wrap}.pgnav a{color:var(--page-accent);text-decoration:none;font-weight:600}.pgnav .cur{color:var(--page-ink-2)}.splitpg .lane{margin-top:8px}
+
+/* ===== J 泳道 · 方向 D「干净 + playful」· 客服工单内页（品牌紫区域，内页只用浅紫点缀）：白底 + 浅紫细边白卡；
+   空态一张小照片；J3 成功页一只小照片 + 一个小紫色圆块 ===== */
+.scr .cJ-g8>*+*{margin-top:8px}.scr .cJ-g12>*+*{margin-top:12px}.scr .cJ-g16>*+*{margin-top:16px}.scr .cJ-g24>*+*{margin-top:24px}
+.body.cJ-pg{background:#fff}
+.cJ-pg .tb{background:#fff}
+.cJ-pg .empty b{line-height:1.3}
+.cJ-pg .empty p{line-height:1.4}
+.cJ-pg .t-b,.cJ-dk .t-b{font-size:16px;line-height:1.5}
+.cJ-dk{background:#fff}
+.cJ-dk .h-h{font-family:var(--dsp);font-weight:800;letter-spacing:-.01em}
+.cJ-lb{font-size:12px;line-height:1.2;font-weight:700;letter-spacing:.08em;color:var(--dd-p)}
+.cJ-lb em{color:var(--dd-red);font-style:normal}
+.cJ-ml{font-size:12px;line-height:1.2;font-weight:700;letter-spacing:.08em;color:var(--dd-p)}
+.cJ-st{display:inline-flex;align-items:center;height:24px;padding:0 12px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap;flex:none}
+.cJ-st.wait{background:var(--dd-goldt);color:var(--dd-tipt)}
+.cJ-st.prog{background:var(--dd-l2);color:var(--dd-p6)}
+.cJ-st.done{background:var(--okbg);color:var(--ok)}
+.cJ-st.closed{background:var(--dd-l1);color:var(--dd-ink2)}
+.cJ-tag{display:inline-flex;align-items:center;height:24px;padding:0 12px;border-radius:999px;background:var(--dd-l1);color:var(--dd-p6);font-size:12px;font-weight:600}
+.cJ-tk{padding:16px 20px}
+.cJ-tk .t1{display:flex;align-items:center;gap:8px}
+.cJ-tk .t1 b{flex:1;font-size:16px;line-height:1.4;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cJ-ph{display:flex;gap:8px;flex-wrap:wrap}
+.cJ-ph .s-pi{width:80px;border-radius:16px}
+.cJ-ph .s-pi>.ms{font-size:30px}
+.cJ-ph .x{position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:var(--dd-ink);color:#fff;display:flex;align-items:center;justify-content:center}
+.cJ-ph .x .ms{font-size:16px}
+.cJ-ph .add{width:80px;height:80px;border-radius:16px;border:2px dashed var(--mint5);color:var(--dd-p);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;line-height:1.2;font-weight:600}
+.cJ-ph .add .ms{font-size:24px}
+.cJ-chips{display:flex;flex-wrap:wrap;gap:8px}
+.cJ-chips .chip{height:36px;padding:0 16px}
+.cJ-ord{display:flex;align-items:center;gap:8px;background:var(--dd-l1);border-radius:16px;padding:12px}
+.cJ-ord .s-pi{width:48px;border-radius:12px;flex:none}
+.cJ-ord .s-pi .ms{font-size:24px}
+.cJ-ord .no{white-space:nowrap;letter-spacing:-.01em}
+.cJ-ord>.ms{color:var(--dd-ink2);font-size:24px}
+.cJ-sel{display:flex;align-items:center;justify-content:space-between}
+.cJ-star{display:flex;gap:8px}
+.cJ-star .ms{font-size:30px;color:var(--dd-gold)}
+.cJ-star .ms.o{color:var(--dd-l2)}
+.cJ-sw{display:flex;align-items:center;gap:12px;font-size:16px;line-height:1.4}
+.cJ-sw span{flex:1}
+.cJ-back{display:flex;align-items:center;gap:4px;font-size:13px;line-height:1.4;font-weight:600;color:var(--dd-p)}
+.cJ-back .ms{font-size:24px}
+.cJ-h7{font:800 18px/1.3 var(--dsp);letter-spacing:-.01em}
+/* J3 成功：一只小狗照片站在小紫色圆块上沿，圆块里白色对勾 */
+.cJ-ok{position:relative;display:flex;flex-direction:column;align-items:center}
+.cJ-ok .dd-shape{width:72px;height:72px;display:flex;align-items:center;justify-content:center;color:var(--dd-on);margin-top:-8px}
+.cJ-ok .dd-shape .ms{font-size:40px}
+.cJ-ok .dd-ph{position:relative;z-index:1}
+.cJ-eph{margin-bottom:4px}
+/* 电脑账户侧栏：和 I1 / I2 / H 电脑稿同一组件（规则同 lane-I 的 .cI-side 一组，原样复制，改时两边一起改） */
+.cI-side{width:280px;flex:none}
+.cI-side .db-card{padding:8px}
+.cI-sp{display:flex;align-items:center;gap:12px;padding:12px 12px 16px;border-bottom:1px solid var(--dd-l2);margin-bottom:8px}
+.cI-sp .av{width:48px;height:48px;font-size:16px;background:var(--dd-l1);color:var(--dd-p)}
+.cI-sp b{display:block;font-size:16px;line-height:1.4;font-weight:600}
+.cI-sl{display:flex;align-items:center;gap:12px;padding:12px;border-radius:16px;font-size:16px;line-height:1.4;color:var(--dd-ink2)}
+.cI-sl .ms{font-size:24px}
+.cI-sl.on{color:var(--dd-p);font-weight:600;background:var(--dd-l1)}
+.cI-sl.dan{color:var(--dd-red)}
+.cI-n{min-width:16px;height:16px;border-radius:999px;background:var(--dd-red);color:#fff;font-size:10px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;padding:0 4px;line-height:1;margin-left:auto}
+</style>
+</head>
+<body>
+<div class="splitpg"><div class="pgnav"><a href="00-目录.html">← 目录</a><a href="J1-新建工单.html">‹ J1 新建工单</a><a href="J3-提交成功.html">J3 提交成功 ›</a><span class="cur">泳道 J 客服工单 · 研发先看整合稿页头 <a href="../ui-web-store-integrated-v1.html">ui-web-store-integrated-v1.html</a></span></div><section class="lane">
+  <h2>J · 客服工单</h2>
+  <p class="desc">FR-314。网站的投诉渠道 = 邮箱 + 工单。页面名照 App 叫「Masukan Saya」（我的反馈），PRD 叫客服工单，见待定</p>
+  <div class="flow">
+    <em>主路径：</em><i>由 I1「Masukan Saya」进入 →</i> <s>J4</s> 工单列表 <i>→「Laporkan Masalah」→</i> <s>J1</s> 新建 <i>→ 提交 →</i> <s>J3</s> 提交成功 <i>→「Lihat tiket」→</i> <s>J6</s> 工单详情
+    <span class="nl"></span>
+    <em>变体：</em><s>J2</s> 从订单进来的新建工单（替代 J1：已带订单号，由 H13 进入） <i>／</i> <s>J5</s> 工单列表为空 <i>／ 未登录点「Laporkan Masalah」先走</i> <s>B1</s>
+  </div>
+  <div class="frames"><div class="frame-card">
+  <p class="frame-tag"><b>J2</b>新建工单·带订单<span class="k mod">改动</span></p>
+  <div class="phone-shell"><div class="scr">
+    <div class="sb"><span>9:41</span><span><span class="ms f">signal_cellular_alt</span> <span class="ms f">wifi</span> <span class="ms f">battery_full</span></span></div>
+    <div class="url"><div><span class="ms">lock</span>tailtopia.id/akun/tiket/baru?pesanan=…</div></div>
+    <div class="body cJ-pg st-brand">
+      <div class="tb"><span class="bk"><span class="ms">chevron_left</span></span><h1>Laporkan Masalah</h1></div>
+      <div style="padding:8px 16px 136px">
+        <div class="db-card cJ-g24"><div class="fld"><span class="cJ-lb">PESANAN TERKAIT (OPSIONAL)</span>
+          <div class="cJ-ord"><span class="s-pi st-cat"><span class="ms">set_meal</span></span><div style="flex:1;min-width:0"><p class="t-b b6 no">TOKO-20261120-A3F9K2</p><p class="t-c" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Royal Canin Kitten Dry Food 2 kg</p><p class="t-c b6" style="color:var(--ink)">Rp 245.000</p></div><span class="ms">chevron_right</span></div></div>
+        <div class="fld"><span class="cJ-lb">JUDUL (OPSIONAL)</span><div class="inp ph">Ringkasan singkat</div></div>
+        <div class="fld"><span class="cJ-lb">APA YANG TERJADI <em>*</em></span><div class="inp ta ph">Jelaskan masalahmu agar kami bisa membantu lebih cepat…</div><span class="hint" style="text-align:right">0/4000</span></div>
+        <div class="fld"><span class="cJ-lb">KONTAK <em>*</em></span><div class="inp"><span class="ms">mail</span>sari.w@gmail.com</div><span class="hint">Digunakan CS untuk menghubungimu, tidak ditampilkan ke publik.</span></div></div>
+      </div>
+      <div class="stick"><span class="btn pri blk" style="flex:1">Kirim</span></div>
+    </div>
+  </div></div>
+  <p class="frame-cap"><b>照 App：</b>表单同 J1（下面的标签、图片、开关、时效一句同 J1，这里只画第一屏）；从订单详情带订单进来、可改可清空（点卡片打开订单选择抽屉 <code>ticket_order_picker.dart</code>，第一行「不关联订单 Tidak terkait pesanan」）。<b>网站改：</b>入口是订单详情「订单有问题？」→ FR-310 说明页 →「联系客服」；关联订单从一行字挪到表单最上方，做成订单卡（订单号 <code>TOKO-yyyyMMdd-XXXXXX</code> + 首个商品图和名 + 实付金额）。App 带订单进来时只显示「已选订单 Pesanan terpilih」、刻意不显示订单号（因为只拿到 orderToken），网站从订单详情进来本来就有订单号，可以直接显示。订单选择抽屉只列电商单（网站没有问诊单）。PRD 没说能不能改选 / 清空，见待定。<b>App 有、网站去掉：</b>问诊单。<b>视觉：</b>同 J1 的白底 + 白色 .db-card；订单卡浅紫底圆角 16，商品图 .s-pi 猫色浅底 + set_meal 图标（猫粮 → st-cat）；吸底「Kirim」紫色胶囊、贴底。</p>
+</div></div></section></div>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C1 商城首页·游客·手机 · 官网与网页商城</title>
+<link rel="stylesheet" href="_fonts.css">
+<link rel="stylesheet" href="_style.css">
+<style>.splitpg{max-width:1240px;margin:0 auto;padding:20px 24px 60px}.pgnav{display:flex;gap:16px;align-items:center;font-size:13px;margin-bottom:14px;flex-wrap:wrap}.pgnav a{color:var(--page-accent);text-decoration:none;font-weight:600}.pgnav .cur{color:var(--page-ink-2)}.splitpg .lane{margin-top:8px}
+
+.dd-up{display:inline-flex;align-items:center;gap:4px;white-space:nowrap}.dd-up .ms{font-size:16px}
+/* ===== C1 商城首页 · 方向 D（前缀 dC-） ===== */
+.dC-top{padding:16px 16px 0}
+.dC-trow{display:flex;align-items:flex-end;gap:8px}.dC-trow .dd-x{margin-right:auto}
+.dC-sf{height:56px;border-radius:999px;background:var(--dd-l1);display:flex;align-items:center;gap:8px;padding:0 6px 0 16px;font-size:16px;color:var(--dd-ink2);margin-top:16px}
+.dC-sf>.ms{font-size:24px;color:var(--dd-ink)}
+.dC-sf .tx{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dC-sf .btn{height:44px;padding:0 20px}
+.dC-gd{display:flex;align-items:center;gap:12px;margin-top:12px;padding:12px;border-radius:20px;background:#fff;box-shadow:inset 0 0 0 1px var(--dd-l2)}
+.dC-gd .ic{width:40px;height:40px;border-radius:12px;background:var(--dd-l1);color:var(--dd-p);display:flex;align-items:center;justify-content:center;flex:none}
+.dC-gd .t{flex:1;min-width:0;font-size:13px;line-height:1.4;color:var(--dd-ink2)}.dC-gd .t b{display:block;font-size:16px;font-weight:600;color:var(--dd-ink)}
+.dC-gd>.ms{color:var(--dd-ink2)}
+/* Banner：品牌紫实色 + 完整金色圆 + 两只真实宠物夹着购物袋（运营图占位） */
+.dC-bn{position:relative;border-radius:28px;overflow:hidden;margin-top:16px;display:flex;align-items:flex-end;justify-content:center;gap:12px;padding-bottom:32px}
+.dC-bn .cir{position:absolute;border-radius:50%;background:var(--dd-gold)}
+.dC-bn .bag{border-radius:28%;background:#fff;color:var(--dd-p);display:flex;align-items:center;justify-content:center;position:relative}
+.dC-bn .dd-ph{position:relative}
+.dC-bn .dots{position:absolute;left:0;right:0;bottom:12px}
+.dC-sec{padding:32px 16px 8px}
+.dC-hd{display:flex;align-items:center;gap:8px;margin-bottom:16px}.dC-hd .ms{font-size:24px;color:var(--dd-p)}
+.dC-g{display:grid;grid-template-columns:1fr 1fr;gap:20px 12px}
+.dC-eol{display:flex;flex-direction:column;align-items:center;gap:8px;padding:32px 0 40px;font-size:13px;color:var(--dd-ink2)}
+.desk-shell .dC-top{padding:56px 120px 0}
+.desk-shell .dC-row{display:grid;grid-template-columns:1fr 560px;gap:48px;align-items:end}
+.desk-shell .dC-sf{height:64px;margin-top:0;padding:0 8px 0 24px}.desk-shell .dC-sf .btn{height:48px;padding:0 28px}
+.desk-shell .dC-bn{margin-top:40px;border-radius:40px;padding-bottom:56px}
+.desk-shell .dC-sec{padding:64px 120px 16px}
+.desk-shell .dC-hd{margin-bottom:28px}.desk-shell .dC-hd .ms{font-size:40px}
+.desk-shell .dC-g{grid-template-columns:repeat(5,1fr);gap:36px 24px}
+.desk-shell .dC-eol{font-size:16px;padding:56px 0 72px}
+/* ===== C 其余屏 · 方向 D（前缀 cC-，照 C1 样板的语言；内页不放主形状） ===== */
+.cC-q{color:var(--dd-ink)}
+.dC-sf .cC-cl{font-size:24px;color:var(--dd-ink2);flex:none}
+.cC-kh{display:flex;align-items:center;gap:8px}
+.cC-kh>.ms{font-size:24px;color:var(--dd-p)}
+.cC-kh a{margin-left:auto;font-size:13px;line-height:1.4;font-weight:600;color:var(--dd-p);white-space:nowrap}
+.desk-shell .cC-kh>.ms{font-size:30px}
+.desk-shell .cC-kh a{font-size:16px}
+/* 给你的券：车票 .dd-ticket；手机横滑，出血到屏幕右缘，前两张完整、第三张露出约 40% 提示可滑；电脑一行平铺 */
+.cC-cps{display:flex;gap:8px;overflow:hidden}
+.phone-shell .cC-cps{margin-right:-16px}
+.cC-cp{flex:none;width:146px;padding:12px;gap:6px;align-items:center}
+.cC-cp .cv{flex:1;min-width:0}
+.cC-cp .amt{font-size:18px;white-space:nowrap}
+.cC-cp .cond{white-space:nowrap}
+.cC-cp.nb{padding:12px}
+.phone-shell .cC-cp:not(.nb){width:164px}
+.cC-cp .bd{display:inline-block;padding:4px 8px;border-radius:8px;background:var(--dd-gold);color:var(--dd-ink);font-size:10px;line-height:1.2;font-weight:700;text-wrap:balance}
+.scr .cC-cp .bd+.amt{margin-top:8px}
+.cC-cp .ok{display:flex;align-items:center;gap:4px;font-size:12px;line-height:1.4;font-weight:600;white-space:nowrap}
+.scr .cC-cp .ok{margin-top:4px}
+.cC-cp .ok .ms{font-size:16px}
+.cC-cp .rw{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.desk-shell .cC-cps{gap:16px}
+.desk-shell .cC-cp{flex:1;width:auto;padding:16px 20px;gap:16px}
+.desk-shell .cC-cp.nb{flex:1.4;padding:16px 20px}
+.desk-shell .cC-cp .amt{font-size:24px}
+.desk-shell .cC-cp .cond{font-size:13px}
+.desk-shell .cC-cp .bd{padding:4px 10px;font-size:11px;border-radius:999px;white-space:nowrap}
+.desk-shell .cC-cp .ok{font-size:13px}
+.desk-shell .scr .cC-cp .ok{margin-top:0}
+/* 新人券弹窗：白弹窗 + 紫色实底车票 */
+.cC-nbx{display:flex;justify-content:flex-end;margin:-4px -4px 4px 0;color:var(--dd-ink2)}
+.cC-nbx .ms{font-size:24px}
+.cC-nbt{padding:16px 16px 16px 20px;gap:16px;min-height:120px}
+.cC-nbt .gi{width:48px;height:48px;border-radius:50%;background:#fff;color:var(--dd-p);display:flex;align-items:center;justify-content:center;flex:none}
+.cC-nbt .gi .ms{font-size:30px}
+.cC-nbt .cut{margin:0}
+.cC-nbt .tx{flex:1;min-width:0;text-align:left}
+.cC-nbt .tx b{display:block;font:800 18px/1.3 var(--dsp);letter-spacing:-.01em;text-wrap:balance}
+.cC-nbt .tx small{display:block;font-size:12px;line-height:1.4;color:#fff;margin-top:8px}
+/* 失败 / 空态 / 没有商品 */
+.cC-fail .empty{padding:32px 16px}
+.cC-fail .empty p{font-size:16px;line-height:1.5;color:var(--dd-ink);margin-top:12px}
+.cC-nr{padding:24px 16px 24px}
+.empty .ei.cC-phei{width:auto;height:auto;background:none;border-radius:0}
+.scr .cC-nr p{font-size:16px;line-height:1.5;color:var(--dd-ink2);margin-top:12px;text-wrap:balance}
+.cC-rec{margin:0 16px;padding:16px}
+.cC-dg{display:grid;grid-template-columns:repeat(3,1fr);gap:16px 8px;margin-top:12px}
+.cC-dc .s-pi{border-radius:16px}
+.cC-dc .s-pi>.ms{font-size:30px}
+.cC-dc .pa{position:absolute;right:4px;bottom:4px;width:28px;height:28px;border-radius:50%;background:var(--dd-p);color:#fff;display:flex;align-items:center;justify-content:center}
+.cC-dc .pa .ms{font-size:18px}
+.cC-dc .pn{font-size:12px;line-height:1.3;height:2.6em;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;color:var(--dd-ink)}
+.scr .cC-dc .pn{margin-top:8px}
+.cC-dc .pp{font-size:13px;line-height:1.4;font-weight:700;color:var(--dd-ink);font-variant-numeric:tabular-nums}
+.scr .cC-dc .pp{margin-top:4px}
+.cC-none{font-size:16px;line-height:1.5;color:var(--dd-ink2);text-align:center;padding:32px 16px}
+.desk-shell .cC-srow{display:flex;align-items:center;gap:32px}
+
+/* ===== 商城首页 · 方向 A 的色块版式 + D 字体组件（11-26 操作者定；前缀 cC-） =====
+   色块轮换：紫 #7D45F6 页头大色块 → 珊瑚 #F0425A Banner → 金 #F6A609 券带 / 购物指南 → 白商品区 → 浅紫页脚
+   字体只用 BricolageD + Poppins；顶栏、页脚、.pc、按钮、搜索框、.dd-ticket、.dlg、空态卡都是 d-style 组件 */
+.body>.cC-hero,.body>.cC-kb,.body>.dC-sec{flex:none}
+.cC-hero{background:var(--dd-p);color:#fff;padding:16px 16px 24px;position:relative;overflow:hidden}
+.cC-trow{display:flex;align-items:flex-end;justify-content:space-between;gap:8px}
+.cC-big{position:relative;display:inline-block;font:800 72px/1 var(--dsp);letter-spacing:-.03em;text-transform:uppercase;color:#fff;white-space:nowrap;transform:rotate(-5deg);transform-origin:0 100%;margin:20px 0 0 4px}
+.cC-big::before{content:attr(data-t);position:absolute;left:4px;top:4px;color:transparent;-webkit-text-stroke:2px var(--dd-gold);z-index:-1}
+.cC-pets{display:flex;align-items:flex-end;gap:4px;flex:none}
+.cC-hero .dC-sf{background:#fff;margin-top:24px}
+.cC-gd{display:flex;align-items:center;gap:12px;margin-top:12px;padding:12px;border-radius:20px;background:var(--dd-gold);color:var(--dd-ink)}
+.cC-gd .ic{width:40px;height:40px;border-radius:12px;background:var(--dd-ink);color:var(--dd-gold);display:flex;align-items:center;justify-content:center;flex:none}
+.cC-gd .ic .ms{font-size:24px}
+.cC-gd .t{flex:1;min-width:0;font-size:13px;line-height:1.4}.cC-gd .t b{display:block;font-size:16px;font-weight:700}
+.cC-gd>.ms{font-size:24px}
+.cC-hero .dC-bn{margin-top:16px}
+/* 分区标题：斜放大字 */
+.cC-sh{display:flex;align-items:center;gap:12px;margin:8px 0 28px;transform:rotate(-3deg);transform-origin:0 50%}
+.cC-sh .ic{width:40px;height:40px;border-radius:50%;background:var(--dd-p);color:#fff;display:flex;align-items:center;justify-content:center;flex:none}
+.cC-sh .ic .ms{font-size:24px}
+.cC-sh .dd-x{white-space:nowrap}
+/* 券带：金色整块 */
+.cC-kb{background:var(--dd-gold);color:var(--dd-ink);padding:24px 16px}
+.cC-kb .cC-kh>.ms,.cC-kb .cC-kh a{color:var(--dd-ink)}
+.cC-kb .cC-kh a{text-decoration:underline;text-underline-offset:3px}
+.desk-shell .cC-hero{padding:56px 120px 64px}
+.desk-shell .cC-big{font-size:120px;margin:0 0 8px 8px}
+.desk-shell .cC-big::before{left:6px;top:6px;-webkit-text-stroke:3px var(--dd-gold)}
+.desk-shell .cC-hero .dC-sf{margin-top:0}
+.desk-shell .cC-hrow{display:grid;grid-template-columns:1fr 560px;gap:48px;align-items:end}
+.desk-shell .cC-hero .dC-bn{margin-top:48px}
+.desk-shell .cC-sh{margin:0 0 40px}
+.desk-shell .cC-sh .ic{width:64px;height:64px}.desk-shell .cC-sh .ic .ms{font-size:40px}
+.desk-shell .cC-kb{padding:48px 120px 56px}
+</style>
+</head>
+<body>
+<div class="splitpg"><div class="pgnav"><a href="00-目录.html">← 目录</a><a href="B1-登录-电脑居中弹窗.html">‹ B1 登录·电脑居中弹窗</a><a href="C1-商城首页-游客-电脑.html">C1 商城首页·游客·电脑 ›</a><span class="cur">泳道 C 商城首页与搜索 · 研发先看整合稿页头 <a href="../ui-web-store-integrated-v1.html">ui-web-store-integrated-v1.html</a></span></div><section class="lane">
+  <h2>C · 商城首页与搜索</h2>
+  <p class="desc">FR-304（新人券弹窗涉及 FR-312 领券）。商城首页手机顶栏用 .wh，电脑用 .wd；App 底部 Tab 栏、下拉刷新、PawCoin 余额胶囊、「为宠物推荐」块一律不画。</p>
+  <div class="flow">
+    <em>主路径：</em><s>C1</s> 商城首页·游客 <i>→ 点商品 →</i> <s>D2</s> <i>／ 搜索框回车或点「Cari」→</i> <s>C5</s> 搜索结果 <i>→ 点商品 →</i> <s>D1</s>
+    <span class="nl"></span>
+    <em>变体：</em><s>C2</s> 已登录（替代 C1：多「给你的券」一行） <i>／</i> <s>C3</s> 游客第一次进商城的新人券弹窗（盖在 C1 上，「注册并领取」→ <s>B1</s>） <i>／ 商品卡「＋」→</i> <s>D3</s> 选规格（游客确认后 → <s>B1</s>）
+    <span class="nl"></span>
+    <em>异常：</em><s>C4</s> 商品加载失败（Banner 照常显示 + 重试） <i>／</i> <s>C6</s> 搜索无结果（下方「你可能喜欢」） <i>／</i> <s>C7</s> 一个商品都没有
+  </div>
+  <div class="frames"><div class="frame-card">
+  <p class="frame-tag"><b>C1</b>商城首页·游客·手机<span class="k mod">改动</span></p>
+  <div class="phone-shell tall"><div class="scr"><div class="sb"><span>9:41</span><span><span class="ms f">signal_cellular_alt</span> <span class="ms f">wifi</span> <span class="ms f">battery_full</span></span></div><div class="url"><div><span class="ms">lock</span>tailtopia.id/toko</div></div><div class="body" style="background:#fff">
+<div class="wh"><span class="logo"></span><span class="ib"><span class="ms">shopping_cart</span></span><span class="ib"><span class="ms">menu</span></span></div><div class="cC-hero"><div class="cC-trow"><p class="cC-big" data-t="Toko">Toko</p><span class="cC-pets"><span class="dd-ph dd-ph-cat " style="--h:64px"></span><span class="dd-ph dd-ph-dog " style="--h:64px"></span></span></div><div class="dC-sf"><span class="ms">search</span><span class="tx">Cari makanan, obat, camilan…</span><span class="btn pri">Cari</span></div><div class="cC-gd"><span class="ic"><span class="ms">menu_book</span></span><span class="t">Pertama kali belanja di sini? <b>Lihat Panduan Belanja</b></span><span class="ms">chevron_right</span></div><div class="dC-bn c-coral" style="height:160px;background:var(--dd-c)"><span class="cir" style="width:112px;height:112px;right:16px;top:24px"></span><span class="dd-ph dd-ph-dog " style="--h:72px"></span><span class="bag" style="width:72px;height:72px"><span class="ms f" style="font-size:40px">shopping_bag</span></span><span class="dd-ph dd-ph-cat " style="--h:72px"></span><div class="dots"><i class="on"></i><i></i><i></i></div></div></div><div class="dC-sec"><div class="cC-sh"><span class="ic"><span class="ms f">storefront</span></span><p class="dd-x">Semua produk</p></div><div class="dC-g"><div class="pc"><div class="pi s-pi st-cat"><span class="ms" style="font-size:48px">set_meal</span><span class="pill promo" style="position:absolute"><span class="ms f">local_fire_department</span>Lagi promo</span></div><div class="pb"><p class="pn">Makanan Basah Kucing Tuna 85 g</p><div class="pr"><span class="pp">Rp 12.500</span><span class="pa"><span class="ms">add</span></span></div></div></div><div class="pc"><div class="pi s-pi st-cat"><span class="ms" style="font-size:48px">rice_bowl</span></div><div class="pb"><p class="pn">Makanan Kering Kucing Salmon 1,5 kg</p><div class="pr"><span class="pp">Rp 125.000</span><span class="pa"><span class="ms">add</span></span></div></div></div><div class="pc"><div class="pi s-pi st-dog"><span class="ms" style="font-size:48px">cookie</span><span class="pill promo" style="position:absolute"><span class="ms f">local_fire_department</span>Lagi promo</span></div><div class="pb"><p class="pn">Camilan Anjing Stik Daging Sapi 200 g</p><div class="pr"><span class="pp">Rp 38.000</span><span class="pa"><span class="ms">add</span></span></div></div></div><div class="pc"><div class="pi s-pi st-brand"><span class="ms" style="font-size:48px">medication</span></div><div class="pb"><p class="pn">Obat Cacing Kucing &amp; Anjing 4 Tablet</p><div class="pr"><span class="pp">Rp 45.000</span><span class="pa"><span class="ms">add</span></span></div></div></div><div class="pc"><div class="pi s-pi st-dog"><span class="ms" style="font-size:48px">soap</span></div><div class="pb"><p class="pn">Sampo Anjing Aloe Vera 250 ml</p><div class="pr"><span class="pp">Rp 59.000</span><span class="pa"><span class="ms">add</span></span></div></div></div><div class="pc"><div class="pi s-pi st-cat"><span class="ms" style="font-size:48px">inventory_2</span></div><div class="pb"><p class="pn">Pasir Kucing Gumpal Lavender 10 L</p><div class="pr"><span class="pp">Rp 89.000</span><span class="pa"><span class="ms">add</span></span></div></div></div><div class="pc"><div class="pi s-pi st-dog"><span class="ms" style="font-size:48px">rice_bowl</span></div><div class="pb"><p class="pn">Makanan Kering Anjing Kecil Ayam 2 kg</p><div class="pr"><span class="pp na">Harga segera</span><span class="pa"><span class="ms">add</span></span></div></div></div><div class="pc"><div class="pi s-pi st-cat"><span class="ms" style="font-size:48px">set_meal</span><span class="pill promo" style="position:absolute"><span class="ms f">local_fire_department</span>Lagi promo</span></div><div class="pb"><p class="pn">Makanan Basah Kucing Salmon Pouch 70 g</p><div class="pr"><span class="pp">Rp 9.500</span><span class="pa"><span class="ms">add</span></span></div></div></div><div class="pc so"><div class="pi s-pi st-cat"><span class="ms" style="font-size:48px">medication_liquid</span><span class="pill so" style="position:absolute"><span class="ms" style="font-size:14px">remove_shopping_cart</span>Stok habis</span></div><div class="pb"><p class="pn">Vitamin Bulu Kucing Omega 3 60 ml</p><div class="pr"><span class="pp">Rp 72.000</span></div></div></div><div class="pc so"><div class="pi s-pi st-dog"><span class="ms" style="font-size:48px">pets</span><span class="pill so" style="position:absolute"><span class="ms" style="font-size:14px">remove_shopping_cart</span>Stok habis</span></div><div class="pb"><p class="pn">Tulang Kunyah Anjing Susu 6 pcs</p><div class="pr"><span class="pp">Rp 32.000</span></div></div></div></div><p class="dC-eol"><span class="dd-ph dd-ph-other flat" style="--h:40px"></span>Sudah semua untuk saat ini</p></div><div class="ft">
+<div class="fl"><span class="dd-logo"></span></div>
+<p style="margin-top:8px">Komunitas pecinta hewan di Indonesia. <span class="ms f dd-paw">pets</span></p>
+<p style="margin-top:12px"><b>PT Lumos Digital Indonesia</b><br>Graha WS 33, Jl. Panjang Arteri Kelapa Dua Raya, Kota Administrasi Jakarta Barat, DKI Jakarta 11530, Indonesia</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px">
+<div><h5>Perusahaan</h5><a>Tentang TailTopia</a><a>Panduan Belanja</a><a>Unduh App</a></div>
+<div><h5>Legal</h5><a>Syarat &amp; Ketentuan</a><a>Kebijakan Privasi</a><a>Penghapusan Akun</a></div>
+<div><h5>Kontak</h5><a>cs@tailtopia.id</a></div>
+</div>
+<div class="cpl" style="margin-top:24px">
+<div class="gp"><b>Layanan Pengaduan Konsumen</b>Tailtopia (PT Lumos Digital Indonesia)<br>Email: <a>cs@tailtopia.id</a></div>
+<div class="gp">Kementerian Perdagangan Direktorat Jenderal Perlindungan Konsumen dan Tertib Niaga<br>Kementerian Perdagangan RI<br>WhatsApp: <a>+62 853 1111 1010</a></div>
+</div>
+<div class="cr"><span>© 2026 PT Lumos Digital Indonesia · TailTopia</span><span class="dd-up">Ke atas<span class="ms">arrow_upward</span></span></div>
+</div>
+
+</div></div></div>
+  <p class="frame-cap"><b>照 App（toko_page_v3.dart）：</b>搜索框提示「搜食品、药品、零食…」Cari makanan, obat, camilan…（tokoSearchHint）、Banner 轮播（最多 6 张，4 秒自动翻，多于 1 张才有页码点）、「全部商品」Semua produk 2 列商品卡（shop_product_card.dart：促销角标「正在促销」Lagi promo、售罄角标「库存没了」Stok habis + 图片变灰 + 不显示「＋」、无价时「价格待定」Harga segera）、到底提示「暂时就这些了」Sudah semua untuk saat ini。原有模块全部保留。<b>网站改：</b>顶部换成网站页头 .wh（logo、购物车、菜单；游客购物车不带件数），页头下保留 App 顶部浅紫渐变；搜索框右侧加「搜索」Cari 按钮，回车或点按钮才搜（与 App 停输自动搜不一致，见待定）；搜索框下面新加一行购物指南入口「第一次在这里买东西？看看购物指南」（FR-301 要求商城首页有入口，App 没有，见新文案表）；底部接全站页脚。售罄排最后由后端按 SOLD_OUT 分档，网页不自己排。<b>App 有、网站去掉：</b>底部 Tab 栏（网站用页头导航）、下拉刷新和切回 Tab 重拉（刷新页面即可）、标题「Toko」+ 登录胶囊（网站页头菜单里有登录，电脑页头有「Masuk」）、为宠物推荐块（PRD 不做）。<b>视觉：</b>商城首页用方向 A 的色块版式 + D 字体组件（11-26 操作者定）。顶栏照 D（白底、浅紫细线、真实 logo）；顶栏下是一整块品牌紫 #7D45F6：斜放 -5° 的大字「TOKO」（Bricolage 800，手机 72 / 电脑 120，白字 + 错位金色描边影，字号取自 D 字号表，不出血），右侧并排猫、狗真实抠图（整只可见）；D 的浅紫胶囊搜索框在紫底上改白底，「Cari」仍是 D 紫色按钮；购物指南入口改成 A 的金色 #F6A609 整块卡（墨色字 + 墨色图标块，对比度 7.6:1）；Banner 换成 A 的珊瑚 #F0425A 色块 + 一个完整金色圆 + 狗、白色购物袋、猫（无文字，运营图占位）。商品区回到白底：分区标题「Semua produk」用 A 的斜放处理（-3°，Bricolage 800，手机 40 / 电脑 64）+ 紫色圆图标；商品卡照 D 的 <code>.pc</code>（无卡底、物种浅底图：猫 → 猫色、狗 → 狗色、通用 → 品牌浅紫，价格墨色 700，紫色加购圆，促销珊瑚浅底胶囊，售罄墨色胶囊）；到底提示「其他」照片 + 小字；页脚照 D 浅紫。点进 D1 时顶栏、商品卡、按钮、字体一致。色块节奏：紫 → 珊瑚 → 白 → 浅紫。</p>
+</div></div></section></div>
+</body>
+</html>

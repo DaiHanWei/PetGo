@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>J4 工单列表 · 官网与网页商城</title>
+<link rel="stylesheet" href="_fonts.css">
+<link rel="stylesheet" href="_style.css">
+<style>.splitpg{max-width:1240px;margin:0 auto;padding:20px 24px 60px}.pgnav{display:flex;gap:16px;align-items:center;font-size:13px;margin-bottom:14px;flex-wrap:wrap}.pgnav a{color:var(--page-accent);text-decoration:none;font-weight:600}.pgnav .cur{color:var(--page-ink-2)}.splitpg .lane{margin-top:8px}
+
+/* ===== J 泳道 · 方向 D「干净 + playful」· 客服工单内页（品牌紫区域，内页只用浅紫点缀）：白底 + 浅紫细边白卡；
+   空态一张小照片；J3 成功页一只小照片 + 一个小紫色圆块 ===== */
+.scr .cJ-g8>*+*{margin-top:8px}.scr .cJ-g12>*+*{margin-top:12px}.scr .cJ-g16>*+*{margin-top:16px}.scr .cJ-g24>*+*{margin-top:24px}
+.body.cJ-pg{background:#fff}
+.cJ-pg .tb{background:#fff}
+.cJ-pg .empty b{line-height:1.3}
+.cJ-pg .empty p{line-height:1.4}
+.cJ-pg .t-b,.cJ-dk .t-b{font-size:16px;line-height:1.5}
+.cJ-dk{background:#fff}
+.cJ-dk .h-h{font-family:var(--dsp);font-weight:800;letter-spacing:-.01em}
+.cJ-lb{font-size:12px;line-height:1.2;font-weight:700;letter-spacing:.08em;color:var(--dd-p)}
+.cJ-lb em{color:var(--dd-red);font-style:normal}
+.cJ-ml{font-size:12px;line-height:1.2;font-weight:700;letter-spacing:.08em;color:var(--dd-p)}
+.cJ-st{display:inline-flex;align-items:center;height:24px;padding:0 12px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap;flex:none}
+.cJ-st.wait{background:var(--dd-goldt);color:var(--dd-tipt)}
+.cJ-st.prog{background:var(--dd-l2);color:var(--dd-p6)}
+.cJ-st.done{background:var(--okbg);color:var(--ok)}
+.cJ-st.closed{background:var(--dd-l1);color:var(--dd-ink2)}
+.cJ-tag{display:inline-flex;align-items:center;height:24px;padding:0 12px;border-radius:999px;background:var(--dd-l1);color:var(--dd-p6);font-size:12px;font-weight:600}
+.cJ-tk{padding:16px 20px}
+.cJ-tk .t1{display:flex;align-items:center;gap:8px}
+.cJ-tk .t1 b{flex:1;font-size:16px;line-height:1.4;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cJ-ph{display:flex;gap:8px;flex-wrap:wrap}
+.cJ-ph .s-pi{width:80px;border-radius:16px}
+.cJ-ph .s-pi>.ms{font-size:30px}
+.cJ-ph .x{position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:var(--dd-ink);color:#fff;display:flex;align-items:center;justify-content:center}
+.cJ-ph .x .ms{font-size:16px}
+.cJ-ph .add{width:80px;height:80px;border-radius:16px;border:2px dashed var(--mint5);color:var(--dd-p);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;line-height:1.2;font-weight:600}
+.cJ-ph .add .ms{font-size:24px}
+.cJ-chips{display:flex;flex-wrap:wrap;gap:8px}
+.cJ-chips .chip{height:36px;padding:0 16px}
+.cJ-ord{display:flex;align-items:center;gap:8px;background:var(--dd-l1);border-radius:16px;padding:12px}
+.cJ-ord .s-pi{width:48px;border-radius:12px;flex:none}
+.cJ-ord .s-pi .ms{font-size:24px}
+.cJ-ord .no{white-space:nowrap;letter-spacing:-.01em}
+.cJ-ord>.ms{color:var(--dd-ink2);font-size:24px}
+.cJ-sel{display:flex;align-items:center;justify-content:space-between}
+.cJ-star{display:flex;gap:8px}
+.cJ-star .ms{font-size:30px;color:var(--dd-gold)}
+.cJ-star .ms.o{color:var(--dd-l2)}
+.cJ-sw{display:flex;align-items:center;gap:12px;font-size:16px;line-height:1.4}
+.cJ-sw span{flex:1}
+.cJ-back{display:flex;align-items:center;gap:4px;font-size:13px;line-height:1.4;font-weight:600;color:var(--dd-p)}
+.cJ-back .ms{font-size:24px}
+.cJ-h7{font:800 18px/1.3 var(--dsp);letter-spacing:-.01em}
+/* J3 成功：一只小狗照片站在小紫色圆块上沿，圆块里白色对勾 */
+.cJ-ok{position:relative;display:flex;flex-direction:column;align-items:center}
+.cJ-ok .dd-shape{width:72px;height:72px;display:flex;align-items:center;justify-content:center;color:var(--dd-on);margin-top:-8px}
+.cJ-ok .dd-shape .ms{font-size:40px}
+.cJ-ok .dd-ph{position:relative;z-index:1}
+.cJ-eph{margin-bottom:4px}
+/* 电脑账户侧栏：和 I1 / I2 / H 电脑稿同一组件（规则同 lane-I 的 .cI-side 一组，原样复制，改时两边一起改） */
+.cI-side{width:280px;flex:none}
+.cI-side .db-card{padding:8px}
+.cI-sp{display:flex;align-items:center;gap:12px;padding:12px 12px 16px;border-bottom:1px solid var(--dd-l2);margin-bottom:8px}
+.cI-sp .av{width:48px;height:48px;font-size:16px;background:var(--dd-l1);color:var(--dd-p)}
+.cI-sp b{display:block;font-size:16px;line-height:1.4;font-weight:600}
+.cI-sl{display:flex;align-items:center;gap:12px;padding:12px;border-radius:16px;font-size:16px;line-height:1.4;color:var(--dd-ink2)}
+.cI-sl .ms{font-size:24px}
+.cI-sl.on{color:var(--dd-p);font-weight:600;background:var(--dd-l1)}
+.cI-sl.dan{color:var(--dd-red)}
+.cI-n{min-width:16px;height:16px;border-radius:999px;background:var(--dd-red);color:#fff;font-size:10px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;padding:0 4px;line-height:1;margin-left:auto}
+</style>
+</head>
+<body>
+<div class="splitpg"><div class="pgnav"><a href="00-目录.html">← 目录</a><a href="J3-提交成功.html">‹ J3 提交成功</a><a href="J5-工单列表-空.html">J5 工单列表·空 ›</a><span class="cur">泳道 J 客服工单 · 研发先看整合稿页头 <a href="../ui-web-store-integrated-v1.html">ui-web-store-integrated-v1.html</a></span></div><section class="lane">
+  <h2>J · 客服工单</h2>
+  <p class="desc">FR-314。网站的投诉渠道 = 邮箱 + 工单。页面名照 App 叫「Masukan Saya」（我的反馈），PRD 叫客服工单，见待定</p>
+  <div class="flow">
+    <em>主路径：</em><i>由 I1「Masukan Saya」进入 →</i> <s>J4</s> 工单列表 <i>→「Laporkan Masalah」→</i> <s>J1</s> 新建 <i>→ 提交 →</i> <s>J3</s> 提交成功 <i>→「Lihat tiket」→</i> <s>J6</s> 工单详情
+    <span class="nl"></span>
+    <em>变体：</em><s>J2</s> 从订单进来的新建工单（替代 J1：已带订单号，由 H13 进入） <i>／</i> <s>J5</s> 工单列表为空 <i>／ 未登录点「Laporkan Masalah」先走</i> <s>B1</s>
+  </div>
+  <div class="frames"><div class="frame-card">
+  <p class="frame-tag"><b>J4</b>工单列表<span class="k reuse">照搬 App</span></p>
+  <div class="phone-shell"><div class="scr">
+    <div class="sb"><span>9:41</span><span><span class="ms f">signal_cellular_alt</span> <span class="ms f">wifi</span> <span class="ms f">battery_full</span></span></div>
+    <div class="url"><div><span class="ms">lock</span>tailtopia.id/akun/tiket</div></div>
+    <div class="body cJ-pg st-brand">
+      <div class="tb"><span class="bk"><span class="ms">chevron_left</span></span><h1>Masukan Saya</h1></div>
+      <div class="cJ-g12" style="padding:8px 16px 0">
+        <div class="db-card cJ-tk cJ-g8"><div class="t1"><b>Ukuran harness tidak sesuai</b><span class="cJ-st wait">Menunggu</span></div><div class="cJ-chips"><span class="cJ-tag">Pengembalian dana</span></div><p class="t-d">Diajukan 22 Nov 2026</p></div>
+        <div class="db-card cJ-tk cJ-g8"><div class="t1"><b>Paket belum sampai sejak 5 hari</b><span class="cJ-st prog">Diproses</span></div><div class="cJ-chips"><span class="cJ-tag">Konsultasi</span></div><p class="t-d">Diajukan 20 Nov 2026</p></div>
+        <div class="db-card cJ-tk cJ-g8"><div class="t1"><b>Kupon tidak bisa dipakai saat checkout</b><span class="cJ-st done">Selesai</span></div><div class="cJ-chips"><span class="cJ-tag">Bug</span></div><p class="t-d">Diajukan 15 Nov 2026</p></div>
+        <div class="db-card cJ-tk cJ-g8"><div class="t1"><b>Tidak bisa unggah foto di Diary, selalu gagal</b><span class="cJ-st closed">Ditutup</span></div><p class="t-d">Diajukan 2 Nov 2026</p></div>
+      </div>
+      <div class="stick"><span class="btn pri blk" style="flex:1"><span class="ms">edit</span>Laporkan Masalah</span></div>
+    </div>
+  </div></div>
+  <p class="frame-cap"><b>照 App：</b><code>my_tickets_page.dart</code> 全部模块保留：页名「我的反馈 Masukan Saya」、卡片倒序（标题用主题，没主题用描述，单行省略 + 右侧状态胶囊 → 标签小块 →「提交于 Diajukan 日期」）、底部固定「✎ 报告问题 Laporkan Masalah」。状态四种照 <code>ticket_status_badge.dart</code> 配色：待处理 Menunggu（金）、处理中 Diproses（紫）、已解决 Selesai（绿）、已关闭 Ditutup（灰）。<b>网站改：</b>App 下拉刷新去掉；加载失败改成「图标 + 一句原因 + 重试 Coba lagi 按钮」（App 是「下拉重试 tarik untuk coba lagi」，网页没有下拉手势）。页名与 PRD「客服工单」不一致，见待定。<b>App 有、网站去掉：</b>下拉刷新。<b>视觉：</b>方向 D 工单内页、不放主形状：白底，工单卡白色 .db-card（圆角 24、1px 浅紫细边）；状态四色胶囊保留语义（待处理金色浅底深金字、处理中浅紫底紫字、已完成浅绿底绿字、已关闭浅紫底深灰字）；主题标签浅紫底紫字胶囊；吸底「Laporkan Masalah」紫色胶囊、贴底。</p>
+</div></div></section></div>
+</body>
+</html>

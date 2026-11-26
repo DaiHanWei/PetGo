@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>G3 付款成功·手机 · 官网与网页商城</title>
+<link rel="stylesheet" href="_fonts.css">
+<link rel="stylesheet" href="_style.css">
+<style>.splitpg{max-width:1240px;margin:0 auto;padding:20px 24px 60px}.pgnav{display:flex;gap:16px;align-items:center;font-size:13px;margin-bottom:14px;flex-wrap:wrap}.pgnav a{color:var(--page-accent);text-decoration:none;font-weight:600}.pgnav .cur{color:var(--page-ink-2)}.splitpg .lane{margin-top:8px}
+
+/* ===== G 付款 · 方向 D「干净 + playful」：内页以效率为主，不放主形状；浅紫底 #F8F2FF + 白卡；二维码永远白底黑码；金额 / 倒计时等宽；只有 G3 成功页放一张小照片 ===== */
+.cG-pg{background:var(--dd-l1)}
+.cG-tb{background:#fff}
+.cG-dk .h-h{font-family:var(--dsp);font-weight:800;letter-spacing:-.01em}
+.cG-amt{font:800 24px/1.2 var(--dsp);letter-spacing:-.01em;color:var(--dd-ink);font-variant-numeric:tabular-nums}
+.cG-cd{font:800 24px/1.2 var(--dsp);letter-spacing:-.01em;font-variant-numeric:tabular-nums;color:var(--dd-p)}
+.cG-cd.ex{color:var(--dd-mute)}
+.cG-qc{background:#fff;border-radius:24px;box-shadow:inset 0 0 0 1px var(--dd-l2);padding:20px 16px 16px;display:flex;flex-direction:column;align-items:center}
+.cG-qc .qr{background:#fff}
+.cG-ph{width:220px;height:220px;background:var(--dd-l1);border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.cG-st{width:20px;height:20px;border-radius:50%;background:var(--dd-l1);color:var(--dd-p);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none;font-variant-numeric:tabular-nums}
+.cG-ap{height:32px;border-radius:999px;background:#fff;box-shadow:inset 0 0 0 1px var(--dd-l2);padding:0 12px;display:inline-flex;align-items:center;font-size:12px;font-weight:600}
+.cG-hero{display:flex;align-items:flex-end;justify-content:center;gap:12px}
+.cG-ok{width:72px;height:72px;border-radius:50%;background:var(--okbg);display:flex;align-items:center;justify-content:center;flex:none}
+.cG-sum{font:800 30px/1.2 var(--dsp);letter-spacing:-.02em;color:var(--dd-ink);font-variant-numeric:tabular-nums}
+.cG-ttl{font:800 24px/1.2 var(--dsp);letter-spacing:-.01em}
+
+/* S4：本泳道屏内文字避免单词独占一行（只作用于本泳道） */
+.lnG .phone-shell,.lnG .desk-shell{text-wrap:pretty}
+.nw{white-space:nowrap}
+</style>
+</head>
+<body>
+<div class="splitpg"><div class="pgnav"><a href="00-目录.html">← 目录</a><a href="G2-点「我已付款」还没到账.html">‹ G2 点「我已付款」还没到账</a><a href="G3-付款成功-电脑.html">G3 付款成功·电脑 ›</a><span class="cur">泳道 G 付款 · 研发先看整合稿页头 <a href="../ui-web-store-integrated-v1.html">ui-web-store-integrated-v1.html</a></span></div><section class="lane">
+  <h2>G · QRIS 付款</h2>
+  <p class="desc">FR-308。付款页是独立网址，刷新后还在；App 没有独立付款页（是待付款订单详情上弹出的底部付款面板），网站页面内容照面板。</p>
+  <div class="flow">
+    <em>主路径：</em><i>由 F1 提交、H1 / H3「立即支付」进入 →</i> <s>G1</s> 付款页 <i>→ 每 3 秒查一次，到账 →</i> <s>G3</s> 付款成功 <i>→「Lihat pesanan」→</i> <s>H4</s> <i>／「Lanjut belanja」→</i> <s>C1</s>
+    <span class="nl"></span>
+    <em>分支：</em><s>G1</s> <i>点「Saya sudah bayar」但还没到账 →</i> <s>G2</s> 提示 <i>／ 关掉页面不影响订单，从</i> <s>H1</s> <i>/</i> <s>H3</s> <i>再进 G1</i>
+    <span class="nl"></span>
+    <em>失败：</em><s>G4</s> 被拒（「Bayar Sekarang」重新出码 → <s>G1</s>） <i>／</i> <s>G5</s> 超时，订单已取消（→ <s>H4</s> / <s>C1</s>） <i>／</i> <s>G6</s> 二维码生成失败（「Coba lagi」→ <s>G1</s>） <i>／</i> <s>G6b</s> 一直没出成码、已过下单 10 分钟（少见，不能重试）
+  </div>
+  <div class="frames"><div class="frame-card lnG">
+  <p class="frame-tag"><b>G3</b>付款成功·手机<span class="k reuse">照搬 App</span></p>
+  <div class="phone-shell"><div class="scr"><div class="sb"><span>9:41</span><span><span class="ms f">signal_cellular_alt</span> <span class="ms f">wifi</span> <span class="ms f">battery_full</span></span></div><div class="url"><div><span class="ms">lock</span>tailtopia.id/toko/berhasil/TOKO-20261124-R4M8PZ</div></div><div class="wh"><span class="logo"><i><span class="ms f">pets</span></i>TailTopia</span><span class="ib"><span class="ms">shopping_cart</span></span><span class="av">SW</span><span class="ib"><span class="ms">menu</span></span></div><div class="body cG-pg" style="padding:0 16px"><div style="flex:1;display:flex;align-items:center;justify-content:center"><div class="db-card" style="width:100%;padding:40px 20px 32px;display:flex;flex-direction:column;align-items:center;text-align:center"><div class="cG-hero"><div class="cG-ok"><span class="ms" style="font-size:40px;color:var(--ok)">check</span></div><span class="dd-ph dd-ph-dog-1" style="--h:88px"></span></div><p class="cG-ttl" style="margin-top:16px">Pembayaran berhasil</p><p class="cG-sum" style="margin-top:12px">Rp 309.000</p><p class="t-c" style="margin-top:4px">PawCoin Rp 50.000 + QRIS Rp 259.000</p><p class="t-c" style="margin-top:12px">Pesanan kamu sedang disiapkan untuk dikirim.</p></div></div><div style="padding-bottom:34px"><span class="btn pri blk">Lihat pesanan</span><span class="btn soft blk" style="margin-top:12px">Lanjut belanja</span></div></div></div></div>
+  <p class="frame-cap"><b>照 App（<code>shop_pay_success_page.dart</code>）：</b>绿圈勾、「Pembayaran berhasil」（付款成功）、订单总额、混合付款时多一行「PawCoin Rp a + QRIS Rp b」、「Pesanan kamu sedang disiapkan untuk dikirim.」（订单正在备货发货）、底部两个按钮「Lihat pesanan」（查看订单 → H4）和「Lanjut belanja」（继续购物 → C1）。QRIS 到账和 PawCoin 付全款 / 0 元单提交都进这一页。<b>网站改：</b>App 这页没有顶栏，网站放站点顶栏（logo、购物车、菜单），不放返回；进入这页用替换跳转，浏览器后退不会回到付款页（App 是拦截返回键）。<b>App 有、网站去掉：</b>成长值升级弹窗、投放归因上报。<b>视觉：</b>顶部保留站点顶栏（白底、浅紫细线、真实 logo），下面浅紫底 + 居中白卡（圆角 24）：绿圈勾照旧表示成功，旁边站一只小狗照片 dd-ph-dog-1（高 88，整只不裁切，全站只有成功页放这一张小照片）；「Pembayaran berhasil」Bricolage 24；订单总额 Bricolage 30 墨色加粗等宽；底部两个胶囊按钮（紫色实心 + 浅紫底）。</p>
+</div></div></section></div>
+</body>
+</html>

@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A1 首页·未登录·电脑 · 官网与网页商城</title>
+<link rel="stylesheet" href="_fonts.css">
+<link rel="stylesheet" href="_style.css">
+<style>.splitpg{max-width:1240px;margin:0 auto;padding:20px 24px 60px}.pgnav{display:flex;gap:16px;align-items:center;font-size:13px;margin-bottom:14px;flex-wrap:wrap}.pgnav a{color:var(--page-accent);text-decoration:none;font-weight:600}.pgnav .cur{color:var(--page-ink-2)}.splitpg .lane{margin-top:8px}
+
+.dd-up{display:inline-flex;align-items:center;gap:4px;white-space:nowrap}.dd-up .ms{font-size:16px}
+/* ===== A1 首页 · 方向 D（前缀 dH-）：白底 + 每站一块饱和主色形状，宠物照片整只站在形状上沿 ===== */
+.dH-hero{padding:24px 16px 40px}
+.dH-btns{display:flex;gap:8px;margin-top:24px}.dH-btns .btn{flex:1;padding:0 8px}
+.scr .dH-q{display:flex;align-items:center;gap:8px;margin:32px 0 12px;font-size:13px;line-height:1.4;font-weight:600}.dH-q .ms{font-size:20px;color:var(--dd-p)}
+.dH-stop{padding:40px 16px 48px}
+.dH-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.dH-stop .dd-d{margin-top:12px}.dH-stop .dd-p{margin-top:8px}
+.dH-stop .dd-stage{margin-top:24px;--sz:260px;--pet:112px}
+.dH-disc{display:flex;gap:8px;align-items:flex-start;margin-top:12px;padding:12px;border-radius:16px;background:var(--dd-t);font-size:13px;line-height:1.4;color:var(--dd-ink)}.dH-disc .ms{font-size:20px;color:var(--dd-c)}
+/* 示意物件 */
+.dH-card{background:#fff;border-radius:24px;color:var(--dd-ink);box-shadow:0 16px 32px rgba(46,42,69,.08)}
+.dH-ktp{width:232px;padding:16px;transform:rotate(-4deg)}
+.dH-ktp .kh{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--dd-ink2)}.dH-ktp .kh b{font:800 24px/1 var(--dsp);color:var(--dd-p);margin-right:auto}.dH-ktp .kh .ms{font-size:20px;color:var(--dd-p)}
+.dH-ktp .kb{display:flex;gap:12px;margin-top:12px}.dH-ktp .pf{width:72px;height:88px;border-radius:16px;background:#FFEEF5;display:flex;align-items:flex-end;justify-content:center;flex:none;overflow:hidden}
+.dH-ln{flex:1;display:flex;flex-direction:column;gap:8px;padding-top:8px}.dH-ln i{display:block;height:8px;border-radius:4px;background:var(--dd-l2)}.dH-ln i:first-child{background:var(--dd-ink);width:70%}.dH-ln i:nth-child(3){width:80%}.dH-ln i:nth-child(4){width:50%}
+.dH-dia{width:232px;padding:12px;display:flex;flex-direction:column;gap:8px;transform:rotate(3deg)}
+.dH-dia .en{display:flex;align-items:center;gap:12px}.dH-dia .im{width:64px;height:64px;border-radius:16px;background:#E8F3FE;color:#1F72B8;display:flex;align-items:center;justify-content:center;flex:none}.dH-dia .im .ms{font-size:32px}
+.dH-post{width:168px;padding:8px;transform:rotate(-3deg)}
+.dH-post .im{aspect-ratio:4/3;border-radius:16px;background:#FFF8D9;color:#9C7400;display:flex;align-items:center;justify-content:center}.dH-post .im .ms{font-size:48px}
+.dH-post .ac{display:flex;align-items:center;gap:12px;padding:8px 4px 4px;font-size:13px;font-weight:600}.dH-post .ac span{display:inline-flex;align-items:center;gap:4px}.dH-post .ac .ms{font-size:20px}
+.dH-ntf{width:248px;padding:12px 16px;display:flex;align-items:center;gap:12px;transform:rotate(2deg)}
+.dH-ntf .ic{width:44px;height:44px;border-radius:12px;background:var(--dd-l1);color:var(--dd-p);display:flex;align-items:center;justify-content:center;flex:none}.dH-ntf .ic .ms{font-size:24px}
+.dH-ntf .a{display:block;font-size:12px;color:var(--dd-ink2)}.dH-ntf b{display:block;font-size:16px;line-height:1.3;font-weight:600}
+.dH-sym{width:232px;padding:16px;transform:rotate(-2deg)}
+.dH-sym .sh{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:600}.dH-sym .sh .ic{width:40px;height:40px;border-radius:12px;background:#E2F7F9;color:#0B7F8C;display:flex;align-items:center;justify-content:center}.dH-sym .sh .ic .ms{font-size:24px}
+.dH-sym ul{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.dH-sym li{display:flex;align-items:center;gap:12px;height:44px;padding:0 12px;border-radius:12px;background:var(--dd-l1)}.dH-sym li>.ms{font-size:20px;color:var(--dd-ink2)}
+.dH-sym li i{flex:1;height:8px;border-radius:4px;background:var(--dd-l2);max-width:96px}.dH-sym li .ck{margin-left:auto;width:20px;height:20px;border-radius:50%;box-shadow:inset 0 0 0 2px var(--dd-l2);display:flex;align-items:center;justify-content:center}
+.dH-sym li.on .ck{background:var(--dd-p);box-shadow:none;color:#fff}.dH-sym li.on .ck .ms{font-size:16px}
+/* 小测（第 1 天，选物种这一步） */
+.dH-qz{background:#fff;border-radius:24px;padding:20px 16px;width:100%}
+.dH-opts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+.dH-opt{display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 4px;border-radius:20px;background:var(--dd-l1);font-size:16px;font-weight:600}
+.dH-opt .bx{height:56px;display:flex;align-items:flex-end}
+/* 商城站：商品在猫色实色台上（白卡），手机一屏两张、横滑分页 */
+.dH-hs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.dH-pg{display:flex;justify-content:center;gap:4px;margin-top:12px}.dH-pg i{width:8px;height:8px;border-radius:4px;background:rgba(255,255,255,.5)}.dH-pg i.on{width:20px;background:#fff}
+.dH-more{display:inline-flex;align-items:center;gap:4px;margin-top:16px;font-size:16px;font-weight:600;color:var(--dd-p);min-height:44px}.dH-more .ms{font-size:20px}
+/* 生日站 */
+.dH-bday{text-align:center}
+.dH-party{display:grid;grid-template-columns:repeat(3,64px);gap:16px 24px;justify-items:center;align-items:end}
+.dH-party .cell{width:64px;height:60px;display:flex;align-items:flex-end;justify-content:center;overflow:visible}
+.dH-party img{width:56px;height:56px;border-radius:16px;box-shadow:0 0 0 3px #fff}
+.dH-bday .dd-stage{--sz:auto}
+.dH-bday .dd-plat{width:auto;height:auto;padding:24px}
+.dH-stores{display:flex;gap:8px;margin-top:24px}.dH-stores .store{flex:1;justify-content:center;height:48px;font-size:16px}
+/* ---------- 电脑 ---------- */
+.desk-shell .dH-hero{padding:96px 120px 48px;text-align:center}
+.desk-shell .dH-hero .dd-p{font-size:18px;max-width:52ch;margin:20px auto 0}
+.desk-shell .dH-btns{justify-content:center;gap:12px;margin-top:32px}.desk-shell .dH-btns .btn{flex:none;padding:0 28px}
+.desk-shell .scr .dH-q{justify-content:center;font-size:16px;margin:56px 0 16px}
+.desk-shell .dH-stop{padding:72px 120px}
+.desk-shell .dH-row{display:grid;grid-template-columns:5fr 6fr;gap:72px;align-items:center}
+.desk-shell .dH-row.rev{grid-template-columns:6fr 5fr}.desk-shell .dH-row.rev>:first-child{order:2}
+.desk-shell .dH-stop .dd-d{margin-top:20px}.desk-shell .dH-stop .dd-p{font-size:18px;margin-top:16px}
+.desk-shell .dH-stop .dd-stage{margin-top:0;--sz:440px;--pet:150px}
+.desk-shell .dH-ktp{width:360px;padding:24px}.desk-shell .dH-ktp .kh b{font-size:30px}.desk-shell .dH-ktp .pf{width:112px;height:136px}.desk-shell .dH-ln i{height:12px}
+.desk-shell .dH-dia{width:340px;padding:20px;gap:12px}.desk-shell .dH-dia .im{width:96px;height:96px;border-radius:24px}.desk-shell .dH-dia .im .ms{font-size:48px}.desk-shell .dH-dia .dH-ln i{height:12px}
+.desk-shell .dH-post{width:248px;padding:12px}.desk-shell .dH-post .im .ms{font-size:72px}.desk-shell .dH-post .ac{font-size:16px}.desk-shell .dH-post .ac .ms{font-size:24px}
+.desk-shell .dH-ntf{width:380px;padding:20px;gap:16px}.desk-shell .dH-ntf .ic{width:56px;height:56px;border-radius:16px}.desk-shell .dH-ntf .ic .ms{font-size:30px}.desk-shell .dH-ntf .a{font-size:13px}.desk-shell .dH-ntf b{font-size:24px}
+.desk-shell .dH-sym{width:340px;padding:24px}.desk-shell .dH-sym .sh{font-size:18px}.desk-shell .dH-sym li{height:56px}
+.desk-shell .dH-qz{padding:32px}.desk-shell .dH-opts{gap:16px;margin-top:24px}.desk-shell .dH-opt{padding:24px 8px}.desk-shell .dH-opt .bx{height:88px}
+.desk-shell .dH-hs{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+/* S4：电脑商城站价格不折行（Rp / 125.000 曾断成两行）：本站右栏加宽、价格不换行 */
+.desk-shell .dH-stop.c-cat .dH-row{grid-template-columns:4fr 7fr;gap:48px}
+.dH-hs .pc .pp{white-space:nowrap}
+/* S4：固定高电脑框（A6 / A9 / A10）里顶栏是 flex 子项，内容高时会被压扁到 32px；顶栏不许收缩 */
+.desk-shell .scr>.wd{flex:none}
+/* S4：关于页年历图例单词独占一行（「hari」） */
+.dA-lg .tx{text-wrap:balance}
+.desk-shell .dH-bday{padding-bottom:120px}
+.desk-shell .dH-party{grid-template-columns:repeat(9,88px);gap:0 24px}.desk-shell .dH-party .cell{width:88px;height:88px}.desk-shell .dH-party img{width:80px;height:80px;border-radius:20px}
+.desk-shell .dH-bday .dd-plat{padding:32px 48px}
+.desk-shell .dH-stores{justify-content:center;gap:12px;margin-top:32px}.desk-shell .dH-stores .store{flex:none;height:52px;padding:0 24px}
+
+/* ===== A4 关于 · 方向 D（前缀 dA-） ===== */
+.dA-sec{padding:40px 16px}
+.dA-hero{padding:24px 16px 40px}
+.dA-hero .dd-plat{margin-top:24px}
+.dA-pets{display:flex;align-items:flex-end;justify-content:center;gap:16px}
+/* 365 天年历条：浅紫卡里一条路；路中鸟蓝虚线 = 每天分享；鱼青小点 = 约 14 天买粮；上方龟绿实心 = 驱虫；下方龟绿空心 = 看病；下方兔粉星 = 第一次 */
+.dA-year{background:var(--dd-l1);border-radius:24px;padding:20px 16px 16px;margin-top:20px}
+.dA-ilu{display:inline-flex;height:24px;align-items:center;padding:0 10px;border-radius:999px;background:#fff;font-size:12px;font-weight:600;color:var(--dd-ink2)}
+.dA-road{position:relative;height:88px;margin:8px 8px 0}
+.dA-road .tr{position:absolute;left:0;right:0;top:40px;height:8px;border-radius:4px;background:#fff}
+.dA-road .sh{position:absolute;left:4px;right:4px;top:43px;height:0;border-top:2px dashed #1F72B8}
+.dA-road .fd{position:absolute;left:0;right:0;top:41px;height:6px;background:radial-gradient(circle 3px at 3px 3px,#0B7F8C 98%,transparent) 0 0/calc(100% / 26) 6px repeat-x}
+.dA-pin{position:absolute;width:24px;height:24px;margin-left:-12px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.dA-pin .ms{font-size:16px}
+.dA-pin.up{top:8px;background:#23805A;color:#fff}
+.dA-pin.dn{top:56px}
+.dA-pin.ring{box-shadow:inset 0 0 0 2px #23805A;background:#fff;color:#23805A}
+.dA-pin.star{color:#C23E73}.dA-pin.star .ms{font-size:20px}
+.dA-yrl{display:flex;justify-content:space-between;font-size:12px;color:var(--dd-ink2);margin-top:4px}
+.dA-lg{display:grid;grid-template-columns:32px 1fr;column-gap:12px;row-gap:4px;align-items:center;padding:12px 0;border-top:1px solid var(--dd-l2)}
+.dA-lg .to{grid-column:2}
+.dA-lg:first-of-type{border-top:0}
+.dA-lg .ic{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none}
+.dA-lg .ic .ms{font-size:18px}
+.dA-lg .tx{flex:1;font-size:13px;line-height:1.4}
+.dA-lg .to{display:flex;align-items:center;font-size:13px;font-weight:600;white-space:nowrap}.dA-lg .to .ms{font-size:16px}
+/* 使命四块：每块一个实色圆 + 图标 */
+.dA-mis{display:flex;flex-direction:column;gap:24px;margin-top:24px}
+.dA-mi{display:flex;gap:16px;align-items:flex-start}
+.dA-mi .dd-shape{width:56px;height:56px;display:flex;align-items:center;justify-content:center;color:var(--dd-on)}.dA-mi .dd-shape .ms{font-size:28px}
+/* 产品四卡 */
+.dA-pcs{display:flex;flex-direction:column;gap:16px;margin-top:24px}
+.dA-pc{border-radius:24px;padding:20px;background:var(--dd-t);overflow:hidden}
+.dA-pc .s-dev{width:160px;height:120px;margin:20px auto 0;border-radius:24px;display:flex;align-items:center;justify-content:center;color:var(--dd-c)}
+.dA-pc .s-dev .ms{font-size:40px}
+.dA-disc{display:flex;gap:8px;align-items:flex-start;margin-top:12px;font-size:12px;line-height:1.4;color:var(--dd-ink)}.dA-disc .ms{font-size:16px;color:var(--dd-c)}
+.dA-end{padding:40px 16px 48px;text-align:center}
+.dA-end .dd-plat{margin:0 auto}
+.dA-end .bt{display:flex;flex-direction:column;gap:12px;margin-top:24px}
+/* ---------- 电脑 ---------- */
+.desk-shell .dA-sec{padding:96px 120px}
+.desk-shell .dA-hero{padding:96px 120px;display:grid;grid-template-columns:1.1fr 1fr;gap:72px;align-items:center}
+.desk-shell .dA-hero .dd-plat{margin-top:0}
+.desk-shell .dA-year{padding:32px 40px 24px;margin-top:32px}
+.desk-shell .dA-road{height:104px}.desk-shell .dA-road .tr{top:48px;height:12px;border-radius:6px}.desk-shell .dA-road .sh{top:53px}.desk-shell .dA-road .fd{top:51px;background-size:calc(100% / 26) 6px}
+.desk-shell .dA-pin{width:32px;height:32px;margin-left:-16px}.desk-shell .dA-pin .ms{font-size:20px}.desk-shell .dA-pin.dn{top:68px}
+.desk-shell .dA-lgs{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:24px}
+.desk-shell .dA-lg{grid-template-columns:1fr;align-items:start;row-gap:8px;padding:16px;border:0;background:#fff;border-radius:20px}
+.desk-shell .dA-lg .to{grid-column:1}
+.desk-shell .dA-mis{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;margin-top:40px}
+.desk-shell .dA-mi{flex-direction:column}
+.desk-shell .dA-mi .dd-shape{width:72px;height:72px}.desk-shell .dA-mi .dd-shape .ms{font-size:40px}
+.desk-shell .dA-pcs{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:40px}
+.desk-shell .dA-pc{padding:28px;display:flex;flex-direction:column}
+.desk-shell .dA-pc .s-dev{width:180px;height:148px;margin:auto auto 0;flex:none}
+.desk-shell .dA-pc .tx{padding-bottom:24px}
+.desk-shell .dA-pc .dd-p{font-size:16px}
+.desk-shell .dA-end{padding:96px 120px 120px}
+.desk-shell .dA-end .bt{flex-direction:row;justify-content:center;gap:16px;margin-top:32px}
+
+
+/* ===== 泳道 A · 方向 D（11-25）：A1 / A2 / A3 / A7 / A13 / A8 用首页样板的 dH-，A4 用关于样板的 dA-，其余新增 cA- ===== */
+/* 首屏提示句均衡换行，避免「detik.」单独成行（A1 / A2 / A3 / A7 / A13） */
+.scr .dH-q{text-wrap:balance}
+/* 菜单（A3） */
+.cA-mwrap{position:relative;flex:1}
+.cA-menu{position:absolute;left:0;right:0;top:0;z-index:6;background:#fff;border-radius:0 0 28px 28px;padding:0 0 24px}
+.scr .cA-menu .row{font-size:16px;font-weight:600;padding:16px;border-bottom:1px solid var(--dd-l2);color:var(--dd-ink)}
+.cA-menu .row>.ms:first-child{color:var(--dd-p)}
+.cA-menu .seg2{background:var(--dd-l1)}
+/* 迷你页脚（404、购物指南）：浅紫底、墨色字 */
+.cA-ftmini{background:var(--dd-l1);color:var(--dd-ink2);padding:32px 16px;font-size:13px;line-height:1.4;flex:none}
+.cA-ftmini .fl{display:flex}
+.cA-ftmini p{text-wrap:balance}
+.cA-ftrow{display:flex;align-items:center;gap:24px}.cA-ftrow .lk{margin-left:auto}
+.desk-shell .cA-ftmini{padding:40px 120px;font-size:16px}
+/* 404（A6）：空态结构不变，图标圆换成紫色圆 + 白色图标，宠物站在圆的上沿 */
+.cA-404{padding:16px 16px 24px;flex:1}
+.cA-404 .ei.cA-404s{width:auto;height:auto;background:none;border-radius:0}
+.cA-404s .dd-plat{--sz:104px}
+.cA-404s .dd-plat>.ms{font-size:48px;color:#fff}
+.scr .cA-404 b{font-family:var(--dsp);font-weight:800;font-size:30px;line-height:1.1;letter-spacing:-.02em;margin-top:20px;text-wrap:balance}
+.scr .cA-404 p{font-size:16px;line-height:1.5;color:var(--dd-ink2);margin-top:12px}
+.cA-404 .bt{display:flex;flex-direction:column;gap:12px;width:100%;margin-top:24px}
+.cA-404 .bt .btn{margin:0}
+.cA-404 .btn.cA-rep{margin-top:8px;height:40px}
+.desk-shell .cA-404 .btn.cA-rep{margin-top:16px}
+.desk-shell .cA-404{padding:48px 0 56px}
+.desk-shell .cA-404s .dd-plat{--sz:200px}.desk-shell .cA-404s .dd-plat>.ms{font-size:88px}
+.desk-shell .scr .cA-404 b{font-size:48px;line-height:1.05;margin-top:32px}
+.desk-shell .scr .cA-404 p{font-size:18px;margin-top:16px}
+.desk-shell .cA-404 .bt{flex-direction:row;justify-content:center;gap:16px;width:auto;margin-top:32px}
+/* A8：页面滚到第 1 天，收紧上下留白，露出下一站的日期胶囊 */
+.scr .cA-a8 .dH-stop{padding-top:24px;padding-bottom:24px}
+/* 小测（A8b / A9 / A10）：品牌紫圆角台托白卡，猫照片站在台面上沿 */
+.cA-qz{padding:24px 16px 40px}
+.desk-shell .cA-qz{padding:56px 120px;flex:1}
+.cA-qtag{gap:4px}.cA-qtag .spc{margin-left:4px}
+.cA-qh{display:flex;align-items:center;gap:12px}
+.cA-cnt{margin-left:auto;font-size:13px;font-weight:700;color:var(--dd-p);font-variant-numeric:tabular-nums}
+.cA-ans{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+.cA-ans span{display:block;background:var(--dd-l1);border-radius:16px;padding:12px 16px;font-size:16px;line-height:1.4;color:var(--dd-ink)}
+.cA-ans span.on{background:var(--dd-l2);box-shadow:inset 0 0 0 2px var(--dd-p);color:var(--dd-p6);font-weight:600}
+.cA-qd{display:grid;grid-template-columns:5fr 6fr;gap:72px;align-items:center}
+.desk-shell .cA-qd .dH-qz{padding:40px}
+.desk-shell .cA-ans{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:24px}
+/* 结果卡（A10）：白卡 + 紫色大号四字母，物种照片完整放在卡内 */
+.cA-role{width:96px;height:128px;border-radius:20px;margin:0 auto;background:var(--dd-l1);display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px}
+.desk-shell .cA-res .cA-lead{font-size:16px}
+.cA-big{font:800 40px/1.05 var(--dsp);letter-spacing:-.02em;color:var(--dd-p);font-variant-numeric:tabular-nums}
+.cA-res{text-align:center}
+.cA-res .note{text-align:left}
+.cA-res .bt{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.desk-shell .cA-res{display:grid;grid-template-columns:auto 1fr;gap:56px;align-items:center;text-align:left}
+.desk-shell .cA-role{width:300px;height:400px;border-radius:24px;padding-bottom:32px}
+.desk-shell .cA-big{font-size:72px;line-height:1}
+.desk-shell .cA-res .bt{flex-direction:row;flex-wrap:wrap;gap:12px;margin-top:32px}
+/* 购物指南（A14 / A15）：品牌紫胶囊 + 柯基照片，问题列表白卡 */
+.cA-gh{padding:24px 16px 32px}
+.cA-faqw{padding:0 16px 48px}
+.cA-faqc{padding:4px 20px}
+.cA-faq{border-bottom:1px solid var(--dd-l2)}
+.cA-faq:last-child{border-bottom:0}
+.cA-faq .q{display:flex;align-items:center;gap:12px;min-height:56px;padding:12px 0;font-size:16px;font-weight:600;line-height:1.4;color:var(--dd-ink)}
+.cA-faq .q .ms{margin-left:auto;color:var(--dd-ink2)}
+.cA-faq.on .q,.cA-faq.on .q .ms{color:var(--dd-p)}
+.cA-faq .a{padding:0 0 16px;font-size:13px;line-height:1.5;color:var(--dd-ink2)}
+.scr .cA-faq .a p+p{margin-top:8px}
+.cA-steps{margin-top:12px;background:var(--dd-l1);border-radius:16px;padding:16px}
+.cA-steps b{font-size:13px;color:var(--dd-ink)}
+.cA-steps div{display:flex;gap:8px;align-items:flex-start;margin-top:8px}
+.cA-num{width:20px;height:20px;border-radius:50%;background:var(--dd-p);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none}
+.desk-shell .cA-gh{display:grid;grid-template-columns:1fr auto;gap:72px;align-items:center;width:1040px;margin:0 auto;padding:72px 0 56px}
+.desk-shell .cA-gh .dd-p{font-size:18px}
+.desk-shell .cA-faqw{padding:0 0 96px}
+.desk-shell .cA-faqc{width:800px;margin:0 auto;padding:16px 40px}
+.desk-shell .cA-faq .a{font-size:16px}
+.desk-shell .cA-steps b{font-size:16px}
+
+/* 11-26 功能小场景（取代截图位 / 骨架线卡片；场景样式在 d-style .dd-sc-*） */
+.dA-scene{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:20px}
+.dA-rem{position:relative;padding-top:48px}.dA-cat{position:absolute;right:8px;top:0}
+.desk-shell .dA-pcs{grid-template-columns:repeat(2,1fr)!important;align-items:stretch}
+.desk-shell .dA-pc{display:flex;flex-direction:column}
+.desk-shell .dA-scene{margin-top:auto;flex-direction:column;align-items:center;justify-content:flex-end;padding-top:24px}
+
+/* 11-26 调平：Toko、健康两张卡各占整行（左文字、右场景并排），上排 KTP + Diary / 社区两列 */
+.desk-shell .dA-pcs{grid-template-columns:repeat(2,minmax(0,1fr))!important;align-items:stretch}
+.desk-shell .dA-pc.c-fish,.desk-shell .dA-pc.c-turtle{grid-column:1/-1;display:grid!important;grid-template-columns:300px minmax(0,1fr);gap:40px;align-items:center}
+.desk-shell .dA-pc.c-fish .dA-scene,.desk-shell .dA-pc.c-turtle .dA-scene{margin:0;padding:0;flex-direction:row;flex-wrap:nowrap;align-items:flex-end;justify-content:center;gap:24px}
+.desk-shell .dA-pc.c-fish .dA-scene{flex-direction:column;align-items:center;gap:16px}
+.desk-shell .dA-pc.c-fish .dd-sc-ship{width:100%;max-width:640px}
+.desk-shell .dA-pc.c-turtle .dA-scene{align-items:stretch}
+.desk-shell .dA-pc.c-turtle .dA-rem,.desk-shell .dA-pc.c-turtle .dd-sc-tri{align-self:flex-end}
+</style>
+</head>
+<body>
+<div class="splitpg"><div class="pgnav"><a href="00-目录.html">← 目录</a><a href="A1-首页-未登录-手机.html">‹ A1 首页·未登录·手机</a><a href="A2-首页-已登录-手机.html">A2 首页·已登录·手机 ›</a><span class="cur">泳道 A 官网公共页 · 研发先看整合稿页头 <a href="../ui-web-store-integrated-v1.html">ui-web-store-integrated-v1.html</a></span></div><section class="lane">
+  <h2>A · 官网公共页</h2>
+  <p class="desc">FR-298 语言、FR-299 投诉区块、FR-300 首页、FR-301 关于 TailTopia 与购物指南、FR-302 联系方式、FR-315 404、FR-318 视觉、FR-319 首页动效（「宠物的一年」时间线 8 站：第 1 天性格小测 → 第 7 / 30 / 100 天身份与记录、社区 → 第 180 天商城 → 第 200 / 300 天健康 → 第 365 天生日与下载）</p>
+  <div class="flow">
+    <em>主路径：</em><s>A1</s> 首页（首屏 → 时间线 8 站 Hari 1 → Hari 365，每站一屏吸附翻页） <i>→ 顶栏「商城」、首屏 / 第 365 天 / 常驻转化栏「去商城」或第 180 天「在商城看全部」→</i> <s>C1</s> <i>／ 第 180 天商品卡 →</i> <s>D1</s> <i>／ 顶栏「关于」→</i> <s>A4</s> <i>／ 页脚「购物指南」→</i> <s>A14</s> <i>／「登录」→</i> <s>B1</s> <i>／ 购物车 →</i> <s>E1</s> 或 <s>E6</s> <i>／ 首屏「下载 App」→ 滚到第 365 天 → 商店按钮 ／ 常驻转化栏「下载 App」→ 商店</i>
+    <span class="nl"></span>
+    <em>变体：</em><s>A2</s> 已登录的首页（替代 A1：顶栏显示头像和购物车件数） <i>／</i> <s>A7</s> 切到英文后的首页（替代 A1，用来核对英文文案长度）
+    <span class="nl"></span>
+    <em>手机专有：</em><s>A3</s> 点汉堡菜单展开（由 A1 / A2 / 任意页进入）
+    <span class="nl"></span>
+    <em>全站共用：</em><s>A5</s> 页脚（每一页底部都有） <i>／</i> <s>A6</s> 404（任何不存在的网址；「报告问题」→ toast「谢谢，我们收到了」）
+    <span class="nl"></span>
+    <em>首页性格小测（时间线第 1 天）：</em><s>A8</s> 选猫 / 狗 / 其他 <i>→</i> <s>A8b</s> 填宠物名（可跳过） <i>→</i> <s>A9</s> 答题（4 题，点选项自动下一题） <i>→ 生成中（约 1.5 秒）→</i> <s>A10</s> 结果卡 <i>→「下载 App 测完整版」→ 商店 ／「保存性格卡」→ 存图 ／「再测一次」→</i> <s>A8</s>
+    <span class="nl"></span>
+    <em>首屏 15 种宠物：</em><i>点任一只 → 滚到第 1 天 →</i> <s>A8b</s> <i>（跳过 A8，物种已选）</i>
+    <span class="nl"></span>
+    <em>购物指南：</em><s>A14</s> 问题列表 <i>→ 点开一条 →</i> <s>A15</s> <i>（入口只有三处：页脚、商城首页、结算页退货同意框旁；顶栏和手机菜单不放）</i>
+    <span class="nl"></span>
+    <em>变体：</em><s>A13</s> 系统开了「减少动态效果」时的首页（首屏 15 种宠物照片不变；时间线不做吸附动画和进场动作，「你的宠物」角色直接静止站好，内容照常显示）
+  </div>
+  <div class="frames"><div class="frame-card desk">
+  <p class="frame-tag"><b>A1</b>首页·未登录·电脑<span class="k mod">改动</span></p>
+  <div class="desk-wrap"><div class="dbar"><i></i><i></i><i></i><span>tailtopia.id</span></div><div class="desk-shell"><div class="scr" style="min-height:0;background:#fff">
+<div class="wd"><span class="logo"></span><div class="nav"><span>Toko</span><span>Tentang TailTopia</span></div><div class="r"><span class="lang"><b>ID</b> | EN</span><span class="ib"><span class="ms">shopping_cart</span></span><span class="btn sm pri">Masuk</span></div></div><div class="dH-hero"><p class="dd-x xl">Seluruh hidup anabul, dalam satu tempat.</p><p class="dd-p" style="margin-top:12px">Dari hari pertama sampai ulang tahun pertamanya: catat, berbagi, belanja, dan jaga kesehatannya di TailTopia.</p><div class="dH-btns"><span class="btn pri"><span class="ms">storefront</span>Belanja di Toko</span><span class="btn soft"><span class="ms">download</span>Unduh Aplikasi</span></div><p class="dH-q"><span class="ms f">touch_app</span>Anabulmu yang mana? Pilih untuk mulai tes 30 detik.</p><div class="dd-crowd"><span class="it" style="--k:0.9"><span class="win"><span class="dd-ph dd-ph-cat"></span></span><span class="nm">Kucing</span></span><span class="it" style="--k:1"><span class="win"><span class="dd-ph dd-ph-dog"></span></span><span class="nm">Anjing</span></span><span class="it" style="--k:0.74"><span class="win"><span class="dd-ph dd-ph-rabbit"></span></span><span class="nm">Kelinci</span></span><span class="it" style="--k:0.6"><span class="win"><span class="dd-ph dd-ph-hamster"></span></span><span class="nm">Hamster</span></span><span class="it" style="--k:0.66"><span class="win"><span class="dd-ph dd-ph-bird"></span></span><span class="nm">Burung</span></span><span class="it" style="--k:0.82"><span class="win"><span class="dd-ph dd-ph-chicken"></span></span><span class="nm">Ayam</span></span><span class="it" style="--k:0.48"><span class="win"><span class="dd-ph dd-ph-fish"></span></span><span class="nm">Ikan</span></span><span class="it" style="--k:0.5"><span class="win"><span class="dd-ph dd-ph-lizard"></span></span><span class="nm">Kadal</span></span><span class="it" style="--k:0.56"><span class="win"><span class="dd-ph dd-ph-turtle"></span></span><span class="nm">Kura‑kura</span></span><span class="it" style="--k:0.62"><span class="win"><span class="dd-ph dd-ph-sugar_glider"></span></span><span class="nm">Sugar Glider</span></span><span class="it" style="--k:0.44"><span class="win"><span class="dd-ph dd-ph-snake"></span></span><span class="nm">Ular</span></span><span class="it" style="--k:0.8"><span class="win"><span class="dd-ph dd-ph-duck"></span></span><span class="nm">Bebek/<wbr>Entok</span></span><span class="it" style="--k:0.46"><span class="win"><span class="dd-ph dd-ph-frog"></span></span><span class="nm">Katak</span></span><span class="it" style="--k:0.54"><span class="win"><span class="dd-ph dd-ph-guinea_pig"></span></span><span class="nm">Marmut</span></span><span class="it" style="--k:0.66"><span class="win"><span class="dd-ph dd-ph-other"></span></span><span class="nm">Lainnya</span></span></div></div><div class="dH-stop c-brand"><div class="dH-row"><div><div class="dH-meta"><span class="dd-day">Hari 1</span><span class="dd-tag"><span class="ms">psychology</span>Tailsonality</span></div><p class="dd-d">Kenalan dulu</p><p class="dd-p">Anabulmu tipe yang mana? Jawab 4 pertanyaan, cuma 30 detik.</p></div><div class="dd-stage" style="--pet:154px"><div class="dd-plat wide" style="--px:76%"><span class="dd-shape rect"></span><div class="dH-qz"><p class="dd-h1">Anabulmu itu…</p><div class="dH-opts"><span class="dH-opt"><span class="bx"><span class="dd-ph dd-ph-cat flat" style="--h:88px"></span></span>Kucing</span><span class="dH-opt"><span class="bx"><span class="dd-ph dd-ph-dog flat" style="--h:88px"></span></span>Anjing</span><span class="dH-opt"><span class="bx"><span class="dd-ph dd-ph-other flat" style="--h:88px"></span></span>Lainnya</span></div><p class="dd-c12" style="margin-top:16px;text-align:center">Nggak perlu daftar. Hasilnya langsung keluar.</p></div><span class="dd-pet"><span class="dd-ph dd-ph-cat-1 " style="--h:150px"></span><span class="dd-prop" style="right:-40px;top:8px"><span class="ms f">waving_hand</span></span></span></div></div></div></div><div class="dH-stop c-rabbit"><div class="dH-row rev"><div><div class="dH-meta"><span class="dd-day">Hari 7</span><span class="dd-tag"><span class="ms">badge</span>KTP</span></div><p class="dd-d">Punya KTP sendiri</p><p class="dd-p">Bikin KTP buat anabulmu: kartu identitas lengkap dengan foto dan namanya.</p></div><div class="dd-stage"><div class="dd-plat" style="--px:50%"><span class="dd-shape circle"></span><div class="dd-sc dd-sc-ktp lg2"><span class="lg"></span><p class="tt">KARTU TANDA<br>PENDUDUK TAILTOPIA</p><p class="nik"><span>NIK</span><span>:</span><span>TT220325020000</span></p><p class="fs"><span>Nama</span><span>:</span><span>MOCHI</span></p><p class="fs"><span>Tempat/Tgl Lahir</span><span>:</span><span>BANDUNG, 12-03-2025</span></p><p class="fs"><span>Spesies</span><span>:</span><span>KUCING</span></p><p class="fs"><span>Ras</span><span>:</span><span>DOMESTIK</span></p><p class="fs"><span>Jenis Kelamin</span><span>:</span><span>JANTAN</span></p><p class="fs"><span>Alamat</span><span>:</span><span>JL. MELATI NO. 25</span></p><p class="fs"><span>Berlaku Hingga</span><span>:</span><span>SEUMUR HIDUP</span></p><span class="pf"><span class="dd-ph dd-ph-cat-2 flat" style="--h:112px"></span></span><p class="pl">BANDUNG<br>12-03-2025</p><span class="paw"></span></div><span class="dd-pet"><span class="dd-ph dd-ph-dog-2 " style="--h:150px"></span><span class="dd-prop" style="right:-48px;top:8px"><span class="ms f">badge</span></span></span></div></div></div></div><div class="dH-stop c-bird"><div class="dH-row"><div><div class="dH-meta"><span class="dd-day">Hari 30</span><span class="dd-tag"><span class="ms">auto_stories</span>Diary</span></div><p class="dd-d">Momen pertama</p><p class="dd-p">Pertama kali mandi, pertama kali jalan-jalan. Catat semuanya di Diary.</p></div><div class="dd-stage"><div class="dd-plat" style="--px:50%"><span class="dd-shape soft"></span><div class="dd-sc dd-sc-dia"><div class="hd"><span class="av"><span class="dd-ph dd-ph-cat flat" style="--h:34px"></span></span><div><p class="nm">Mochi</p><p class="br">Domestik</p></div><span class="chip">Contoh</span></div><div class="bd"><span class="pic"><span class="dd-ph dd-ph-cat-7 flat" style="--h:56px"></span></span><div><p class="t">Berjemur di balkon</p><p class="p">Ketemu tempat favoritnya di balkon. Sudut yang sama, jam yang sama, tiap pagi.</p><p class="dt"><span class="ms">calendar_today</span>12 Mar 2026</p></div></div></div><span class="dd-pet"><span class="dd-ph dd-ph-cat-3 " style="--h:150px"></span><span class="dd-prop" style="right:-40px;top:0"><span class="ms f">photo_camera</span></span></span></div></div></div></div><div class="dH-stop c-coral"><div class="dH-row rev"><div><div class="dH-meta"><span class="dd-day">Hari 100</span><span class="dd-tag"><span class="ms">forum</span>Sosial</span></div><p class="dd-d">Pamer ke teman-teman</p><p class="dd-p">Bagikan momennya, saling kasih like dan hadiah bareng pemilik anabul se-Indonesia.</p></div><div class="dd-stage"><div class="dd-plat" style="--px:50%"><span class="dd-shape pill v"></span><div class="dd-sc dd-sc-post"><div class="hd"><span class="av"><span class="dd-ph dd-ph-cat-1 flat" style="--h:30px"></span></span><div><p class="nm">mochi.ibu</p><p class="tm">2 jam lalu</p></div></div><div class="pic"><span class="dd-ph dd-ph-cat-4 flat" style="--h:124px"></span></div><p class="tx">Hari pertama Mochi di rumah baru.</p><div class="ac"><span><span class="ms f" style="color:#F0425A">favorite</span>128</span><span><span class="ms f" style="color:#F6A609">redeem</span>12</span><span style="margin-left:auto;color:#544864"><span class="ms">chat_bubble</span>8</span></div></div><span class="dd-pet"><span class="dd-ph dd-ph-dog-4 " style="--h:150px"></span><span class="dd-prop" style="right:-44px;top:8px"><span class="ms f">favorite</span></span></span></div></div></div></div><div class="dH-stop c-cat"><div class="dH-row"><div><div class="dH-meta"><span class="dd-day">Hari 180</span><span class="dd-tag"><span class="ms">storefront</span>Toko</span></div><p class="dd-d">Makanan habis</p><p class="dd-p">Stok makanan menipis? Beli langsung di sini, dikirim ke rumah.</p><a class="dH-more">Lihat semua di Toko<span class="ms">chevron_right</span></a></div><div class="dd-stage" style="--pet:154px"><div class="dd-plat wide dd-on-solid" style="--px:84%"><span class="dd-shape rect"></span><div style="width:100%"><div class="dH-hs"><div class="pc"><div class="pi s-pi st-cat" style="aspect-ratio:3/2"><span class="ms" style="font-size:48px">set_meal</span></div><div class="pb"><p class="pn">Makanan Kering Kucing Salmon 1,5 kg</p><div class="pr"><span class="pp">Rp 125.000</span><span class="pa"><span class="ms">add</span></span></div></div></div><div class="pc"><div class="pi s-pi st-cat" style="aspect-ratio:3/2"><span class="ms" style="font-size:48px">set_meal</span></div><div class="pb"><p class="pn">Makanan Basah Kucing Tuna 85 g</p><div class="pr"><span class="pp">Rp 12.500</span><span class="pa"><span class="ms">add</span></span></div></div></div><div class="pc"><div class="pi s-pi st-dog" style="aspect-ratio:3/2"><span class="ms" style="font-size:48px">cookie</span></div><div class="pb"><p class="pn">Camilan Anjing Dental Stick isi 7</p><div class="pr"><span class="pp">Rp 39.000</span><span class="pa"><span class="ms">add</span></span></div></div></div><div class="pc"><div class="pi s-pi st-brand" style="aspect-ratio:3/2"><span class="ms" style="font-size:48px">medication</span></div><div class="pb"><p class="pn">Obat Cacing Kucing &amp; Anjing 1 Tablet</p><div class="pr"><span class="pp">Rp 28.000</span><span class="pa"><span class="ms">add</span></span></div></div></div><div class="pc"><div class="pi s-pi st-brand" style="aspect-ratio:3/2"><span class="ms" style="font-size:48px">soap</span></div><div class="pb"><p class="pn">Sampo Anabul Anti Kutu 250 ml</p><div class="pr"><span class="pp">Rp 56.000</span><span class="pa"><span class="ms">add</span></span></div></div></div><div class="pc"><div class="pi s-pi st-cat" style="aspect-ratio:3/2"><span class="ms" style="font-size:48px">inventory_2</span></div><div class="pb"><p class="pn">Pasir Kucing Gumpal Lavender 10 L</p><div class="pr"><span class="pp">Rp 89.000</span><span class="pa"><span class="ms">add</span></span></div></div></div><div class="pc"><div class="pi s-pi st-cat" style="aspect-ratio:3/2"><span class="ms" style="font-size:48px">pets</span></div><div class="pb"><p class="pn">Mainan Tongkat Bulu Kucing</p><div class="pr"><span class="pp">Rp 19.900</span><span class="pa"><span class="ms">add</span></span></div></div></div><div class="pc"><div class="pi s-pi st-dog" style="aspect-ratio:3/2"><span class="ms" style="font-size:48px">set_meal</span></div><div class="pb"><p class="pn">Makanan Kering Anjing Dewasa 3 kg</p><div class="pr"><span class="pp">Rp 168.000</span><span class="pa"><span class="ms">add</span></span></div></div></div></div></div><span class="dd-pet"><span class="dd-ph dd-ph-cat-5 " style="--h:150px"></span><span class="dd-prop" style="left:-40px;top:16px"><span class="ms f">rice_bowl</span></span></span></div></div></div></div><div class="dH-stop c-turtle"><div class="dH-row rev"><div><div class="dH-meta"><span class="dd-day">Hari 200</span><span class="dd-tag"><span class="ms">notifications_active</span>Pengingat Kesehatan</span></div><p class="dd-d">Waktunya obat cacing</p><p class="dd-p">Pengingat Kesehatan kasih tahu kapan jadwal obat cacing dan vaksin anabulmu.</p></div><div class="dd-stage"><div class="dd-plat" style="--px:50%"><span class="dd-shape circle"></span><div class="dd-sc dd-sc-rem"><div class="hd"><span class="ic"><span class="ms f">notifications_active</span></span>Pengingat hewan · Mochi</div><div class="it"><span class="ti" style="background:#E5F5EC;color:#23805A"><span class="ms">medication</span></span><div><p class="t">Obat Cacing</p><p class="s">Internal (cacing)</p><span class="due soon">Berikutnya: 2 Des 2026</span></div></div><div class="it"><span class="ti" style="background:#FFEEF5;color:#C23E73"><span class="ms">vaccines</span></span><div><p class="t">Vaksin</p><p class="s">Rabies</p><span class="due ok">Berikutnya: 15 Jan 2027</span></div></div><span class="bt"><span class="ms" style="font-size:18px">event_note</span>Catatan Kesehatan</span></div><span class="dd-pet"><span class="dd-ph dd-ph-dog-6 " style="--h:130px"></span><span class="dd-prop" style="right:-44px;top:0"><span class="ms f">notifications_active</span></span></span></div></div></div></div><div class="dH-stop c-fish"><div class="dH-row"><div><div class="dH-meta"><span class="dd-day">Hari 300</span><span class="dd-tag"><span class="ms">health_and_safety</span>Cek Gejala</span></div><p class="dd-d">Kok lemas, ya?</p><p class="dd-p">Anabul kelihatan nggak enak badan? Cek gejalanya dulu, cepat.</p><p class="dH-disc"><span class="ms f">info</span><span>Hasil bersifat referensi, bukan pengganti diagnosis dokter hewan berlisensi.</span></p></div><div class="dd-stage"><div class="dd-plat" style="--px:50%"><span class="dd-shape soft"></span><div class="dd-sc dd-sc-tri"><p class="hd"><span class="ic"><span class="ms f">health_and_safety</span></span>Cek Gejala</p><p class="lb">CERITAKAN GEJALA</p><p class="in">Lemas dan nggak mau makan sejak kemarin.</p><div class="lv"><span>Tidak mendesak</span><span class="on"><span class="ms">check</span>Perlu dipantau</span><span>Mendesak</span></div></div><span class="dd-pet"><span class="dd-ph dd-ph-cat-7 " style="--h:110px"></span><span class="dd-prop" style="right:-44px;top:0"><span class="ms f">thermostat</span></span></span></div></div></div></div><div class="dH-stop dH-bday c-gold"><div class="dd-stage"><div class="dd-plat"><span class="dd-shape rect"></span><div class="dH-party"><span class="cell"><span class="dd-ph dd-ph-cat flat" style="--h:80px"></span></span><span class="cell"><span class="dd-ph dd-ph-dog flat" style="--h:80px"></span></span><span class="cell"><span class="dd-ph dd-ph-rabbit flat" style="--h:80px"></span></span><span class="cell"><span class="dd-ph dd-ph-hamster flat" style="--h:80px"></span></span><span class="cell"><img src="data:image/png;base64,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" alt=""></span><span class="cell"><span class="dd-ph dd-ph-bird flat" style="--h:80px"></span></span><span class="cell"><span class="dd-ph dd-ph-fish flat" style="--h:80px"></span></span><span class="cell"><span class="dd-ph dd-ph-turtle flat" style="--h:80px"></span></span><span class="cell"><span class="dd-ph dd-ph-guinea_pig flat" style="--h:80px"></span></span></div><span class="dd-pet"><span class="dd-ph dd-ph-dog-8 " style="--h:150px"></span><span class="dd-prop" style="right:-48px;top:0;color:#F0425A"><span class="ms f">cake</span></span></span></div></div><div style="margin-top:28px"><div class="dH-meta" style="justify-content:center"><span class="dd-day">Hari 365</span><span class="dd-tag"><span class="ms" style="color:#9C7400">cake</span>TailTopia</span></div><p class="dd-d">Selamat ulang tahun!</p><p class="dd-h2" style="margin-top:8px">Satu tahun, satu tempat.</p><div class="dH-stores"><span class="store"><span class="ms f">phone_iphone</span>App Store</span><span class="store"><span class="ms f">shop</span>Google Play</span><span class="btn pri"><span class="ms">storefront</span>Belanja di Toko</span></div></div></div><div class="ft" style="padding:64px 120px 32px">
+<div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:48px">
+<div><div class="fl"><span class="dd-logo"></span></div>
+<p style="margin-top:8px">Komunitas pecinta hewan di Indonesia. <span class="ms f dd-paw">pets</span></p>
+<p style="margin-top:12px"><b>PT Lumos Digital Indonesia</b><br>Graha WS 33, Jl. Panjang Arteri Kelapa Dua Raya,<br>Kota Administrasi Jakarta Barat, DKI Jakarta 11530, Indonesia</p>
+<div style="display:flex;gap:12px;margin-top:16px"><span class="store"><span class="ms f">phone_iphone</span>App Store</span><span class="store"><span class="ms f">shop</span>Google Play</span></div></div>
+<div><h5>Perusahaan</h5><a>Tentang TailTopia</a><a>Panduan Belanja</a><a>Toko</a></div>
+<div><h5>Legal</h5><a>Syarat &amp; Ketentuan</a><a>Kebijakan Privasi</a><a>Penghapusan Akun</a></div>
+<div><h5>Kontak</h5><a>cs@tailtopia.id</a></div>
+</div>
+<div class="cpl" style="margin-top:32px;display:grid;grid-template-columns:1fr 1.3fr;gap:24px">
+<div class="gp"><b>Layanan Pengaduan Konsumen</b>Tailtopia (PT Lumos Digital Indonesia)<br>Email: <a>cs@tailtopia.id</a></div>
+<div class="gp" style="margin:0;padding-top:24px">Kementerian Perdagangan Direktorat Jenderal Perlindungan Konsumen dan Tertib Niaga<br>Kementerian Perdagangan RI<br>WhatsApp: <a>+62 853 1111 1010</a></div>
+</div>
+<div class="cr"><span>© 2026 PT Lumos Digital Indonesia · TailTopia. Hak cipta dilindungi.</span><span class="dd-up">Ke atas<span class="ms">arrow_upward</span></span></div>
+</div>
+</div></div></div>
+  <p class="frame-cap"><b>电脑：</b>顶栏 <code>.wd</code>：logo｜商城 Toko · 关于 Tentang TailTopia｜ID | EN、购物车（游客无件数）、登录「Masuk」。首屏标题居中，15 种宠物一行站在紫色台上（点击规则同手机），日期起点「第 1 天」Hari ke-1。<b>时间线：</b>不再有左侧钉住的日期栏，当前站由顶部时间线承担（「你的宠物」角色在顶部时间线上跨站）；每站占满一屏、原生吸附翻页，左文右形状、左右交替；第 1 天小测、第 180 天商品（4 列 × 2 行共 8 个）、第 365 天收尾。各站内容同手机。<b>常驻转化栏：</b>首屏滚出视口后出现在右下角（白底浮动卡，两个按钮「Unduh Aplikasi」「Belanja di Toko」），首屏回到视口内时收起；静态长图里没画。页脚这里只画一截，全貌见 A5。<b>购物指南不进顶栏</b>（11-24 操作者定，照 FR-301 入口只留页脚、商城首页、结算页三处）。 <b>视觉：</b>方向 D「干净 + playful」：白底为主；首屏顶栏白底、真实 logo，标题 Bricolage 800（手机 40 / 电脑 72）;15 个物种换成真实宠物抠图（白色贴纸描边），按真实体型错落、每只站在自己的品牌紫 #7D45F6 名字胶囊上（11-26 第四步：原来拼成一整条台面，看不出单个能点）（手机 5 × 3、电脑一行 15）。时间线 8 站各有一块饱和主色形状 + 一个示意物件 + 一只宠物照片站在形状上沿（静止画面取「还没选物种」时：单数站猫、双数站狗）和一个道具小圆；主色：第 1 天品牌紫（圆角块托小测）、第 7 天兔 #C23E73 圆、第 30 天鸟 #1F72B8 软方块、第 100 天珊瑚 #F0425A 竖胶囊、第 180 天猫 #B84D15 圆角块托白色商品卡、第 200 天龟 #23805A 圆、第 300 天鱼 #0B7F8C 软方块、第 365 天金 #F6A609 圆角块托 App 图标 + 8 只宠物（等距排开、互不遮挡）；日期胶囊用同色浅底。商城站只留「Lihat semua di Toko ›」。页脚浅紫底、投诉区块白卡。不标站号、没有半截元素。跨站角色的跳跃 / 变形 / 掉落等动效见原型 <code>Web_optimization/V1.1/ui-web-home-concept-D.html</code>，本屏是静止的最终状态。电脑每站左文右形状、左右交替；商城站右侧 4 × 2 商品；结构稿钉住的左侧日期栏由顶栏下的时间线承担（见原型）。（11-26 改：卡片换成<b>功能小场景</b>——真实宠物照片 + 真实卡面 / 文案，取自 App app_id.arb；拿到线上 App 截图后替换或并存。）</p>
+</div></div></section></div>
+</body>
+</html>
