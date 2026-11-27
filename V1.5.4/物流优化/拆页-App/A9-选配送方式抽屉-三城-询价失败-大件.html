@@ -1,0 +1,94 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>A9 选配送方式抽屉·三城·询价失败·大件 · 1.5.4 物流优化</title><link rel="stylesheet" href="_fonts.css"><style>:root{--page-bg:#f4f2ee;--page-ink:#2a2733;--page-ink-2:#55505f;--page-muted:#8c8798;--page-rule:#e3dfd7;--page-accent:#845EC9;--page-accent-soft:#efe9f9;}
+*{box-sizing:border-box}body{margin:0;background:var(--page-bg);color:var(--page-ink);font:14px/1.7 -apple-system,"PingFang SC","Noto Sans SC",sans-serif;padding:34px 40px 80px;}
+.doc-header{max-width:1400px;margin:0 auto 30px;background:#fff;border:1px solid var(--page-rule);border-radius:14px;padding:22px 28px;}
+.doc-header h1{margin:0 0 8px;font-size:21px;}.doc-header p,.doc-header li{margin:5px 0;font-size:13px;color:var(--page-ink-2);}
+.doc-header h3{font-size:14px;margin:16px 0 4px;}
+.doc-header .step{display:inline-block;background:var(--page-accent);color:#fff;border-radius:8px;padding:2px 10px;font-size:12px;font-weight:700;margin-right:8px;}
+.doc-header code{background:#f4f1fa;border-radius:4px;padding:0 4px;font-size:12px}
+.lane{max-width:1400px;margin:0 auto 52px;}.lane>h2{font-size:17px;margin:0 0 4px;}.lane>p.desc{margin:0 0 14px;font-size:13px;color:var(--page-ink-2);}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:7px;font-size:12.5px;color:var(--page-ink-2);line-height:1.9;margin:0 0 22px;padding:12px 16px;background:#fff;border:1px solid var(--page-rule);border-radius:10px;}
+.flow s{text-decoration:none;font-weight:600;color:var(--page-accent);background:var(--page-accent-soft);border-radius:6px;padding:2px 8px;}
+.flow i{font-style:normal;color:var(--page-muted);}.flow em{font-style:normal;color:var(--page-ink);font-weight:600;}.flow .nl{flex-basis:100%;height:0;}
+.frames{display:grid;grid-template-columns:repeat(3,384px);gap:40px 34px;justify-content:start;padding:8px 4px 26px;}
+.frame{display:flex;flex-direction:column;}
+.frame-tag{font-size:12.5px;font-weight:700;margin:0 0 8px;color:var(--page-ink);}
+.frame-cap{font-size:12px;color:var(--page-ink-2);margin:10px 2px 0;line-height:1.65;max-width:384px;}
+.frame-cap b{color:var(--page-ink)}
+table.nd{border-collapse:collapse;font-size:12.5px;margin:6px 0;}table.nd td,table.nd th{border:1px solid var(--page-rule);padding:5px 10px;text-align:left;vertical-align:top;}table.nd th{background:#faf8f4;}
+
+.phone-shell{width:384px;height:812px;border-radius:42px;background:#fff;border:1px solid #d8d3c9;box-shadow:0 2px 10px rgba(42,39,51,.05);overflow:hidden;position:relative}
+.phone-screen{position:absolute;inset:0;display:flex;flex-direction:column;font-family:Poppins,sans-serif;color:#2E2A45;background:#F3F1F8;overflow:hidden;-webkit-font-smoothing:antialiased}
+.ms{font-family:"Material Symbols Rounded";font-weight:400;font-style:normal;line-height:1;display:inline-block;white-space:nowrap;flex:none;overflow:hidden;font-feature-settings:"liga"}
+.sb{height:44px;display:flex;justify-content:space-between;align-items:center;padding:0 26px;font-size:15px;font-weight:600;flex:none;background:#fff;color:#2E2742}
+.sb .ic{display:flex;gap:4px;align-items:center}
+.ab{height:48px;display:flex;align-items:center;flex:none;background:#fff}
+.ab .bk{width:44px;display:flex;justify-content:center;color:#2E2742}
+.ab .t{font-size:14.5px;font-weight:700;color:#2E2742}
+.lst{flex:1;overflow:hidden;padding-top:12px;position:relative}
+.lst.scrolled>.in{margin-top:-226px}
+.card{margin:0 16px 12px;background:#fff;border-radius:16px;padding:16px}
+.card.p4{padding:4px 16px}.card.p8{padding:8px 16px}
+.r{display:flex;align-items:center;padding:12px 0}
+.r>.ms,.r>svg.i{font-size:20px;width:20px;color:#726C7E;margin-right:12px}
+.r>.tx{flex:1;min-width:0}
+.r>.tr{display:flex;align-items:center;margin-left:8px}
+.chev{font-size:24px;color:#8C859F}
+.body{font-size:15px;line-height:1.45;color:#2E2A45}
+.w6{font-weight:600}.w5{font-weight:500}.w7{font-weight:700}
+.cap{font-size:13px;line-height:1.4;color:#544864}
+.dis{font-size:12px;line-height:1.4;color:#9690A6}
+.tab{font-variant-numeric:tabular-nums}
+.dv{height:1px;background:#F0EDF7}
+.dv2{height:1px;background:#EFECF7;margin:8px 0}
+.green{color:#0E7A4D}.t3{color:#726C7E}.purple{color:#845EC9}.ink{color:#2E2742}.t2{color:#544864}.acc{color:#845EC9}
+.sw{width:34px;height:19px;border-radius:10px;background:#E4DCF7;position:relative;flex:none}
+.sw i{position:absolute;left:2px;top:2px;width:15px;height:15px;border-radius:50%;background:#fff}
+.sw.on{background:#845EC9}.sw.on i{left:17px}
+.cb{width:15px;height:15px;border-radius:3px;background:#845EC9;display:flex;align-items:center;justify-content:center;flex:none;margin:14px 12px 0 8px}
+.img{background:repeating-linear-gradient(45deg,#EDE9F6 0 5px,#F6F4FB 5px 10px);flex:none;position:relative}
+.qty{position:absolute;right:0;bottom:0;background:rgba(46,39,66,.88);color:#fff;font-size:11px;line-height:1.3;padding:0 3px}
+.amt{display:flex;padding:3px 0;font-size:13px;line-height:1.4}
+.amt span:first-child{flex:1;color:#544864}
+.amt span:last-child{color:#544864;font-variant-numeric:tabular-nums}
+.amt .neg{color:#845EC9;font-weight:600}
+.bar{background:#fff;border-top:1px solid #EFECF7;padding:10px 16px 36px;display:flex;align-items:center;gap:12px;flex:none}
+.bar .tot{flex:1;min-width:0}
+.bar .v{font-size:18px;line-height:1.3;font-weight:700;color:#845EC9;font-variant-numeric:tabular-nums}
+.btn{display:flex;align-items:center;justify-content:center;border-radius:8px;font-size:13px;font-weight:700;color:#fff;background:#845EC9;min-height:48px;padding:14px 22px;white-space:nowrap}
+.btn.ink{background:#2E2742;width:100%;min-height:0;padding:13px 20px}
+.bar2{background:#fff;border-top:1px solid #EFECF7;padding:10px 14px 36px;flex:none}
+.scrim{position:absolute;inset:0;background:rgba(0,0,0,.54);z-index:5}
+.sheet{position:absolute;left:0;right:0;bottom:0;height:609px;background:#fff;border-radius:16px 16px 0 0;z-index:6;display:flex;flex-direction:column}
+.sh-h{display:flex;align-items:center;padding:8px 4px 4px 16px}
+.sh-h .t{flex:1;font-size:18px;line-height:1.3;font-weight:600}
+.sh-h .x{width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-size:24px;color:#2E2A45}
+.sh-l{flex:1;padding:0 16px 8px;display:flex;flex-direction:column;gap:8px}
+.tile{display:flex;align-items:center;padding:12px;border-radius:12px;border:1px solid #EFECF7}
+.tile.on{border:1.5px solid #845EC9;padding:11.5px}
+.tile .tx{flex:1;min-width:0}
+.sh-f{padding:4px 16px 38px;display:flex;flex-direction:column;gap:8px}
+.mono{font-family:IBMPlexMono,monospace}
+.wa{height:48px;border-radius:12px;border:1px solid #E4DCF7;display:flex;align-items:center;justify-content:center;gap:8px;font-size:15px;font-weight:600;color:#845EC9}
+/* iOS SFSafariViewController */
+.sf-top{background:#F7F7F8;border-bottom:1px solid #D9D9DE;flex:none}
+.sf-bar{height:44px;display:flex;align-items:center;padding:0 12px;font-family:-apple-system,"SF Pro Text",sans-serif}
+.sf-done{color:#0A7AFF;font-size:17px;font-weight:600;width:72px}
+.sf-url{flex:1;display:flex;flex-direction:column;align-items:center;font-size:12px;color:#3C3C43;line-height:1.3}
+.sf-url b{font-size:13px;font-weight:600;color:#000;display:flex;align-items:center;gap:3px}
+.sf-r{width:72px;display:flex;justify-content:flex-end;gap:14px;color:#0A7AFF;font-size:20px}
+.sf-page{flex:1;background:#fff;overflow:hidden;display:flex;flex-direction:column;gap:12px;padding:0 0 12px}
+.ph{background:#ECEAF0;border-radius:10px}
+.sf-bot{height:84px;background:#F7F7F8;border-top:1px solid #D9D9DE;display:flex;justify-content:space-around;padding-top:10px;color:#0A7AFF;font-size:24px;flex:none}
+.sf-bot .off{color:#C4C4C8}
+.eta{display:inline-flex;align-items:center;padding:4px 8px;border-radius:6px;background:#F1ECFB;color:#6B45AE;font-size:11px;font-weight:600;line-height:1.3;white-space:nowrap}
+.tipbar{display:flex;align-items:flex-start;gap:8px;padding:8px 12px;border-radius:8px;background:#F1ECFB;color:#6B45AE;font-size:13px;line-height:1.4;font-weight:500;margin:0 0 12px}
+.sh-l>.tipbar{margin:0}
+
+.splitpg{max-width:1360px;margin:0 auto;padding:24px 28px 80px}
+.pgnav{display:flex;gap:16px;font-size:13px;margin-bottom:12px}
+.pgnav a{color:#845EC9;text-decoration:none;font-weight:600}
+.pgnav .sp{flex:1}
+.toc a{color:#845EC9;text-decoration:none}
+.toc li{margin:4px 0;font-size:14px}
+body{padding:0}
+</style></head><body><div class="splitpg"><div class="pgnav"><a href="00-目录.html">← 目录</a><a href="A8-结算页-三城-询价失败-小件.html">‹ A8</a><a href="A10-结算页-三城-含需要汽车商品.html">A10 ›</a><span class="sp"></span><span style="color:#8C8798">1.5.4 物流优化 · App · 已定稿 · 执行说明见整合稿页头</span></div><section class="lane"><h2>A · 结算页配送选项（FR-343 / FR-348）</h2><p class="desc">三城地址：Sameday 在上默认选中、Reguler 一行；外地不变。</p><div class="flow"><em>主路径：</em><i>购物车「Checkout」→</i> <s>A1</s> 当日达默认选中 <i>→ 点快递行 →</i> <s>A3</s> 选配送方式抽屉 <i>→ 选 Reguler →</i> <s>A2</s> <i>→「Buat Pesanan」付款（现有流程）→ 订单详情 B1 / B4</i><span class="nl"></span><em>变体（替代 A1 的送达日文案）：</em><s>A4</s> 16:00 后 <i>／</i> <s>A5</s> 周日或假日前<span class="nl"></span><em>变体（不同订单）：</em><s>A6</s> 满额免运 <i>／</i> <s>A7</s> 大件（抽屉）<i>／</i> <s>A10</s> 含需要汽车商品<span class="nl"></span><em>降级（Biteship 询价失败）：</em><s>A8</s> 小件，改选 Reguler <i>／</i> <s>A9</s> 大件，抽屉只有 Sameday</div><div class="frames"><div class="frame"><span class="frame-tag">A9 · 选配送方式抽屉·三城·询价失败·大件</span><div class="phone-shell"><div class="phone-screen"><div class="sb"><span>10:15</span><span class="ic"><span class="ms" style="font-size:16px">signal_cellular_alt</span><span class="ms" style="font-size:16px">wifi</span><span class="ms" style="font-size:18px">battery_full</span></span></div><div class="ab"><span class="bk"><span class="ms" style="font-size:28px">chevron_left</span></span><span class="t">Checkout</span></div><div class="lst"><div class="in"><div class="card p4"><div class="r"><span class="ms">location_on</span><div class="tx"><div class="body w6">Rizky Pratama · 0812-3456-7890</div><div class="cap">Jl. Pejambon I No. 8, Gambir, Kota Jakarta Pusat, DKI Jakarta 10110</div></div><div class="tr"><span class="ms chev">chevron_right</span></div></div><div class="dv"></div><div class="r"><span class="ms">local_shipping</span><div class="tx"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span class="body w6">Sameday</span><span class="eta">Tiba hari ini</span></div><div class="cap t3">Tanpa asuransi</div></div><div class="tr"><span class="body tab">Rp 26.000</span><span class="ms chev">chevron_right</span></div></div></div><div class="card"><div style="display:flex;align-items:center;padding:4px 0"><span class="img" style="width:44px;height:44px;border-radius:8px;margin-right:6px"></span><span class="body w6" style="flex:1">Produk (1)</span><span class="body tab">Rp 289.000</span><span class="ms chev">expand_more</span></div></div><div class="card p8"><div style="display:flex;align-items:center;padding:6px 0"><span class="ms green" style="font-size:18px;margin-right:8px">savings</span><span class="cap green w6">Kamu hemat Rp 20.000 di pesanan ini</span></div><div class="r"><svg class="i" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#726C7E" stroke-width="1.8" stroke-linejoin="round"><path d="M3 12V4h8l10 10-8 8L3 12z"/><circle cx="7.5" cy="8.5" r="1.4" fill="#726C7E" stroke="none"/></svg><div class="tx"><div class="body">Diskon belanja</div></div><div class="tr"><span class="body t3">Tidak dipakai</span><span class="ms chev">chevron_right</span></div></div><div class="r"><span class="ms">local_shipping</span><div class="tx"><div class="body">Potongan otomatis</div><div class="cap">Belanja ≥ Rp 150.000, lebih hemat dari kupon</div></div><div class="tr" style="max-width:170px;text-align:right"><span class="body tab purple">−Rp 20.000</span><span class="ms chev">chevron_right</span></div></div></div></div></div><div class="bar"><div class="tot"><div><span class="cap">Total bayar</span><span class="cap green w6" style="margin-left:6px">Hemat Rp 20.000</span></div><div class="v">Rp 295.000</div></div><div class="btn">Buat Pesanan</div></div><div class="scrim"></div><div class="sheet"><div class="sh-h"><span class="t">Pilih kurir</span><span class="x ms">close</span></div><div class="sh-l"><div class="tipbar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B45AE" stroke-width="2" stroke-linecap="round" style="flex:none;margin-top:2px"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Bayar sebelum 16.00 WIB, pesanan Sameday tiba hari itu juga.</span></div><div class="tile on"><div class="tx"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span class="body w6">Sameday</span><span class="eta">Tiba hari ini</span></div><div><span class="cap">Tanpa asuransi</span></div></div><span class="body w6 tab">Rp 26.000</span></div></div><div class="sh-f"><div class="cap">Potongan ongkir maksimal sebesar ongkir termurah. Kalau pilih kurir lebih mahal, selisihnya kamu bayar.</div></div></div></div></div><p class="frame-cap"><b>截单提示条（抽屉）</b>：移到选项上方，样式同 A1 提示条；文案 id「Bayar sebelum 16.00 WIB, pesanan Sameday tiba hari itu juga.」/ en「Pay before 16:00 WIB and your Sameday order arrives the same day.」（中文意思：16:00 前付款，当日达订单当天送到）。底部只留现有运费减免说明。只在三城地址显示。<br><b>送达日标签</b>：同 A7。<br>计费 8kg 且 Biteship 询价失败：没有 Reguler，抽屉只有 Sameday 一项；三城不显示「Termurah」（同 A3）。页面快递行同 A1，用户不点开抽屉也能直接下单。<br><b>满额免运（第三步复核补）</b>：同 A7，背景页「Potongan otomatis −Rp 20.000」。</p></div></div></section></div></body></html>

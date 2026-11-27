@@ -1,0 +1,8 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>L1 飞书汇总·当日达分组 · 1.5.4 物流优化 · 后台</title><link rel="stylesheet" href="_deck.css"></head><body><header class="doc-header"><h1>L1 · 飞书汇总·当日达分组</h1><p>1.5.4 物流优化 · 后台拆页（2026-11-27 定稿）· 整合稿 <code>ui-admin-1-5-4-logistics-integrated-v1.html</code> · PRD <code>1-5-4物流优化prd.md</code>（AB-69 ~ AB-75）· 研发执行说明见整合稿页头<span class="pgnav"><a href="00-目录.html">← 目录</a><a href="J3-运费补贴-空态.html">‹ J3</a></span></p></header><section class="lane"><h2>L · 飞书提醒（AB-73）</h2><p class="desc">不是后台页面，是飞书群里的汇总消息，用规格框画。</p><div class="flow"><em>触发：</em><i>每小时任务 → 满足条件的当日达订单 →</i> <s>L1</s> <i>（每单每种提醒只发一次）</i></div><div class="frames"><div class="frame"><span class="frame-tag">L1 · 飞书汇总·当日达分组</span><div class="spec-shell"><h4>◇ 飞书群消息（每小时一次，和现有物流停滞汇总同一条；当日达两段全部列出、不截断）</h4><div class="lark"><div class="who">TailTopia 运营机器人 · 11-27 17:05</div>[当日达] 2 单送达日已过 17:00 仍未发货，请尽快叫车：
+· TOKO-20261127-B5BT1B ｜送达 11-27 ｜Cikupa ｜摩托 ｜付款 11-27 09:12
+· TOKO-20261127-P2LX8C ｜送达 11-27 ｜Serpong ｜摩托 ｜付款 11-27 13:55
+
+[当日达] 1 单发货超过 24 小时还没标送达，请核实是否已送到：
+· TOKO-20261126-W8J3NA ｜送达 11-26 ｜Lalamove ｜单号 2311260008812201 ｜https://share.lalamove.com/?ID-2311260008812201 ｜发货 11-26 11:02
+
+[物流] 1 单 Biteship 运单超过 72 小时无新物流状态（已标停滞），请到 Biteship 追件：TOKO-20261123-ABC123</div></div><p class="frame-cap">飞书纯文本消息，沿用 LogisticsStallJob 的 [物流] 前缀写法，新加两段 [当日达]；每单一行，当日达两段全部列出、不截断（11-27 Hex 定）；每单每种提醒只出一次。现有 [物流] 段照旧（只认 Biteship 运单）。</p></div></div></section></body></html>
