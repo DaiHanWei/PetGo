@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>G6b 没出成码且已过 10 分钟 · 官网与网页商城</title>
+<link rel="stylesheet" href="_fonts.css">
+<link rel="stylesheet" href="_style.css">
+<style>.splitpg{max-width:1240px;margin:0 auto;padding:20px 24px 60px}.pgnav{display:flex;gap:16px;align-items:center;font-size:13px;margin-bottom:14px;flex-wrap:wrap}.pgnav a{color:var(--page-accent);text-decoration:none;font-weight:600}.pgnav .cur{color:var(--page-ink-2)}.splitpg .lane{margin-top:8px}
+
+/* ===== G 付款 · 方向 D「干净 + playful」：内页以效率为主，不放主形状；浅紫底 #F8F2FF + 白卡；二维码永远白底黑码；金额 / 倒计时等宽；只有 G3 成功页放一张小照片 ===== */
+.cG-pg{background:var(--dd-l1)}
+.cG-tb{background:#fff}
+.cG-dk .h-h{font-family:var(--dsp);font-weight:800;letter-spacing:-.01em}
+.cG-amt{font:800 24px/1.2 var(--dsp);letter-spacing:-.01em;color:var(--dd-ink);font-variant-numeric:tabular-nums}
+.cG-cd{font:800 24px/1.2 var(--dsp);letter-spacing:-.01em;font-variant-numeric:tabular-nums;color:var(--dd-p)}
+.cG-cd.ex{color:var(--dd-mute)}
+.cG-qc{background:#fff;border-radius:24px;box-shadow:inset 0 0 0 1px var(--dd-l2);padding:20px 16px 16px;display:flex;flex-direction:column;align-items:center}
+.cG-qc .qr{background:#fff}
+.cG-ph{width:220px;height:220px;background:var(--dd-l1);border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.cG-st{width:20px;height:20px;border-radius:50%;background:var(--dd-l1);color:var(--dd-p);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none;font-variant-numeric:tabular-nums}
+.cG-ap{height:32px;border-radius:999px;background:#fff;box-shadow:inset 0 0 0 1px var(--dd-l2);padding:0 12px;display:inline-flex;align-items:center;font-size:12px;font-weight:600}
+.cG-hero{display:flex;align-items:flex-end;justify-content:center;gap:12px}
+.cG-ok{width:72px;height:72px;border-radius:50%;background:var(--okbg);display:flex;align-items:center;justify-content:center;flex:none}
+.cG-sum{font:800 30px/1.2 var(--dsp);letter-spacing:-.02em;color:var(--dd-ink);font-variant-numeric:tabular-nums}
+.cG-ttl{font:800 24px/1.2 var(--dsp);letter-spacing:-.01em}
+
+/* S4：本泳道屏内文字避免单词独占一行（只作用于本泳道） */
+.lnG .phone-shell,.lnG .desk-shell{text-wrap:pretty}
+.nw{white-space:nowrap}
+</style>
+</head>
+<body>
+<div class="splitpg"><div class="pgnav"><a href="00-目录.html">← 目录</a><a href="G6-二维码生成失败.html">‹ G6 二维码生成失败</a><a href="H1-订单列表-手机.html">H1 订单列表·手机 ›</a><span class="cur">泳道 G 付款 · 研发先看整合稿页头 <a href="../ui-web-store-integrated-v1.html">ui-web-store-integrated-v1.html</a></span></div><section class="lane">
+  <h2>G · QRIS 付款</h2>
+  <p class="desc">FR-308。付款页是独立网址，刷新后还在；App 没有独立付款页（是待付款订单详情上弹出的底部付款面板），网站页面内容照面板。</p>
+  <div class="flow">
+    <em>主路径：</em><i>由 F1 提交、H1 / H3「立即支付」进入 →</i> <s>G1</s> 付款页 <i>→ 每 3 秒查一次，到账 →</i> <s>G3</s> 付款成功 <i>→「Lihat pesanan」→</i> <s>H4</s> <i>／「Lanjut belanja」→</i> <s>C1</s>
+    <span class="nl"></span>
+    <em>分支：</em><s>G1</s> <i>点「Saya sudah bayar」但还没到账 →</i> <s>G2</s> 提示 <i>／ 关掉页面不影响订单，从</i> <s>H1</s> <i>/</i> <s>H3</s> <i>再进 G1</i>
+    <span class="nl"></span>
+    <em>失败：</em><s>G4</s> 被拒（「Bayar Sekarang」重新出码 → <s>G1</s>） <i>／</i> <s>G5</s> 超时，订单已取消（→ <s>H4</s> / <s>C1</s>） <i>／</i> <s>G6</s> 二维码生成失败（「Coba lagi」→ <s>G1</s>） <i>／</i> <s>G6b</s> 一直没出成码、已过下单 10 分钟（少见，不能重试）
+  </div>
+  <div class="frames"><div class="frame-card lnG">
+  <p class="frame-tag"><b>G6b</b>没出成码且已过 10 分钟<span class="k mod">改动</span></p>
+  <div class="phone-shell"><div class="scr"><div class="sb"><span>9:41</span><span><span class="ms f">signal_cellular_alt</span> <span class="ms f">wifi</span> <span class="ms f">battery_full</span></span></div><div class="url"><div><span class="ms">lock</span>tailtopia.id/toko/bayar/TOKO-20261124-R4M8PZ</div></div><div class="tb cG-tb"><span class="bk"><span class="ms">chevron_left</span></span><h1>Pembayaran</h1></div><div class="body cG-pg" style="padding:8px 16px 0"><div class="note warn" style="margin-bottom:12px"><span class="ms" style="font-size:18px">info</span><span>Kode QR baru hanya bisa dibuat dalam 10 menit setelah pesanan dibuat. Pesanan ini akan dibatalkan otomatis saat waktu bayar habis.</span></div><div style="display:flex;justify-content:space-between;align-items:flex-end;gap:12px"><div><p class="t-c">Bayar via QRIS</p><p class="cG-amt">Rp 259.000</p><p style="font-size:12px;color:var(--ink2)">+ PawCoin Rp 50.000 sudah ditahan</p></div><div style="text-align:right"><p class="t-c">Bayar dalam</p><p class="cG-cd">41:05</p></div></div><div style="margin-top:12px"><div class="cG-qc"><div class="cG-ph"><span class="ms" style="font-size:40px;color:var(--dd-mute)">qr_code_2</span><p style="font-size:16px;font-weight:500;margin-top:8px">Kode QR gagal dibuat</p></div><p class="t-d" style="margin-top:12px;display:flex;align-items:center;gap:4px">Nomor Pesanan: <b style="color:var(--ink2)">TOKO-20261124-R4M8PZ</b><span class="ms" style="font-size:16px;color:var(--mint)">content_copy</span></p></div></div><div style="margin-top:16px"><span class="btn pri blk">Lihat pesanan</span></div><div style="margin-top:16px"><p style="font-size:13px;font-weight:600;color:var(--mint);display:flex;align-items:center;gap:4px">Cara bayar &amp; aplikasi yang didukung<span class="ms" style="font-size:18px">chevron_right</span></p></div><div style="height:24px"></div></div></div></div>
+  <p class="frame-cap"><b>App 怎么做：</b>出码接口返回 409 shop-order-not-payable（建单已超 10 分钟，或已过付款时间）→ 同 G6 的失败块但<b>没有「Coba lagi」、也没有任何说明</b>，订单仍挂待付款到 60 分钟后自动取消。<b>网站补：</b>顶部加一句说明「Kode QR baru hanya bisa dibuat dalam 10 menit…」（下单 10 分钟后不能再生成新二维码；这笔订单会在付款时间结束时自动取消，新文案），按钮换成「Lihat pesanan」（查看订单）。<b>什么时候会到这屏（11-24 核后端 <code>ShopOrderPaymentService.payGate</code>）：</b>二维码出过一次就一直复用同一个（出码后 65 分钟内有效），用户关掉付款页、过多久再从订单点「立即支付」看到的都是原来那个码，<b>不会重新生成</b>。只有下单后 10 分钟内一次都没出成码（比如 G6 失败后一直没重试成功），或付款被拒（G4）后过了 10 分钟才再付，才会到这里。属于少见的边缘状态。<b>视觉：</b>同 G1：顶部黄色说明块 .note.warn 圆角 16；失败占位块浅紫、圆角 16；「Lihat pesanan」紫色胶囊。</p>
+</div></div></section></div>
+</body>
+</html>

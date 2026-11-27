@@ -233,7 +233,7 @@ Dimas, 26, lives in Bekasi with his cat Mochi. Last week he made Mochi a card in
 
 - **Existing cards** keep their style.
 
-- **Same rules as the existing styles:** creating is free; HD unlock is per card at the admin price (see Glossary); PawCoin and QRIS work as today; admin views that list styles (user purchases, entitlement history, style labels) include the 4 new ones.
+- **Same rules as the existing styles:** creating is free; HD unlock is per card at the admin price (see Glossary); PawCoin and QRIS work as today; admin views that list styles (user purchases, entitlement history, style labels) include the 4 new ones. **This includes the style picker when admin grants free credits to a user** (user drawer → free credits → grant): it lists all 12 styles (Hex, 2026-11-26). Today the list is built from every KTP `CreditType` except "any style" (`AdminUserEntitlementsService.GRANTABLE`), so once the 4 new credit types exist they appear without extra work; don't hard-code 8.
 
 - **Value pack (Hex, 2026-11-20):** stays "1 HD unlock for each of the original 8 styles". The code must exclude the 4 new styles from the value-pack grant (`ktpTemplates()` lists every style today). "Any style" credits from activities (`KTP_HD_ANY`) work on all 12.
 
@@ -269,6 +269,7 @@ New fonts to bundle in the app: Coiny, Cherry Bomb One, DynaPuff, Lilita One and
 **AC16** Cards created before 1.5.4 keep their style.
 **AC17** An HD unlock of a new-style card is recorded under its own style in the admin user purchases view.
 **AC18** A value pack bought after 1.5.4 grants 8 HD unlocks, one for each original style, and none for the 4 new styles.
+**AC49** In admin, granting free credits to a user offers all 12 styles; a credit granted for a new style shows in the app and can unlock an HD card of that style.
 
 ### FR-262: Sharing a card as a link
 
@@ -640,3 +641,4 @@ Paths are at `origin/main` `ca55416d9` (V1.5.0).
 |2026-11-24|Hex|OQ-2 closed: "new" marker shows 30 days after release. OQ-4 closed: share reward goes to the card's pet. Landing-page string "Pilih dari 12 gaya kartu, gratis" approved.|
 |2026-11-24|Hex|UI final ("可以，定稿"), 31 screens split into `拆页-App/`; §0 link points to this repo.|
 |2026-11-24|Hex|Artwork for the 4 new styles: `V1.5.4/KTP分享链接/图片和附件/Card Design Asset Batch3/` (FR-261 build files).|
+|2026-11-26|Hex|Admin free-credit grant (user drawer) must list all 12 styles; added to FR-261 rules and AC49.|

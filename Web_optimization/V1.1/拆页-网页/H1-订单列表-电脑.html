@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>H1 订单列表·电脑 · 官网与网页商城</title>
+<link rel="stylesheet" href="_fonts.css">
+<link rel="stylesheet" href="_style.css">
+<style>.splitpg{max-width:1240px;margin:0 auto;padding:20px 24px 60px}.pgnav{display:flex;gap:16px;align-items:center;font-size:13px;margin-bottom:14px;flex-wrap:wrap}.pgnav a{color:var(--page-accent);text-decoration:none;font-weight:600}.pgnav .cur{color:var(--page-ink-2)}.splitpg .lane{margin-top:8px}
+
+/* ===== H 我的订单 · 方向 D「干净 + playful」商城内页：效率优先，白底 + 浅紫细边卡，不放主形状；只有空态放一张小照片 ===== */
+.body.cH-pg{background:#fff}
+.cH-pg>.tb{background:#fff}
+.cH-pg p,.cH-dk p{text-wrap:pretty}
+.cH-hh,.cH-pg .empty b{text-wrap:balance}
+.cH-pg .empty p{text-wrap:balance}
+/* 分组 Tab：白底，选中墨色 + 品牌紫圆头下划线（d-style .tabs），手机六个分组用 13 号可横滑 */
+.cH-tabs{font-size:13px;height:48px;background:#fff;flex:none}
+.cH-tabs span{padding:12px 0}
+.cH-tabs .on{color:var(--dd-ink);font-weight:700}
+.cH-tabs .on::after{height:4px;bottom:4px;border-radius:4px;background:var(--dd-p)}
+/* 电脑：账户侧栏（白卡 + 浅紫选中块）+ 白底内容区 */
+.cH-side{width:280px;flex:none}
+.cH-side .card{padding:8px}
+.cH-sp{display:flex;align-items:center;gap:12px;padding:12px 8px 16px;border-bottom:1px solid var(--dd-l2);margin-bottom:8px}
+.cH-sl{display:flex;align-items:center;gap:12px;padding:12px;border-radius:16px;font-size:16px;color:var(--dd-ink2)}
+.cH-sl .ms{font-size:24px}
+.cH-sl.on{color:var(--dd-p);font-weight:600;background:var(--dd-l1)}
+.cH-n{min-width:16px;height:16px;border-radius:999px;background:var(--dd-red);color:#fff;font-size:10px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;padding:0 4px;line-height:1}
+.cH-dk{background:#fff;padding:32px 0 48px}
+.cH-dk .cH-card,.cH-dk .cH-oc{margin:0 0 16px}
+.cH-dk .h-h{font-family:var(--dsp);font-weight:800;letter-spacing:-.01em}
+.cH-crumb{font-size:13px;color:var(--dd-ink2);margin-bottom:12px}
+.cH-crumb b{color:var(--dd-ink);font-weight:600}
+/* 卡片：.db-card 已是 D 外观（白底、圆角 24、1px 浅紫细边、无阴影） */
+.cH-card,.cH-oc{border-radius:24px;padding:20px 16px;margin:0 16px 12px}
+.cH-ct{font-size:16px;font-weight:600;line-height:1.3;margin-bottom:8px}
+.cH-hh{font-size:16px;font-weight:600;line-height:1.3}
+.cH-hd .cH-hh{font:800 18px/1.3 var(--dsp);letter-spacing:-.01em}
+.cH-hs{font-size:13px;line-height:1.4;color:var(--dd-ink2);margin-top:4px}
+.cH-hd.ok{background:var(--okbg);box-shadow:none}.cH-hd.ok .cH-hh{color:var(--ok)}
+.cH-hd.warn{background:var(--dd-goldt);box-shadow:none}.cH-hd.warn .cH-hh{color:var(--dd-tipt)}.cH-hd.warn .cH-hs{color:var(--dd-tipt)}
+.cH-hd .btn{margin-top:12px}
+.cH-cdn{text-align:center;background:var(--dd-l1);box-shadow:none}
+.cH-cdn .big{font:800 30px/1.1 var(--dsp);letter-spacing:-.01em;color:var(--dd-p);margin-top:8px;font-variant-numeric:tabular-nums}
+/* 商品行：商品图 .s-pi，底色按适用物种（猫 st-cat / 狗 st-dog / 通用 st-brand） */
+.cH-it{display:flex;gap:12px;align-items:flex-start}.cH-it+.cH-it{margin-top:12px}
+.cH-th{width:56px;height:56px;aspect-ratio:auto;border-radius:16px;flex:none}
+.cH-th .ms{font-size:30px}
+.cH-in{flex:1;min-width:0;font-size:13px;line-height:1.4}
+.cH-in b{display:block;font-weight:500;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.cH-in>span:last-child{display:block;font-weight:700;margin-top:4px;font-variant-numeric:tabular-nums}
+.cH-q{font-size:13px;color:var(--dd-ink2)}
+/* 被取消的商品行：只让商品图变淡，文字用次级墨色（整行 opacity 会让正文对比度掉到 4.5 以下） */
+.cH-off .cH-th{opacity:.5}.cH-off .cH-in b,.cH-off .cH-in>span:last-child{color:var(--dd-ink2)!important}
+.cH-tag{display:inline-block;background:var(--dd-coralt);color:var(--dd-red);font-size:11px;font-weight:600;border-radius:999px;padding:0 8px;line-height:1.5;margin-top:4px}
+.cH-sep{height:1px;background:var(--dd-l2);margin:12px 0 8px}
+.cH-disc{color:var(--dd-p)!important;font-weight:600}
+.cH-tot{display:flex;justify-content:space-between;align-items:baseline;font-size:16px;font-weight:600;padding-top:4px}
+.cH-tot b{font:800 18px/1.3 var(--dsp);font-variant-numeric:tabular-nums}
+.cH-pm{display:flex;align-items:center;gap:12px;padding:4px 0}.cH-pm+.cH-pm{margin-top:4px}
+.cH-pm .ms{font-size:24px;color:var(--dd-p)}
+.cH-pm div{flex:1;font-size:13px;line-height:1.4}.cH-pm div b{display:block;font-weight:500}.cH-pm div span{font-size:12px;color:var(--dd-ink2)}
+.cH-pm em{font-style:normal;font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
+.cH-help{display:flex;align-items:center;gap:12px}.cH-help>div{flex:1}
+.cH-lh{display:flex;align-items:center;justify-content:space-between}
+.cH-lk{font-size:13px;font-weight:600;color:var(--dd-p);white-space:nowrap}
+.cH-rs{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+/* 物流五段进度：品牌紫 */
+.cH-tl{margin-top:16px}
+.cH-tn{display:flex;gap:12px;position:relative;padding-bottom:12px;font-size:13px;color:var(--dd-ink2);line-height:1.25;align-items:center}
+.cH-tn:last-child{padding-bottom:0}
+.cH-tn i{width:16px;height:16px;border-radius:50%;background:var(--dd-l2);flex:none;position:relative;z-index:1}
+.cH-tn:not(:last-child)::after{content:"";position:absolute;left:7px;top:16px;bottom:0;width:2px;background:var(--dd-l2)}
+.cH-tn.on,.cH-tn.cur{color:var(--dd-ink)}.cH-tn.cur{font-weight:700}
+.cH-tn.on i,.cH-tn.cur i{background:var(--dd-p)}.cH-tn.on::after{background:var(--dd-p)!important}
+.cH-tn.cur i{box-shadow:0 0 0 4px #fff,0 0 0 6px var(--dd-p)}
+/* 订单卡 */
+.cH-r1{display:flex;align-items:center;gap:8px}
+.cH-toko{background:var(--dd-l1);color:var(--dd-p);font-size:9px;font-weight:700;padding:4px 8px;border-radius:999px;line-height:1;flex:none;letter-spacing:.04em}
+.cH-no{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--dd-ink2)}
+.cH-st{display:inline-flex;align-items:center;height:24px;padding:0 8px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap;background:var(--dd-l1);color:var(--dd-ink2)}
+.cH-st.pay{background:var(--dd-l2);color:var(--dd-p6)}
+.cH-st.bad{background:var(--dd-coralt);color:var(--dd-red)}
+.cH-r2{display:flex;gap:12px;margin-top:12px;align-items:center}
+.cH-nm{flex:1;min-width:0}
+.cH-nm b{display:block;font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cH-nm span{font-size:12px;color:var(--dd-ink2)}
+.cH-amt{text-align:right;flex:none}
+.cH-amt span{display:block;font-size:12px;color:var(--dd-ink2)}
+.cH-amt b{font:800 16px/1.3 var(--dsp);font-variant-numeric:tabular-nums}
+.cH-act{display:flex;align-items:center;gap:8px;margin-top:12px;justify-content:flex-end}
+.cH-cd{margin-right:auto;font-size:13px;color:var(--dd-p)}
+.cH-cd b{font-weight:700;font-variant-numeric:tabular-nums}
+/* 我的券入口：车票（.db-ticket 已是 D 车票外形：浅紫底 + 两侧半圆缺口 + 虚线） */
+.cH-cpn{margin:12px 16px;padding:12px 16px;gap:12px;font-size:13px;font-weight:600;color:var(--dd-ink);min-height:56px}
+.cH-cpn .ic{width:32px;height:32px;border-radius:50%}
+.cH-cpn .ic .ms{font-size:18px}
+.cH-cpn .t{flex:1;min-width:0;font-weight:600;color:var(--dd-ink)}
+.cH-cpn .cut{margin:0 0 0 4px}
+.cH-cpn .go{font-size:24px}
+/* 取消确认弹窗（商城 showShopConfirm 结构） */
+.cH-dlg{padding:24px}
+.cH-dlg .dt{font:800 18px/1.3 var(--dsp);letter-spacing:-.01em}
+/* 退款去向选项 */
+.cH-opt{display:flex;align-items:flex-start;gap:12px;padding:16px;border-radius:16px;box-shadow:inset 0 0 0 1.5px var(--dd-l2);background:#fff}
+.cH-opt.on{background:var(--dd-l1);box-shadow:inset 0 0 0 2px var(--dd-p)}
+.cH-opt{flex-wrap:wrap;row-gap:8px}
+.cH-opt div{flex:1 1 calc(100% - 32px);min-width:0}.cH-opt b{display:block;font-size:16px;line-height:1.3;font-weight:600}.cH-opt.on b{font-weight:700}
+.cH-opt span:not(.rad){display:block;font-size:12px;color:var(--dd-ink2);line-height:1.4;margin-top:4px}
+.cH-opt em{font-style:normal;font-size:12px;font-weight:700;color:var(--dd-p6);background:var(--dd-l2);border-radius:999px;padding:4px 8px;line-height:1;white-space:nowrap;margin-left:32px}
+/* 表外值归位：kit .kv.tot 15 → 16；空态照片 */
+/* 空态照片：不挂 .ei（.empty .ei 的 background 简写会盖掉照片 background-image） */
+.cH-eph{margin-bottom:4px}
+</style>
+</head>
+<body>
+<div class="splitpg"><div class="pgnav"><a href="00-目录.html">← 目录</a><a href="H1-订单列表-手机.html">‹ H1 订单列表·手机</a><a href="H2-订单列表-空.html">H2 订单列表·空 ›</a><span class="cur">泳道 H 我的订单 · 研发先看整合稿页头 <a href="../ui-web-store-integrated-v1.html">ui-web-store-integrated-v1.html</a></span></div><section class="lane">
+  <h2>H · 我的订单</h2>
+  <p class="desc">FR-309、FR-310。只显示商城订单</p>
+  <div class="flow">
+    <em>主路径：</em><i>由 I1 / G3 / 顶栏进入 →</i> <s>H1</s> 订单列表 <i>→ 点订单 →</i> <s>H3</s> ~ <s>H8</s> 各状态详情
+    <span class="nl"></span>
+    <em>变体：</em><s>H2</s> 列表为空 <i>／ 详情按状态：</i><s>H3</s> 待付款 <s>H4</s> 待发货 <s>H5</s> 已发货 <s>H6</s> 已完成 <s>H7</s> 已取消 <s>H8</s> 退款中 / 已退款 <s>H11b</s> 退款打款失败 <s>H12a</s> 配送异常 <s>H12b</s> 缺货取消 <s>H12c</s> 部分缺货退款
+    <span class="nl"></span>
+    <em>分支：</em><s>H3</s> <i>「取消 Batalkan」→</i> <s>H9</s> 二次确认 <i>→</i> <s>H7</s> <i>（只退 PawCoin / 券，没有现金去向）</i>
+    <span class="nl"></span>
+    <em>分支：</em><s>H12b</s> <i>／</i> <s>H12c</s> <i>「选择退款方式」→</i> <s>H10</s> 选退款去向 <i>→ 选银行 / 电子钱包 →</i> <s>H11</s> 填账户 <i>→</i> <s>H8</s> <i>／ 打款失败 →</i> <s>H11b</s> <i>「重新填写」→</i> <s>H11</s>
+    <span class="nl"></span>
+    <em>分支：</em><i>任意详情「订单有问题？」或 H1 / H12a「Hubungi CS」→</i> <s>H13</s> 说明页 <i>→「Hubungi CS」→</i> <s>J2</s> <i>（带订单号）</i>
+  </div>
+  <div class="frames"><div class="frame-card desk">
+  <p class="frame-tag"><b>H1</b>订单列表·电脑<span class="k mod">改动</span></p>
+  <div class="desk-wrap"><div class="dbar"><i></i><i></i><i></i><span>tailtopia.id/akun/pesanan</span></div>
+  <div class="desk-shell"><div class="scr">
+<div class="wd"><span class="logo"><i><span class="ms f">pets</span></i>TailTopia</span><div class="nav"><span>Toko</span><span>Tentang TailTopia</span></div><div class="r"><span class="lang"><b>ID</b> | EN</span><span class="ib"><span class="ms">shopping_cart</span><span class="cnt">2</span></span><span class="av">SW</span></div></div>
+<div class="cH-dk st-brand"><div class="dc" style="display:flex;gap:32px;align-items:flex-start"><div class="cH-side"><div class="card"><div class="cH-sp"><span class="av" style="width:48px;height:48px;font-size:16px">SW</span><div><p style="font-size:16px;font-weight:600">Sari Wulandari</p><p class="t-d">sari.w@gmail.com</p></div></div><div class="cH-sl"><span class="ms">person</span>Saya</div><div class="cH-sl on"><span class="ms">receipt_long</span>Pesanan Saya<span class="cH-n" style="margin-left:auto">3</span></div><div class="cH-sl"><span class="ms">location_on</span>Alamat pengiriman</div><div class="cH-sl"><span class="ms">confirmation_number</span>Kupon Saya</div><div class="cH-sl"><span class="ms">support_agent</span>Masukan Saya</div><div class="hr" style="margin:8px 0"></div><div class="cH-sl" style="color:var(--dd-red)"><span class="ms">logout</span>Keluar</div></div></div><div style="flex:1;min-width:0"><p class="h-h" style="margin-bottom:16px">Pesanan Saya</p><div class="card" style="padding:0;overflow:hidden"><div class="tabs cH-tabs"><span class="on">Semua</span><span>Belum bayar<span class="n" style="font-size:10px;font-weight:600">1</span></span><span>Dikemas</span><span>Dikirim<span class="n" style="font-size:10px;font-weight:600">2</span></span><span>Selesai</span><span>Dibatalkan</span></div></div><div class="db-ticket cH-cpn" style="margin:16px 0"><span class="ic"><span class="ms f">confirmation_number</span></span><span class="t">Kupon Saya · 3 bisa dipakai</span><span class="cut"></span><span class="ms go">chevron_right</span></div><div class="db-card cH-oc"><div class="cH-r1"><span class="cH-toko">TOKO</span><span class="cH-no">TOKO-20261124-7KQ2XM</span><span class="cH-st pay">Menunggu pembayaran</span></div><div class="cH-r2"><div class="cH-th s-pi st-cat"><span class="ms">rice_bowl</span></div><div class="cH-nm"><b>Royal Canin Kitten 2kg</b><span>dan 1 barang lain</span></div><div class="cH-amt"><span>Jumlah</span><b style="color:var(--mint)">Rp 259.000</b></div></div><div class="cH-act"><span class="cH-cd">Bayar dalam <b>42:18</b></span><span class="btn pri sm">Bayar sekarang</span></div></div><div class="db-card cH-oc"><div class="cH-r1"><span class="cH-toko">TOKO</span><span class="cH-no">TOKO-20261122-P3VN8C</span><span class="cH-st">Dalam perjalanan</span></div><div class="cH-r2"><div class="cH-th s-pi st-dog"><span class="ms">cookie</span></div><div class="cH-nm"><b>Pedigree Dentastix Medium isi 7</b><span>22/11</span></div><div class="cH-amt"><span>Jumlah</span><b style="color:var(--ink)">Rp 54.000</b></div></div><div class="cH-act"><span class="btn dk sm">Konfirmasi terima</span></div></div><div class="db-card cH-oc"><div class="cH-r1"><span class="cH-toko">TOKO</span><span class="cH-no">TOKO-20261119-W7HD2R</span><span class="cH-st bad">Pengiriman bermasalah</span></div><div class="cH-r2"><div class="cH-th s-pi st-cat"><span class="ms">soap</span></div><div class="cH-nm"><b>Bio Groom Shampoo Kucing 250ml</b><span>dan 2 barang lain</span></div><div class="cH-amt"><span>Jumlah</span><b style="color:var(--ink)">Rp 312.000</b></div></div><div class="cH-act"><span class="btn soft sm" style="margin-right:auto">Hubungi CS</span><span class="btn sec sm">Konfirmasi terima</span></div></div><div class="db-card cH-oc"><div class="cH-r1"><span class="cH-toko">TOKO</span><span class="cH-no">TOKO-20261118-K9M4TB</span><span class="cH-st">Selesai</span></div><div class="cH-r2"><div class="cH-th s-pi st-brand"><span class="ms">medication</span></div><div class="cH-nm"><b>Nutri-Plus Gel Vitamin 120g</b><span>18/11</span></div><div class="cH-amt"><span>Jumlah</span><b style="color:var(--ink)">Rp 98.000</b></div></div></div></div></div></div>
+  </div></div></div>
+  <p class="frame-cap"><b>电脑：</b>左侧账户侧栏（头像昵称 + 我的「Saya」/ 我的订单 / 收货地址 / 我的券 / 我的反馈 / 退出，订单项角标 = 待付款 + 已发货之和），右侧六个分组一行全显示，订单卡全宽、内容同手机。侧栏是网站新增的导航，账户各页（H1、H3、H5、I1、I2）共用。 <b>视觉：</b>内容区白底（去掉小镇的鱼青底和色带），侧栏白卡圆角 24、选中项浅紫底紫字（账户各页共用，同 I 泳道）；页标题 Bricolage；Tab、车票券入口、订单卡与手机同一套。</p>
+</div></div></section></div>
+</body>
+</html>

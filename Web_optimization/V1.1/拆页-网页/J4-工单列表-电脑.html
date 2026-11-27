@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>J4 工单列表·电脑 · 官网与网页商城</title>
+<link rel="stylesheet" href="_fonts.css">
+<link rel="stylesheet" href="_style.css">
+<style>.splitpg{max-width:1240px;margin:0 auto;padding:20px 24px 60px}.pgnav{display:flex;gap:16px;align-items:center;font-size:13px;margin-bottom:14px;flex-wrap:wrap}.pgnav a{color:var(--page-accent);text-decoration:none;font-weight:600}.pgnav .cur{color:var(--page-ink-2)}.splitpg .lane{margin-top:8px}
+
+/* ===== J 泳道 · 方向 D「干净 + playful」· 客服工单内页（品牌紫区域，内页只用浅紫点缀）：白底 + 浅紫细边白卡；
+   空态一张小照片；J3 成功页一只小照片 + 一个小紫色圆块 ===== */
+.scr .cJ-g8>*+*{margin-top:8px}.scr .cJ-g12>*+*{margin-top:12px}.scr .cJ-g16>*+*{margin-top:16px}.scr .cJ-g24>*+*{margin-top:24px}
+.body.cJ-pg{background:#fff}
+.cJ-pg .tb{background:#fff}
+.cJ-pg .empty b{line-height:1.3}
+.cJ-pg .empty p{line-height:1.4}
+.cJ-pg .t-b,.cJ-dk .t-b{font-size:16px;line-height:1.5}
+.cJ-dk{background:#fff}
+.cJ-dk .h-h{font-family:var(--dsp);font-weight:800;letter-spacing:-.01em}
+.cJ-lb{font-size:12px;line-height:1.2;font-weight:700;letter-spacing:.08em;color:var(--dd-p)}
+.cJ-lb em{color:var(--dd-red);font-style:normal}
+.cJ-ml{font-size:12px;line-height:1.2;font-weight:700;letter-spacing:.08em;color:var(--dd-p)}
+.cJ-st{display:inline-flex;align-items:center;height:24px;padding:0 12px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap;flex:none}
+.cJ-st.wait{background:var(--dd-goldt);color:var(--dd-tipt)}
+.cJ-st.prog{background:var(--dd-l2);color:var(--dd-p6)}
+.cJ-st.done{background:var(--okbg);color:var(--ok)}
+.cJ-st.closed{background:var(--dd-l1);color:var(--dd-ink2)}
+.cJ-tag{display:inline-flex;align-items:center;height:24px;padding:0 12px;border-radius:999px;background:var(--dd-l1);color:var(--dd-p6);font-size:12px;font-weight:600}
+.cJ-tk{padding:16px 20px}
+.cJ-tk .t1{display:flex;align-items:center;gap:8px}
+.cJ-tk .t1 b{flex:1;font-size:16px;line-height:1.4;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cJ-ph{display:flex;gap:8px;flex-wrap:wrap}
+.cJ-ph .s-pi{width:80px;border-radius:16px}
+.cJ-ph .s-pi>.ms{font-size:30px}
+.cJ-ph .x{position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:var(--dd-ink);color:#fff;display:flex;align-items:center;justify-content:center}
+.cJ-ph .x .ms{font-size:16px}
+.cJ-ph .add{width:80px;height:80px;border-radius:16px;border:2px dashed var(--mint5);color:var(--dd-p);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:12px;line-height:1.2;font-weight:600}
+.cJ-ph .add .ms{font-size:24px}
+.cJ-chips{display:flex;flex-wrap:wrap;gap:8px}
+.cJ-chips .chip{height:36px;padding:0 16px}
+.cJ-ord{display:flex;align-items:center;gap:8px;background:var(--dd-l1);border-radius:16px;padding:12px}
+.cJ-ord .s-pi{width:48px;border-radius:12px;flex:none}
+.cJ-ord .s-pi .ms{font-size:24px}
+.cJ-ord .no{white-space:nowrap;letter-spacing:-.01em}
+.cJ-ord>.ms{color:var(--dd-ink2);font-size:24px}
+.cJ-sel{display:flex;align-items:center;justify-content:space-between}
+.cJ-star{display:flex;gap:8px}
+.cJ-star .ms{font-size:30px;color:var(--dd-gold)}
+.cJ-star .ms.o{color:var(--dd-l2)}
+.cJ-sw{display:flex;align-items:center;gap:12px;font-size:16px;line-height:1.4}
+.cJ-sw span{flex:1}
+.cJ-back{display:flex;align-items:center;gap:4px;font-size:13px;line-height:1.4;font-weight:600;color:var(--dd-p)}
+.cJ-back .ms{font-size:24px}
+.cJ-h7{font:800 18px/1.3 var(--dsp);letter-spacing:-.01em}
+/* J3 成功：一只小狗照片站在小紫色圆块上沿，圆块里白色对勾 */
+.cJ-ok{position:relative;display:flex;flex-direction:column;align-items:center}
+.cJ-ok .dd-shape{width:72px;height:72px;display:flex;align-items:center;justify-content:center;color:var(--dd-on);margin-top:-8px}
+.cJ-ok .dd-shape .ms{font-size:40px}
+.cJ-ok .dd-ph{position:relative;z-index:1}
+.cJ-eph{margin-bottom:4px}
+/* 电脑账户侧栏：和 I1 / I2 / H 电脑稿同一组件（规则同 lane-I 的 .cI-side 一组，原样复制，改时两边一起改） */
+.cI-side{width:280px;flex:none}
+.cI-side .db-card{padding:8px}
+.cI-sp{display:flex;align-items:center;gap:12px;padding:12px 12px 16px;border-bottom:1px solid var(--dd-l2);margin-bottom:8px}
+.cI-sp .av{width:48px;height:48px;font-size:16px;background:var(--dd-l1);color:var(--dd-p)}
+.cI-sp b{display:block;font-size:16px;line-height:1.4;font-weight:600}
+.cI-sl{display:flex;align-items:center;gap:12px;padding:12px;border-radius:16px;font-size:16px;line-height:1.4;color:var(--dd-ink2)}
+.cI-sl .ms{font-size:24px}
+.cI-sl.on{color:var(--dd-p);font-weight:600;background:var(--dd-l1)}
+.cI-sl.dan{color:var(--dd-red)}
+.cI-n{min-width:16px;height:16px;border-radius:999px;background:var(--dd-red);color:#fff;font-size:10px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;padding:0 4px;line-height:1;margin-left:auto}
+</style>
+</head>
+<body>
+<div class="splitpg"><div class="pgnav"><a href="00-目录.html">← 目录</a><a href="J1-新建工单-电脑.html">‹ J1 新建工单·电脑</a><span class="cur">泳道 J 客服工单 · 研发先看整合稿页头 <a href="../ui-web-store-integrated-v1.html">ui-web-store-integrated-v1.html</a></span></div><section class="lane">
+  <h2>J · 客服工单</h2>
+  <p class="desc">FR-314。网站的投诉渠道 = 邮箱 + 工单。页面名照 App 叫「Masukan Saya」（我的反馈），PRD 叫客服工单，见待定</p>
+  <div class="flow">
+    <em>主路径：</em><i>由 I1「Masukan Saya」进入 →</i> <s>J4</s> 工单列表 <i>→「Laporkan Masalah」→</i> <s>J1</s> 新建 <i>→ 提交 →</i> <s>J3</s> 提交成功 <i>→「Lihat tiket」→</i> <s>J6</s> 工单详情
+    <span class="nl"></span>
+    <em>变体：</em><s>J2</s> 从订单进来的新建工单（替代 J1：已带订单号，由 H13 进入） <i>／</i> <s>J5</s> 工单列表为空 <i>／ 未登录点「Laporkan Masalah」先走</i> <s>B1</s>
+  </div>
+  <div class="frames"><div class="frame-card desk">
+  <p class="frame-tag"><b>J4</b>工单列表·电脑<span class="k reuse">照搬 App</span></p>
+  <div class="desk-wrap"><div class="dbar"><i></i><i></i><i></i><span>tailtopia.id/akun/tiket</span></div>
+  <div class="desk-shell fixed"><div class="scr" style="display:flex;flex-direction:column">
+    <div class="wd"><span class="logo"><i><span class="ms f">pets</span></i>TailTopia</span>
+      <div class="nav"><span>Toko</span><span>Tentang TailTopia</span></div>
+      <div class="r"><span class="lang"><b>ID</b> | EN</span><span class="ib"><span class="ms">shopping_cart</span><span class="cnt">2</span></span><span class="av">SW</span></div></div>
+    <div class="cJ-dk st-brand" style="flex:1"><div class="dc" style="display:flex;gap:32px;align-items:flex-start;padding:32px 0 48px"><div class="cI-side"><div class="db-card"><div class="cI-sp"><span class="av">SW</span><div><b>Sari Wulandari</b><p class="t-d">sari.w@gmail.com</p></div></div><div class="cI-sl"><span class="ms">person</span>Saya</div><div class="cI-sl"><span class="ms">receipt_long</span>Pesanan Saya<span class="cI-n">3</span></div><div class="cI-sl"><span class="ms">location_on</span>Alamat pengiriman</div><div class="cI-sl"><span class="ms">confirmation_number</span>Kupon Saya</div><div class="cI-sl on"><span class="ms">support_agent</span>Masukan Saya</div><div class="hr" style="margin:8px 0"></div><div class="cI-sl dan"><span class="ms">logout</span>Keluar</div></div></div><div style="flex:1;min-width:0">
+      <div style="display:flex;align-items:center;justify-content:space-between"><p class="h-h">Masukan Saya</p><span class="btn pri"><span class="ms">edit</span>Laporkan Masalah</span></div>
+      <div class="cJ-g12" style="margin-top:24px">
+        <div class="db-card cJ-tk" style="padding:20px 24px;display:flex;align-items:center;gap:24px"><div style="flex:1;min-width:0" class="cJ-g8"><div class="t1"><b>Ukuran harness tidak sesuai</b></div><div class="cJ-chips"><span class="cJ-tag">Pengembalian dana</span></div></div><p class="t-d" style="width:140px">Diajukan 22 Nov 2026</p><span style="width:96px;display:flex;justify-content:flex-end"><span class="cJ-st wait">Menunggu</span></span><span class="ms" style="color:var(--muted)">chevron_right</span></div>
+        <div class="db-card cJ-tk" style="padding:20px 24px;display:flex;align-items:center;gap:24px"><div style="flex:1;min-width:0" class="cJ-g8"><div class="t1"><b>Paket belum sampai sejak 5 hari</b></div><div class="cJ-chips"><span class="cJ-tag">Konsultasi</span></div></div><p class="t-d" style="width:140px">Diajukan 20 Nov 2026</p><span style="width:96px;display:flex;justify-content:flex-end"><span class="cJ-st prog">Diproses</span></span><span class="ms" style="color:var(--muted)">chevron_right</span></div>
+        <div class="db-card cJ-tk" style="padding:20px 24px;display:flex;align-items:center;gap:24px"><div style="flex:1;min-width:0" class="cJ-g8"><div class="t1"><b>Kupon tidak bisa dipakai saat checkout</b></div><div class="cJ-chips"><span class="cJ-tag">Bug</span></div></div><p class="t-d" style="width:140px">Diajukan 15 Nov 2026</p><span style="width:96px;display:flex;justify-content:flex-end"><span class="cJ-st done">Selesai</span></span><span class="ms" style="color:var(--muted)">chevron_right</span></div>
+        <div class="db-card cJ-tk" style="padding:20px 24px;display:flex;align-items:center;gap:24px"><div style="flex:1;min-width:0" class="cJ-g8"><div class="t1"><b>Tidak bisa unggah foto di Diary, selalu gagal</b></div></div><p class="t-d" style="width:140px">Diajukan 2 Nov 2026</p><span style="width:96px;display:flex;justify-content:flex-end"><span class="cJ-st closed">Ditutup</span></span><span class="ms" style="color:var(--muted)">chevron_right</span></div>
+      </div>
+    </div></div></div>
+  </div></div></div>
+  <p class="frame-cap"><b>电脑：</b>内容同手机；左侧是账户侧栏（同 I1 / I2 / H 电脑稿，当前项「Masukan Saya」），右侧列表；「Laporkan Masalah」从底部吸底按钮挪到标题右侧；每行横排：标题 + 标签｜提交日期｜状态胶囊｜›。回「我的」走侧栏「Saya」。空态 J5 电脑同组件，不另出稿。<b>视觉：</b>页头下白底，每条工单是白色 .db-card 横排（圆角 24、浅紫细边），主题标签浅紫胶囊、状态胶囊同手机；页标题 Bricolage；「Laporkan Masalah」紫色胶囊。</p>
+</div></div></section></div>
+</body>
+</html>

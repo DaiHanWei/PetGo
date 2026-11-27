@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>F3 新增地址（结算页内） · 官网与网页商城</title>
+<link rel="stylesheet" href="_fonts.css">
+<link rel="stylesheet" href="_style.css">
+<style>.splitpg{max-width:1240px;margin:0 auto;padding:20px 24px 60px}.pgnav{display:flex;gap:16px;align-items:center;font-size:13px;margin-bottom:14px;flex-wrap:wrap}.pgnav a{color:var(--page-accent);text-decoration:none;font-weight:600}.pgnav .cur{color:var(--page-ink-2)}.splitpg .lane{margin-top:8px}
+
+/* ===== F 结算 · 方向 D「干净 + playful」：内页以效率为主，不放主形状；浅紫底 #F8F2FF + 白卡（圆角 24、浅紫细边、无阴影）；券一律车票 .dd-ticket ===== */
+.cF-pg{background:var(--dd-l1)}
+.cF-tb{background:#fff}
+.cF-dk .h-h{font-family:var(--dsp);font-weight:800;letter-spacing:-.01em}
+.cF-fi{width:32px;height:32px;border-radius:50%;background:var(--dd-l1);color:var(--dd-p);display:flex;align-items:center;justify-content:center;flex:none}
+.cF-fi .ms{font-size:18px}
+.cF-fi.br{background:var(--dd-p);color:#fff}
+.cF-pg .kv b,.cF-dk .kv b{font-variant-numeric:tabular-nums}
+.kv.tot.cF-tot{font-size:16px}
+.kv.tot.cF-tot b{color:var(--dd-ink);font-weight:800;font-size:18px;font-variant-numeric:tabular-nums}
+.cF-sum{font:800 24px/1.25 var(--dsp);letter-spacing:-.01em;color:var(--dd-ink);font-variant-numeric:tabular-nums}
+.cF-sum.na{color:var(--dd-mute)}
+.cF-pi{width:44px;height:44px;border-radius:12px;flex:none}
+.cF-pi .ms{font-size:24px}
+.cF-pi.l{width:72px;height:72px;border-radius:16px}
+.cF-pi.l .ms{font-size:40px}
+.cF-qty{position:absolute;right:0;bottom:0;background:var(--dd-ink);color:#fff;font-size:9px;font-weight:700;border-radius:6px 0 12px 0;padding:0 4px}
+.cF-mu{color:var(--dd-mute)}
+.cF-op{border-radius:16px;box-shadow:inset 0 0 0 1px var(--dd-l2);padding:12px 16px;display:flex;align-items:center;gap:12px}
+.cF-op.on{box-shadow:inset 0 0 0 2px var(--dd-p)}
+.cF-ac.on{box-shadow:inset 0 0 0 2px var(--dd-p)}
+.cF-dlh{font:800 18px/1.3 var(--dsp);letter-spacing:-.01em}
+/* 结算页满减行：已用券额是小车票 */
+.dd-ticket.sm.cF-tv{min-height:32px;padding:0 12px}
+.dd-ticket.sm.cF-tv .amt{color:var(--dd-p)}
+/* 选券抽屉：车票 .dd-ticket；左栏面额 + 门槛 → 虚线 → 右栏券名 / 有效期 + 单选圈；选中 = 紫色 2px 内描边；不可用 = .used */
+.dd-ticket.cF-tk{align-items:stretch;min-height:96px;padding:0;gap:0}
+.cF-tk .lf{width:120px;flex:none;display:flex;flex-direction:column;justify-content:center;padding:12px 8px 12px 20px}
+.cF-tk .amt{font-size:18px;line-height:1.2;color:var(--dd-p)}
+.cF-tk .inf{flex:1;min-width:0;padding:12px 4px 12px 12px;display:flex;flex-direction:column;justify-content:center}
+.cF-tk .inf p{line-height:1.4}
+.cF-tk .rad{align-self:center;margin-right:16px;background:#fff}
+.cF-tk.on{box-shadow:inset 0 0 0 2px var(--dd-p)}
+.cF-tk.used .amt{color:var(--dd-mute)}
+
+/* S4：本泳道屏内文字避免单词独占一行（只作用于本泳道） */
+.lnF .phone-shell,.lnF .desk-shell{text-wrap:pretty}
+.nw{white-space:nowrap}
+.lnF .cF-dlh{text-wrap:balance}
+.cF-tel{white-space:nowrap}
+</style>
+</head>
+<body>
+<div class="splitpg"><div class="pgnav"><a href="00-目录.html">← 目录</a><a href="F2-选地址.html">‹ F2 选地址</a><a href="F4-选快递.html">F4 选快递 ›</a><span class="cur">泳道 F 结算 · 研发先看整合稿页头 <a href="../ui-web-store-integrated-v1.html">ui-web-store-integrated-v1.html</a></span></div><section class="lane">
+  <h2>F · 结算</h2>
+  <p class="desc">FR-307。照 App 的一页结算；电脑左边填写、右边固定付款明细和提交按钮。</p>
+  <div class="flow">
+    <em>主路径：</em><i>由 E1「Checkout (n)」或 D1「立即购买」进入 →</i> <s>F1</s> 结算 <i>→「Buat Pesanan」→</i> <s>G1</s> 付款页 <i>（PawCoin 付全款或 0 元单 →</i> <s>G3</s><i>）</i>
+    <span class="nl"></span>
+    <em>分支：</em><s>F1</s> <i>点地址 →</i> <s>F2</s> 选地址 <i>→「Tambah alamat baru」→</i> <s>F3</s> <i>／ 卡内「Ubah」→</i> <s>I3</s> <i>／ 还没有地址时点「Tambah alamat pengiriman」直接 →</i> <s>F3</s> <i>／ 点快递 →</i> <s>F4</s> <i>／ 点满减或免运行 →</i> <s>F5</s> <i>／ 同意框旁「Panduan Belanja」→</i> <s>A14</s>
+    <span class="nl"></span>
+    <em>变体（替代 F1 的某一块）：</em><s>F6</s> 地址不能送（「Pilih alamat lain」→ <s>F2</s>） <i>／</i> <s>F7</s> 邮编和区不一致（「Ubah alamat」→ <s>F2</s>） <i>／</i> <s>F8</s> 运费加载失败或没有快递 <i>／</i> <s>F10</s> PawCoin 超过每单上限的提示
+    <span class="nl"></span>
+    <em>提交时：</em><s>F9</s> 部分商品已不能买（居中弹窗「Hapus &amp; lanjut」，删后停在 F1 不自动提交）
+  </div>
+  <div class="frames"><div class="frame-card lnF">
+  <p class="frame-tag"><b>F3</b>新增地址（结算页内）<span class="k reuse">照搬 App</span></p>
+  <div class="phone-shell"><div class="scr"><div class="sb"><span>9:41</span><span><span class="ms f">signal_cellular_alt</span> <span class="ms f">wifi</span> <span class="ms f">battery_full</span></span></div><div class="url"><div><span class="ms">lock</span>tailtopia.id/toko/checkout</div></div><div class="tb cF-tb"><span class="bk"><span class="ms">chevron_left</span></span><h1>Checkout</h1></div><div class="body g cF-pg"><div style="padding-top:12px"><div class="card" style="margin:0 16px 12px;padding:4px 20px"><div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line2);"><span class="cF-fi"><span class="ms">location_on</span></span><div style="flex:1;min-width:0"><p style="font-size:16px;font-weight:600;line-height:1.3">Rina Wulandari · <span class="cF-tel">+62 812 3456 7890</span></p><p class="t-c" style="margin-top:4px">Jl. Kemang Raya No. 12, Mampang Prapatan, Jakarta Selatan, DKI Jakarta, 12730</p></div><span class="ms" style="font-size:18px;color:var(--dd-mute)">chevron_right</span></div><div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line2);"><span class="cF-fi"><span class="ms">local_shipping</span></span><div style="flex:1;min-width:0"><p style="font-size:16px;font-weight:600;line-height:1.3">J&amp;T · EZ · Estimasi 2 - 4 hari</p><p style="font-size:13px;color:var(--ok)">Termurah</p></div><span style="font-size:16px">Rp 12.000</span><span class="ms" style="font-size:18px;color:var(--dd-mute)">chevron_right</span></div><div style="display:flex;align-items:center;gap:12px;padding:12px 0;"><span class="cF-fi"><span class="ms">shield</span></span><div style="flex:1;min-width:0"><p style="font-size:16px;line-height:1.3">Asuransi pengiriman</p><p class="t-d">0,5% dari harga produk</p></div><span class="sw"></span></div></div><div class="card" style="margin:0 16px 12px;padding:12px 20px"><div style="display:flex;align-items:center;gap:8px"><div class="s-pi st-cat cF-pi"><span class="ms">rice_bowl</span></div><div class="s-pi st-cat cF-pi"><span class="ms">set_meal</span><span class="cF-qty">×2</span></div><span style="font-size:16px;font-weight:600;margin-left:4px;flex:1;white-space:nowrap">Produk (3)</span><span style="font-size:16px;white-space:nowrap">Rp 317.000</span><span class="ms" style="font-size:18px;color:var(--dd-mute)">expand_more</span></div></div><div class="card" style="margin:0 16px 12px;padding:4px 20px"><div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ok);font-weight:600;padding:8px 0;border-bottom:1px solid var(--line2)"><span class="ms" style="font-size:18px;color:var(--ok)">savings</span>Kamu hemat Rp 20.000 di pesanan ini</div><div style="display:flex;align-items:center;gap:8px;padding:12px 0;border-bottom:1px solid var(--line2)"><span style="font-size:16px;flex:1;white-space:nowrap">Diskon belanja</span><span class="dd-ticket sm cF-tv"><span class="amt">−Rp 20.000</span></span><span class="ms" style="font-size:18px;color:var(--dd-mute)">chevron_right</span></div><div style="display:flex;align-items:center;gap:8px;padding:12px 0;border-bottom:1px solid var(--line2)"><span style="font-size:16px;flex:1;white-space:nowrap">Gratis ongkir</span><span class="t-c" style="color:var(--dd-ink2)">Belum ada yang bisa dipakai</span><span class="ms" style="font-size:18px;color:var(--dd-mute)">chevron_right</span></div><div style="display:flex;align-items:center;gap:4px;font-size:12px;color:var(--dd-ink2);padding:8px 0"><span class="ms" style="font-size:16px;color:var(--mint)">local_shipping</span>Belanja Rp 53.000 lagi untuk potongan ongkir</div></div><div class="card" style="margin:0 16px 12px;padding:12px 20px 4px;"><p style="font-size:16px;font-weight:600">Metode pembayaran</p><div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line2);"><span class="cF-fi br"><span class="ms f">pets</span></span><div style="flex:1;min-width:0"><p style="font-size:16px;line-height:1.3">Pakai PawCoin</p><p class="t-d">Saldo Rp 50.000</p></div><span style="font-size:16px;color:var(--mint);font-weight:600">50.000</span><span class="sw on"></span></div><div style="display:flex;align-items:center;gap:12px;padding:12px 0;"><span class="cF-fi"><span class="ms">qr_code_2</span></span><div style="flex:1;min-width:0"><p style="font-size:16px;line-height:1.3">Sisanya lewat QRIS</p><p class="t-d">Bisa pakai <span class="nw">e-wallet</span> atau m-banking</p></div><span style="font-size:16px;font-weight:600">Rp 259.000</span></div><div style="background:var(--warnbg);border-radius:16px;padding:12px 16px;margin:4px 0 16px"><p style="font-size:12px;font-weight:700;color:var(--warnt)">PawCoin</p><p style="font-size:12px;line-height:1.5;color:#8A6C4A;margin-top:4px">Bagian yang dibayar dengan PawCoin hanya dikembalikan sebagai PawCoin, tidak bisa dicairkan.</p></div></div><div class="card" style="margin:0 16px 12px;padding:20px"><p style="font-size:16px;font-weight:600;margin-bottom:4px">Rincian pembayaran</p><div class="kv "><span>Subtotal produk</span><b style="">Rp 317.000</b></div><div class="kv "><span>Diskon belanja</span><b style="color:var(--mint)">−Rp 20.000</b></div><div class="kv "><span>Ongkos kirim</span><b style="">Rp 12.000</b></div><div class="hr" style="margin:8px 0"></div><div class="kv tot cF-tot"><span>Total bayar</span><b style="">Rp 309.000</b></div><div class="kv "><span>PawCoin</span><b style="color:var(--mint)">−Rp 50.000</b></div><div class="kv" style="font-size:16px;color:var(--ink);font-weight:600"><span>Sisa bayar lewat QRIS</span><b style="">Rp 259.000</b></div></div><div class="card" style="margin:0 16px 12px;padding:12px 20px;display:flex;gap:8px"><span class="chk on" style="width:18px;height:18px;border-radius:4px;margin-top:4px"><span class="ms" style="font-size:13px">check</span></span><div style="flex:1"><p style="font-size:12px;line-height:1.5;color:var(--ink2)">Demi keamanan pangan, kemasan makanan yang sudah dibuka tidak bisa diretur.</p><p style="font-size:12px;margin-top:4px"><a style="color:var(--mint);font-weight:600">Lihat syarat retur</a><span class="t-m"> · </span><a style="color:var(--mint);font-weight:600">Panduan Belanja</a></p></div></div><div style="height:130px"></div></div><div class="stick" style="flex-direction:column;align-items:stretch;gap:4px;padding-top:12px"><div style="display:flex;align-items:center;gap:12px"><div style="flex:1"><p class="t-d" style="white-space:nowrap">Total bayar<span style="color:var(--ok);font-weight:600;margin-left:8px">Hemat Rp 20.000</span></p><p class="cF-sum">Rp 309.000</p></div><span class="btn pri">Buat Pesanan</span></div><p class="t-d">Sisa bayar lewat QRIS: Rp 259.000</p></div></div><div class="scrim"></div><div class="sheet" style="height:740px;display:flex;flex-direction:column;padding-bottom:0"><div class="grab"></div><div class="sh-h"><b>Tambah alamat</b><span class="ms" style="font-size:24px">close</span></div><div style="flex:1;overflow:hidden"><div class="gap12"><div class="fld"><label>Nama penerima <em>*</em></label><div class="inp ph" style="height:48px"><span style="flex:1">Nama penerima</span></div></div><div class="fld"><label>No. HP penerima <em>*</em></label><div class="inp ph" style="height:48px"><span style="flex:1">08123456789</span></div><span class="hint">contoh 08123456789 — angka 0 di depan otomatis dihapus</span></div><div class="fld"><label>Wilayah <em>*</em></label><div class="inp ph" style="height:48px"><span style="flex:1">Pilih wilayah</span><span class="ms" style="font-size:18px">chevron_right</span></div></div><div class="fld"><label>Kode pos <em>*</em></label><div class="inp ph" style="height:48px"><span style="flex:1">Kode pos</span></div></div><div class="fld"><label>Alamat lengkap <em>*</em></label><div class="inp ph ta" style="height:96px"><span style="flex:1">Nama jalan, nomor rumah, patokan</span></div></div></div></div><div style="padding:12px 0 34px;background:#fff;border-top:1px solid var(--line2)"><span class="btn pri blk">Simpan &amp; pakai</span></div></div></div></div>
+  <p class="frame-cap"><b>照 App（<code>checkout_sheets.dart:150-180</code>，<code>AddressFormBody(compact: true)</code>）：</b>底部抽屉（屏高 92%）标题「Tambah alamat」；紧凑表单只有 5 项：Nama penerima（收件人姓名）→ No. HP penerima（手机号，下方帮助行「开头的 0 会自动去掉」）→ Wilayah（地区，点开三级选择，同 I4）→ Kode pos（邮编）→ Alamat lengkap（详细地址）；字段样式、失焦校验、报错文案、地区选择、开通提示条全部同 I3。吸底「Simpan &amp; pakai」（保存并使用）→ 保存后回填为本单地址并重新试算。<b>11-24 操作者定照 App 精简表单：</b>不出「标签」和「设为默认」两项；只补 20 个地址上限——满 20 个时 F2 的「+ Tambah alamat baru」置灰并提示（见 F2），进不到这一屏。收件人姓名 2–40 字（报错「Isi 2–40 karakter」）、详细地址 10–120 字，同 I3（后端 receiver_name VARCHAR(40)、address_line VARCHAR(120)）。<b>网站改：</b>电脑上是居中弹窗。<b>视觉：</b>底下结算页同 F1；抽屉贴底、顶部圆角 28，标题 Bricolage；表单输入框圆角 16、浅紫细边；吸底「Simpan &amp; pakai」紫色胶囊。</p>
+</div></div></section></div>
+</body>
+</html>

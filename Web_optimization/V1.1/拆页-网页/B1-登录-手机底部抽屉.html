@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>B1 登录·手机底部抽屉 · 官网与网页商城</title>
+<link rel="stylesheet" href="_fonts.css">
+<link rel="stylesheet" href="_style.css">
+<style>.splitpg{max-width:1240px;margin:0 auto;padding:20px 24px 60px}.pgnav{display:flex;gap:16px;align-items:center;font-size:13px;margin-bottom:14px;flex-wrap:wrap}.pgnav a{color:var(--page-accent);text-decoration:none;font-weight:600}.pgnav .cur{color:var(--page-ink-2)}.splitpg .lane{margin-top:8px}
+
+.scr .cB-g8>*+*{margin-top:8px}.scr .cB-g12>*+*{margin-top:12px}.scr .cB-g16>*+*{margin-top:16px}
+/* 登录 · 方向 D：内页不放主形状；登录区点缀 = 品牌紫小色块（56）+ 浅紫块；白抽屉 / 白弹窗 */
+.cB-sso{height:48px;border-radius:999px;font-size:16px;font-weight:600;line-height:1.2;display:flex;align-items:center;justify-content:center;gap:12px;width:100%;white-space:nowrap}
+.cB-sso.g{background:#fff;color:var(--dd-ink);box-shadow:inset 0 0 0 1.5px var(--dd-l2)}
+.cB-sso.a{background:#000;color:#fff}
+.cB-sso .gl{font-size:18px;font-weight:700;color:#4285F4;line-height:1}
+.desk-shell .cB-sso{height:52px}
+.cB-auto{background:var(--dd-l1);border-radius:16px;padding:12px 16px;font-size:13px;line-height:1.4;color:var(--dd-ink2);display:flex;gap:8px;align-items:flex-start}
+.cB-auto .ms{font-size:18px;color:var(--dd-p)}
+.cB-auto b{color:var(--dd-ink);font-weight:600}
+.cB-agr{font-size:12px;line-height:1.4;color:var(--dd-ink2);text-align:center;text-wrap:pretty}
+.cB-agr a{color:var(--dd-p);font-weight:600;white-space:nowrap}
+.cB-close{font-size:16px;line-height:1.5;font-weight:600;color:var(--dd-ink2);text-align:center;padding:8px 0 0}
+.cB-sh{padding:12px 20px 34px}
+.cB-mk{display:flex;align-items:center;justify-content:center;color:var(--dd-on);margin:0 auto 12px}
+.cB-mk .ms{font-size:30px}
+.scr .cB-ttl{text-align:center}
+.cB-sub{font-size:13px;line-height:1.4;color:var(--dd-ink2);text-align:center;margin-top:4px;text-wrap:pretty}
+.scr .cB-sub{margin-top:4px}
+.cB-x{position:absolute;right:16px;top:16px;width:40px;height:40px;border-radius:50%;background:var(--dd-l1);color:var(--dd-ink);display:flex;align-items:center;justify-content:center}
+.cB-x .ms{font-size:24px}
+/* 底下的商品详情（照 D1 方向 D 样板缩略：白底、猫色浅底大图、价格 Bricolage、白胶囊吸底栏） */
+.cB-gal{border-radius:32px;height:280px;margin:4px 16px 0;background:var(--st);color:var(--sl);display:flex;align-items:center;justify-content:center}
+.cB-gal .ms{font-size:72px}
+.cB-buy{padding:20px 16px 0}
+.cB-pr{font:800 40px/1.05 var(--dsp);letter-spacing:-.02em;color:var(--dd-ink);font-variant-numeric:tabular-nums}
+.scr .cB-pr{margin-top:8px}
+.cB-meta{display:flex;align-items:center;gap:4px;font-size:13px;line-height:1.4;color:var(--dd-ink2);white-space:nowrap}
+.scr .cB-meta{margin-top:8px}
+.cB-meta .ms{font-size:16px;color:var(--dd-gold)}
+.cB-dock{position:absolute;left:12px;right:12px;bottom:20px;background:#fff;border-radius:999px;padding:4px;display:flex;gap:8px;box-shadow:0 0 0 1px var(--dd-l2),0 12px 32px rgba(46,42,69,.12);z-index:3}
+.cB-dock .ad{width:48px;height:48px;border-radius:50%;background:var(--dd-l2);color:var(--dd-ink);display:flex;align-items:center;justify-content:center;flex:none}
+.cB-dock .btn{flex:1;justify-content:space-between;padding:0 20px}
+.cB-dmain{display:grid;grid-template-columns:560px 1fr;gap:64px;padding:32px 120px 0;align-items:start}
+.cB-bc{display:flex;align-items:center;gap:8px;font-size:16px;color:var(--dd-ink2);padding:24px 120px 0}
+.cB-bc .t{display:inline-flex;align-items:center;gap:4px;height:32px;padding:0 12px;border-radius:999px;background:var(--dd-l1);color:var(--dd-ink);font-weight:600}.cB-bc .t .ms{font-size:18px;color:var(--dd-p)}
+.cB-dgal{border-radius:48px;height:560px;background:var(--st);color:var(--sl);display:flex;align-items:center;justify-content:center}
+.cB-dgal .ms{font-size:120px}
+.desk-shell .cB-pr{font-size:48px}
+.desk-shell .scr .cB-pr{margin-top:12px}
+</style>
+</head>
+<body>
+<div class="splitpg"><div class="pgnav"><a href="00-目录.html">← 目录</a><a href="A14-购物指南-电脑.html">‹ A14 购物指南·电脑</a><a href="B2-登录失败.html">B2 登录失败 ›</a><span class="cur">泳道 B 登录 · 研发先看整合稿页头 <a href="../ui-web-store-integrated-v1.html">ui-web-store-integrated-v1.html</a></span></div><section class="lane">
+  <h2>B · 登录</h2>
+  <p class="desc">FR-303。触发：顶栏「登录」、加购、立即购买、领券、打开购物车 / 我的订单 / 我的、提交工单</p>
+  <div class="flow">
+    <em>主路径：</em><i>由 A1 / C3 / D2 / E6 / 任意需登录操作进入 →</i> <s>B1</s> 登录弹窗 <i>→ Google / Apple 第三方页面（不出稿）→ 回到原页面并自动完成刚才的操作</i>
+    <span class="nl"></span>
+    <em>失败：</em><s>B2</s> 登录失败提示（取消授权 / 网络错误，弹窗保持） <i>／</i> <s>B3</s> 账号被封禁（登录接口返回 403）
+  </div>
+  <div class="frames"><div class="frame-card">
+  <p class="frame-tag"><b>B1</b>登录·手机底部抽屉<span class="k mod">改动</span></p>
+  <div class="phone-shell"><div class="scr"><div class="sb"><span>9:41</span><span><span class="ms f">signal_cellular_alt</span> <span class="ms f">wifi</span> <span class="ms f">battery_full</span></span></div><div class="url"><div><span class="ms">lock</span>tailtopia.id/toko/p/royal-canin-kitten</div></div><div class="body" style="background:#fff"><div class="tb"><span class="bk"><span class="ms">chevron_left</span></span><h1></h1><span class="ib"><span class="ms">shopping_cart</span></span></div><div class="cB-gal st-cat"><span class="ms">rice_bowl</span></div><div class="cB-buy" style="flex:1"><p class="dd-h2">Royal Canin Kitten Dry Food 2 kg</p><p class="cB-pr">Rp 125.000</p><p class="cB-meta"><span class="ms f">star</span>4.8 · 23 ulasan · Sisa 5</p></div><div class="cB-dock"><span class="ad"><span class="ms">add_shopping_cart</span></span><span class="btn pri"><span>Beli Sekarang</span><span class="tnum">Rp 125.000</span></span></div><div class="scrim"></div><div class="sheet cB-sh"><div class="grab"></div><span class="dd-shape sm soft c-brand cB-mk"><span class="ms f">pets</span></span><p class="dd-h1 cB-ttl">Masuk</p><p class="cB-sub">Masuk untuk lanjut belanja. Pesanan, alamat, kupon, dan Paw Coin kamu sama seperti di App.</p><div class="cB-g12" style="margin-top:24px"><div class="cB-sso g"><span class="gl">G</span>Lanjutkan dengan Google</div><div class="cB-sso a"><svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>Lanjutkan dengan Apple</div></div><div class="cB-auto" style="margin-top:16px"><span class="ms f">auto_awesome</span><span>Belum punya akun? <b>Akun baru dibuat otomatis</b> — cukup satu tap!</span></div><p class="cB-agr" style="margin-top:16px">Dengan melanjutkan, kamu menyetujui <a>Syarat &amp; Ketentuan</a> dan <a>Kebijakan Privasi</a></p><p class="cB-close" style="margin-top:8px">Tutup</p></div></div></div></div>
+  <p class="frame-cap"><b>照 App：</b>软登录抽屉 <code>login_soft_sheet.dart</code> 的结构（拖拽条 → 标题 → 副标题 → 登录按钮 → 条款行 → 关闭「Tutup」），自动建号提示条取自整页登录 <code>login_page.dart:120-147</code>（arb <code>loginAutoAccount*</code>），条款行两个链接可点（<code>agreement_links.dart</code>）。底下是商品详情页（点「Beli Sekarang」触发）。<b>按钮文案照 App（11-24 操作者定）：</b>「用 Google 继续 Lanjutkan dengan Google」「用 Apple 继续 Lanjutkan dengan Apple」（arb <code>loginGoogle</code> / <code>loginApple</code>），英文网站统一用「Continue with Google / Continue with Apple」。<b>网站改：</b>Google 在上、Apple 在下，Apple 手机电脑都显示（App 只在 iOS 显示）；副标题新写（App 讲社区，网站讲订单 / 优惠券 / Paw Coin 打通）；条款行字号 12（App 10.5）。<b>App 有、网站去掉：</b>紫色品牌头「Selamat datang!」、背书数字 10K+/50K+/100+、兽医登录入口「Kamu adalah dokter hewan?」——网站不做兽医端，品牌头和数字是 App 整页登录专有；登录后不走新手引导，直接回原页面。<b>视觉：</b>登录区不放主形状，只用一个品牌紫小色块 .dd-shape.sm（56，圆角 28%，白色爪印），这是本屏唯一的饱和色块；抽屉白底、上圆角 28、贴底，标题「Masuk」Bricolage 24；Google / Apple 按钮 48 高胶囊（Google 白底浅紫细边、Apple 黑底，品牌规范不变）；自动建号提示条浅紫底 #F8F2FF 圆角 16、图标紫色；条款行 12、两个链接紫色；「Tutup」16。底下的商品详情照 D1 方向 D 样板缩略：白底、顶栏标题 Bricolage、猫粮图是猫色浅底圆角 32 大图（图标占位，无 emoji）、名称 18、价格 Bricolage 40 墨色、评分行 13，吸底栏白胶囊浮条（浅紫加购圆 + 紫色「Beli Sekarang Rp 125.000」）。无照片。</p>
+</div></div></section></div>
+</body>
+</html>
